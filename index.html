@@ -3194,12 +3194,14 @@ el('burger').addEventListener('click',()=>el('sidebar').classList.toggle('open')
   const card=[['N',0,C.red],['E',90,C.txt],['S',180,C.txt],['W',270,C.txt]];
   card.forEach(k=>{
     const a=(k[1]-90)*Math.PI/180;
-    g+=`<text x="${c+Math.cos(a)*(R-44)}" y="${c+Math.sin(a)*(R-44)+6}" font-size="18" font-weight="800" text-anchor="middle" fill="${k[2]}">${k[0]}</text>`;
+    g+=`<text x="${c+Math.cos(a)*(R-52)}" y="${c+Math.sin(a)*(R-52)+6}" font-size="18" font-weight="800" text-anchor="middle" fill="${k[2]}">${k[0]}</text>`; // dalje od brojeva: „270” i „W” se ne dodiruju
   });
+  // pramčanica: nepomična oznaka na kućištu, u smjeru pramca (ovdje gore); na njoj se očitava kurs
+  g+=`<line x1="${c}" y1="${c-R-12}" x2="${c}" y2="${c-R+14}" stroke="${C.acc}" stroke-width="3"/><polygon points="${c},${c-R-2} ${c-7},${c-R-13} ${c+7},${c-R-13}" fill="${C.acc}"/>`;
   g+=`<polygon points="${c},${c-72} ${c-9},${c} ${c},${c+18} ${c+9},${c}" fill="${C.red}" opacity=".9"/>`;
   g+=`<polygon points="${c},${c+72} ${c-9},${c} ${c},${c-18} ${c+9},${c}" fill="#8aa" opacity=".55"/>`;
   g+=`<circle cx="${c}" cy="${c}" r="5" fill="${C.txt}"/>`;
-  g+=`<text x="${c}" y="${S-6}" font-size="11" text-anchor="middle" fill="${C.acc}" font-weight="700">Pramčanica ▲: ovdje očitavaš kurs</text>`;
+  g+=`<text x="${c}" y="${S-6}" font-size="11" text-anchor="middle" fill="${C.acc}" font-weight="700">Pramčanica (plava oznaka gore): ovdje očitavaš kurs</text>`;
   b.innerHTML=SVG(S,S,g);
 })();
 
@@ -3229,8 +3231,9 @@ const IALA_DEFS = (function(){
     }
     let t='';
     const T=-14;
-    if(top==='cone_up') t=`<polygon points="0,${T-24} -10,${T-4} 10,${T-4}" fill="#11161c"/>`;
-    if(top==='can') t=`<rect x="-9" y="${T-24}" width="18" height="21" fill="#11161c"/>`;
+    // lateralne: vršna oznaka je iste boje kao oznaka (crveni valjak, zeleni čunj), ne crna
+    if(top==='cone_up') t=`<polygon points="0,${T-24} -10,${T-4} 10,${T-4}" fill="${bands[0]}"/>`;
+    if(top==='can') t=`<rect x="-9" y="${T-24}" width="18" height="21" fill="${bands[0]}"/>`;
     if(top==='2cone_up') t=`<polygon points="0,${T-48} -9,${T-30} 9,${T-30}" fill="#11161c"/><polygon points="0,${T-26} -9,${T-8} 9,${T-8}" fill="#11161c"/>`;
     if(top==='2cone_down') t=`<polygon points="0,${T-30} -9,${T-48} 9,${T-48}" fill="#11161c"/><polygon points="0,${T-8} -9,${T-26} 9,${T-26}" fill="#11161c"/>`;
     if(top==='2cone_base') t=`<polygon points="0,${T-48} -9,${T-30} 9,${T-30}" fill="#11161c"/><polygon points="0,${T-12} -9,${T-30} 9,${T-30}" fill="#11161c"/>`;
@@ -3247,7 +3250,10 @@ const IALA_DEFS = (function(){
       const an=(vals)=>`<animate attributeName="opacity" calcMode="discrete" keyTimes="${kt.map(x=>x.toFixed(4)).join(';')}" values="${vals.join(';')}" dur="${tot}s" repeatCount="indefinite"/>`;
       light=`<circle cy="${T-56}" r="6" fill="${lightCol}">${an(va)}</circle><circle cy="${T-56}" r="11" fill="${lightCol}" opacity=".25">${an(vg)}</circle>`;
     }
-    return `<g>${light}${t}<line x1="0" y1="${T-4}" x2="0" y2="${T}" stroke="#11161c" stroke-width="3"/>${body}<path d="M-13,60 h26 l-6,10 h-14 Z" fill="#3a4a58"/></g>`;
+    // crni dijelovi (vršna oznaka, pojasevi) dobivaju svijetli obrub da se vide na tamnoj pozadini stranice
+    t=t.replace(/fill="#11161c"/g,'fill="#11161c" stroke="#b9c8d6" stroke-width="1.2"');
+    body+=`<rect x="-13" y="-4" width="26" height="64" fill="none" stroke="#b9c8d6" stroke-width="1.2" opacity=".85"/>`;
+    return `<g>${light}${t}<line x1="0" y1="${T-4}" x2="0" y2="${T}" stroke="#8795a1" stroke-width="3"/>${body}<path d="M-13,60 h26 l-6,10 h-14 Z" fill="#3a4a58"/></g>`;
   }
   return [
     {id:'lat_l',name:'Lateralna: LIJEVA strana',short:'Lateralna lijeva',
@@ -3437,7 +3443,7 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
       g+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="JetBrains Mono,monospace">${d}°</text>`; });
     g+=`<text x="${c+OR+20}" y="${c+4}" text-anchor="start" font-size="10" fill="${C.txt2}" font-family="JetBrains Mono,monospace">90°</text><text x="${c-OR-20}" y="${c+4}" text-anchor="end" font-size="10" fill="${C.txt2}" font-family="JetBrains Mono,monospace">270°</text>`;
     g+=arc(247.5,112.5,SIG.w,R,v.mast?.24:.07);
-    g+=arc(112.5,247.5,'#cfd9e2',R*0.72,v.stern?.26:.07);
+    g+=arc(112.5,247.5,'#cfd9e2',R*0.72,v.stern?.26:.12); // i kad ga ne vidiš, sektor ostaje uočljiv
     g+=arc(0,112.5,SIG.g,R*0.88,v.stbd?.42:.1);
     g+=arc(247.5,360,SIG.r,R*0.88,v.port?.42:.1);
     // V4-B3: poprečnica (90° i 270°) i kut od 22,5° iza nje do granice sektora
@@ -3450,10 +3456,10 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
     [112.5,247.5].forEach(a=>{ const x=c+Math.sin(a*Math.PI/180)*(OR+10), y=c-Math.cos(a*Math.PI/180)*(OR+10);
       g+=`<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="#5b8bab" stroke-opacity=".35" stroke-dasharray="3 4"/>`;
       g+=`<text x="${c+Math.sin(a*Math.PI/180)*(OR+22)}" y="${c-Math.cos(a*Math.PI/180)*(OR+22)+4}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="JetBrains Mono,monospace">${String(a).replace('.',',')}°</text>`; });
-    g+=`<text x="${c}" y="${c-R+2}" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" opacity="${v.mast?1:.35}">JARBOLNO 225°</text>`;
-    g+=`<text x="${c}" y="${c+R*0.72+16}" text-anchor="middle" font-size="12" fill="#cfd9e2" font-weight="700" opacity="${v.stern?1:.35}">KRMENO 135°</text>`;
-    g+=`<text x="${c+R*0.62}" y="${c-30}" text-anchor="middle" font-size="12" fill="${SIG.g}" font-weight="700" opacity="${v.stbd?1:.35}">112,5°</text>`;
-    g+=`<text x="${c-R*0.62}" y="${c-30}" text-anchor="middle" font-size="12" fill="${SIG.r}" font-weight="700" opacity="${v.port?1:.35}">112,5°</text>`;
+    g+=`<text x="${c}" y="${c-R+2}" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.mast?1:.6}">JARBOLNO 225°</text>`;
+    g+=`<text x="${c}" y="${c+R*0.72+16}" text-anchor="middle" font-size="12" fill="#cfd9e2" font-weight="700" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.stern?1:.6}">KRMENO 135°</text>`;
+    g+=`<text x="${c+R*0.62}" y="${c-30}" text-anchor="middle" font-size="12" fill="${SIG.g}" font-weight="700" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.stbd?1:.6}">112,5°</text>`;
+    g+=`<text x="${c-R*0.62}" y="${c-30}" text-anchor="middle" font-size="12" fill="${SIG.r}" font-weight="700" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.port?1:.6}">112,5°</text>`;
     // linija pogleda
     const ox=c+Math.sin(brg*Math.PI/180)*OR, oy=c-Math.cos(brg*Math.PI/180)*OR;
     g+=`<line x1="${ox}" y1="${oy}" x2="${c}" y2="${c}" stroke="${C.acc}" stroke-width="1.2" stroke-dasharray="5 4" opacity=".8"/>`;
@@ -3539,13 +3545,13 @@ const VESSELS = [
    note:'Dva crvena u okomici + svjetla usidrenog broda (prema duljini). Danju: TRI CRNE KUGLE.'},
   {id:'ram',n:'Ograničene sposobnosti manevriranja',cat:'spec',
    L:[{t:'vert',c:['r','w','r']}],day:'ball_dbl_ball',
-   note:'CRVENO, BIJELO, CRVENO u okomici. Danju: kugla, dvočunj spojen bazama, kugla.'},
+   note:'CRVENO, BIJELO, CRVENO u okomici. Kad plovi, uz to nosi i jarbolno, bočna i krmeno svjetlo. Danju: kugla, dvočunj spojen bazama, kugla.'},
   {id:'cbd',n:'Brod ograničen svojim gazom',cat:'spec',
    L:[{t:'vert',c:['r','r','r']}],day:'cylinder',
-   note:'TRI CRVENA kružna svjetla u okomici. Danju: CRNI VALJAK (cilindar).'},
+   note:'TRI CRVENA kružna svjetla u okomici, uz svjetla motornog broda u plovidbi (jarbolno, bočna, krmeno). Danju: CRNI VALJAK (cilindar).'},
   {id:'mine',n:'Brod vrši razminiranje',cat:'spec',
    L:[{t:'cross',c:'g'}],day:'3ball_cross',
-   note:'TRI ZELENA kružna svjetla u KRIŽ pri vrhu jarbola. Ne prilazi: 1000 m po krmi, 500 m po bokovima.'},
+   note:'TRI ZELENA kružna svjetla u KRIŽ pri vrhu jarbola, uz svjetla motornog broda (ili usidrenog). Ne prilazi: 1000 m po krmi, 500 m po bokovima.'},
   {id:'trawl',n:'Brod zauzet koćarenjem',cat:'fish',
    L:[{t:'vert',c:['g','w']},{t:'side'},{t:'stern'}],day:'2cone_point',
    note:'ZELENO iznad BIJELOG. Danju: dvočunj spojen vrhovima. (Kad se kreće kroz vodu, i bočna i krmeno.)'},
@@ -3797,14 +3803,16 @@ const VESSELS = [
     ['VALJAK','<rect x="-15" y="-24" width="30" height="48" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Ograničen gazom'],
     ['KOŠARA','<path d="M-16,-16 L16,-16 L11,18 L-11,18 Z" fill="none" stroke="#11161c" stroke-width="3"/><path d="M-14,-6 h28 M-12,4 h24" stroke="#11161c" stroke-width="2.5"/><path d="M-16,-16 h32" stroke="#11161c" stroke-width="4"/>','Ribar < 20 m']
   ];
-  let g='';
+  // dnevni znakovi su crni i vide se danju: svaki stoji na svijetlom komadu neba, kao što ga vidiš s mora
+  let g='<defs><linearGradient id="dsSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bcd9ee"/><stop offset="1" stop-color="#e3eff7"/></linearGradient></defs>';
   items.forEach((it,i)=>{
-    const x=70+(i%4)*168, y=60+Math.floor(i/4)*140;
-    g+=`<g transform="translate(${x},${y})">${it[1]}</g>`;
-    g+=`<text x="${x}" y="${y+50}" text-anchor="middle" font-size="12.5" font-weight="700" fill="${C.txt}">${it[0]}</text>`;
-    g+=`<text x="${x}" y="${y+68}" text-anchor="middle" font-size="11" fill="${C.acc}">${it[2]}</text>`;
+    const x=70+(i%4)*168, y=56+Math.floor(i/4)*142;
+    g+=`<rect x="${x-46}" y="${y-42}" width="92" height="84" rx="8" fill="url(#dsSky)" stroke="#2d5578"/>`;
+    g+=`<g transform="translate(${x},${y})">${it[1].replace(/stroke="#5b8bab"/g,'stroke="#11161c"')}</g>`;
+    g+=`<text x="${x}" y="${y+60}" text-anchor="middle" font-size="12.5" font-weight="700" fill="${C.txt}">${it[0]}</text>`;
+    g+=`<text x="${x}" y="${y+78}" text-anchor="middle" font-size="11" fill="${C.acc}">${it[2]}</text>`;
   });
-  b.innerHTML=SVG(700,290,g);
+  b.innerHTML=SVG(700,296,g);
 })();
 
 /* ═══════════════ COLREG SCENARIOS ═══════════════ */
@@ -4225,7 +4233,7 @@ const COLREG=[
     for(let i=0;i<N;i++){
       const x=bx+bw*i/N, on=cur===i;
       g+=`<rect x="${x+1}" y="${by}" width="${bw/N-2}" height="8" rx="3" fill="${cols[i]}" opacity="${on?1:.25}"/>`;
-      g+=`<text x="${x+bw/N/2}" y="${by-5}" text-anchor="middle" font-size="9.5" fill="${on?cols[i]:C.txt3}">${lbl[i]}</text>`;
+      g+=`<text x="${x+bw/N/2}" y="${by-5}" text-anchor="middle" font-size="9.5" fill="${on?cols[i]:C.txt2}">${lbl[i]}</text>`;
     }
     g+=`<rect x="${(bx+bw*th/span-1).toFixed(1)}" y="${by-2}" width="2" height="12" fill="#fff"/>`;
     stage.innerHTML=SVG(W,H,g);
@@ -4281,7 +4289,7 @@ const COLREG=[
   g+=`<rect x="540" y="88" width="105" height="70" rx="8" fill="#153a30" stroke="${C.green}" stroke-width="2"/><text x="592" y="122" text-anchor="middle" font-size="12" fill="#bfe" font-weight="700">HLADNJAK</text><text x="592" y="140" text-anchor="middle" font-size="10" fill="${C.txt2}">(kiler)</text>`;
   g+=`<path d="M495,106 L540,106" stroke="#ff7a45" stroke-width="3" marker-end="url(#ah3)"/>`;
   g+=`<path d="M540,142 L495,142" stroke="${C.acc}" stroke-width="3" marker-end="url(#ah2)"/>`;
-  g+=`<text x="517" y="100" font-size="9.5" text-anchor="middle" fill="#ff7a45">topla</text>`;
+  g+=`<text x="517" y="84" font-size="9.5" text-anchor="middle" fill="#ff7a45">topla</text>`; // iznad strelice, vrh strelice ga ne prekriva
   g+=`<text x="517" y="160" font-size="9.5" text-anchor="middle" fill="${C.acc}">hladna</text>`;
   g+=`<path d="M592,190 L592,162" stroke="${C.acc}" stroke-width="3" marker-end="url(#ah2)"/>`;
   g+=`<text x="592" y="206" font-size="10.5" text-anchor="middle" fill="${C.acc}">morska voda hladi kiler</text>`;
@@ -4308,8 +4316,8 @@ const COLREG=[
   // V3-AREA: mjerilo udaljenosti od obale u istom mjerilu kao pojasevi (7,5 px = 1 Nm)
   { const x=96, y0=41; // obala kod x≈96
     g+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+20*scale}" stroke="#e6eef5" stroke-width="1.4" opacity=".8"/>`;
-    [[0,'0'],[1,'1'],[3,'3'],[6,'6'],[12,'12'],[20,'20 Nm']].forEach(([n,t])=>{ const y=y0+n*scale;
-      g+=`<line x1="${x-5}" y1="${y}" x2="${x+5}" y2="${y}" stroke="#e6eef5" stroke-width="1.4"/><text x="${x+9}" y="${y+4}" font-size="10" fill="#e6eef5" font-family="JetBrains Mono,monospace" paint-order="stroke" stroke="#0e3350" stroke-width="3">${t}</text>`; });
+    [[0,'0'],[1,'1'],[3,'3'],[6,'6'],[12,'12'],[20,'20 Nm']].forEach(([n,t])=>{ const y=y0+n*scale, L=n===0; // 0 lijevo od crte, da se ne preklopi s 1
+      g+=`<line x1="${x-5}" y1="${y}" x2="${x+5}" y2="${y}" stroke="#e6eef5" stroke-width="1.4"/><text x="${L?x-9:x+9}" y="${y+4}"${L?' text-anchor="end"':''} font-size="10" fill="#e6eef5" font-family="JetBrains Mono,monospace" paint-order="stroke" stroke="#0e3350" stroke-width="3">${t}</text>`; });
     g+=`<text x="${x-8}" y="${y0+20*scale+16}" font-size="10" fill="${C.txt2}">udaljenost od obale, u mjerilu</text>`; }
   g+=`<text x="10" y="${H-12}" font-size="11.5" fill="${C.txt2}"><tspan font-weight="800" fill="${C.txt}">I</tspan> = bez ograničenja &nbsp;·&nbsp; <tspan font-weight="800" fill="${C.txt}">IV</tspan> = luke, zaljevi, ušća rijeka</text>`;
   g+=`<text x="14" y="30" font-size="12" fill="#5a4508" font-weight="800">KOPNO / OTOK</text>`;
@@ -4401,9 +4409,9 @@ const WINDS=[
       g+=`<circle class="wdot" data-d="${w.d}" cx="${lx}" cy="${ly}" r="15" fill="${on?w.c:'#132738'}" stroke="${w.c}" stroke-width="2" style="cursor:pointer"/>`;
       g+=`<text x="${lx}" y="${ly+4}" text-anchor="middle" font-size="10.5" font-weight="800" fill="${on?'#06121c':w.c}" style="pointer-events:none">${w.dir}</text>`;
     });
-    g+=`<text x="${c}" y="${c-8}" text-anchor="middle" font-size="12" fill="${C.txt2}">vjetar puše</text>`;
-    g+=`<text x="${c}" y="${c+8}" text-anchor="middle" font-size="12" font-weight="800" fill="${C.acc}">IZ smjera pernatica</text>`;
-    g+=`<text x="${c}" y="${c+24}" text-anchor="middle" font-size="10" fill="${C.txt2}">strelica: kamo zrak ide</text>`;
+    g+=`<text x="${c}" y="${c-8}" text-anchor="middle" paint-order="stroke" stroke="#0b1a28" stroke-width="4" stroke-linejoin="round" font-size="12" fill="${C.txt2}">vjetar puše</text>`;
+    g+=`<text x="${c}" y="${c+8}" text-anchor="middle" paint-order="stroke" stroke="#0b1a28" stroke-width="4" stroke-linejoin="round" font-size="12" font-weight="800" fill="${C.acc}">IZ smjera pernatica</text>`;
+    g+=`<text x="${c}" y="${c+24}" text-anchor="middle" paint-order="stroke" stroke="#0b1a28" stroke-width="4" stroke-linejoin="round" font-size="10" fill="${C.txt2}">strelica: kamo zrak ide</text>`;
     $('.wRose',b).innerHTML=SVG(S,S,g,'class="wSvg" role="img" aria-label="Ruža vjetrova"');
     $$('.wdot',b).forEach(d=>d.addEventListener('click',()=>pick(+d.dataset.d)));
   }
@@ -4442,21 +4450,27 @@ const WINDS=[
 (function(){
   const b=el('propWidget'); if(!b) return;
   const W=660,H=230;
-  function panel(x,title,rot,dirTxt,col){
-    let g=`<text x="${x+130}" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${col}">${title}</text>`;
-    g+=`<rect x="${x+30}" y="164" width="200" height="14" fill="#3a4a58"/><text x="${x+130}" y="196" text-anchor="middle" font-size="11" fill="${C.txt2}">OBALA</text>`;
-    g+=`<g transform="translate(${x+130},110) rotate(${rot})">
+  // kick: -1 krma izbija ulijevo, +1 udesno. Krma ide u stranu izboja, pramac na suprotnu (brodica se zakreće),
+  // a obala je na strani na koju krma ide: tim bokom se lakše pristaje.
+  function panel(x,title,kick,dirTxt,col){
+    const rot=-kick*14, q=rot*Math.PI/180, cx=x+130, cy=105, sx=cx-30*Math.sin(q), sy=cy+30*Math.cos(q);
+    const bx=kick<0?x+34:x+212;
+    let g=`<text x="${cx}" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${col}">${title}</text>`;
+    g+=`<rect x="${bx}" y="44" width="14" height="142" fill="#3a4a58"/><rect x="${kick<0?bx+11:bx}" y="44" width="3" height="142" fill="#4a545e"/>`;
+    g+=`<text transform="rotate(-90 ${bx+7} 115)" x="${bx+7}" y="119" text-anchor="middle" font-size="10.5" fill="#dfe6ec" font-weight="700" letter-spacing="1">OBALA</text>`;
+    g+=`<g transform="translate(${cx},${cy}) rotate(${rot})">
       <path d="M0,-46 C16,-24 19,4 17,36 L-17,36 C-19,4 -16,-24 0,-46 Z" fill="#1d3a52" stroke="#5b8bab" stroke-width="1.6"/>
+      <text y="-20" text-anchor="middle" font-size="9" fill="${C.txt2}">pramac</text>
       <circle cy="30" r="7" fill="${col}" opacity=".8"/></g>`;
-    g+=`<path d="M${x+130+ (rot>0?24:-24)},130 q${rot>0?40:-40},18 ${rot>0?58:-58},4" fill="none" stroke="${col}" stroke-width="2.6" marker-end="url(#ahw)"/>`;
-    g+=`<text x="${x+130}" y="216" text-anchor="middle" font-size="11.5" fill="${col}" font-weight="700">${dirTxt}</text>`;
+    g+=`<path d="M${(sx+kick*16).toFixed(1)},${(sy+4).toFixed(1)} q${kick*30},10 ${kick*50},2" fill="none" stroke="${col}" stroke-width="2.6" marker-end="url(#ahw)"/>`;
+    g+=`<text x="${cx}" y="216" text-anchor="middle" font-size="11.5" fill="${col}" font-weight="700">${dirTxt}</text>`;
     return g;
   }
   const defs=`<defs><marker id="ahw" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><polygon points="0,0 9,4.5 0,9" fill="#39b8e8"/></marker></defs>`;
   let g=`<rect width="${W}" height="${H}" fill="#0b2135" rx="10"/>`;
-  g+=panel(20,'DESNOKRETNI vijak: vožnja KRMOM',-16,'krma izbija ULIJEVO → pristani LIJEVIM bokom',C.acc);
+  g+=panel(20,'DESNOKRETNI vijak: vožnja KRMOM',-1,'krma izbija ULIJEVO → pristani LIJEVIM bokom',C.acc);
   g+=`<line x1="${W/2}" y1="14" x2="${W/2}" y2="${H-14}" stroke="${C.line}" stroke-dasharray="6 5"/>`;
-  g+=panel(340,'LIJEVOKRETNI vijak: vožnja KRMOM',16,'krma izbija UDESNO → pristani DESNIM bokom',C.acc);
+  g+=panel(340,'LIJEVOKRETNI vijak: vožnja KRMOM',1,'krma izbija UDESNO → pristani DESNIM bokom',C.acc);
   b.innerHTML=SVG(W,H,defs+g);
 })();
 
