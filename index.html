@@ -501,6 +501,9 @@ input[type=date]{background:var(--panel2); border:1px solid var(--line2); color:
 @keyframes knDash{to{stroke-dashoffset:-24}}
 @media (prefers-reduced-motion:reduce){.knGhost{animation:none}}
 /* ── radni stol navigatora ── */
+.lgGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px 12px}
+.lgIt{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--txt)}
+.lgIt svg{flex:none;overflow:visible}
 .nlTabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .nlWrap{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:18px;align-items:start}
 .nlChart{border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#e9eef0;box-shadow:0 8px 24px rgba(0,0,0,.35)}
@@ -3135,12 +3138,10 @@ el('burger').addEventListener('click',()=>el('sidebar').classList.toggle('open')
     ['Svjetlo','<g transform="translate(23,22)"><circle r="4" fill="#ef4a5a"/><path d="M0,-4 v-14" stroke="#ef4a5a" stroke-width="2"/><path d="M-8,-18 l8,-4 8,4" fill="none" stroke="#ef4a5a" stroke-width="1.6"/></g>'],
     ['Olupina','<g transform="translate(23,15)"><path d="M-12,0 h24 M-6,-6 v12 M0,-8 v16 M6,-6 v12" stroke="#11161c" stroke-width="1.8"/></g>']
   ];
-  let g='',x=8;
-  items.forEach((it,i)=>{
-    const cx=8+(i%5)*136, cy=8+Math.floor(i/5)*68;
-    g+=`<g transform="translate(${cx},${cy})">${it[1]}<text x="54" y="20" font-size="12" fill="${C.txt}">${it[0]}</text></g>`;
-  });
-  b.innerHTML=SVG(700,146,`<rect width="700" height="146" fill="none"/>${g}`);
+  // znakovi su crtani kao na karti (crno, magenta): svaki dobiva podlogu boje karte da se vidi na tamnoj stranici
+  const paper='<rect x="0" y="0" width="46" height="30" rx="4" fill="#f7f8f4" stroke="#c9d3db"/>';
+  // mreža u HTML-u: na širokom ekranu 5 u redu, na mobitelu 2, tekst uvijek čitljiv
+  b.innerHTML=`<div class="lgGrid">${items.map((it,i)=>`<div class="lgIt"><svg viewBox="0 0 46 30" width="46" height="30" aria-hidden="true">${i>3?paper:''}${it[1]}</svg><span>${it[0]}</span></div>`).join('')}</div>`;
 })();
 
 /* ═══════════════ LIGHT CHARACTERISTIC ═══════════════ */
