@@ -530,6 +530,12 @@ input[type=date]{background:var(--panel2); border:1px solid var(--line2); color:
 .nlHandTip{font-size:13.5px;line-height:1.55;color:var(--txt2);background:rgba(57,184,232,.07);border:1px dashed rgba(57,184,232,.45);border-radius:10px;padding:10px 12px;margin-top:10px}
 .nlHandTip b{color:var(--txt)}
 .nlHandTip .btnrow{margin-top:8px}
+.nlHandStat{margin-top:8px;padding:7px 10px;border-radius:8px;background:rgba(255,255,255,.04);border-left:3px solid var(--acc);color:var(--txt)}
+.nlHandStat:empty{display:none}
+.nlHandStat.good{border-left-color:var(--green,#25c26a);background:rgba(37,194,106,.08)}
+.nlHandStat.bad{border-left-color:var(--red,#ef4a5a);background:rgba(239,74,90,.08)}
+.nlBig{margin-left:auto}
+.nlBigOn .nlWrap{grid-template-columns:1fr}
 /* ── simulacije ── */
 .simHead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .simTitle{font:700 15px/1.2 var(--display,inherit);color:var(--txt)}
@@ -739,6 +745,16 @@ input[type=date]{background:var(--panel2); border:1px solid var(--line2); color:
 .dwSc{font-size:12.5px;color:var(--txt3);margin-top:6px}
 @media (max-width:600px){.dwHud{position:static;border-radius:0}}
 .dwStr{margin-top:-2px}
+.dwGoal{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:8px;font-size:13px;color:var(--txt3)}
+.dwGoal>b{color:var(--txt2);text-transform:uppercase;letter-spacing:.06em;font-size:12px}
+.dwGoal>span{padding:3px 9px;border-radius:999px;border:1px solid var(--line)}
+.dwGoal>span.ok{color:var(--green);border-color:rgba(37,194,106,.55);background:rgba(37,194,106,.08)}
+.dwHold{flex:1 1 80px;min-width:80px;height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.dwHold>i{display:block;height:100%;background:var(--green);transition:width .1s linear}
+.dwKeys{font-size:12.5px;color:var(--txt3);margin-top:8px}
+.dwKeys kbd{font:600 11.5px var(--mono,monospace);padding:1px 6px;border:1px solid var(--line2);border-bottom-width:2px;border-radius:5px;color:var(--txt2)}
+.dwGrp .btn.p{box-shadow:0 0 0 2px rgba(57,184,232,.35)}
+@media (hover:none){.dwKeys{display:none}}
 .dwHint{font-size:13.5px;color:var(--txt2);background:rgba(245,197,66,.08);border-left:3px solid var(--yellow);border-radius:0 8px 8px 0;padding:7px 10px;margin-bottom:6px}
 /* ── jedna paleta signalnih svjetala (v4) ── */
 :root{--sig-red:#ef4a5a;--sig-green:#25c26a;--sig-white:#fff;--sig-yellow:#ffd166}
@@ -4588,7 +4604,7 @@ const WINDS=[
     const mx=(t1[0]+t2[0])/2, my=(t1[1]+t2[1])/2, d=Math.hypot(t2[0]-t1[0],t2[1]-t1[1]), L=Math.max(d/2+26,96);
     let nx=-(t2[1]-t1[1])/(d||1), ny=(t2[0]-t1[0])/(d||1); if(ny>0.01){nx=-nx;ny=-ny;}
     const h=Math.sqrt(Math.max(0,L*L-d*d/4));
-    if(mx+nx*h<12||mx+nx*h>W-12){ nx=-nx; ny=-ny; }
+    if(mx+nx*h<12||mx+nx*h>W-12||my+ny*h<12){ nx=-nx; ny=-ny; }
     const hx=mx+nx*h, hy=my+ny*h;
     const leg=(t)=>`<path d="M${hx},${hy} L${t[0]},${t[1]}" stroke="#39434c" stroke-width="5.5" stroke-linecap="round"/><path d="M${hx},${hy} L${t[0]},${t[1]}" stroke="#c9d3db" stroke-width="3" stroke-linecap="round"/><circle cx="${t[0]}" cy="${t[1]}" r="1.6" fill="#111"/>`;
     return `<g opacity="${op??1}">${leg(t1)}${leg(t2)}<circle cx="${hx}" cy="${hy}" r="6" fill="#8a96a0" stroke="#39434c" stroke-width="1.5"/><path d="M${hx},${hy} l${nx*14},${ny*14}" stroke="#39434c" stroke-width="4" stroke-linecap="round"/></g>`;
@@ -4604,7 +4620,7 @@ const WINDS=[
   /* ── UI ── */
   const MODES=[['sestar','Šestar: udaljenost'],['kurs','Trokuti: kurs'],['pbv','Put · brzina · vrijeme'],['fix','Pozicija iz 2 azimuta']];
   let mode='sestar', st={}, anim=null, score=store.get('navlab',{ok:0,n:0});
-  b.innerHTML=`<div class="nlTabs">${MODES.map(m=>`<button class="knTab" data-m="${m[0]}">${m[1]}</button>`).join('')}</div>
+  b.innerHTML=`<div class="nlTabs">${MODES.map(m=>`<button class="knTab" data-m="${m[0]}">${m[1]}</button>`).join('')}<button class="knTab nlBig" type="button" aria-pressed="false" title="Karta preko cijele širine, zadatak ispod nje">⤢ Veća karta</button></div>
     <div class="nlWrap"><div class="nlChart"><svg viewBox="0 0 ${W.toFixed(0)} ${H}" class="nlSvg"><g class="nlBase">${chartBase()}</g><g class="nlDyn"></g><g class="nlHand"></g></svg></div>
     <div class="nlPanel"><div class="nlTask"></div><div class="nlIn"></div><div class="nlOut" aria-live="polite"></div>
     <div class="btnrow"><button class="btn p nlCheck">Provjeri</button><button class="btn nlShow">Pokaži postupak</button><button class="btn nlNew">Novi zadatak</button><button class="btn nlHandBtn" type="button" aria-pressed="false">🖐 Pribor rukom</button></div>
@@ -4616,7 +4632,8 @@ const WINDS=[
   function tween(dur,fn,done){ if(anim) cancelAnimationFrame(anim);
     if(RM){ fn(1); done&&done(); return; }
     const t0=performance.now(); const f=n=>{ const t=Math.min(1,(n-t0)/dur), e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; fn(e); if(t<1) anim=requestAnimationFrame(f); else { anim=null; done&&done(); } }; anim=requestAnimationFrame(f); }
-  function seq(steps){ let i=0; const next=()=>{ if(i>=steps.length) return; const s=steps[i++]; if(s.say) out(s.say,true); tween(s.d||1000,s.f,()=>setTimeout(next,s.wait??350)); }; next(); }
+  let seqGen=0; // novi postupak prekida stari (i u pauzi između koraka)
+  function seq(steps){ let i=0; const my=++seqGen; const next=()=>{ if(my!==seqGen||i>=steps.length) return; const s=steps[i++]; if(s.say) out(s.say,true); tween(s.d||1000,s.f,()=>setTimeout(next,s.wait??350)); }; next(); }
   let outBuf='';
   function out(h,append){ outBuf=append?outBuf+`<div>${h}</div>`:h; $('.nlOut',b).innerHTML=outBuf; }
   function result(ok,msg){ score.n++; if(ok){score.ok++; if(window.VB) VB.widgetOk('navlab');} store.set('navlab',score); sp();
@@ -4758,22 +4775,50 @@ const WINDS=[
 
   /* ═ PRIBOR RUKOM: šestar i trokut koje korisnik sam vuče (mišem ili prstom) ═ */
   const hl=$('.nlHand',b), HT=$('.nlHandTip',b), HB=$('.nlHandBtn',b);
-  let hand=false, drag=null, hs=null, hk=null;
+  // pribor rukom je uključen odmah (šestar i trokut leže na karti); izbor se pamti
+  let hand=store.get('navlabHand',true)!==false, drag=null, hs=null, hk=null;
+  const XL=X0-5, XR=X0+NLON*KX+5, YT=Y0, YB=Y0+NLAT*K;   // sredine lijeve i desne skale širine
+  const sc=()=>{ const r=svg.getBoundingClientRect(); return r.width?r.width/W:1; };
+  const SR=()=>Math.max(8,14/sc());                          // radijus prianjanja: ~14 px na ekranu
+  const KR=()=>Math.min(22,Math.max(11,17/sc()));            // ručice dovoljno velike i za prst
   const TIPS={
-    sestar:'<b>Šestar rukom.</b> Povuci <b>vrhove</b> na A i B (sami se prilijepe na točku). Zatim uhvati <b>zglob</b> i prenesi šestar na <b>lijevu skalu širine</b>, razmak se ne mijenja. Broji minute: 1&#8242; = 1 M, crtica = 0,2 M.',
+    sestar:'<b>Šestar rukom.</b> ① Povuci <b>vrhove</b> (plavi krugovi) na <b>A</b> i <b>B</b>, sami se prilijepe. ② Uhvati šestar za <b>zglob ✥</b> ili za <b>krak</b> i odnesi ga na <b>skalu širine</b> (lijevo ili desno): sam se uspravi, razmak ostaje isti. ③ Očitaj: 1&#8242; = 1 M, crtica = 0,2 M.',
     kurs:'<b>Trokut rukom.</b> Okreni trokut ručicom <b>⟳</b> (ili gumbima ispod) dok hipotenuza ne legne na liniju A–B. Zatim ga <b>vuci</b>: kut ostaje isti, kao klizanje uz vodilicu. Kad isprekidani pravac prođe <b>središtem ruže</b>, očitaj kurs na obodu u smjeru plovidbe.'};
   const hinge=(t1,t2)=>{ const mx=(t1[0]+t2[0])/2, my=(t1[1]+t2[1])/2, d=Math.hypot(t2[0]-t1[0],t2[1]-t1[1]), L=Math.max(d/2+26,96);
     let nx=-(t2[1]-t1[1])/(d||1), ny=(t2[0]-t1[0])/(d||1); if(ny>0.01){nx=-nx;ny=-ny;}
-    const h=Math.sqrt(Math.max(0,L*L-d*d/4)); if(mx+nx*h<12||mx+nx*h>W-12){ nx=-nx; ny=-ny; } return [mx+nx*h,my+ny*h]; };
+    const h=Math.sqrt(Math.max(0,L*L-d*d/4)); if(mx+nx*h<12||mx+nx*h>W-12||my+ny*h<12){ nx=-nx; ny=-ny; } return [mx+nx*h,my+ny*h]; };
+  const near=(p,q,r)=>q&&Math.hypot(p[0]-q[0],p[1]-q[1])<(r||.6);
+  // očitanje: oba vrha na istoj skali širine -> udaljenost u minutama = miljama
+  function scaleRead(t1,t2){ const on=x=>Math.abs(x-XL)<.6?'L':Math.abs(x-XR)<.6?'R':null, s1=on(t1[0]);
+    const inY=y=>y>=YT-3&&y<=YB+3;
+    if(s1&&s1===on(t2[0])&&inY(t1[1])&&inY(t2[1])) return {side:s1,d:Math.abs(t1[1]-t2[1])/K};
+    const lon=y=>(y>YT-14&&y<YT+3)||(y>YB-3&&y<YB+14);
+    if(lon(t1[1])&&lon(t2[1])&&Math.abs(t1[1]-t2[1])<6&&Math.abs(t1[0]-t2[0])>4) return {lon:true};
+    return null; }
+  function handStat(){ const s=$('.nlHandStat',b); if(!s) return; if(mode!=='sestar'){ s.innerHTML=''; return; }
+    const {t1,t2}=hs, r=scaleRead(t1,t2), onAB=(near(t1,st.A)&&near(t2,st.B))||(near(t1,st.B)&&near(t2,st.A));
+    s.className='nlHandStat'+(r&&r.lon?' bad':r?' good':'');
+    s.innerHTML=r&&r.lon?'✗ To je skala <b>DUŽINE</b> (gore/dolje). Milje se mjere samo na skali <b>ŠIRINE</b>, lijevo ili desno.'
+      :r?`Na skali širine: <b>${f1(r.d)}&#8242; = ${f1(r.d)} M</b> (${Math.round(r.d*10)} kabela). Upiši i klikni <b>Provjeri</b>.`
+      :onAB?'✓ Vrhovi su na <b>A</b> i <b>B</b>. Sad uhvati šestar za <b>zglob ✥</b> i odnesi ga na <b>skalu širine</b>.'
+      :'Korak 1: povuci vrhove šestara na točke <b>A</b> i <b>B</b>.'; }
   function handReset(){ const A=st.A||[W/2,H/2], B=st.B||A;
-    hs={t1:[A[0]-10,A[1]+46],t2:[A[0]+10,A[1]+46]};
+    const cx=Math.max(X0+30,Math.min(XR-40,A[0])), cy=A[1]+54<YB-8?A[1]+54:A[1]-40;
+    hs={t1:[cx-24,cy],t2:[cx+24,cy]};
     const c=brg(A,B), q=c*Math.PI/180, nx=Math.cos(q), ny=Math.sin(q), mid=[(A[0]+B[0])/2,(A[1]+B[1])/2];
     let p=[mid[0]+nx*70,mid[1]+ny*70]; if(p[0]<X0+60||p[0]>X0+NLON*KX-60||p[1]<Y0+60||p[1]>Y0+NLAT*K-60) p=[mid[0]-nx*70,mid[1]-ny*70];
     hk={p,ang:(c+(Math.random()<.5?-1:1)*(25+Math.random()*30)+360)%360}; }
   function handDraw(){ if(!hand||!(mode in TIPS)){ hl.innerHTML=''; return; }
-    const knob=(x,y,k,lab)=>`<circle class="nlH" data-h="${k}" cx="${x}" cy="${y}" r="11" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2"/>${lab?`<text x="${x}" y="${y+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">${lab}</text>`:''}`;
-    if(mode==='sestar'){ const {t1,t2}=hs, hg=hinge(t1,t2);
-      hl.innerHTML=dividers(t1,t2)+knob(t1[0],t1[1],'t1')+knob(t2[0],t2[1],'t2')+knob(hg[0],hg[1],'hinge','✥'); }
+    const kr=KR(), knob=(x,y,k,lab,r)=>`<circle class="nlH" data-h="${k}" cx="${x}" cy="${y}" r="${r||kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2"/>${lab?`<text x="${x}" y="${y+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">${lab}</text>`:''}`;
+    if(mode==='sestar'){ const {t1,t2}=hs, hg=hinge(t1,t2), r=scaleRead(t1,t2);
+      let rd='';
+      if(r&&!r.lon){ const y1=Math.min(t1[1],t2[1]), y2=Math.max(t1[1],t2[1]), L=r.side==='L';
+        rd=`<rect x="${L?X0-10:XR-5}" y="${y1}" width="10" height="${y2-y1}" fill="#ffd166" opacity=".6" pointer-events="none"/>`
+          +`<text x="${L?X0+8:XR-13}" y="${(y1+y2)/2+5}" text-anchor="${L?'start':'end'}" font-size="14" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)} M</text>`; }
+      else if(r&&r.lon) rd=`<text x="${(t1[0]+t2[0])/2}" y="${t1[1]<YT+4?YT+18:YB-8}" text-anchor="middle" font-size="12" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">✗ skala dužine</text>`;
+      // cijeli krak je hvatište za nošenje šestara (nevidljiva debela crta)
+      const grip=t=>`<line class="nlH" data-h="hinge" x1="${hg[0]}" y1="${hg[1]}" x2="${t[0]}" y2="${t[1]}" stroke="rgba(0,0,0,0)" stroke-width="${Math.max(12,kr)}" stroke-linecap="round"/>`;
+      hl.innerHTML=rd+dividers(t1,t2)+grip(t1)+grip(t2)+knob(t1[0],t1[1],'t1')+knob(t2[0],t2[1],'t2')+knob(hg[0],hg[1],'hinge','✥',Math.max(kr,12)); handStat(); }
     else { const {p,ang}=hk, sz=62, q=ang*Math.PI/180, ux=Math.sin(q), uy=-Math.cos(q);
       const ext=`<g clip-path="url(#nlClip)"><line x1="${p[0]-ux*1400}" y1="${p[1]-uy*1400}" x2="${p[0]+ux*1400}" y2="${p[1]+uy*1400}" stroke="#2a6f9e" stroke-width=".9" stroke-dasharray="6 4" opacity=".75" pointer-events="none"/></g>`;
       const a=[p[0]-ux*sz,p[1]-uy*sz], c=[p[0]+ux*sz,p[1]+uy*sz], v=[p[0]-uy*sz,p[1]+ux*sz];
@@ -4781,15 +4826,23 @@ const WINDS=[
       hl.innerHTML=ext+tri(p,ang,sz,false)+`<path class="nlH" data-h="body" d="M${a[0]},${a[1]} L${c[0]},${c[1]} L${v[0]},${v[1]} Z" fill="rgba(0,0,0,0)" style="cursor:move"/>`
         +`<line x1="${c[0]}" y1="${c[1]}" x2="${rk[0]}" y2="${rk[1]}" stroke="#39b8e8" stroke-width="1.2"/>`+knob(rk[0],rk[1],'rot','⟳'); } }
   const toSvg=e=>{ const m=svg.getScreenCTM(); if(!m) return [0,0]; const p=svg.createSVGPoint(); p.x=e.clientX; p.y=e.clientY; const r=p.matrixTransform(m.inverse()); return [r.x,r.y]; };
-  const snap=pt=>{ for(const q of [st.A,st.B]) if(q&&Math.hypot(pt[0]-q[0],pt[1]-q[1])<8) return q.slice();
-    if(Math.abs(pt[0]-(X0-5))<8) return [X0-5,pt[1]]; return pt; };
+  const clampP=p=>[Math.max(4,Math.min(W-4,p[0])),Math.max(4,Math.min(H-4,p[1]))];
+  const snap=pt=>{ const r=SR(); for(const q of [st.A,st.B]) if(q&&Math.hypot(pt[0]-q[0],pt[1]-q[1])<r) return q.slice();
+    const rs=Math.min(r,12); // skala je uz rub karte: manji radijus da ne "ukrade" točku blizu ruba
+    if(Math.abs(pt[0]-XL)<rs) return [XL,pt[1]]; if(Math.abs(pt[0]-XR)<rs) return [XR,pt[1]]; return clampP(pt); };
+  // nošenje cijelog šestara: blizu skale širine sam se uspravi (razmak isti), donji vrh prione na cijelu minutu
+  function carry(s,dx,dy){ const m=[(s.t1[0]+s.t2[0])/2+dx,(s.t1[1]+s.t2[1])/2+dy], d=Math.hypot(s.t2[0]-s.t1[0],s.t2[1]-s.t1[1]), r=SR()*1.8;
+    const side=Math.abs(m[0]-XL)<r?XL:Math.abs(m[0]-XR)<r?XR:null;
+    if(side&&d>2){ let low=Math.min(YB,m[1]+d/2); if(low-d<YT&&d<=YB-YT) low=YT+d; // ostaje unutar skale
+      const whole=YB-Math.round((YB-low)/K)*K; if(Math.abs(whole-low)<SR()*.7&&whole-d>=YT-.5) low=whole;
+      return {t1:[side,low],t2:[side,low-d]}; }
+    return {t1:clampP([s.t1[0]+dx,s.t1[1]+dy]),t2:clampP([s.t2[0]+dx,s.t2[1]+dy])}; }
   svg.addEventListener('pointerdown',e=>{ if(!hand) return; const h=e.target.closest('[data-h]'); if(!h) return;
     e.preventDefault(); drag={h:h.dataset.h,p0:toSvg(e),s:JSON.parse(JSON.stringify(mode==='sestar'?hs:hk))}; try{ svg.setPointerCapture(e.pointerId); }catch(_){}
     b.classList.add('nlDragging'); });
   svg.addEventListener('pointermove',e=>{ if(!drag) return; const pt=toSvg(e), dx=pt[0]-drag.p0[0], dy=pt[1]-drag.p0[1];
-    if(mode==='sestar'){ if(drag.h==='hinge'){ hs.t1=[drag.s.t1[0]+dx,drag.s.t1[1]+dy]; hs.t2=[drag.s.t2[0]+dx,drag.s.t2[1]+dy];
-        const s1=snap(hs.t1); if(s1[0]!==hs.t1[0]){ const ox=s1[0]-hs.t1[0]; hs.t1[0]+=ox; hs.t2[0]+=ox; } }
-      else hs[drag.h]=snap(pt); }
+    if(mode==='sestar'){ if(drag.h==='hinge') hs=carry(drag.s,dx,dy);
+      else hs[drag.h]=snap([drag.s[drag.h][0]+dx,drag.s[drag.h][1]+dy]); }
     else if(drag.h==='body') hk.p=[drag.s.p[0]+dx,drag.s.p[1]+dy];
     else hk.ang=brg(hk.p,pt);
     handDraw(); });
@@ -4797,24 +4850,96 @@ const WINDS=[
   svg.addEventListener('pointerup',endDrag); svg.addEventListener('pointercancel',endDrag);
   function handUI(){ const ok=mode in TIPS; HB.hidden=!ok; HB.classList.toggle('p',hand&&ok); HB.setAttribute('aria-pressed',hand&&ok);
     b.classList.toggle('nlHandOn',hand&&ok); HT.hidden=!(hand&&ok);
-    HT.innerHTML=ok?TIPS[mode]+(mode==='kurs'?`<div class="btnrow"><button class="btn nlRot" data-d="-1" type="button">↺ 1°</button><button class="btn nlRot" data-d="-0.25" type="button">↺ ¼°</button><button class="btn nlRot" data-d="0.25" type="button">↻ ¼°</button><button class="btn nlRot" data-d="1" type="button">↻ 1°</button></div>`:''):'';
-    handDraw(); }
-  HB.addEventListener('click',()=>{ hand=!hand; if(hand&&!hs) handReset(); handUI(); });
+    HT.innerHTML=ok?TIPS[mode]+(mode==='kurs'?`<div class="btnrow"><button class="btn nlRot" data-d="-1" type="button">↺ 1°</button><button class="btn nlRot" data-d="-0.25" type="button">↺ ¼°</button><button class="btn nlRot" data-d="0.25" type="button">↻ ¼°</button><button class="btn nlRot" data-d="1" type="button">↻ 1°</button></div>`:'<div class="nlHandStat" aria-live="polite"></div>'):'';
+    hl.style.opacity=''; handDraw(); }
+  HB.addEventListener('click',()=>{ hand=!hand; store.set('navlabHand',hand); if(hand&&!hs) handReset(); handUI(); });
+  svg.addEventListener('pointerdown',()=>{ hl.style.opacity=''; },true);
+  // veličina ručica ovisi o širini karte na ekranu: preračunaj kad se karta prikaže ili promijeni širinu
+  if('ResizeObserver' in window) new ResizeObserver(()=>{ if(hand&&!drag) handDraw(); }).observe(svg);
   HT.addEventListener('click',e=>{ const r=e.target.closest('.nlRot'); if(!r||!hk) return; hk.ang=(hk.ang+ +r.dataset.d+360)%360; handDraw(); });
 
   function start(){ if(anim) cancelAnimationFrame(anim); const t=M[mode].task(); $('.nlTask',b).innerHTML=t.t; $('.nlIn',b).innerHTML=t.i; out(''); M[mode].draw();
-    $$('.knTab',$('.nlTabs',b)).forEach(x=>x.classList.toggle('on',x.dataset.m===mode)); handReset(); handUI(); }
+    $$('.knTab[data-m]',$('.nlTabs',b)).forEach(x=>x.classList.toggle('on',x.dataset.m===mode)); handReset(); handUI(); }
   $('.nlTabs',b).addEventListener('click',e=>{ const t=e.target.closest('[data-m]'); if(t){ mode=t.dataset.m; start(); }});
+  const BG=$('.nlBig',b), setBig=on=>{ b.classList.toggle('nlBigOn',on); BG.classList.toggle('on',on); BG.setAttribute('aria-pressed',on); BG.textContent=on?'⤡ Manja karta':'⤢ Veća karta'; };
+  setBig(store.get('navlabBig',false)===true);
+  BG.addEventListener('click',()=>{ const on=!b.classList.contains('nlBigOn'); store.set('navlabBig',on); setBig(on); handDraw(); });
   $('.nlNew',b).addEventListener('click',start);
-  $('.nlShow',b).addEventListener('click',()=>{ M[mode].draw(); M[mode].show(); });
+  $('.nlShow',b).addEventListener('click',()=>{ if(hand) hl.style.opacity='.25'; M[mode].draw(); M[mode].show(); }); // pribor rukom se povuče u pozadinu dok traje postupak
   const doCheck=()=>{ const v={}; $$('.nlI',b).forEach(i=>v[i.dataset.k]=i.value.trim()); M[mode].draw(); M[mode].check(v); };
   $('.nlCheck',b).addEventListener('click',doCheck);
   $('.nlIn',b).addEventListener('keydown',e=>{ if(e.key==='Enter') doCheck(); });
   svg.addEventListener('click',e=>{ if(mode!=='fix') return; const r=svg.getBoundingClientRect(), x=(e.clientX-r.left)/r.width*W, y=(e.clientY-r.top)/r.height*H;
     if(x<X0||x>X0+NLON*KX||y<Y0||y>Y0+NLAT*K) return; st.click=[x,y]; const q=ll(x,y);
     const la=$('.nlI[data-k=la]',b), lo=$('.nlI[data-k=lo]',b); if(la) la.value=f1(20+q[1]); if(lo) lo.value=f1(20+q[0]); M.fix.draw(); });
+  // samostalni trokut za drugu kartu (Stol 1 simulacije ispita): vuci tijelo, okreći ručicom ⟳ ili gumbima
+  function triTool(svg2,clipId,p0,ang0){ const g=document.createElementNS('http://www.w3.org/2000/svg','g'); svg2.appendChild(g);
+    const t={p:p0.slice(),ang:ang0}; let dr=null;
+    const sc2=()=>{ const r=svg2.getBoundingClientRect(); return r.width?r.width/W:1; };
+    const pt=e=>{ const m=svg2.getScreenCTM(); if(!m) return [0,0]; const p=svg2.createSVGPoint(); p.x=e.clientX; p.y=e.clientY; const r=p.matrixTransform(m.inverse()); return [r.x,r.y]; };
+    function draw(){ const {p,ang}=t, sz=62, q=ang*Math.PI/180, ux=Math.sin(q), uy=-Math.cos(q), kr=Math.min(22,Math.max(11,17/sc2()));
+      const a=[p[0]-ux*sz,p[1]-uy*sz], c=[p[0]+ux*sz,p[1]+uy*sz], v=[p[0]-uy*sz,p[1]+ux*sz], rk=[p[0]+ux*(sz+18),p[1]+uy*(sz+18)];
+      g.innerHTML=`<g clip-path="url(#${clipId})"><line x1="${p[0]-ux*1400}" y1="${p[1]-uy*1400}" x2="${p[0]+ux*1400}" y2="${p[1]+uy*1400}" stroke="#2a6f9e" stroke-width=".9" stroke-dasharray="6 4" opacity=".75" pointer-events="none"/></g>`
+        +tri(p,ang,sz,false)+`<path data-t="body" d="M${a[0]},${a[1]} L${c[0]},${c[1]} L${v[0]},${v[1]} Z" fill="rgba(0,0,0,0)" style="cursor:move"/>`
+        +`<line x1="${c[0]}" y1="${c[1]}" x2="${rk[0]}" y2="${rk[1]}" stroke="#39b8e8" stroke-width="1.2"/><circle data-t="rot" cx="${rk[0]}" cy="${rk[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/><text x="${rk[0]}" y="${rk[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">⟳</text>`; }
+    svg2.style.touchAction='none';
+    svg2.addEventListener('pointerdown',e=>{ const h=e.target.closest('[data-t]'); if(!h||!g.contains(h)) return;
+      e.preventDefault(); dr={h:h.dataset.t,p0:pt(e),s:t.p.slice()}; try{ svg2.setPointerCapture(e.pointerId); }catch(_){} });
+    svg2.addEventListener('pointermove',e=>{ if(!dr) return; const q=pt(e);
+      if(dr.h==='body') t.p=[dr.s[0]+q[0]-dr.p0[0],dr.s[1]+q[1]-dr.p0[1]]; else t.ang=brg(t.p,q); draw(); });
+    const end=()=>{ dr=null; }; svg2.addEventListener('pointerup',end); svg2.addEventListener('pointercancel',end);
+    draw(); return {rot(d){ t.ang=(t.ang+d+360)%360; draw(); }}; }
+  // samostalni šestar za drugu kartu (Stol 1, očitavanje pozicije): vrhovi prianjaju na zadane točke i crte mreže,
+  // uz bočnu skalu se uspravi (minute širine), uz gornju/donju legne vodoravno (minute dužine)
+  function divTool(svg2,p0,opts){ opts=opts||{}; const g=document.createElementNS('http://www.w3.org/2000/svg','g'); svg2.appendChild(g);
+    let t={t1:[p0[0]-24,p0[1]],t2:[p0[0]+24,p0[1]]}, dr=null;
+    const YTs=Y0-5, YBs=YB+5; // sredine gornje i donje skale dužine
+    const GX=[0,5,10,15,20].map(m=>px(m,0)[0]), GY=[0,5,10].map(m=>px(0,m)[1]); // crte mreže (meridijani, paralele)
+    const sc2=()=>{ const r=svg2.getBoundingClientRect(); return r.width?r.width/W:1; };
+    const SR2=()=>Math.max(8,14/sc2()), KR2=()=>Math.min(22,Math.max(11,17/sc2()));
+    const pt=e=>{ const m=svg2.getScreenCTM(); if(!m) return [0,0]; const p=svg2.createSVGPoint(); p.x=e.clientX; p.y=e.clientY; const r=p.matrixTransform(m.inverse()); return [r.x,r.y]; };
+    const clampP=p=>[Math.max(4,Math.min(W-4,p[0])),Math.max(4,Math.min(H-4,p[1]))];
+    function snapTip(p){ const r=SR2(), rs=Math.min(r,12);
+      let x=p[0], y=p[1];
+      // crta mreže ima prednost (i rubni meridijan/paralela), skala tek izvan nje; na skalu šestar ionako nosiš za zglob
+      const gx=GX.find(v=>Math.abs(x-v)<rs*.7), gy=GY.find(v=>Math.abs(y-v)<rs*.7);
+      const dg=Math.min(gx!=null?Math.abs(x-gx):1e9, gy!=null?Math.abs(y-gy):1e9);
+      for(const q of (opts.snap||[])){ const dq=Math.hypot(p[0]-q[0],p[1]-q[1]); if(dq<r&&dq<=dg) return q.slice(); } // bliži cilj pobjeđuje
+      if(gx!=null) x=gx; else if(Math.abs(x-XL)<rs) x=XL; else if(Math.abs(x-XR)<rs) x=XR;
+      if(gy!=null) y=gy; else if(Math.abs(y-YTs)<rs) y=YTs; else if(Math.abs(y-YBs)<rs) y=YBs;
+      return clampP([x,y]); }
+    function carry(s,dx,dy){ const m=[(s.t1[0]+s.t2[0])/2+dx,(s.t1[1]+s.t2[1])/2+dy], d=Math.hypot(s.t2[0]-s.t1[0],s.t2[1]-s.t1[1]), r=SR2()*1.8;
+      let sx=Math.abs(m[0]-XL)<r?XL:Math.abs(m[0]-XR)<r?XR:null, sy=Math.abs(m[1]-YTs)<r?YTs:Math.abs(m[1]-YBs)<r?YBs:null;
+      if(sx!=null&&sy!=null){ if(Math.abs(m[0]-sx)<Math.abs(m[1]-sy)) sy=null; else sx=null; } // u kutu karte: bliža skala
+      if(sx!=null&&d>2){ let low=Math.min(YB,m[1]+d/2); if(low-d<YT&&d<=YB-YT) low=YT+d;
+        const whole=YB-Math.round((YB-low)/K)*K; if(Math.abs(whole-low)<SR2()*.7&&whole-d>=YT-.5) low=whole; return {t1:[sx,low],t2:[sx,low-d]}; }
+      if(sy!=null&&d>2){ let left=Math.max(X0,m[0]-d/2); if(left+d>XR-5&&d<=XR-5-X0) left=XR-5-d;
+        const whole=X0+Math.round((left-X0)/KX)*KX; if(Math.abs(whole-left)<SR2()*.7&&whole>=X0-.5&&whole+d<=XR-4.5) left=whole; return {t1:[left,sy],t2:[left+d,sy]}; }
+      return {t1:clampP([s.t1[0]+dx,s.t1[1]+dy]),t2:clampP([s.t2[0]+dx,s.t2[1]+dy])}; }
+    function read(){ const {t1,t2}=t, on=(v,a)=>Math.abs(v-a)<.6;
+      if(((on(t1[0],XL)&&on(t2[0],XL))||(on(t1[0],XR)&&on(t2[0],XR)))&&Math.min(t1[1],t2[1])>=YT-3&&Math.max(t1[1],t2[1])<=YB+3) return {k:'lat',side:on(t1[0],XL)?'L':'R',d:Math.abs(t1[1]-t2[1])/K};
+      if(((on(t1[1],YTs)&&on(t2[1],YTs))||(on(t1[1],YBs)&&on(t2[1],YBs)))&&Math.abs(t1[0]-t2[0])>1) return {k:'lon',top:on(t1[1],YTs),d:Math.abs(t1[0]-t2[0])/KX};
+      return null; }
+    function draw(){ const {t1,t2}=t, hg=hinge(t1,t2), kr=KR2(), r=read(); let rd='';
+      if(r&&opts.readout!==false){ const lab=(x,y,a)=>`<text x="${x}" y="${y}" text-anchor="${a}" font-size="14" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)}&#8242;</text>`;
+        if(r.k==='lat'){ const y1=Math.min(t1[1],t2[1]), y2=Math.max(t1[1],t2[1]), L=r.side==='L';
+          rd=`<rect x="${L?X0-10:XR-5}" y="${y1}" width="10" height="${y2-y1}" fill="#ffd166" opacity=".6" pointer-events="none"/>`+lab(L?X0+8:XR-13,(y1+y2)/2+5,L?'start':'end'); }
+        else { const x1=Math.min(t1[0],t2[0]), x2=Math.max(t1[0],t2[0]);
+          rd=`<rect x="${x1}" y="${r.top?Y0-10:YB}" width="${x2-x1}" height="10" fill="#ffd166" opacity=".6" pointer-events="none"/>`+lab((x1+x2)/2,r.top?Y0+18:YB-8,'middle'); } }
+      const knob=(p,k,lab)=>`<circle data-d="${k}" cx="${p[0]}" cy="${p[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/>${lab?`<text x="${p[0]}" y="${p[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">${lab}</text>`:''}`;
+      const grip=p=>`<line data-d="hinge" x1="${hg[0]}" y1="${hg[1]}" x2="${p[0]}" y2="${p[1]}" stroke="rgba(0,0,0,0)" stroke-width="${Math.max(12,kr)}" stroke-linecap="round" style="cursor:move"/>`;
+      g.innerHTML=rd+dividers(t1,t2)+grip(t1)+grip(t2)+knob(t1,'t1')+knob(t2,'t2')+knob(hg,'hinge','✥');
+      if(opts.onRead) opts.onRead(r); }
+    svg2.style.touchAction='none';
+    svg2.addEventListener('pointerdown',e=>{ const h=e.target.closest('[data-d]'); if(!h||!g.contains(h)) return;
+      e.preventDefault(); dr={h:h.dataset.d,p0:pt(e),s:JSON.parse(JSON.stringify(t))}; try{ svg2.setPointerCapture(e.pointerId); }catch(_){} });
+    svg2.addEventListener('pointermove',e=>{ if(!dr) return; const q=pt(e), dx=q[0]-dr.p0[0], dy=q[1]-dr.p0[1];
+      if(dr.h==='hinge') t=carry(dr.s,dx,dy); else t[dr.h]=snapTip([dr.s[dr.h][0]+dx,dr.s[dr.h][1]+dy]); draw(); });
+    const end=()=>{ dr=null; }; svg2.addEventListener('pointerup',end); svg2.addEventListener('pointercancel',end);
+    if('ResizeObserver' in window) new ResizeObserver(()=>{ if(!dr) draw(); }).observe(svg2);
+    draw(); return {draw}; }
   // karta i mjerni alati dostupni i simulaciji ispita (Stol 1)
-  window.__NL={chartBase,px,ll,W,H,randWater,clearPath,brg,distM,fmtLat,fmtLon,X0,Y0,K,KX,NLAT,NLON,pad3};
+  window.__NL={chartBase,px,ll,W,H,randWater,clearPath,brg,distM,fmtLat,fmtLon,X0,Y0,K,KX,NLAT,NLON,pad3,triTool,divTool};
   sp(); start();
 })();
 
@@ -4911,8 +5036,9 @@ const SIM={
   const kick=()=>prop==='D'?1:-1; // +1: krma ulijevo (pramac udesno) pri vožnji krmom
   function draw(x,y,h,o,extra){ dyn.innerHTML=quay()+(extra||'')+SIM.boat(x,y,h,{s:1.6,prop:o.prop,rud:0}); }
   function txt(h){ $('.dTxt',b).innerHTML=h; }
-  function run(steps){ if(anim) cancelAnimationFrame(anim); let i=0;
-    const nx=()=>{ if(i>=steps.length) return; const s=steps[i++]; if(s.say) txt(s.say);
+  let runGen=0; // novi klik prekida staru animaciju, i u pauzi između koraka
+  function run(steps){ if(anim) cancelAnimationFrame(anim); let i=0; const my=++runGen;
+    const nx=()=>{ if(my!==runGen||i>=steps.length) return; const s=steps[i++]; if(s.say) txt(s.say);
       if(SIM.RM){ s.f(1); return setTimeout(nx,50); }
       const t0=performance.now(); const f=n=>{ const t=Math.min(1,(n-t0)/s.d); s.f(t); if(t<1) anim=requestAnimationFrame(f); else setTimeout(nx,s.w??300); }; anim=requestAnimationFrame(f); };
     nx(); }
@@ -4979,8 +5105,9 @@ const SIM={
     if(msg) g+=`<text x="16" y="${H-14}" font-size="13" font-weight="800" fill="#b8f0cf">${msg}</text>`;
     dyn.innerHTML=g; }
   const txt=h=>$('.aTxt',b).innerHTML=h;
-  function run(steps){ if(anim) cancelAnimationFrame(anim); let i=0;
-    const nx=()=>{ if(i>=steps.length) return; const s=steps[i++]; if(s.say) txt(s.say);
+  let runGen=0; // novi klik prekida staru animaciju, i u pauzi između koraka
+  function run(steps){ if(anim) cancelAnimationFrame(anim); let i=0; const my=++runGen;
+    const nx=()=>{ if(my!==runGen||i>=steps.length) return; const s=steps[i++]; if(s.say) txt(s.say);
       if(SIM.RM){ s.f(1); return setTimeout(nx,50); }
       const t0=performance.now(); const f=n=>{ const t=Math.min(1,(n-t0)/s.d); s.f(t); if(t<1) anim=requestAnimationFrame(f); else setTimeout(nx,s.w??350); }; anim=requestAnimationFrame(f); };
     nx(); }
@@ -5434,8 +5561,21 @@ window.VBExam=(function(){
     else { const a=N.px(it.a[0],it.a[1]), b=N.px(it.b[0],it.b[1]); extra=mark(a,'A','#0b5fa5')+mark(b,'B','#0b5fa5');
       task='Zadatak na karti: <b>odredi pravi kurs od A do B</b> (trokutima prenosiš smjer s ruže).';
       inp=`<label>Kurs <input class="nlI exIn" data-k="c" inputmode="numeric" placeholder="npr. 047"> °</label>`; }
-    area.innerHTML=`<div class="qcard">${head()}<div class="qtext">${task}</div><div class="exChartWrap">${chartSvg(extra)}</div>
+    const dtools=it.kind==='pos'&&N.divTool?`<div class="nlHandTip exTools">📏 <b>Šestar.</b> ① Jedan vrh na <b>P</b>, drugi na najbližu <b>paralelu</b> (vodoravna crta mreže). ② Uhvati zglob <b>✥</b> i prenesi šestar na <b>bočnu skalu</b>: to su minute širine koje dodaješ ili oduzimaš od paralele. ③ Isto za dužinu: od P do najbližeg <b>meridijana</b>, pa na <b>gornju ili donju skalu</b>.<div class="nlHandStat exDivStat" aria-live="polite"></div></div>`:'';
+    const tools=it.kind==='course'&&N.triTool?`<div class="nlHandTip exTools">📐 <b>Trokut.</b> Okreni ga ručicom <b>⟳</b> (ili gumbima) dok hipotenuza ne legne na A–B, zatim ga <b>vuci</b> do središta ruže: kut ostaje isti. Očitaj kurs na obodu u smjeru plovidbe.<div class="btnrow"><button class="btn exRot" data-d="-1" type="button">↺ 1°</button><button class="btn exRot" data-d="-0.25" type="button">↺ ¼°</button><button class="btn exRot" data-d="0.25" type="button">↻ ¼°</button><button class="btn exRot" data-d="1" type="button">↻ 1°</button></div></div>`:'';
+    area.innerHTML=`<div class="qcard">${head()}<div class="qtext">${task}</div><div class="exChartWrap">${chartSvg(extra)}</div>${tools}${dtools}
       <div class="nlIn exInRow">${inp}<button class="btn p" id="exChk" type="button">Provjeri</button></div><div id="exExpl"></div></div>`;
+    if(tools){ const a=N.px(it.a[0],it.a[1]), b=N.px(it.b[0],it.b[1]), c=N.brg(a,b), m=[(a[0]+b[0])/2,(a[1]+b[1])/2], q=c*Math.PI/180;
+      let p=[m[0]+Math.cos(q)*70,m[1]+Math.sin(q)*70]; if(p[0]<N.X0+60||p[0]>N.X0+N.NLON*N.KX-60||p[1]<N.Y0+60||p[1]>N.Y0+N.NLAT*N.K-60) p=[m[0]-Math.cos(q)*70,m[1]-Math.sin(q)*70];
+      const tt=N.triTool($('.exChart',area),'exClip',p,(c+(Math.random()<.5?-1:1)*(25+Math.random()*30)+360)%360);
+      $('.exTools',area).addEventListener('click',e=>{ const r=e.target.closest('.exRot'); if(r) tt.rot(+r.dataset.d); }); }
+    if(dtools){ const p=N.px(it.p[0],it.p[1]), stat=$('.exDivStat',area), start=[p[0]+(p[0]>N.X0+N.NLON*N.KX-90?-50:50),p[1]+(p[1]>N.Y0+N.NLAT*N.K-70?-44:44)];
+      // u strogom režimu nema očitanja brojem, kao na pravom ispitu: broji crtice sam
+      N.divTool($('.exChart',area),start,{snap:[p],readout:!S.strict,onRead:r=>{ if(!stat) return;
+        stat.className='nlHandStat exDivStat'+(r?' good':'');
+        stat.innerHTML=!r?'Vrhove stavi na P i na crtu mreže, zatim šestar prenesi na skalu.'
+          :S.strict?`Šestar je na skali ${r.k==='lat'?'<b>širine</b>':'<b>dužine</b>'}. Izbroji minute i desetinke.`
+          :r.k==='lat'?`Na skali širine: <b>${f1(r.d)}&#8242;</b>. Dodaj ili oduzmi od paralele.`:`Na skali dužine: <b>${f1(r.d)}&#8242;</b>. Dodaj ili oduzmi od meridijana.`; }}); }
     const check=()=>{ if(el('exChk').disabled) return; const v={}; $$('.exIn',area).forEach(i=>v[i.dataset.k]=i.value.trim()); let ok,msg,sol;
       if(it.kind==='pos'){ const la=20+it.p[1], lo=20+it.p[0]; ok=Math.abs(num(v.la)-la)<=.25 && Math.abs(num(v.lo)-lo)<=.25;
         msg=`Pozicija P: <b>${N.fmtLat(it.p[1])}, ${N.fmtLon(it.p[0])}</b>. Dopušteno odstupanje ±0,2'. Širinu uvijek čitaš na bočnoj skali, dužinu na gornjoj ili donjoj.`;
@@ -5838,7 +5978,8 @@ window.VBSrs=(function(){
     on:'Vjetar s mora te gura prema obali: stani usporedno s vezom malo dalje od obale i pusti da te vjetar polako primakne.'};
   const THR={'-1':['KRMOM',-8],'0':['STOP',0],'1':['NAPRIJED POLAKO',9],'2':['NAPRIJED',18]};
   let env='curS', s=null, raf=null, last=0, vis=true, t=0, score=store.get('dockwind',{ok:0,n:0});
-  const reset=()=>{ s={x:470,y:340,h:-25,v:0,thr:0,rud:0,trail:[],hold:0,over:false,tt:0,started:false}; };
+  const reset=()=>{ s={x:470,y:340,h:-25,v:0,thr:0,rud:0,rudA:0,yr:0,trail:[],hold:0,over:false,tt:0,started:false,chk:{}}; };
+  const RUD=[-30,-15,0,15,30], SLOW=6, HOLD=1.2, GAP=12; // kormilo u 5 položaja; "stoji" = ispod 0,6 čv nad dnom
   const force=()=>{ const E=ENV[env], m=STR[str][1]; return {cur:[E.cur[0]*m,E.cur[1]*m], wind:[E.wind[0]*m,E.wind[1]*m]}; };
   const drift=()=>{ const F=force(), q=s.h*Math.PI/180, ax=[Math.sin(q),-Math.cos(q)], lat=[Math.cos(q),Math.sin(q)];
     const wl=F.wind[0]*ax[0]+F.wind[1]*ax[1], wb=F.wind[0]*lat[0]+F.wind[1]*lat[1], keel=1-Math.min(.5,Math.abs(s.v)/36);
@@ -5848,18 +5989,20 @@ window.VBSrs=(function(){
     return [[-12,-28],[12,-28],[13,20],[-13,20],[0,-31]].map(([x,y])=>[s.x+x*c-y*n, s.y+x*n+y*c]); };
 
   b.innerHTML=`<h4>🎮 Pristani sam: vjetar i struja</h4>
-    <p class="dwIntro">Pristani <b>lijevim bokom</b> u prazno mjesto između dviju brodica. Pravilo iz poglavlja: prilazi <b>uz vjetar ili uz struju</b>, pramcem prema njima. Tada te struja koči, kormilo bolje sluša i lakše staneš. Vijak je desnokretni: kad voziš krmom, krma izbija <b>ulijevo</b>.</p>
+    <p class="dwIntro"><b>Zadatak:</b> dovezi brodicu u <b>žuti okvir VEZ</b> između dviju privezanih brodica i zaustavi je <b>bokom uz obalu</b>, na mjestu prozirne brodice. Pravilo iz poglavlja: prilazi <b>pramcem u vjetar ili struju</b>. Tada te struja koči, kormilo bolje sluša i lakše staneš. Vijak je desnokretni: kad voziš krmom, krma izbija <b>ulijevo</b>.</p>
     <div class="dwEnv seg"><span>Uvjeti</span>${Object.keys(ENV).map(k=>`<button type="button" data-e="${k}"${k===env?' class="on"':''}>${ENV[k].n}</button>`).join('')}</div>
     <div class="dwEnv seg dwStr"><span>Jačina</span>${STR.map((x,i)=>`<button type="button" data-s="${i}"${i===str?' class="on"':''}>${x[0]}</button>`).join('')}</div>
-    <div class="dwStage" tabindex="0" aria-label="Simulator pristajanja. Strelice gore i dolje: stroj, lijevo i desno: kormilo.">
+    <div class="dwStage" tabindex="0" aria-label="Simulator pristajanja. Strelice gore i dolje: stroj, lijevo i desno: kormilo, razmak: stop.">
       <svg viewBox="0 0 ${W} ${H}" class="simSvg dwSvg" role="img" aria-label="Lučica s obalom lijevo i praznim mjestom za vez"><g class="dwBase"></g><g class="dwFlow"></g><g class="dwDyn"></g></svg>
       <div class="dwHud mono" aria-live="off"></div></div>
+    <div class="dwGoal" aria-live="off"></div>
     <div class="dwCtl">
       <div class="dwGrp"><span>Stroj</span><button class="btn" data-t="-1" type="button">◀◀ Krmom</button><button class="btn" data-t="0" type="button">■ Stop</button><button class="btn" data-t="1" type="button">▶ Polako</button><button class="btn" data-t="2" type="button">▶▶ Naprijed</button></div>
-      <div class="dwGrp"><span>Kormilo</span><button class="btn" data-r="-15" type="button">◀ Lijevo</button><button class="btn" data-r="0" type="button">● Ravno</button><button class="btn" data-r="15" type="button">Desno ▶</button></div>
+      <div class="dwGrp"><span>Kormilo</span>${RUD.map(r=>`<button class="btn" data-r="${r}" type="button">${r<0?`◀ ${-r}°`:r>0?`${r}° ▶`:'● Ravno'}</button>`).join('')}</div>
       <button class="btn dwReset" type="button">↺ Ispočetka</button></div>
+    <div class="dwKeys">⌨ Tipkovnica (klikni na lučicu): <kbd>↑</kbd> <kbd>↓</kbd> stroj · <kbd>←</kbd> <kbd>→</kbd> kormilo · <kbd>razmak</kbd> stop. Kormilo lijevo okreće pramac ulijevo.</div>
     <div class="dwMsg" aria-live="polite"></div>`;
-  const base=$('.dwBase',b), flow=$('.dwFlow',b), dyn=$('.dwDyn',b), hud=$('.dwHud',b), msg=$('.dwMsg',b);
+  const base=$('.dwBase',b), flow=$('.dwFlow',b), dyn=$('.dwDyn',b), hud=$('.dwHud',b), msg=$('.dwMsg',b), goal=$('.dwGoal',b);
   function drawBase(){ let g=SIM.water(W,H,'dw');
     g+=`<rect x="0" y="0" width="${QX}" height="${H}" fill="#6b7784"/><rect x="${QX-6}" y="0" width="6" height="${H}" fill="#4a545e"/>`;
     for(let y=20;y<H;y+=46) g+=`<rect x="${QX-20}" y="${y}" width="10" height="14" rx="3" fill="#2a3138"/>`;
@@ -5867,6 +6010,7 @@ window.VBSrs=(function(){
     // privezane brodice (prepreke) i prazan vez
     MOOR.forEach(([x,y,w,h])=>{ g+=`<g transform="translate(${x+w/2},${y+h/2}) rotate(${y<100?0:180})">${SIM.boat(0,0,0,{s:2.2,fill:'#b8c6d2'})}</g>`; });
     g+=`<rect x="${QX}" y="${BERTH[0]}" width="44" height="${BERTH[1]-BERTH[0]}" fill="#ffd166" opacity=".08" stroke="#ffd166" stroke-dasharray="6 5" stroke-opacity=".7"/>
+      <g opacity=".32">${SIM.boat(QX+14,(BERTH[0]+BERTH[1])/2,ENV[env].into||0,{s:1.6,fill:'#ffd166'})}</g>
       <text x="${QX+50}" y="${(BERTH[0]+BERTH[1])/2+4}" font-size="15" fill="#ffd166" font-weight="800">VEZ</text>
       <text x="${W-14}" y="22" text-anchor="end" font-size="12" fill="#9fb6c9" font-weight="700">N ↑</text>`;
     const E=ENV[env];
@@ -5881,17 +6025,23 @@ window.VBSrs=(function(){
     const d=drift(), dm=Math.hypot(d[0],d[1]); let fa='';
     if(dm>.2){ const ux=d[0]/dm, uy=d[1]/dm, L=10+dm*5, x0=s.x-ux*(40+L), y0=s.y-uy*(40+L), x1=s.x-ux*40, y1=s.y-uy*40, col=ENV[env].cur[1]?'#7fd8f7':'#f5c542';
       fa=`<g opacity=".95"><line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}" stroke="${col}" stroke-width="3.2" stroke-linecap="round"/><polygon points="${(x1+ux*8).toFixed(1)},${(y1+uy*8).toFixed(1)} ${(x1-uy*6).toFixed(1)},${(y1+ux*6).toFixed(1)} ${(x1+uy*6).toFixed(1)},${(y1-ux*6).toFixed(1)}" fill="${col}"/></g>`; }
-    dyn.innerHTML=tr+fa+SIM.boat(s.x,s.y,s.h,{s:1.6,rud:-s.rud});
+    dyn.innerHTML=tr+fa+SIM.boat(s.x,s.y,s.h,{s:1.6,rud:-s.rudA});
     const g=sog(), kn=Math.hypot(g[0],g[1])/10;
     hud.innerHTML=`Stroj <b>${THR[s.thr][0]}</b> · Kormilo <b>${s.rud?Math.abs(s.rud)+'° '+(s.rud>0?'D':'L'):'ravno'}</b> · Brzina nad dnom <b>${kn.toFixed(1).replace('.',',')} čv</b> · Zanošenje <b>${(Math.hypot(...drift())/10).toFixed(1).replace('.',',')} čv</b>`;
-    $$('[data-t]',b).forEach(x=>x.classList.toggle('p',+x.dataset.t===s.thr)); $$('[data-r]',b).forEach(x=>x.classList.toggle('on',(+x.dataset.r===0&&s.rud===0)||(+x.dataset.r!==0&&Math.sign(+x.dataset.r)===Math.sign(s.rud)))); }
+    $$('[data-t]',b).forEach(x=>x.classList.toggle('p',+x.dataset.t===s.thr)); $$('[data-r]',b).forEach(x=>x.classList.toggle('on',+x.dataset.r===s.rud));
+    // cilj: četiri uvjeta uživo, zeleno kad je ispunjen; traka se puni dok ih držiš
+    const c=s.chk, it=(ok,t)=>`<span class="${ok?'ok':''}">${ok?'✓':'○'} ${t}</span>`;
+    goal.innerHTML=`<b>Cilj</b>${it(c.berth,'u okviru VEZ')}${it(c.par,'usporedno s obalom')}${it(c.side,'bok uz obalu')}${it(c.slow,'gotovo stoji')}<i class="dwHold"><i style="width:${Math.min(100,s.hold/HOLD*100).toFixed(0)}%"></i></i>`; }
   function end(ok,html){ s.over=true; score.n++; if(ok){ score.ok++; if(window.VB) VB.widgetOk('dock'); } store.set('dockwind',score);
-    msg.innerHTML=`<div class="nlRes ${ok?'rg':'rb'}">${html}</div><div class="dwSc">Uspješnih pristajanja ${score.ok} od ${score.n}</div>`; }
+    msg.innerHTML=`<div class="nlRes ${ok?'rg':'rb'}">${html}</div><div class="btnrow"><button class="btn p dwReset" type="button">↺ Pokušaj ponovno</button></div><div class="dwSc">Uspješnih pristajanja ${score.ok} od ${score.n}</div>`; }
   function step(dt){ const E=ENV[env];
     const vt=THR[s.thr][1]; s.v+=(vt-s.v)*Math.min(1,dt*.7);
-    let yaw=0; if(s.v>=0) yaw=s.rud/30*(20*s.v/10+(s.thr>0?10:0)); else yaw=s.rud/30*(5*s.v/10);
+    // kormilo se okreće postupno (~60°/s), a brod ima tromost pri okretanju: bez trzaja
+    s.rudA+=Math.max(-60*dt,Math.min(60*dt,s.rud-s.rudA));
+    let yaw=0; if(s.v>=0) yaw=s.rudA/30*(20*s.v/10+(s.thr>0?10:0)); else yaw=s.rudA/30*(5*s.v/10);
     if(s.thr<0) yaw+=6; // desnokretni vijak, krmom: krma ulijevo, pramac udesno
-    s.h+=yaw*dt; const g=sog(); s.x+=g[0]*dt; s.y+=g[1]*dt;
+    s.yr+=(yaw-s.yr)*Math.min(1,dt*2.2);
+    s.h+=s.yr*dt; const g=sog(); s.x+=g[0]*dt; s.y+=g[1]*dt;
     s.tt+=dt; if(s.tt>.2){ s.tt=0; s.trail.push([s.x.toFixed(1),s.y.toFixed(1)]); if(s.trail.length>40) s.trail.shift(); }
     // sudari: obala i privezane brodice
     const P=hull(), minX=Math.min(...P.map(p=>p[0])); let touch=false;
@@ -5903,7 +6053,8 @@ window.VBSrs=(function(){
     if(s.x>W+30||s.y<-40||s.y>H+40) return end(false,'Izašao si iz lučice. Pokušaj ponovno.');
     // uspjeh: bokom uz obalu, na vezu, gotovo stoji
     const hn=((s.h%360)+360)%360, par=Math.min(hn,Math.abs(hn-180),360-hn)<14, gap=Math.max(0,minX-QX), spd=Math.hypot(touch?Math.max(0,g[0]):g[0],g[1]);
-    if(par && gap<8 && s.y>BERTH[0]+4 && s.y<BERTH[1]-4 && spd<3){ s.hold+=dt; if(s.hold>1.2){
+    s.chk={berth:s.y>BERTH[0]+4&&s.y<BERTH[1]-4&&s.x<QX+70, par, side:gap<GAP, slow:spd<SLOW};
+    if(par && gap<GAP && s.chk.berth && spd<SLOW){ s.hold+=dt; if(s.hold>HOLD){
       const into=E.into==null?null:Math.abs(((hn-E.into+540)%360)-180)<30;
       return end(true, into===null?(E.cross?`✓ <b>Pristao si uz bočni vjetar.</b> ${E.cross==='on'?'Vjetar te gurao prema obali, a ti si ga iskoristio umjesto da udariš.':'Vjetar te odmicao od obale, a ti si ga nadvladao prilazom pod kutom.'}`:`✓ <b>Pristao si.</b> Po mirnom moru svejedno je s koje strane prilaziš. Probaj sad sa strujom ili vjetrom.`)
         : into?`✓ <b>Pristao si pramcem u ${E.what}.</b> ${E.what==='struju'?'Struja te kočila':'Vjetar te kočio'}, a kormilo je slušalo, pa si stao na mjestu. Upravo tako kaže poglavlje.`
@@ -5912,7 +6063,7 @@ window.VBSrs=(function(){
   function frame(now){ raf=null; if(!vis) return; const dt=Math.min(.05,(now-(last||now))/1000); last=now; t+=dt;
     if(!s.over) step(dt); draw(); drawFlow(); if(!s.over) raf=requestAnimationFrame(frame); }
   function run(){ last=0; if(s.started&&!raf&&!s.over) raf=requestAnimationFrame(frame); }
-  function restart(){ reset(); msg.innerHTML=''; drawBase(); drawFlow(); draw(); const E=ENV[env]; msg.innerHTML=(E.cross?`<div class="dwHint">💡 ${HINT[E.cross]}</div>`:'')+'<div class="dwSc">Simulacija kreće kad dirneš stroj ili kormilo.</div>'; }
+  function restart(){ if(raf){ cancelAnimationFrame(raf); raf=null; } reset(); msg.innerHTML=''; drawBase(); drawFlow(); draw(); const E=ENV[env]; msg.innerHTML=(E.cross?`<div class="dwHint">💡 ${HINT[E.cross]}</div>`:'')+'<div class="dwSc">Simulacija kreće kad dirneš stroj ili kormilo.</div>'; }
   b.addEventListener('click',e=>{ const x=e.target.closest('button'); if(!x) return;
     if(x.dataset.e){ env=x.dataset.e; $$('.dwEnv:not(.dwStr) button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
     if(x.dataset.s){ str=+x.dataset.s; $$('.dwStr button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
@@ -5920,11 +6071,14 @@ window.VBSrs=(function(){
     if(s.over) return;
     s.started=true; vis=true; // klik znači da je widget na ekranu
     if(x.dataset.t!=null) s.thr=+x.dataset.t;
-    if(x.dataset.r!=null){ const r=+x.dataset.r; s.rud=r===0?0:Math.max(-30,Math.min(30,s.rud+r)); }
+    if(x.dataset.r!=null) s.rud=+x.dataset.r; // gumb = točan položaj kormila, bez skrivenog zbrajanja
     draw(); run(); });
-  $('.dwStage',b).addEventListener('keydown',e=>{ if(s.over) return; const k=e.key;
-    if(k==='ArrowUp') s.thr=Math.min(2,s.thr+1); else if(k==='ArrowDown') s.thr=Math.max(-1,s.thr-1);
-    else if(k==='ArrowLeft') s.rud=Math.max(-30,s.rud-15); else if(k==='ArrowRight') s.rud=Math.min(30,s.rud+15); else return;
+  const stage=$('.dwStage',b); stage.addEventListener('pointerdown',()=>stage.focus({preventScroll:true}));
+  // tipke rade dok je fokus bilo gdje u widgetu (i nakon klika na gumb)
+  b.addEventListener('keydown',e=>{ if(s.over||e.target.closest('.dwEnv')) return; const k=e.key.length===1?e.key.toLowerCase():e.key;
+    if(k==='ArrowUp'||k==='w') s.thr=Math.min(2,s.thr+1); else if(k==='ArrowDown'||k==='s') s.thr=Math.max(-1,s.thr-1);
+    else if(k==='ArrowLeft'||k==='a') s.rud=Math.max(-30,s.rud-15); else if(k==='ArrowRight'||k==='d') s.rud=Math.min(30,s.rud+15);
+    else if(k===' ') s.thr=0; else return;
     s.started=true; vis=true; e.preventDefault(); e.stopPropagation(); draw(); run(); });
   if('IntersectionObserver' in window) new IntersectionObserver(es=>{ vis=es[0].isIntersecting; if(vis) run(); }).observe(b);
   restart();
@@ -7264,6 +7418,8 @@ const CARDS=[
   go(pages.some(p=>p.id===h)?h:'p-start');
   window.addEventListener('keydown',e=>{
     if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'||e.target.tagName==='TEXTAREA') return;
+    // strelice unutar widgeta (animacija čvorova, simulatori, gumbi u kartici) ne listaju stranicu
+    if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||(e.target.closest&&e.target.closest('button,a,[role=button],.card,.qcard,.svgbox,svg,[tabindex]'))) return;
     const cur=pages.findIndex(p=>p.classList.contains('active'));
     if(e.key==='ArrowRight'&&cur<pages.length-1) go(pages[cur+1].id);
     if(e.key==='ArrowLeft'&&cur>0) go(pages[cur-1].id);
