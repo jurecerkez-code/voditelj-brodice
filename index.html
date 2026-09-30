@@ -1067,6 +1067,26 @@ select,input[type=text],input[type=number],input[type=date]{background:var(--bg)
 .svgbox .knTab.on,.knStage .knTab.on,.night .knTab.on{color:#1c2430!important} .svgbox .knTab.on small{color:#1c2430!important}
 @media(max-width:600px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))} #ialaWidget .g4{grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px} #ialaWidget .ialaCard{padding:6px 2px!important; margin:0} #ialaWidget .ialaCard svg{height:110px!important}}
 .dwGoal span{border-radius:0!important}
+:root:not([data-theme="night"]) .knStage .btn.p{background:var(--txt)!important; color:var(--bg)!important}
+:root:not([data-theme="night"]) .dwHud{background:rgba(246,243,236,.92)!important; color:#1c2430!important; border-top:1px solid #b9b09c}
+:root:not([data-theme="night"]) .dwHud b{color:#1c2430!important}
+:root:not([data-theme="night"]) .dnToggle{background:#f6f3ec!important; border-color:#b9b09c!important}
+:root:not([data-theme="night"]) .dnToggle button{color:#4a5360!important} :root:not([data-theme="night"]) .dnToggle button.on{background:#1c2430!important; color:#f6f3ec!important}
+:root[data-theme="night"] #dockSim [data-keep-dark] text{fill:#e7b7a8}
+.dsGrp{font:600 12px var(--sans)!important; letter-spacing:.08em; text-transform:uppercase; color:var(--txt3); margin:18px 0 8px} .dsGrp span{color:var(--txt3); font-weight:400}
+.dsStatic{cursor:default!important} .dsStatic:hover{border-color:var(--line2)!important}
+.chip.on{background:none!important; color:var(--txt)!important; border:1.5px solid var(--txt)!important; font-weight:600}
+.chip.on::before{content:"\2713\00a0"; color:var(--green)}
+:root:not([data-theme="night"]) .svgbox,:root:not([data-theme="night"]) .night,:root:not([data-theme="night"]) .knStage{background:transparent!important; border:0!important; border-top:1px solid var(--line)!important; border-bottom:1px solid var(--line)!important; padding:14px 0!important; --txt:#1c2430; --txt2:#4a5360; --txt3:#7b828c; --line:#d6cfc0; --line2:#b9b09c; --acc:#1f4e79; --acc2:#1f4e79; --panel:#f6f3ec; --panel2:#efeadf; --green:#2f6b3a; --red:#b3261e; --yellow:#8a6a00; color:#1c2430!important}
+:root:not([data-theme="night"]) .svgcap{color:var(--txt3)!important}
+:root:not([data-theme="night"]) .svgbox strong{color:var(--txt)!important}
+:root:not([data-theme="night"]) .svgbox .btn,:root:not([data-theme="night"]) .knStage .btn{color:var(--txt)!important; border-color:var(--line2)!important}
+:root:not([data-theme="night"]) .svgbox .btn.p,:root:not([data-theme="night"]) .svgbox .chip.on{background:var(--txt)!important; color:var(--bg)!important}
+:root:not([data-theme="night"]) .svgbox .chip{color:var(--txt2)!important; border-color:var(--line2)!important}
+:root:not([data-theme="night"]) .svgbox .knTab.on,:root:not([data-theme="night"]) .knStage .knTab.on{background:var(--txt)!important; color:var(--bg)!important}
+:root:not([data-theme="night"]) .svgbox .knTab.on small{color:var(--bg)!important}
+:root:not([data-theme="night"]) .knTag{color:var(--txt)!important; border-color:var(--line2)!important}
+:root:not([data-theme="night"]) .svgbox svg,:root:not([data-theme="night"]) .knStage svg{filter:none}
 #content *:not(i):not(.swatch):not(input[type=radio]):not(input[type=range]){border-radius:0!important; text-shadow:none!important}
 .exVerdict{font-size:26px!important; letter-spacing:.02em!important; font-family:var(--serif)}
 .pday.today{border:1.5px solid var(--txt)!important; box-shadow:none!important} .pday.past:not(.done){border-color:var(--yellow)!important}
@@ -2516,9 +2536,10 @@ Brodica se najčešće sidri <strong>jednim sidrom</strong>, da ne dođe do zapl
 Ako ni to ne uspije: <strong>naređuje napuštanje brodice</strong> i traži pomoć svim raspoloživim međunarodnim signalima pogibelji (radio, zvučni, vizualni).</div>
 
 <h3>Vježba: znakovi pogibelji</h3>
-<p>Prepoznaj svaki znak pogibelji (popis iz poglavlja <a href="#p-signali">Zvučni signali</a>). Klikni prizor za opis, pa uključi kviz: nekad vidiš prizor i biraš značenje, nekad biraš prizor za zadano značenje.</p>
+<p>Ovo su <b>svi vizualni i zvučni znakovi pogibelji</b> koje moraš prepoznati (popis iz poglavlja <a href="#p-signali">Zvučni signali</a>). Radio znakovi (MAYDAY na kanalu 16, DSC na kanalu 70, EPIRB/SART) su u tekstu iznad.</p>
+<p><b>Kako vježbati:</b> 1) prouči prizore ispod, 2) klikni <b>Provjeri se</b>: dobit ćeš prizor pa biraš što znači, ili značenje pa biraš prizor.</p>
 <div class="card">
-  <div class="btnrow"><button class="btn p" id="distQuizBtn" type="button">Kviz znakova</button><span id="distScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span></div>
+  <div class="btnrow"><button class="btn p" id="distQuizBtn" type="button">Provjeri se</button><span id="distScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span></div>
   <div id="distressWidget"></div>
 </div>
 
@@ -5256,7 +5277,7 @@ const SIM={
   b.innerHTML=`<div class="simOpts">
      <div class="seg" data-k="prop"><span>Vijak</span><button data-v="D" class="on">desnokretni</button><button data-v="L">lijevokretni</button></div>
      <div class="seg" data-k="side"><span>Obala mi je</span><button data-v="L" class="on">lijevo</button><button data-v="R">desno</button></div>
-     <button class="btn p dGo">Pristani</button><button class="btn dRev">Samo vožnja krmom</button></div>
+     <button class="btn p dGo">Pristani</button><button class="btn dRev">Što radi vožnja krmom?</button></div>
     <svg viewBox="0 0 ${W} ${H}" class="simSvg" role="img" aria-label="Animacija izboja krme"><g>${SIM.water(W,H,'dk')}</g><g class="dDyn"></g></svg>
     <div class="knStepTxt dTxt" aria-live="polite"></div>`;
   const dyn=$('.dDyn',b);
@@ -5288,9 +5309,27 @@ const SIM={
     if(good && window.VB) VB.add(5,'sim_dock');
   }
   function reverse(){
-    const x0=W/2+(side==='L'?40:-40), y0=90; let x=x0,y=y0,h=0;
-    run([{say:`Vožnja krmom s mjesta, kormilo ravno. ${prop==='D'?'Desnokretni':'Lijevokretni'} vijak: krma odlazi <b>${prop==='D'?'ULIJEVO':'UDESNO'}</b>. Kormilo pri vožnji krmom skoro nema učinka.`,
-      d:3600,f:t=>{ h=38*kick()*t*t; const q=h*Math.PI/180; x=x0+(-kick())*70*t*t; y=y0+190*t; draw(x,y,h,{prop:-1}); }}]);
+    // v3: jasna demonstracija u 3 koraka: što je vožnja krmom, kamo bi išla bez izboja, kamo stvarno ode
+    const k=kick(), x0=W/2+(side==='L'?60:-60), y0=70, L=230;
+    const ghost=`<g data-keep-dark="1" opacity=".55"><line x1="${x0}" y1="${y0+30}" x2="${x0}" y2="${y0+L+40}" stroke="#7b828c" stroke-width="1.5" stroke-dasharray="6 5"/>`+
+      `<text x="${x0+(k>0?10:-10)}" y="${y0+L+34}" text-anchor="${k>0?'start':'end'}" font-size="12" fill="#4a5360">bez izboja: ravno natrag</text></g>`;
+    const labels=(x,y,h)=>`<g data-keep-dark="1" transform="translate(${x},${y}) rotate(${h})"><text y="-40" text-anchor="middle" font-size="11" font-weight="700" fill="#1c2430">PRAMAC</text><text y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#1c2430">KRMA</text></g>`;
+    const back=(x,y)=>`<g data-keep-dark="1"><path d="M${x},${y+58} v34" stroke="#1f4e79" stroke-width="2.4" marker-end="url(#rvA)"/><text x="${x+10}" y="${y+84}" font-size="12" fill="#1f4e79">stroj KRMOM: brodica ide unatrag</text>`+
+      `<defs><marker id="rvA" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1f4e79"/></marker><marker id="rvK" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#b3261e"/></marker></defs></g>`;
+    let trail=[];
+    const trailPath=()=>trail.length>1?`<path data-keep-dark="1" d="M${trail.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L')}" stroke="#b3261e" stroke-width="2" fill="none" stroke-dasharray="3 4"/>`:'';
+    let x=x0,y=y0,h=0;
+    run([
+      {say:`<b>1. Što je vožnja krmom?</b> Stroj ide u rikverc i brodica plovi <b>unatrag</b>, krmom naprijed. Ovdje stoji na mjestu, kormilo je ravno.`,d:1800,w:900,
+       f:t=>{ draw(x0,y0,0,{prop:0},labels(x0,y0,0)+back(x0,y0)); }},
+      {say:`<b>2. Da nema izboja</b>, brodica bi išla ravno natrag (siva crtkana linija). Ali vijak koji se vrti unatrag gura krmu u stranu: to je <b>izboj krme</b>.`,d:1600,w:900,
+       f:t=>{ draw(x0,y0,0,{prop:-1},ghost+labels(x0,y0,0)); }},
+      {say:`<b>3. Stvarno:</b> ${prop==='D'?'desnokretni':'lijevokretni'} vijak pri vožnji krmom izbija krmu <b>${prop==='D'?'ULIJEVO':'UDESNO'}</b>, pa se brodica zakreće (crvena putanja). Kormilo pri vožnji krmom skoro nema učinka, zato izboj prevlada.`,
+       d:4200,w:400,f:t=>{ const e=t*t; h=55*k*e; x=x0-k*95*e; y=y0+L*t; const rd=h*Math.PI/180; trail.push([x-30*Math.sin(rd),y+30*Math.cos(rd)]);
+         draw(x,y,h,{prop:-1},ghost+trailPath()+`<path data-keep-dark="1" d="M${x+ (k>0?18:-18)},${y+40} q${-k*26},4 ${-k*44},-4" stroke="#b3261e" stroke-width="2.4" fill="none" marker-end="url(#rvK)"/>`+
+           `<defs data-keep-dark="1"><marker id="rvK" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#b3261e"/></marker></defs>`); }},
+      {say:`<b>Zašto je to važno:</b> kod pristajanja izboj koristiš. ${prop==='D'?'Desnokretnim':'Lijevokretnim'} vijkom pristaješ <b>${prop==='D'?'LIJEVIM':'DESNIM'} bokom</b>: kratko daš krmom i izboj sam privuče krmu uz obalu. Probaj gumb <b>Pristani</b>.`,d:300,f:t=>{}}
+    ]);
   }
   $$('.seg',b).forEach(sg=>sg.addEventListener('click',e=>{ const bt=e.target.closest('button'); if(!bt) return;
     $$('button',sg).forEach(x=>x.classList.toggle('on',x===bt)); if(sg.dataset.k==='prop') prop=bt.dataset.v; else side=bt.dataset.v;
@@ -5573,7 +5612,8 @@ const SIM={
   const area=document.createElement('div'); box.innerHTML=defs; box.appendChild(area);
   const scoreEl=el('distScore');
   function gallery(){
-    area.innerHTML=`<div class="dsGal">${SIG.map(s=>`<button class="dsCard" data-id="${s.id}" type="button">${scene(s)}<span class="dsName">${s.n}</span><span class="dsKind">${s.k}</span></button>`).join('')}</div><div class="dsDet"></div>`;
+    const grp=k=>`<h4 class="dsGrp">${k==='vizualni'?'Vizualni znakovi':'Zvučni znakovi'} <span>(${SIG.filter(s=>s.k===k).length})</span></h4><div class="dsGal">${SIG.filter(s=>s.k===k).map(s=>`<div class="dsCard dsStatic" data-id="${s.id}">${scene(s)}<span class="dsName">${s.n}</span></div>`).join('')}</div>`;
+    area.innerHTML=grp('vizualni')+grp('zvučni')+'<div class="dsDet"></div>'; return;
     $$('.dsCard',area).forEach(c=>c.addEventListener('click',()=>{ const s=SIG.find(x=>x.id===c.dataset.id);
       $$('.dsCard',area).forEach(x=>x.classList.toggle('on',x===c));
       $('.dsDet',area).innerHTML=`<div class="note" style="margin-top:12px"><b>${s.n}</b>${s.d}</div>`; }));
@@ -5602,7 +5642,7 @@ const SIM={
   }
   gallery();
   el('distQuizBtn').addEventListener('click',function(){
-    quiz=!quiz; this.textContent=quiz?'⏹ Natrag na pregled':'▶ Kviz znakova'; this.classList.toggle('p',!quiz);
+    quiz=!quiz; this.textContent=quiz?'Natrag na popis znakova':'Provjeri se'; this.classList.toggle('p',!quiz);
     score={c:0,t:0}; if(scoreEl) scoreEl.textContent='';
     quiz?ask():gallery();
   });
@@ -6206,7 +6246,7 @@ window.VBSrs=(function(){
   const HINT={off:'Vjetar s kopna te odmiče od obale: priđi bliže i pod većim kutom, pa se poravnaj tek uz samu obalu.',
     on:'Vjetar s mora te gura prema obali: stani usporedno s vezom malo dalje od obale i pusti da te vjetar polako primakne.'};
   const THR={'-1':['KRMOM',-8],'0':['STOP',0],'1':['NAPRIJED POLAKO',9],'2':['NAPRIJED',18]};
-  let env='curS', s=null, raf=null, last=0, vis=true, t=0, score=store.get('dockwind',{ok:0,n:0});
+  let env='calm', s=null, raf=null, last=0, vis=true, t=0, score=store.get('dockwind',{ok:0,n:0});
   const reset=()=>{ s={x:470,y:340,h:-25,v:0,thr:0,rud:0,rudA:0,yr:0,trail:[],hold:0,over:false,tt:0,started:false,chk:{}}; };
   const RUD=[-30,-15,0,15,30], SLOW=6, HOLD=1.2, GAP=12; // kormilo u 5 položaja; "stoji" = ispod 0,6 čv nad dnom
   const force=()=>{ const E=ENV[env], m=STR[str][1]; return {cur:[E.cur[0]*m,E.cur[1]*m], wind:[E.wind[0]*m,E.wind[1]*m]}; };
@@ -6219,6 +6259,7 @@ window.VBSrs=(function(){
 
   b.innerHTML=`<h4>Pristani sam: vjetar i struja</h4>
     <p class="dwIntro"><b>Zadatak:</b> dovezi brodicu u <b>žuti okvir VEZ</b> između dviju privezanih brodica i zaustavi je <b>bokom uz obalu</b>, na mjestu prozirne brodice. Pravilo iz poglavlja: prilazi <b>pramcem u vjetar ili struju</b>. Tada te struja koči, kormilo bolje sluša i lakše staneš. Vijak je desnokretni: kad voziš krmom, krma izbija <b>ulijevo</b>.</p>
+    <div class="dwCoach knStepTxt" aria-live="polite"></div>
     <div class="dwEnv seg"><span>Uvjeti</span>${Object.keys(ENV).map(k=>`<button type="button" data-e="${k}"${k===env?' class="on"':''}>${ENV[k].n}</button>`).join('')}</div>
     <div class="dwEnv seg dwStr"><span>Jačina</span>${STR.map((x,i)=>`<button type="button" data-s="${i}"${i===str?' class="on"':''}>${x[0]}</button>`).join('')}</div>
     <div class="dwStage" tabindex="0" aria-label="Simulator pristajanja. Strelice gore i dolje: stroj, lijevo i desno: kormilo, razmak: stop.">
@@ -6254,14 +6295,31 @@ window.VBSrs=(function(){
     const d=drift(), dm=Math.hypot(d[0],d[1]); let fa='';
     if(dm>.2){ const ux=d[0]/dm, uy=d[1]/dm, L=10+dm*5, x0=s.x-ux*(40+L), y0=s.y-uy*(40+L), x1=s.x-ux*40, y1=s.y-uy*40, col=ENV[env].cur[1]?'#7fd8f7':'#f5c542';
       fa=`<g opacity=".95"><line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}" stroke="${col}" stroke-width="3.2" stroke-linecap="round"/><polygon points="${(x1+ux*8).toFixed(1)},${(y1+uy*8).toFixed(1)} ${(x1-uy*6).toFixed(1)},${(y1+ux*6).toFixed(1)} ${(x1+uy*6).toFixed(1)},${(y1-ux*6).toFixed(1)}" fill="${col}"/></g>`; }
-    dyn.innerHTML=tr+fa+SIM.boat(s.x,s.y,s.h,{s:1.6,rud:-s.rudA});
+    dyn.innerHTML=tr+fa+SIM.boat(s.x,s.y,s.h,{s:1.6,rud:-s.rudA}); coach();
     const g=sog(), kn=Math.hypot(g[0],g[1])/10;
     hud.innerHTML=`Stroj <b>${THR[s.thr][0]}</b> · Kormilo <b>${s.rud?Math.abs(s.rud)+'° '+(s.rud>0?'D':'L'):'ravno'}</b> · Brzina nad dnom <b>${kn.toFixed(1).replace('.',',')} čv</b> · Zanošenje <b>${(Math.hypot(...drift())/10).toFixed(1).replace('.',',')} čv</b>`;
     $$('[data-t]',b).forEach(x=>x.classList.toggle('p',+x.dataset.t===s.thr)); $$('[data-r]',b).forEach(x=>x.classList.toggle('on',+x.dataset.r===s.rud));
     // cilj: četiri uvjeta uživo, zeleno kad je ispunjen; traka se puni dok ih držiš
     const c=s.chk, it=(ok,t)=>`<span class="${ok?'ok':''}">${ok?'✓':'○'} ${t}</span>`;
     goal.innerHTML=`<b>Cilj</b>${it(c.berth,'u okviru VEZ')}${it(c.par,'usporedno s obalom')}${it(c.side,'bok uz obalu')}${it(c.slow,'gotovo stoji')}<i class="dwHold"><i style="width:${Math.min(100,s.hold/HOLD*100).toFixed(0)}%"></i></i>`; }
-  function end(ok,html){ s.over=true; score.n++; if(ok){ score.ok++; if(window.VB) VB.widgetOk('dock'); } store.set('dockwind',score);
+  // v3: trener uživo, jedan jasan sljedeći potez
+  let lastTip='';
+  function coach(){ const el2=$('.dwCoach',b); if(!el2) return; let tip;
+    const tx=QX+26, ty=(BERTH[0]+BERTH[1])/2, dx=tx-s.x, dy=ty-s.y, dist=Math.hypot(dx,dy);
+    const brg=(Math.atan2(dx,-dy)*180/Math.PI+360)%360, hn=((s.h%360)+360)%360, off=((brg-hn+540)%360)-180;
+    const g=sog(), kn=Math.hypot(g[0],g[1])/10;
+    if(s.over) tip='';
+    else if(!s.started) tip='<b>Korak 1:</b> klikni <b>Polako</b> (stroj naprijed). Brodica je dolje desno, cilj je žuti okvir <b>VEZ</b> uz obalu lijevo.';
+    else if(s.thr<=0&&kn<.3&&dist>90) tip='<b>Stojiš.</b> Klikni <b>Polako</b> da kreneš prema VEZ-u.';
+    else if(dist>150&&Math.abs(off)>20) tip='<b>Korak 2:</b> okreni pramac prema VEZ-u: kormilo <b>'+(off<0?'◀ lijevo':'desno ▶')+'</b>. Kad pramac gleda prema okviru, vrati kormilo na <b>Ravno</b>.';
+    else if(dist>150) tip='<b>Dobar smjer.</b> Kormilo <b>Ravno</b> i drži <b>Polako</b>. Uspori tek kad budeš blizu.';
+    else if(kn>1.1) tip='<b>Korak 3: previše brzo za pristajanje.</b> Stavi <b>Stop</b>, a ako i dalje klizi, kratko <b>Krmom</b> pa opet <b>Stop</b>.';
+    else if(!s.chk.par) tip='<b>Korak 4: poravnaj se s obalom.</b> Pramac treba gledati gore ili dolje, usporedno s obalom. Malo kormila ('+(((hn>180?hn-360:hn))>0?'◀ lijevo':'desno ▶')+') i lagano <b>Polako</b>.';
+    else if(!s.chk.berth) tip='<b>Poravnat si.</b> Sad polako uđi u žuti okvir: <b>Polako</b> ili kratko <b>Krmom</b>, ovisno gdje si.';
+    else if(!s.chk.side) tip='<b>Skoro:</b> priđi bokom bliže obali (malo kormila prema obali uz <b>Polako</b>).';
+    else tip='<b>Stani:</b> <b>Stop</b> i drži mirno dok se traka ne napuni.';
+    if(tip!==lastTip){ lastTip=tip; el2.innerHTML=tip; el2.style.display=tip?'':'none'; } }
+  function end(ok,html){ s.over=true; coach(); score.n++; if(ok){ score.ok++; if(window.VB) VB.widgetOk('dock'); } store.set('dockwind',score);
     msg.innerHTML=`<div class="nlRes ${ok?'rg':'rb'}">${html}</div><div class="btnrow"><button class="btn p dwReset" type="button">↺ Pokušaj ponovno</button></div><div class="dwSc">Uspješnih pristajanja ${score.ok} od ${score.n}</div>`; }
   function step(dt){ const E=ENV[env];
     const vt=THR[s.thr][1]; s.v+=(vt-s.v)*Math.min(1,dt*.7);
@@ -7870,5 +7928,112 @@ const CARDS=[
 })();
 </script>
 <script>(function(){var b=document.getElementById('themeBtn');if(!b)return;var r=document.documentElement;function u(){b.textContent=r.dataset.theme==='night'?'Dnevni način':'Noćni način'}u();b.onclick=function(){var n=r.dataset.theme==='night';if(n)delete r.dataset.theme;else r.dataset.theme='night';try{localStorage.setItem('vbTheme',n?'day':'night')}catch(e){}u()}})();</script>
+<script>
+/* v3: SVG ilustracije u papirnoj paleti (dnevni način). Noćni način vraća originalne boje. */
+(function(){
+  var root=document.documentElement, content=document.getElementById('content'); if(!content) return;
+  var EXEMPT='[data-keep-dark], #lightStage, .dnBox, .dsCard, #distressWidget';
+  var PROPS=['fill','stroke','stop-color'];
+  function parse(c){
+    if(!c) return null; c=String(c).trim().toLowerCase();
+    var m=c.match(/^#([0-9a-f]{3,8})$/), r,g,b,a=1;
+    if(m){ var h=m[1]; if(h.length<=4){ r=parseInt(h[0]+h[0],16); g=parseInt(h[1]+h[1],16); b=parseInt(h[2]+h[2],16); if(h.length===4)a=parseInt(h[3]+h[3],16)/255; }
+      else { r=parseInt(h.substr(0,2),16); g=parseInt(h.substr(2,2),16); b=parseInt(h.substr(4,2),16); if(h.length===8)a=parseInt(h.substr(6,2),16)/255; } }
+    else { m=c.match(/^rgba?\(([^)]+)\)$/); if(!m) return null; var p=m[1].split(',').map(parseFloat); r=p[0];g=p[1];b=p[2]; a=p.length>3?p[3]:1; }
+    var R=r/255,G=g/255,B=b/255, mx=Math.max(R,G,B), mn=Math.min(R,G,B), L=(mx+mn)/2, d=mx-mn, S=0, H=0;
+    if(d){ S=L>.5?d/(2-mx-mn):d/(mx+mn); H=mx===R?((G-B)/d+(G<B?6:0)):mx===G?((B-R)/d+2):((R-G)/d+4); H*=60; }
+    return {r:r,g:g,b:b,a:a,H:H,S:S,L:L};
+  }
+  function rgba(hex,a){ return a<1? 'rgba('+parseInt(hex.substr(1,2),16)+','+parseInt(hex.substr(3,2),16)+','+parseInt(hex.substr(5,2),16)+','+a+')' : hex; }
+  var INK='#1c2430', INK2='#4a5360', INK3='#7b828c', NAVY='#1f4e79', PAPER='#f6f3ec', PAPER2='#ece6d8', WATER='#dde8ec', WATER2='#c9dbe3', RULE='#b9b09c';
+  function map(val, prop, el){
+    var c=parse(val); if(!c) return null;
+    var isText=/^(text|tspan|textPath)$/i.test(el.tagName);
+    var cool=c.H>=180&&c.H<=250, neutral=c.S<.14;
+    if(isText&&prop==='stroke'&&(c.L>.6||(c.L<.36&&(cool||c.S<.35)))) return rgba(PAPER,c.a);
+    if(prop==='stop-color'&&(c.L<.25||(cool&&c.L<.62))) return rgba(c.L>.4?WATER2:WATER,c.a);
+    // tamno zelene plohe (npr. hladnjak) -> blijedo zelena
+    if(!isText&&prop!=='stroke'&&c.L<.25&&c.S>.3&&c.H>=100&&c.H<180) return rgba('#dcebdf',c.a);
+    // tamne plave/sive UI pozadine i linije
+    if(c.L<.36 && cool && c.S>=.35){
+      if(isText) return rgba(INK,c.a);
+      if(prop==='stroke') return rgba(swd(el)>=1.5?INK:INK3,c.a);
+      if(prop==='stop-color') return rgba(WATER,c.a);
+      if(c.L<.11) return rgba(PAPER,c.a);
+      if(c.L<.2) return rgba(c.S>.5?WATER:PAPER2,c.a);
+      return rgba(WATER2,c.a);
+    }
+    // svijetli hladni tonovi (tekst, crte na tamnom)
+    var sw=parseFloat(el.getAttribute('stroke-width')||(el.style&&el.style.strokeWidth)||1);
+    if(c.L>=.62 && cool && c.S<.75){
+      if(prop==='stroke'&&sw>3) return null;
+      if(isText) return rgba(c.S>.45?NAVY:INK,c.a);
+      if(prop==='stroke') return rgba(c.S>.45?NAVY:INK2,c.a);
+      return null; // svijetle plohe (voda, trup) ostaju
+    }
+    // srednje hladni sivoplavi
+    if(c.L>=.36 && c.L<.62 && cool){
+      if(isText) return rgba(c.S>.55?NAVY:INK2,c.a);
+      if(prop==='stroke') return rgba(c.S>.55?NAVY:INK3,c.a);
+      return rgba(c.S>.55?NAVY:'#9aa3ab',c.a);
+    }
+    // bijeli tekst -> tinta
+    if(isText && c.L>.9) return rgba(INK,c.a);
+    // zasićene svijetle boje: tekst i crte potamni radi kontrasta na papiru
+    if((isText||(prop==='stroke'&&swd(el)<=3)) && c.S>.45 && c.L>.5){
+      if(c.H<20||c.H>=330) return rgba('#b3261e',c.a);
+      if(c.H<50) return rgba('#a4531b',c.a);
+      if(c.H<70) return rgba('#8a6a00',c.a);
+      if(c.H<170) return rgba('#2f6b3a',c.a);
+      if(c.H>=250&&c.H<330) return rgba('#6d4a8a',c.a);
+    }
+    return null;
+  }
+  function swd(el){ var v=el.getAttribute('stroke-width'); if(!v){ var p=el.closest('[stroke-width]'); v=p&&p.getAttribute('stroke-width'); } return parseFloat(v||1); }
+  function styleProp(p){ return p==='stop-color'?'stopColor':p; }
+  function apply(el){
+    PROPS.forEach(function(p){
+      var key='o'+p.replace('-','');
+      if(!(key in el.dataset)){
+        var v=el.getAttribute(p), sv=el.style&&el.style.getPropertyValue(p);
+        el.dataset[key]=(v||'')+'|'+(sv||'');
+      }
+      var parts=el.dataset[key].split('|'), ov=parts[0], osv=parts[1];
+      if(ov){ var n=map(ov,p,el); if(n) el.setAttribute(p,n); }
+      if(osv){ var n2=map(osv,p,el); if(n2) el.style.setProperty(p,n2); }
+    });
+  }
+  function restore(el){
+    PROPS.forEach(function(p){
+      var key='o'+p.replace('-',''); if(!(key in el.dataset)) return;
+      var parts=el.dataset[key].split('|');
+      if(parts[0]) el.setAttribute(p,parts[0]); if(parts[1]) el.style.setProperty(p,parts[1]);
+    });
+  }
+  function run(scope){
+    var night=root.dataset.theme==='night';
+    (scope||content).querySelectorAll('svg *').forEach(function(el){
+      if(el.closest(EXEMPT)) return;
+      if(night) restore(el); else apply(el);
+    });
+  }
+  var queue=[], pending=false;
+  var mo=new MutationObserver(function(ms){
+    ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if(n.nodeType===1) queue.push(n); }); });
+    if(pending) return; pending=true;
+    requestAnimationFrame(function(){
+      pending=false; var q=queue; queue=[];
+      if(root.dataset.theme==='night') return;
+      q.forEach(function(n){ if(!n.isConnected||n.closest(EXEMPT)) return;
+        var list=n.closest('svg')? [n].concat([].slice.call(n.querySelectorAll('*'))) : [].slice.call(n.querySelectorAll('svg *'));
+        list.forEach(function(el){ if(!el.closest(EXEMPT)) apply(el); });
+      });
+    });
+  });
+  function observe(){ mo.observe(content,{childList:true,subtree:true}); }
+  run(); observe();
+  new MutationObserver(function(){ mo.disconnect(); run(); observe(); }).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();
+</script>
 </body>
 </html>
