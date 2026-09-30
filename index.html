@@ -2,12 +2,12 @@
 <html lang="hr">
 <head>
 <meta charset="UTF-8">
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('vbTheme')==='night')document.documentElement.dataset.theme='night'}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Voditelj brodice B: Kompletan interaktivni vodič</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
 :root{
   --bg:#0a1420; --bg2:#0f1e2e; --panel:#132738; --panel2:#18304a;
@@ -82,7 +82,7 @@ section.page.active{display:block}
 }
 #topbar .crumb{font-size:12.5px; color:var(--txt3); letter-spacing:.04em; text-transform:uppercase; font-weight:700}
 #topbar .spacer{flex:1}
-#burger{display:none; background:none;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:6px 10px;cursor:pointer}
+#burger{display:none; background:none;border:1px solid var(--line2);color:var(--txt);border-radius:0;padding:6px 10px;cursor:pointer}
 .progwrap{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--txt2)}
 .progbar{width:130px;height:6px;background:var(--line);border-radius:99px;overflow:hidden}
 .progbar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc));width:0;transition:.4s}
@@ -871,14 +871,145 @@ input[type=date]{background:var(--panel2); border:1px solid var(--line2); color:
   .hero .wave,.hero .bob,.hero .rose,.hero .needle,.hero .shimmer,.glide,.lp,.lin,.wfl,.rdx,.rdy,.ping,.navlink.stag,section.page,.topxp.boost{animation:none!important}
   .fc{transition:none}
 }
+
+/* ================= v3: NAUTIČKI PRIRUČNIK (papir, tinta, bez sjaja) ================= */
+:root{
+  --bg:#f6f3ec; --bg2:#efeadf; --panel:#f6f3ec; --panel2:#efeadf;
+  --line:#d6cfc0; --line2:#b9b09c;
+  --txt:#1c2430; --txt2:#4a5360; --txt3:#7b828c;
+  --acc:#1f4e79; --acc2:#1f4e79;
+  --green:#2f6b3a; --red:#b3261e; --yellow:#8a6a00; --orange:#a4531b;
+  --radius:0px;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --display:var(--serif);
+  --edge:transparent; --edge2:transparent; --shadow-1:none; --shadow-2:none;
+  --panel-grad:var(--panel); --gold:#8a6a00; --xp1:#1c2430; --xp2:#1c2430;
+  --plate:#1c2430;
+}
+:root[data-theme="night"]{
+  --bg:#140b0b; --bg2:#1c1010; --panel:#140b0b; --panel2:#1c1010;
+  --line:#3a2220; --line2:#5a3430;
+  --txt:#e7b7a8; --txt2:#b98a7d; --txt3:#86645b;
+  --acc:#e08c78; --acc2:#e08c78; --green:#9fbf7a; --red:#ff6a5a; --yellow:#d9a84a; --orange:#e08c50;
+  --plate:#0c0606;
+}
+body{background:var(--bg)!important; color:var(--txt); font-family:var(--serif); font-size:17px; line-height:1.6}
+a{color:var(--acc)}
+h1,h2,h3,h4,.ph{font-family:var(--serif)!important; letter-spacing:-.005em; text-shadow:none!important}
+h2.ph,.ph{background:none!important; -webkit-background-clip:border-box!important; background-clip:border-box!important; color:var(--txt)!important}
+.ph .num{font-family:var(--mono)!important; color:var(--red)!important; background:none!important; -webkit-text-fill-color:currentColor!important}
+
+/* UI elementi ostaju sans */
+#sidebar,#topbar,.btn,.chip,.pill,table,.opt,.qmeta,.svgcap,.checklist,.lightlegend,.expl,.note>b,.warn>b,.danger>b,.ok>b,.mnem>b,input,select,button{font-family:var(--sans)}
+
+/* sidebar kao sadržaj knjige */
+#sidebar{background:var(--bg)!important; backdrop-filter:none; box-shadow:none!important; border-right:1px solid var(--line)}
+#sidebar h1{color:var(--txt); text-transform:none; letter-spacing:0; font:700 18px/1.2 var(--serif); padding-top:28px}
+#sidebar .sub{border-bottom:0}
+.navgrp>span{font:600 11px var(--sans); letter-spacing:.08em; color:var(--txt3)}
+#navlist{counter-reset:ch}
+.navlink{counter-increment:ch; color:var(--txt2); border-left:0!important; box-shadow:none!important; font-size:14px}
+.navlink::before{content:counter(ch); font-family:var(--mono); color:var(--txt3); min-width:22px; font-size:13px}
+.navlink .ic{display:none}
+.navlink:hover{background:var(--panel2); color:var(--txt)}
+.navlink.active{background:none; color:var(--txt); font-weight:600}
+.navlink.active::before{color:var(--red)}
+.navlink .dot{background:var(--txt3); width:5px; height:5px}
+.xpbox,.topxp{display:none!important}
+
+#topbar{background:var(--bg)!important; backdrop-filter:none; box-shadow:none!important; border-bottom:2px solid var(--txt)!important}
+.progbar{border-radius:0; height:3px; background:var(--line)}
+.progbar i{background:var(--txt)!important}
+#themeBtn{font:500 12px var(--sans); background:none; border:1px solid var(--line2); color:var(--txt2); padding:4px 10px; cursor:pointer; margin-right:12px}
+
+/* bez kartica, sjena i gradijenata */
+.card,.qcard,details,.checklist.card,.fcside,.plancard{background:var(--panel)!important; border:1px solid var(--line); border-radius:0!important; box-shadow:none!important}
+.card.tight:hover,.ialaCard:hover{transform:none; box-shadow:none!important}
+.stat::after{display:none}
+.stat{border-width:0 0 0 1px!important; text-align:left!important; padding:10px 16px!important}
+.stat .statnum{font-family:var(--mono)!important; font-weight:500!important; font-size:24px!important; letter-spacing:0; background:none!important; -webkit-background-clip:border-box!important; background-clip:border-box!important; color:var(--txt)!important}
+.fcback{background:var(--panel2)!important}
+
+/* napomene: jedan tanki stil, boja samo na naslovu */
+.note,.warn,.ok,.mnem{background:none!important; border:0!important; border-top:1px solid var(--line2)!important; border-radius:0!important; box-shadow:none!important; padding:10px 0 4px!important}
+.danger{background:var(--panel2)!important; border:1.5px solid var(--txt)!important; border-radius:0!important; box-shadow:none!important; padding:14px 18px!important}
+.note b,.warn b,.danger b,.ok b,.mnem b{font-family:var(--sans)!important; font-size:11px!important; font-weight:600!important; letter-spacing:.1em!important}
+.note b{color:var(--acc)!important} .warn b,.mnem b{color:var(--yellow)!important} .danger b{color:var(--red)!important} .ok b{color:var(--green)!important}
+.expl{background:var(--panel2)!important; border-left:3px solid var(--txt)!important; border-radius:0}
+.expl b{color:var(--txt)}
+
+/* tablice kao u priručniku */
+table{box-shadow:none!important; border-collapse:collapse}
+th{background:none!important; color:var(--txt3)!important; font-size:12px; letter-spacing:.06em; text-transform:uppercase; border-bottom:1.5px solid var(--txt)!important}
+td{border-color:var(--line)!important}
+tr:nth-child(even) td{background:none!important}
+
+/* gumbi, čipovi, pilule */
+.btn{background:none!important; border:1px solid var(--line2)!important; color:var(--txt)!important; border-radius:0!important; box-shadow:none!important}
+.btn:hover{background:var(--panel2)!important; border-color:var(--txt)!important}
+.btn.p{background:var(--txt)!important; color:var(--bg)!important; border-color:var(--txt)!important}
+.chip{border-radius:0!important; background:none!important; color:var(--txt2)!important; border-color:var(--line2)!important; box-shadow:none!important}
+.chip.on{background:var(--txt)!important; color:var(--bg)!important; border-color:var(--txt)!important}
+.pill,.ptag{border-radius:0!important; background:none!important; border:1px solid currentColor; font-family:var(--mono)!important; font-weight:500!important}
+.pill.g{color:var(--green)!important} .pill.r{color:var(--red)!important} .pill.y{color:var(--yellow)!important} .pill.b,.ptag{color:var(--acc)!important} .pill.n{color:var(--txt3)!important}
+
+/* kviz */
+.opt{background:none!important; border:1px solid var(--line2)!important; border-radius:0!important; box-shadow:none!important; color:var(--txt)!important}
+.opt:hover:not(:disabled){background:var(--panel2)!important; transform:none}
+.opt.correct{box-shadow:inset 4px 0 0 var(--green)!important; background:var(--panel2)!important}
+.opt.wrong{box-shadow:inset 4px 0 0 var(--red)!important; color:var(--txt3)!important}
+.scorebig{background:none!important; -webkit-background-clip:border-box!important; background-clip:border-box!important; font-family:var(--mono)!important}
+
+/* hero bez ilustracije */
+.hero{background:none!important; border:0!important; border-bottom:1px solid var(--line)!important; box-shadow:none!important; border-radius:0!important; height:auto!important; min-height:0!important; max-height:none!important; margin-bottom:20px}
+.hero svg.heroart{display:none}
+.hero .herotxt{padding:28px 0 22px!important; max-width:680px}
+.hero .lede{color:var(--txt2)!important; text-shadow:none!important; font-size:19px!important}
+.hero h2.ph{font-size:clamp(32px,4.4vw,46px)!important}
+
+/* ilustracije: tamna ploča kao ekran plotera, s vlastitim tamnim tokenima */
+.svgbox,.night{background:var(--plate)!important; border:0!important; border-radius:0!important; box-shadow:none!important;
+  --txt:#e6eef5; --txt2:#9fb6c9; --txt3:#6d8ba3; --line:#2b3746; --line2:#3a4a5c; --acc:#7fb8e0; --panel:#232d3a; --panel2:#2a3544; color:#e6eef5}
+.svgcap{font-style:normal; color:#9fb6c9}
+.svgbox .btn{color:#e6eef5!important; border-color:#3a4a5c!important}
+.svgbox .chip{color:#9fb6c9!important; border-color:#3a4a5c!important}
+.svgbox .chip.on,.svgbox .btn.p{background:#e6eef5!important; color:#1c2430!important}
+
+.timeline{border-left-color:var(--txt)}
+.tl::before{border-radius:0; background:var(--txt); border-color:var(--bg); width:9px; height:9px; left:-28px; top:8px}
+.tl .when{color:var(--red); font-family:var(--mono); font-weight:500}
+.checklist input{accent-color:var(--txt)}
+.checklist label:hover{color:var(--txt)}
+.sg{color:var(--txt)}
+.sgtrack b.on{box-shadow:none}
+@media(max-width:860px){#sidebar{box-shadow:0 0 0 1px var(--line)!important}}
+strong{color:var(--txt)!important; font-weight:650}
+.svgbox strong{color:#fff!important}
+.wBfB.on{color:var(--bg)!important;background:var(--txt)!important}
+.knSteps li.done::before{color:var(--bg)}
+.badges{gap:0!important; border-top:1px solid var(--line)}
+.badge{border-radius:0!important; border:0!important; border-bottom:1px solid var(--line)!important; background:none!important; box-shadow:none!important; padding:10px 12px 10px 0!important}
+.badge .bic{display:none!important}
+.badge h5{font-family:var(--sans)!important; font-size:14px}
+.badge.locked{filter:none!important; opacity:1!important}
+.badge.locked h5{color:var(--txt3)}
+.badge.won h5{color:var(--txt)!important}
+.badge.won h5::before{content:"¹3  "; color:var(--green)}
+.toast{background:var(--txt)!important; color:var(--bg)!important; border:0!important; border-radius:0!important; box-shadow:none!important; font-family:var(--sans)}
+.toast .tic{display:none}
+.toast b{color:var(--bg)!important; opacity:.7; font-family:var(--sans)!important}
+.toast span{font-family:var(--sans)!important}
+@media print{:root{--bg:#fff; --panel:#fff}}
 </style>
 </head>
 <body>
 <noscript><div style="position:relative;z-index:99;margin:12px;padding:12px 14px;border-radius:10px;background:#3a2a0a;color:#ffe3a3;border:1px solid #f2c14e;font:15px/1.45 system-ui,sans-serif">Ovaj pregled ne pokreće JavaScript, pa vidiš samo tekst. Za izbornik, kvizove i vježbe otvori datoteku u pregledniku (Chrome, Safari, Firefox).</div></noscript>
 <div id="app">
 <nav id="sidebar">
-  <h1>⚓ Voditelj brodice B</h1>
-  <div class="sub">Kompletan interaktivni vodič za ispit</div>
+  <h1>Voditelj brodice B</h1>
+  <div class="sub">priručnik za ispit u lučkoj kapetaniji</div>
   <div class="xpbox" id="xpBox" title="XP: poglavlje +20 · točno pitanje +5 · kartica „znam“ +10 · checklista +5 · widget kviz +5">
     <div class="xprow"><div class="lvl" id="xpLvl"><b>0</b></div>
       <div style="min-width:0"><div class="xpname" id="xpName">Kandidat</div><div class="xpsub" id="xpSub">0 XP</div></div></div>
@@ -893,6 +1024,7 @@ input[type=date]{background:var(--panel2); border:1px solid var(--line2); color:
     <span class="crumb" id="crumb">Početna</span>
     <span class="spacer"></span>
     <div class="topxp" id="topXp" title="Iskustvo (XP)"><span class="lvmini" id="topLvl">Lv 0</span><span id="topXpTxt">0 XP</span><div class="xpbar"><i id="topXpBar"></i></div></div>
+    <button id="themeBtn" type="button">Noćni način</button>
     <div class="progwrap">
       <span id="progtxt">0 / 16</span>
       <div class="progbar"><i id="progbar"></i></div>
@@ -960,7 +1092,7 @@ input[type=date]{background:var(--panel2); border:1px solid var(--line2); color:
 </div>
 </div>
 
-<div class="danger" style="margin-bottom:22px"><b>⚠️ Pročitaj prije nego kreneš učiti iz skripti</b>
+<div class="danger" style="margin-bottom:22px"><b>Pročitaj prije nego kreneš učiti iz skripti</b>
 Skripte koje kruže internetom (Diverso, Brodocentar i druge) pisane su prema <strong>starijim propisima</strong>. U ožujku 2025. stupio je na snagu novi <strong>Pravilnik o sigurnosti pomorske plovidbe (NN 52/2025)</strong> koji je promijenio <strong>udaljenosti od obale</strong> (sada po duljini plovila, ne po tipu) i <strong>ograničenja brzine</strong> (jedinstvenih 8 čvorova do 300 m, umjesto 5/8).<br>
 U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</span> i <span class="pill n">STARO: iz skripti</span>. Detalji u poglavlju <em>Propisi i plovila</em>.</div>
 
@@ -972,7 +1104,7 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 </div>
 
 <h3>Tvoj napredak</h3>
-<p style="color:var(--txt2);font-size:14px;margin-bottom:4px">XP skupljaš čitanjem poglavlja, kvizom, karticama, checklistama i vježbama u widgetima. Značke se otključavaju same.</p>
+<p style="color:var(--txt2);font-size:14px;margin-bottom:4px">Napredak se bilježi sam: čitanje poglavlja, kviz, kartice, checkliste i vježbe.</p>
 <div class="badges" id="badgeGrid"></div>
 <div class="btnrow" style="align-items:center"><button class="btn" id="xpReset" type="button">↺ Resetiraj sav napredak</button>
 <span id="xpResetMsg" style="font-size:13px;color:var(--txt2)">Briše XP, level, značke, pročitana poglavlja, checkliste, plan učenja i rezultate vježbi.</span></div>
@@ -1106,7 +1238,7 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 <li>Ako imaš vremena, kupi <b>dva navigacijska trokuta i šestar</b> (~15 €) i jednu <b>HHI kartu Jadrana</b>. Na ispitu se radi na pravoj karti (Stol 1, eliminacijski).</li>
 <li>Ništa drugo ne trebaš pripremiti.</li>
 </ul>
-<div class="btnrow"><button class="btn p kuGo" data-go="p-start" data-to="planCard" type="button">📅 Otvori plan učenja ›</button></div>
+<div class="btnrow"><button class="btn p kuGo" data-go="p-start" data-to="planCard" type="button">Otvori plan učenja ›</button></div>
 </div></div>
 
 <div class="kuStep"><div class="kuN">2</div><div class="kuB">
@@ -1147,7 +1279,7 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 <li><b>2 do 3 dana prije ispita:</b> svaki dan Simulacija ispita (3 stola). Cilj: <b>PROLAZ dva puta zaredom</b>.</li>
 <li><b>Dan prije:</b> Checklista pred ispit. Ništa novo ne učiš.</li>
 </ul>
-<div class="btnrow"><button class="btn p kuGo" data-go="p-kviz" data-exam="1" type="button">🎓 Pokreni simulaciju ispita ›</button><button class="btn kuGo" data-go="p-check" type="button">📋 Checklista ›</button></div>
+<div class="btnrow"><button class="btn p kuGo" data-go="p-kviz" data-exam="1" type="button">Pokreni simulaciju ispita ›</button><button class="btn kuGo" data-go="p-check" type="button">📋 Checklista ›</button></div>
 </div></div>
 </div>
 
@@ -1178,7 +1310,7 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 <p>Klikni bilo gdje po karti: pokazat će ti se točne koordinate i kako se čitaju. Zatim uključi <strong>način vježbe</strong> i pogađaj.</p>
 <div class="card">
   <div class="btnrow">
-    <button class="btn p" id="chartModeBtn">▶ Način vježbe</button>
+    <button class="btn p" id="chartModeBtn">Način vježbe</button>
     <button class="btn" id="chartNewBtn" style="display:none">Nova točka</button>
     <span id="chartScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span>
   </div>
@@ -1339,7 +1471,7 @@ Razlikuju se za <strong>180°</strong>.</div>
 <h3>Interaktivno: prepoznaj oznaku</h3>
 <p>Klikni na oznaku za detalje. Zatim uključi kviz i provjeri se.</p>
 <div class="card">
-  <div class="btnrow"><button class="btn p" id="ialaQuizBtn">▶ Kviz oznaka</button><span id="ialaScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span></div>
+  <div class="btnrow"><button class="btn p" id="ialaQuizBtn">Kviz oznaka</button><span id="ialaScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span></div>
   <div id="ialaWidget"></div>
 </div>
 
@@ -1413,7 +1545,7 @@ Ista logika vrijedi i za <strong>lučka svjetla</strong> na ulazu u luku: gledan
 <p>Odaberi tip broda i kut gledanja: vidjet ćeš točno ono što bi vidio noću. Uključi <strong>kviz</strong> i pogađaj.</p>
 <div class="card">
   <div class="btnrow">
-    <button class="btn p" id="lightQuizBtn">▶ Kviz svjetala</button>
+    <button class="btn p" id="lightQuizBtn">Kviz svjetala</button>
     <span id="lightScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span>
   </div>
   <div id="lightControls"></div>
@@ -1690,7 +1822,7 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 
 <h3>⚙️ Animacija: četiri takta</h3>
 <div class="card">
-<div class="btnrow"><button class="btn p" id="engBtn">▶ Pokreni</button>
+<div class="btnrow"><button class="btn p" id="engBtn">Pokreni</button>
 <button class="btn" id="engType">Prebaci na dvotaktni</button></div>
 <div class="svgbox"><div id="engineStage"></div></div>
 <div id="engineInfo"></div>
@@ -1851,7 +1983,7 @@ Voditelj je dužan prijaviti i <em>svako uočeno</em> onečišćenje mora, ne sa
 <h2 class="ph"><span class="num">PREDMET 3 · DIO A</span>Pomorstvo i propisi</h2>
 <p class="lede">Definicije plovila, područja plovidbe, isprave, pregledi i pravila plovidbe uz obalu. Ovdje su i najveće razlike između starih skripti i <strong>važećih propisa iz 2025.</strong> Pročitaj upozorenja pažljivo.</p>
 
-<div class="danger"><b>⚠️ Propisi su se promijenili: čitaj obje verzije</b>
+<div class="danger"><b>Propisi su se promijenili: čitaj obje verzije</b>
 Skripte koje kruže internetom (uključujući Diverso i Brodocentar) pisane su prema starijim propisima. U ožujku 2025. stupio je na snagu <strong>novi Pravilnik o sigurnosti pomorske plovidbe (NN 52/2025)</strong> koji je <strong>bitno promijenio udaljenosti od obale i ograničenja brzine</strong>.<br><br>
 Kod svake takve stavke ispod naći ćeš <span class="pill g">VAŽEĆE 2026</span> i <span class="pill n">STARO: iz skripti</span>. Na ispitu <strong>reci važeću verziju</strong>; ako ispitivač inzistira na staroj, znaj i nju.</div>
 
@@ -2304,7 +2436,7 @@ Ako ni to ne uspije: <strong>naređuje napuštanje brodice</strong> i traži pom
 <h3>🚨 Vježba: znakovi pogibelji</h3>
 <p>Prepoznaj svaki znak pogibelji (popis iz poglavlja <a href="#p-signali">Zvučni signali</a>). Klikni prizor za opis, pa uključi kviz: nekad vidiš prizor i biraš značenje, nekad biraš prizor za zadano značenje.</p>
 <div class="card">
-  <div class="btnrow"><button class="btn p" id="distQuizBtn" type="button">▶ Kviz znakova</button><span id="distScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span></div>
+  <div class="btnrow"><button class="btn p" id="distQuizBtn" type="button">Kviz znakova</button><span id="distScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span></div>
   <div id="distressWidget"></div>
 </div>
 
@@ -2626,9 +2758,9 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
 <h4>Odaberi teme</h4>
 <div class="chips" id="quizTopics"></div>
 <div class="btnrow">
-  <button class="btn p" id="quizStart">▶ Pokreni kviz</button>
-  <button class="btn" id="quizExam">🎓 Simulacija ispita (3 stola)</button>
-  <button class="btn" id="quizHard">🔥 Samo trik-pitanja</button>
+  <button class="btn p" id="quizStart">Pokreni kviz</button>
+  <button class="btn" id="quizExam">Simulacija ispita (3 stola)</button>
+  <button class="btn" id="quizHard">Samo trik-pitanja</button>
 </div>
 </div>
 <div id="quizArea"></div>
@@ -2641,7 +2773,7 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
 <p class="lede">Klikni karticu da je okreneš. Označi znaš / ne znaš: one koje ne znaš vraćaju se u špil.</p>
 <div class="card">
 <div class="chips" id="cardTopics"></div>
-<div class="btnrow"><button class="btn p" id="cardStart">▶ Pokreni</button><button class="btn" id="cardShuffle">🔀 Promiješaj</button></div>
+<div class="btnrow"><button class="btn p" id="cardStart">Pokreni</button><button class="btn" id="cardShuffle">🔀 Promiješaj</button></div>
 </div>
 <div id="cardArea"></div>
 </section>
@@ -2873,7 +3005,7 @@ window.VB=(function(){
     const before=level(xp);
     xp+=n; S.set('xp',xp); render(true,n);
     const after=level(xp);
-    if(after>before) toast('⚓','Novi level '+after,LEVELS[after][1]);
+    if(false&&after>before) toast('⚓','Novi level '+after,LEVELS[after][1]);
     return true;
   }
   /* toast: max 1 istovremeno, ostali čekaju u redu */
@@ -3496,7 +3628,7 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
   }
   b.innerHTML=`<div class="secsvg"></div>
     <div class="secctl" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;text-align:left">
-      <button class="btn p" type="button">▶ Obiđi brod</button>
+      <button class="btn p" type="button">Obiđi brod</button>
       <input type="range" min="0" max="359" step="1" value="${brg}" aria-label="Položaj promatrača u stupnjevima od pramca" style="flex:1;min-width:180px;accent-color:var(--acc)">
     </div>
     <div class="secinfo" style="text-align:left;margin-top:10px;font-size:14px"></div>`;
@@ -3947,7 +4079,7 @@ const COLREG=[
   $$('.crchip').forEach(c=>c.addEventListener('click',()=>{idx=+c.dataset.i;solved=false;show();}));
   el('colregSolve').addEventListener('click',()=>{solved=true;show();});
   el('colregNext').addEventListener('click',()=>{idx=(idx+1)%COLREG.length;solved=false;show();});
-  el('colregNext').insertAdjacentHTML('afterend','<button class="btn" id="colregView" type="button" aria-pressed="false">🧭 Pogled s mog broda</button>');
+  el('colregNext').insertAdjacentHTML('afterend','<button class="btn" id="colregView" type="button" aria-pressed="false">Pogled s mog broda</button>');
   el('colregView').addEventListener('click',function(){ myView=!myView; this.classList.toggle('p',myView); this.setAttribute('aria-pressed',myView); show(); });
   show();
 })();
@@ -5042,7 +5174,7 @@ const SIM={
   b.innerHTML=`<div class="simOpts">
      <div class="seg" data-k="prop"><span>Vijak</span><button data-v="D" class="on">desnokretni</button><button data-v="L">lijevokretni</button></div>
      <div class="seg" data-k="side"><span>Obala mi je</span><button data-v="L" class="on">lijevo</button><button data-v="R">desno</button></div>
-     <button class="btn p dGo">▶ Pristani</button><button class="btn dRev">Samo vožnja krmom</button></div>
+     <button class="btn p dGo">Pristani</button><button class="btn dRev">Samo vožnja krmom</button></div>
     <svg viewBox="0 0 ${W} ${H}" class="simSvg" role="img" aria-label="Animacija izboja krme"><g>${SIM.water(W,H,'dk')}</g><g class="dDyn"></g></svg>
     <div class="knStepTxt dTxt" aria-live="polite"></div>`;
   const dyn=$('.dDyn',b);
@@ -5092,7 +5224,7 @@ const SIM={
   let D=6, bad=false, anim=null;
   b.innerHTML=`<div class="simOpts"><label class="simRange">Dubina <input type="range" min="2" max="12" step="1" value="6" class="aD"><b class="aDv">6 m</b></label>
     <div class="seg" data-k="w"><span>Vrijeme</span><button data-v="0" class="on">lijepo</button><button data-v="1">loše</button></div>
-    <button class="btn p aGo">▶ Usidri</button></div>
+    <button class="btn p aGo">Usidri</button></div>
     <svg viewBox="0 0 ${W} ${H}" class="simSvg" role="img" aria-label="Animacija sidrenja"><g class="aDyn"></g></svg>
     <div class="knStepTxt aTxt" aria-live="polite"></div>`;
   const dyn=$('.aDyn',b);
@@ -5184,7 +5316,7 @@ const SIM={
   const N=10; let q=[], i=0, ok=0, t0=0, mode='l2w';
   b.innerHTML=`<div class="nlTabs"><button class="knTab on" data-m="l2w">Slovo → riječ</button><button class="knTab" data-m="w2l">Riječ → slovo</button></div>
     <div class="phBox"><div class="phQ" aria-live="polite"></div><input class="phIn" autocomplete="off" spellcheck="false" placeholder="upiši i Enter"><div class="phFb"></div></div>
-    <div class="phBar"></div><div class="btnrow"><button class="btn p phGo">▶ Novi krug (10)</button></div>`;
+    <div class="phBar"></div><div class="btnrow"><button class="btn p phGo">Novi krug (10)</button></div>`;
   const inp=$('.phIn',b);
   function show(){ const L=q[i]; $('.phQ',b).innerHTML=mode==='l2w'?`<span class="phBig">${L}</span>`:`<span class="phBig w">${MAIN[L]}</span>`;
     $('.phBar',b).innerHTML=q.map((_,k)=>`<i class="${k<i?'d':''} ${k===i?'c':''}"></i>`).join(''); inp.value=''; inp.focus({preventScroll:true}); }
@@ -5537,7 +5669,7 @@ window.VBExam=(function(){
       <p style="margin:6px 0 12px">Kao na pravom ispitu: tri ispitivača, jedan po jedan. Na svakom stolu treba <b>80 % točnih</b>. <b>Stol 1 je eliminacijski</b>: ako na njemu padneš, pao je cijeli ispit.</p>
       ${S.strict?`<div class="exStrict"><b>Strogo kao na ispitu.</b> Nema povratne informacije dok ne završiš stol. Vrijeme po stolu: <b>10, 7 i 6 min</b>. Kad vrijeme istekne, neodgovorena pitanja broje se kao netočna.</div>`:''}
       <div class="exTables">${TABLES.map(t=>`<div class="exT"><span class="pill ${t.n===1?'r':t.n===2?'y':'b'}">${t.tag}</span><h4>Stol ${t.n} · ${t.name}</h4><p>${t.d}</p><p class="exN">${t.q} pitanja${t.chart?` + ${t.chart} zadatka na karti`:''}${S.strict?` · ${LIMIT[t.n-1]} min`:''}</p></div>`).join('')}</div>
-      <div class="btnrow"><button class="btn p" id="exGo" type="button">▶ Sjedni za Stol 1</button></div></div>`;
+      <div class="btnrow"><button class="btn p" id="exGo" type="button">Sjedni za Stol 1</button></div></div>`;
     el('exGo').addEventListener('click',()=>table(0)); }
   function table(t){ S.t=t; S.i=0; const T=TABLES[t]; S.items=pick(T).concat(T.chart?chartItems():[]); S.t0=Date.now();
     stopTick(); if(S.strict){ const end=S.t0+LIMIT[t]*60000;
@@ -5638,9 +5770,9 @@ window.VBExam=(function(){
     $$('[data-go]',area).forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); go(a.dataset.go); }));
     renderLast(); }
   function renderLast(){ const box=el('examSimLast'); if(!box) return; const st=store.get('examsim',{});
-    if(!st.last){ box.innerHTML=`<div class="exLast"><span>🎓 Simulacija ispita (3 stola) još nije odrađena.</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Pokreni u Kvizu ›</a><button class="btn exStrictGo" type="button">🎓 Režim ispita</button></span></div>`; }
+    if(!st.last){ box.innerHTML=`<div class="exLast"><span>🎓 Simulacija ispita (3 stola) još nije odrađena.</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Pokreni u Kvizu ›</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
     else { const L=st.last, B=st.best;
-      box.innerHTML=`<div class="exLast"><span>🎓 Zadnja simulacija: <b class="mono">${L.ok}/${L.n}</b>, <b style="color:var(${L.pass?'--green':'--red'})">${L.pass?'PROLAZ':'PAD'}</b>${L.elim?' (Stol 1)':''}${L.strict?' <span class="pill y">režim ispita</span>':''} · najbolja ${B.ok}/${B.n}</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Nova simulacija ›</a><button class="btn exStrictGo" type="button">🎓 Režim ispita</button></span></div>`; }
+      box.innerHTML=`<div class="exLast"><span>🎓 Zadnja simulacija: <b class="mono">${L.ok}/${L.n}</b>, <b style="color:var(${L.pass?'--green':'--red'})">${L.pass?'PROLAZ':'PAD'}</b>${L.elim?' (Stol 1)':''}${L.strict?' <span class="pill y">režim ispita</span>':''} · najbolja ${B.ok}/${B.n}</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Nova simulacija ›</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
     $$('[data-go]',box).forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); go(a.dataset.go); if(a.dataset.go==='p-kviz') setTimeout(start,0); }));
     $$('.exStrictGo',box).forEach(b=>b.addEventListener('click',()=>{ go('p-kviz'); setTimeout(()=>start({strict:true}),0); })); }
   document.addEventListener('DOMContentLoaded',renderLast); if(document.readyState!=='loading') setTimeout(renderLast,0);
@@ -5910,7 +6042,7 @@ window.VBSrs=(function(){
 
   /* ── 1. čuj i prepoznaj ── */
   function hear(){ done=false; cur=rnd(SIG); const opts=shuffle([cur].concat(shuffle(SIG.filter(s=>s!==cur)).slice(0,3)));
-    body.innerHTML=`<div class="sqGrid"><div class="sqStage">${hornSvg}<div class="sqLive" aria-live="polite"></div><button class="btn sqPlay" type="button">▶ Pusti ponovno</button></div>
+    body.innerHTML=`<div class="sqGrid"><div class="sqStage">${hornSvg}<div class="sqLive" aria-live="polite"></div><button class="btn sqPlay" type="button">Pusti ponovno</button></div>
       <div><p class="sqQ">Što znači ovaj signal?</p>${opts.map(o=>`<button class="opt sqOpt" data-i="${SIG.indexOf(o)}" type="button">${o[1]}</button>`).join('')}<div class="sqFb"></div></div></div>`;
     const go=()=>{ const live=$('.sqLive',b); live.innerHTML=''; play(cur[2],(i,on,u)=>{ waves(on); if(on) live.insertAdjacentHTML('beforeend',`<i class="${u===1?'':'l'}"></i>`); }); };
     $('.sqPlay',b).addEventListener('click',go);
@@ -5962,7 +6094,7 @@ window.VBSrs=(function(){
     $$('.knTab',$('.sqTabs',b)).forEach(x=>x.classList.toggle('on',x===t)); ({hear,blow,fog})[mode](); });
   $('.sqRealCb',b).addEventListener('change',e=>{ real=e.target.checked; if(mode==='blow') blow(); });
   // prvi prikaz bez automatskog zvuka (preglednik ga ionako blokira prije klika)
-  body.innerHTML=`<div class="sqIntro"><p>Signal se pusti, a ti biraš značenje. Ili dobiješ značenje i sam zatrubiš. Zvuk kreće tek na tvoj klik.</p><button class="btn p sqStart" type="button">▶ Počni</button> ${sc()}</div>`;
+  body.innerHTML=`<div class="sqIntro"><p>Signal se pusti, a ti biraš značenje. Ili dobiješ značenje i sam zatrubiš. Zvuk kreće tek na tvoj klik.</p><button class="btn p sqStart" type="button">Počni</button> ${sc()}</div>`;
   $('.sqStart',b).addEventListener('click',hear);
 })();
 
@@ -6012,7 +6144,7 @@ window.VBSrs=(function(){
       <div class="dwHud mono" aria-live="off"></div></div>
     <div class="dwGoal" aria-live="off"></div>
     <div class="dwCtl">
-      <div class="dwGrp"><span>Stroj</span><button class="btn" data-t="-1" type="button">◀◀ Krmom</button><button class="btn" data-t="0" type="button">■ Stop</button><button class="btn" data-t="1" type="button">▶ Polako</button><button class="btn" data-t="2" type="button">▶▶ Naprijed</button></div>
+      <div class="dwGrp"><span>Stroj</span><button class="btn" data-t="-1" type="button">◀◀ Krmom</button><button class="btn" data-t="0" type="button">■ Stop</button><button class="btn" data-t="1" type="button">Polako</button><button class="btn" data-t="2" type="button">▶▶ Naprijed</button></div>
       <div class="dwGrp"><span>Kormilo</span>${RUD.map(r=>`<button class="btn" data-r="${r}" type="button">${r<0?`◀ ${-r}°`:r>0?`${r}° ▶`:'● Ravno'}</button>`).join('')}</div>
       <button class="btn dwReset" type="button">↺ Ispočetka</button></div>
     <div class="dwKeys">⌨ Tipkovnica (klikni na lučicu): <kbd>↑</kbd> <kbd>↓</kbd> stroj · <kbd>←</kbd> <kbd>→</kbd> kormilo · <kbd>razmak</kbd> stop. Kormilo lijevo okreće pramac ulijevo.</div>
@@ -7655,5 +7787,6 @@ const CARDS=[
   }
 })();
 </script>
+<script>(function(){var b=document.getElementById('themeBtn');if(!b)return;var r=document.documentElement;function u(){b.textContent=r.dataset.theme==='night'?'Dnevni način':'Noćni način'}u();b.onclick=function(){var n=r.dataset.theme==='night';if(n)delete r.dataset.theme;else r.dataset.theme='night';try{localStorage.setItem('vbTheme',n?'day':'night')}catch(e){}u()}})();</script>
 </body>
 </html>
