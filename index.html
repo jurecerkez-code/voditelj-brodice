@@ -1001,6 +1001,88 @@ strong{color:var(--txt)!important; font-weight:650}
 .toast .tic{display:none}
 .toast b{color:var(--bg)!important; opacity:.7; font-family:var(--sans)!important}
 .toast span{font-family:var(--sans)!important}
+/* ---- v3 audit: preostali widgeti ---- */
+table,code,kbd,input,select,.seg,.srsBox,.phBox,.knI,.knTab,.ordItem,.knStepTxt,.nlTask,.nlHandTip,.nlHandStat,.nlChart,.slWrap,.dwStage,.wSea,.knStage,.osOral,.knSteps li,.knTag,.mdRadio,.dnToggle,.osOralBtn{border-radius:0!important}
+code{background:var(--panel2)!important; color:var(--txt)!important}
+kbd{background:none!important; border-color:var(--line2)!important; border-bottom-width:1px!important}
+select,input[type=text],input[type=number],input[type=date]{background:var(--bg)!important; border:1px solid var(--line2)!important; color:var(--txt)!important; color-scheme:light; font-family:var(--sans)}
+:root[data-theme="night"] select,:root[data-theme="night"] input{color-scheme:dark}
+
+/* usmeni ispit */
+.osBox{background:none!important; border:0!important; border-top:2px solid var(--txt)!important; border-radius:0!important; padding:12px 0 8px!important}
+.osOralBtn{background:none!important; border:1px solid var(--txt)!important; color:var(--txt)!important; font-family:var(--sans)!important}
+.osOralBtn:hover,.osOralBtn[aria-expanded="true"]{background:var(--txt)!important; color:var(--bg)!important}
+.osOral{background:var(--panel2)!important}
+.osOralHead b{color:var(--red)!important}
+
+/* tabovi, koraci, info */
+.knTab{background:none!important; border:1px solid var(--line2)!important; color:var(--txt2)!important; font-family:var(--sans)!important}
+.knTab.on{background:var(--txt)!important; border-color:var(--txt)!important; color:var(--bg)!important}
+.knTab.on small{color:var(--bg)!important; opacity:.7}
+.knStepTxt,.nlTask{background:none!important; border:0!important; border-left:3px solid var(--txt)!important; padding:4px 0 4px 14px!important}
+.knStepTxt span{color:var(--red)!important}
+.knSteps li.on{background:var(--panel2)!important; color:var(--txt)!important}
+.knSteps li::before{border-radius:0!important}
+.knSteps li.done::before{background:var(--txt)!important; border-color:var(--txt)!important}
+.knSteps li.on::before{border-color:var(--txt)!important; color:var(--txt)!important}
+.knI{background:none!important; border:0!important; border-top:1px solid var(--line)!important; padding:8px 0!important}
+.knI.warnI h5{color:var(--yellow)!important}
+.nlHandTip{background:none!important; border:1px dashed var(--line2)!important}
+.nlHandStat{background:none!important}
+.nlChart,.slWrap{box-shadow:none!important; border-color:var(--line2)!important}
+.slId{background:var(--txt)!important; color:var(--bg)!important; border-color:var(--bg)!important; border-radius:0!important}
+.srsBox,.srsBox.due{background:none!important; border:1px solid var(--line2)!important}
+.phBox{background:var(--panel2)!important; border:0!important}
+.seg span{background:var(--panel2)!important}
+.seg button.on{background:var(--txt)!important; color:var(--bg)!important}
+.ordItem{background:none!important; border:1px solid var(--line2)!important; font-family:var(--sans)!important}
+.ordItem.dn{background:var(--panel2)!important; border-color:var(--green)!important}
+
+/* scene widgeti = tamna ploča */
+.knStage,.dwStage{background:var(--plate)!important; border:0!important;
+  --txt:#e6eef5; --txt2:#9fb6c9; --txt3:#6d8ba3; --line:#2b3746; --line2:#3a4a5c; --acc:#7fb8e0; --panel2:#2a3544; color:#e6eef5}
+.knStage .btn,.dwStage .btn{color:#e6eef5!important; border-color:#3a4a5c!important}
+.knTag{color:#e6eef5!important; border-color:#6d8ba3!important}
+.dnToggle{background:var(--plate)!important; box-shadow:none!important}
+.dnToggle button.on{background:#e6eef5!important; color:#1c2430!important}
+
+/* kartice: sigurnost, meteo, vodič učenja */
+.dsCard,.wCard{background:none!important; border-radius:0!important; box-shadow:none!important; border:1px solid var(--line2)!important}
+.wCard{border-top:3px solid var(--wc)!important}
+.dsCard:hover,.wCard:hover{transform:none!important; border-color:var(--txt)!important}
+.dsCard.on,.wCard.on{box-shadow:inset 0 0 0 1px var(--txt)!important; border-color:var(--txt)!important}
+.dsCard.correct{box-shadow:inset 4px 0 0 var(--green)!important} .dsCard.wrong{box-shadow:inset 4px 0 0 var(--red)!important}
+.wBfB{border-radius:0!important; background:linear-gradient(0deg,var(--line2) 0,var(--line2) var(--h),transparent var(--h))!important; color:var(--txt2)!important; font-family:var(--mono)!important}
+.wBfB.on{background:linear-gradient(0deg,var(--txt) 0,var(--txt) var(--h),transparent var(--h))!important; color:var(--txt)!important; border-color:var(--txt)!important}
+.kuStep{background:none!important; border:0!important; border-top:1px solid var(--line)!important; border-radius:0!important; box-shadow:none!important; padding:16px 0!important}
+.kuN{background:none!important; box-shadow:none!important; border-radius:0!important; color:var(--red)!important; font:500 22px var(--mono)!important; width:auto!important; height:auto!important; place-items:start!important}
+
+/* VHF radio zaslon ostaje LCD, ali ravno */
+.mdRadio{box-shadow:none!important; background:#12301d!important}
+.mEng,.mRud{border-radius:0!important}
+.sgtrack{background:var(--line)!important; border-radius:0!important}
+.sgtrack b{background:var(--line2)!important; border-radius:0!important}
+.sgtrack b.on{background:var(--txt)!important}
+.sgtrack em{background:var(--red)!important}
+.svgbox .knTab.on,.knStage .knTab.on,.night .knTab.on{color:#1c2430!important} .svgbox .knTab.on small{color:#1c2430!important}
+@media(max-width:600px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))} #ialaWidget .g4{grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px} #ialaWidget .ialaCard{padding:6px 2px!important; margin:0} #ialaWidget .ialaCard svg{height:110px!important}}
+.dwGoal span{border-radius:0!important}
+#content *:not(i):not(.swatch):not(input[type=radio]):not(input[type=range]){border-radius:0!important; text-shadow:none!important}
+.exVerdict{font-size:26px!important; letter-spacing:.02em!important; font-family:var(--serif)}
+.pday.today{border:1.5px solid var(--txt)!important; box-shadow:none!important} .pday.past:not(.done){border-color:var(--yellow)!important}
+.xpbar{height:3px!important; background:var(--line)!important; box-shadow:none!important} .xpbar i{background:var(--txt)!important; box-shadow:none!important}
+.pday{background:none!important; border:1px solid var(--line2)!important}
+.pday .plinks a{border-bottom-color:var(--line2)!important}
+.exT{background:none!important; border:1px solid var(--line2)!important}
+.exT h4{color:var(--txt)} .exT .exN{color:var(--txt)!important; font-family:var(--mono)}
+.exChartWrap{box-shadow:none!important}
+.exLast,.exStrict{background:none!important; border:1px solid var(--line2)!important; border-left:3px solid var(--txt)!important}
+.exClock{color:var(--txt)!important; font-family:var(--mono)} .exClock.low{color:var(--red)!important}
+.sqBtn{background:var(--panel2)!important; border:1px solid var(--line2)!important}
+.osShow,.osNew{background:none!important; border:1px solid var(--txt)!important; color:var(--txt)!important}
+@media(max-width:420px){.dsGal{grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:8px} .dsCard b,.dsCard span{font-size:12px}}
+.js [data-reveal]{opacity:1!important; transform:none!important; transition:none!important}
+@media(max-width:860px){#topbar{gap:8px} #topbar .crumb{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:1 1 auto} #topbar .spacer{display:none} #themeBtn{white-space:nowrap; margin-right:4px; padding:4px 8px} #progtxt{white-space:nowrap} .progbar{display:none}}
 @media print{:root{--bg:#fff; --panel:#fff}}
 </style>
 </head>
@@ -1097,17 +1179,17 @@ Skripte koje kruže internetom (Diverso, Brodocentar i druge) pisane su prema <s
 U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</span> i <span class="pill n">STARO: iz skripti</span>. Detalji u poglavlju <em>Propisi i plovila</em>.</div>
 
 <div class="grid g4">
-  <div class="card tight stat" style="text-align:center"><div class="statnum" data-count="16" style="font-size:26px;font-weight:800;color:var(--acc)">16</div><div style="font-size:12px;color:var(--txt2)">godina, minimalna dob</div></div>
-  <div class="card tight stat" style="text-align:center"><div class="statnum" data-count="58.40" data-dec="2" data-suffix="&nbsp;€" style="font-size:26px;font-weight:800;color:var(--acc)">58,40&nbsp;€</div><div style="font-size:12px;color:var(--txt2)">državna pristojba</div></div>
-  <div class="card tight stat" style="text-align:center"><div class="statnum" data-count="5" style="font-size:26px;font-weight:800;color:var(--acc)">5</div><div style="font-size:12px;color:var(--txt2)">ispitnih predmeta</div></div>
-  <div class="card tight stat" style="text-align:center"><div class="statnum" data-count="10" data-prefix="~" data-suffix="&nbsp;min" style="font-size:26px;font-weight:800;color:var(--acc)">~10&nbsp;min</div><div style="font-size:12px;color:var(--txt2)">trajanje usmenog ispita</div></div>
+  <div class="card tight stat" style="text-align:center"><div class="statnum" data-nocount="16" style="font-size:26px;font-weight:800;color:var(--acc)">16</div><div style="font-size:12px;color:var(--txt2)">godina, minimalna dob</div></div>
+  <div class="card tight stat" style="text-align:center"><div class="statnum" data-nocount="58.40" data-dec="2" data-suffix="&nbsp;€" style="font-size:26px;font-weight:800;color:var(--acc)">58,40&nbsp;€</div><div style="font-size:12px;color:var(--txt2)">državna pristojba</div></div>
+  <div class="card tight stat" style="text-align:center"><div class="statnum" data-nocount="5" style="font-size:26px;font-weight:800;color:var(--acc)">5</div><div style="font-size:12px;color:var(--txt2)">ispitnih predmeta</div></div>
+  <div class="card tight stat" style="text-align:center"><div class="statnum" data-nocount="10" data-prefix="~" data-suffix="&nbsp;min" style="font-size:26px;font-weight:800;color:var(--acc)">~10&nbsp;min</div><div style="font-size:12px;color:var(--txt2)">trajanje usmenog ispita</div></div>
 </div>
 
 <h3>Tvoj napredak</h3>
 <p style="color:var(--txt2);font-size:14px;margin-bottom:4px">Napredak se bilježi sam: čitanje poglavlja, kviz, kartice, checkliste i vježbe.</p>
 <div class="badges" id="badgeGrid"></div>
 <div class="btnrow" style="align-items:center"><button class="btn" id="xpReset" type="button">↺ Resetiraj sav napredak</button>
-<span id="xpResetMsg" style="font-size:13px;color:var(--txt2)">Briše XP, level, značke, pročitana poglavlja, checkliste, plan učenja i rezultate vježbi.</span></div>
+<span id="xpResetMsg" style="font-size:13px;color:var(--txt2)">Briše značke, pročitana poglavlja, checkliste, plan učenja i rezultate vježbi.</span></div>
 
 <h3>Što smiješ s B kategorijom</h3>
 <table>
@@ -1213,13 +1295,13 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 
 <h3>Izvori za pripremu</h3>
 <div class="grid g2">
-<div class="card tight"><h4>📄 Besplatne skripte</h4>
+<div class="card tight"><h4>Besplatne skripte</h4>
 <p style="font-size:14px;margin:0"><a href="https://diversoimpex.hr/voditelj-brodice-b-kategorije/" target="_blank">Diverso Impex: skripta za B kategoriju</a> (kap. Alfonso Bezmalinović). Najbolje složena za ispit.</p></div>
-<div class="card tight"><h4>▶️ YouTube</h4>
+<div class="card tight"><h4>YouTube</h4>
 <p style="font-size:14px;margin:0"><a href="https://www.youtube.com/@MarinaMatic" target="_blank">MarinaMatic</a> · <a href="https://www.youtube.com/@juricaruic" target="_blank">juricaruic</a></p></div>
-<div class="card tight"><h4>🎓 Tečajevi (jednodnevni, ~100–150 €)</h4>
+<div class="card tight"><h4>Tečajevi (jednodnevni, ~100–150 €)</h4>
 <p style="font-size:14px;margin:0">AK Siget (ZG) · <a href="https://seamasterclass.com.hr/" target="_blank">Sea Master Class</a> · YCZ Zagreb · <a href="https://brodocentar.hr/" target="_blank">Brodocentar Sisak</a></p></div>
-<div class="card tight"><h4>🧰 Pribor za rad na karti</h4>
+<div class="card tight"><h4>Pribor za rad na karti</h4>
 <p style="font-size:14px;margin:0">Dva navigacijska trokuta, šestar, meka olovka, gumica. Obavezno na tečaju.</p></div>
 </div>
 </section>
@@ -1279,7 +1361,7 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 <li><b>2 do 3 dana prije ispita:</b> svaki dan Simulacija ispita (3 stola). Cilj: <b>PROLAZ dva puta zaredom</b>.</li>
 <li><b>Dan prije:</b> Checklista pred ispit. Ništa novo ne učiš.</li>
 </ul>
-<div class="btnrow"><button class="btn p kuGo" data-go="p-kviz" data-exam="1" type="button">Pokreni simulaciju ispita ›</button><button class="btn kuGo" data-go="p-check" type="button">📋 Checklista ›</button></div>
+<div class="btnrow"><button class="btn p kuGo" data-go="p-kviz" data-exam="1" type="button">Pokreni simulaciju ispita ›</button><button class="btn kuGo" data-go="p-check" type="button">Checklista ›</button></div>
 </div></div>
 </div>
 
@@ -1321,7 +1403,7 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 <h3>Kako se radi s trokutima i šestarom</h3>
 <div class="split">
 <div class="card">
-<h4>📐 Određivanje kursa (2 trokuta)</h4>
+<h4>Određivanje kursa (2 trokuta)</h4>
 <ol style="font-size:14.5px">
 <li>Ucrtaj liniju kursa od polazišta do odredišta.</li>
 <li>Prvim trokutom <strong>pokrij liniju kursa</strong> (hipotenuza uz liniju).</li>
@@ -1332,7 +1414,7 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 <div class="warn"><b>Kako ne pogriješiti kvadrant</b>Pramac uvijek usmjeri <em>iz centra ruže prema obodu</em>, paralelno sa smjerom kretanja. Tada ne možeš krivo očitati.</div>
 </div>
 <div class="card">
-<h4>🧭 Mjerenje udaljenosti (šestar)</h4>
+<h4>Mjerenje udaljenosti (šestar)</h4>
 <ol style="font-size:14.5px">
 <li>Jedan krak šestara na točku polaska, drugi na točku dolaska.</li>
 <li><strong>Ne mijenjajući razmak</strong>, prenesi šestar na <strong>skalu zemljopisne širine</strong> (lijevo ili desno na karti).</li>
@@ -1344,7 +1426,7 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 </div>
 </div>
 
-<h3>🧭 Radni stol: vježbaj kao na ispitu</h3>
+<h3>Radni stol: vježbaj kao na ispitu</h3>
 <p>Četiri zadatka koja ispitivač traži za kartom. Riješi sam, klikni <strong>Provjeri</strong>, a ako pogriješiš, animacija ti pokaže postupak korak po korak. Karta je izmišljena, ali skale i ruža rade kao na pravoj.</p>
 <div class="card"><div id="navLab"></div></div>
 
@@ -1367,11 +1449,11 @@ U ovom vodiču takve su stavke označene s <span class="pill g">VAŽEĆE 2026</s
 <tr><td>Plavo + istočkani krug s križićem</td><td>Dubina <strong>manja od 2 m</strong></td></tr>
 <tr><td>Bijelo unutar istočkane linije</td><td>Dubine 10–20 m</td></tr>
 <tr><td>Bijelo unutar isprekidane linije</td><td>Dubine <strong>veće od 20 m</strong></td></tr>
-<tr><td><span style="color:#ff6b6b">Crvene vijugave linije</span></td><td><strong>Podmorski kabeli</strong> (struja, telefon) → zabranjeno sidrenje i koćarenje</td></tr>
-<tr><td><span style="color:#ff6b6b">Crveno-crne isprekidane linije</span></td><td><strong>Podmorski cjevovodi</strong> (voda, nafta, plin, kanalizacija) → zabranjeno sidrenje</td></tr>
+<tr><td><span style="color:var(--red)">Crvene vijugave linije</span></td><td><strong>Podmorski kabeli</strong> (struja, telefon) → zabranjeno sidrenje i koćarenje</td></tr>
+<tr><td><span style="color:var(--red)">Crveno-crne isprekidane linije</span></td><td><strong>Podmorski cjevovodi</strong> (voda, nafta, plin, kanalizacija) → zabranjeno sidrenje</td></tr>
 <tr><td>Crno sidro (normalno)</td><td><strong>Preporučljivo sidrište</strong> za sve brodove</td></tr>
-<tr><td><span style="color:#ff6b6b">Crveno sidro</span> u uokvirenom području</td><td>Sidrište za brodove s <strong>opasnim teretima</strong></td></tr>
-<tr><td><span style="color:#ff6b6b">Crveno prekriženo sidro</span></td><td><strong>Zabrana sidrenja</strong></td></tr>
+<tr><td><span style="color:var(--red)">Crveno sidro</span> u uokvirenom području</td><td>Sidrište za brodove s <strong>opasnim teretima</strong></td></tr>
+<tr><td><span style="color:var(--red)">Crveno prekriženo sidro</span></td><td><strong>Zabrana sidrenja</strong></td></tr>
 <tr><td>Bijela ploča s crnim naopakim sidrom (na obali)</td><td>Oznaka zabrane sidrenja zbog podmorske instalacije: mora se vidjeti s mora</td></tr>
 <tr><td>Brojevi na moru / na kopnu</td><td>Dubina mora / visina točke iznad mora: <strong>u metrima</strong></td></tr>
 <tr><td><code>V pl</code></td><td>„Vidi plan": detaljni prikaz manjeg područja. S brojem = kupi taj plan.</td></tr>
@@ -1412,7 +1494,7 @@ Primjer čitanja: <code>1:200.000</code> → 1 mm na karti = 200.000 mm = <stron
 </tbody></table>
 <div class="warn"><b>Sektori</b>Crveni i zatamnjeni sektori najčešće pokrivaju <strong>područja opasna za plovidbu</strong>. Ako se nađeš u njima → <strong>promijeni kurs</strong> udesno ili ulijevo dok ne izađeš na <strong>bijelo svjetlo</strong>.</div>
 
-<h3>🔦 Vježba: sektori svjetionika</h3>
+<h3>Vježba: sektori svjetionika</h3>
 <p>Svjetionik svijetli u više boja, svaka pokriva svoj sektor. Brod vidi onu boju u čijem se sektoru nalazi. Svjetlo na karti bljeska točno po svojoj karakteristici. Za svaku poziciju odaberi boju koju brod vidi.</p>
 <div class="card"><div id="sectorLab"></div></div>
 
@@ -1510,8 +1592,8 @@ Ista logika vrijedi i za <strong>lučka svjetla</strong> na ulazu u luku: gledan
 <table>
 <thead><tr><th>Oznaka</th><th>Izgled</th><th>Svjetlo</th><th>Značenje</th></tr></thead>
 <tbody>
-<tr><td><strong>Usamljena opasnost</strong></td><td>Crno, <span style="color:#ff6b6b">crveno</span>, crno, <strong>dvije crne kugle</strong> na vrhu</td><td>Bijelo, <strong>Bl(2)</strong></td><td>Opasnost s dubokom vodom naokolo. <strong>Izbjegni promjenom kursa</strong>, ne prolazi blizu.</td></tr>
-<tr><td><strong>Sigurna voda</strong></td><td><span style="color:#ff6b6b">Crveno</span>-bijele okomite pruge, <strong>jedna crvena kugla</strong></td><td>Bijelo: Izo, Pr, LFl 10s ili Mo(A)</td><td>Sa svih strana sigurna plovidba: sredina plovnog puta, prilaz obali</td></tr>
+<tr><td><strong>Usamljena opasnost</strong></td><td>Crno, <span style="color:var(--red)">crveno</span>, crno, <strong>dvije crne kugle</strong> na vrhu</td><td>Bijelo, <strong>Bl(2)</strong></td><td>Opasnost s dubokom vodom naokolo. <strong>Izbjegni promjenom kursa</strong>, ne prolazi blizu.</td></tr>
+<tr><td><strong>Sigurna voda</strong></td><td><span style="color:var(--red)">Crveno</span>-bijele okomite pruge, <strong>jedna crvena kugla</strong></td><td>Bijelo: Izo, Pr, LFl 10s ili Mo(A)</td><td>Sa svih strana sigurna plovidba: sredina plovnog puta, prilaz obali</td></tr>
 <tr><td><strong>Posebna oznaka</strong></td><td><span class="pill y">Žuta</span>, vršna oznaka <strong>žuti X</strong></td><td>Žuto</td><td>Posebno područje: kupalište, ispust, sidrište, vojna zona, mjerni uređaji. Nije navigacijska opasnost.</td></tr>
 <tr><td><strong>Nova opasnost (wreck)</strong></td><td>Plavo-žute pruge, vršna oznaka <strong>žuti križ</strong></td><td>Naizmjenično plavo/žuto</td><td>Novootkrivena opasnost, još nije u kartama</td></tr>
 </tbody></table>
@@ -1541,7 +1623,7 @@ Ista logika vrijedi i za <strong>lučka svjetla</strong> na ulazu u luku: gledan
 <div class="mnem"><b>Provjera zbrajanjem</b>112,5 + 112,5 = <strong>225°</strong> → dva bočna zajedno pokrivaju točno sektor jarbolnog svjetla.<br>
 225 + 135 = <strong>360°</strong> → jarbolno + krmeno pokrivaju puni krug. Ako to zapamtiš, ne moraš pamtiti brojeve zasebno.</div>
 
-<h3>🌙 Simulator: prepoznaj brod po svjetlima</h3>
+<h3>Simulator: prepoznaj brod po svjetlima</h3>
 <p>Odaberi tip broda i kut gledanja: vidjet ćeš točno ono što bi vidio noću. Uključi <strong>kviz</strong> i pogađaj.</p>
 <div class="card">
   <div class="btnrow">
@@ -1633,12 +1715,12 @@ Ista logika vrijedi i za <strong>lučka svjetla</strong> na ulazu u luku: gledan
 <h3>Kombinacije koje ispitivači vole</h3>
 <div class="grid g2">
 <div class="card">
-<h4>🎯 Scenarij 1</h4>
+<h4>Scenarij 1</h4>
 <p style="font-size:14.5px">„Jedrilica ima izvješenu <strong>crnu kuglu</strong>, pramac joj je okrenut na <strong>sjeveroistok</strong>, motorni brod plovi <strong>sjeverozapadno</strong>, kursovi im se sijeku. Tko ima prednost?"</p>
 <details><summary>Odgovor</summary><p><strong>Trik.</strong> Crna kugla znači da je jedrilica <strong>usidrena</strong>, dakle uopće nije u plovidbi. Motorni brod je mora zaobići. Podatak o pramcu je namjerno zavaravanje: usidreni brod se okreće oko sidra i pramac mu ne znači ništa.</p></details>
 </div>
 <div class="card">
-<h4>🎯 Scenarij 2</h4>
+<h4>Scenarij 2</h4>
 <p style="font-size:14.5px">„Jedrilica ima <strong>čunj vrhom prema dolje</strong>, dolazi mi s lijeve strane, kursovi se sijeku. Tko ima prednost?"</p>
 <details><summary>Odgovor</summary><p>Čunj dolje = <strong>motorni jedrenjak</strong> = motorni brod. Dva motorna broda čiji se kursovi sijeku → primjenjuje se <strong>pravilo desne strane</strong>. On dolazi s <em>moje lijeve</em> strane → <strong>ja imam prednost</strong>, zadržavam kurs i brzinu. Da nije bilo čunja, jedrilica bi imala prednost.</p></details>
 </div>
@@ -1657,7 +1739,7 @@ Ista logika vrijedi i za <strong>lučka svjetla</strong> na ulazu u luku: gledan
 <h2 class="ph"><span class="num">PREDMET 4 · DIO C</span>Izbjegavanje sudara na moru</h2>
 <p class="lede">Ispitivač slaže makete brodova na stolu ili pokazuje crtež i pita: <em>tko ima prednost i kuda točno prolaziš?</em> Traži da pokažeš prstom putanju. Nauči logiku, ne slike.</p>
 
-<h3>🚢 Simulator situacija</h3>
+<h3>Simulator situacija</h3>
 <p>Prođi kroz sve tipične situacije. Klikni <strong>Rješenje</strong> za pravilo i putanju.</p>
 <div class="card">
   <div id="colregControls" class="chips"></div>
@@ -1729,7 +1811,7 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 
 <h3>Uski kanali i tjesnaci</h3>
 <ul>
-<li>Plovni objekti <strong>duljine 20 m i manji</strong>, bez obzira na vrstu pogona, moraju se <strong>sklanjati s puta većim plovnim objektima</strong> <span style="font-size:12.5px;color:var(--txt2)">(NN 52/2025, čl. 48)</span>.</li>
+<li>Plovni objekti <strong>duljine 20 m i manji</strong>, bez obzira na vrstu pogona, moraju se <strong>sklanjati s puta većim plovnim objektima</strong> <span style="font-size:12.5px;color:var(--txt2)">(u lukama i na ulazima u luke; NN 52/2025, čl. 46)</span>.</li>
 <li>Ako žele prijeći kanal, čine to <strong>najkraćim putem: okomito</strong> na smjer pružanja kanala.</li>
 <li><strong>Pretjecanje u pravilu nije dopušteno.</strong></li>
 <li>Ista obveza sklanjanja vrijedi pri uplovljenju i isplovljenju te u <strong>polukrugu od 1 nautičke milje</strong> od ulaza u luku.</li>
@@ -1754,7 +1836,7 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 <p class="lede">Kratki signal traje <strong>1 sekundu</strong>. Dugi signal (zvukom ili svjetlom) traje <strong>4–6 sekundi</strong>.</p>
 
 <div class="card">
-<h4>🔊 Klikni za reprodukciju</h4>
+<h4>Klikni za reprodukciju</h4>
 <div id="soundWidget"></div>
 <p style="font-size:12.5px;color:var(--txt3);margin:8px 0 0">Zvuk se generira u pregledniku (Web Audio). Ako ne čuješ ništa, klikni bilo gdje na stranicu pa pokušaj ponovno.</p>
 </div>
@@ -1788,18 +1870,18 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 
 <h3>Signali opasnosti (pogibelji)</h3>
 <div class="grid g3">
-<div class="card tight"><h4>📻 Radio</h4><ul style="font-size:14px;margin:8px 0 0 18px">
+<div class="card tight"><h4>Radio</h4><ul style="font-size:14px;margin:8px 0 0 18px">
 <li><strong>MAYDAY</strong> ×3 na VHF kanalu 16</li>
 <li><strong>DISTRESS</strong> preko DSC-a na kanalu 70</li>
 <li>EPIRB / SART</li></ul></div>
-<div class="card tight"><h4>👁️ Vizualni</h4><ul style="font-size:14px;margin:8px 0 0 18px">
+<div class="card tight"><h4>Vizualni</h4><ul style="font-size:14px;margin:8px 0 0 18px">
 <li>Crvene rakete s padobranom</li>
 <li>Ručne buktinje</li>
 <li>Dimne kutije: <strong>žuti ili narančasti</strong> dim</li>
 <li>Ritmičko dizanje i spuštanje raširenih ruku</li>
 <li>Improvizirana vatra s gustim crnim dimom <em>(ne benzinom!)</em></li>
 <li>SOS svjetiljkom: <span class="sg" role="img" aria-label="kratki, kratki, kratki, dugi, dugi, dugi, kratki, kratki, kratki"><i></i><i></i><i></i><i class="l"></i><i class="l"></i><i class="l"></i><i></i><i></i><i></i></span></li></ul></div>
-<div class="card tight"><h4>🔊 Zvučni</h4><ul style="font-size:14px;margin:8px 0 0 18px">
+<div class="card tight"><h4>Zvučni</h4><ul style="font-size:14px;margin:8px 0 0 18px">
 <li>SOS zvučnom napravom: <span class="sg" role="img" aria-label="kratki, kratki, kratki, dugi, dugi, dugi, kratki, kratki, kratki"><i></i><i></i><i></i><i class="l"></i><i class="l"></i><i class="l"></i><i></i><i></i><i></i></span></li>
 <li><strong>Neprekidan zvuk</strong> bilo kojom napravom</li>
 <li>Pojedinačna pucnjava iz vatrenog oružja <strong>u razmacima od jedne minute</strong></li></ul></div>
@@ -1820,7 +1902,7 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 <div class="card"><h4>Prema broju cilindara</h4><ul><li>Jednocilindrični</li><li>Višecilindrični</li></ul></div>
 </div>
 
-<h3>⚙️ Animacija: četiri takta</h3>
+<h3>Animacija: četiri takta</h3>
 <div class="card">
 <div class="btnrow"><button class="btn p" id="engBtn">Pokreni</button>
 <button class="btn" id="engType">Prebaci na dvotaktni</button></div>
@@ -1845,12 +1927,12 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 <tr><td>1</td><td><strong>Izmjena medija i kompresija</strong></td><td>Klip se diže, ispiranje i punjenje kroz kanale, zatim sabijanje</td></tr>
 <tr><td>2</td><td><strong>Izgaranje i ekspanzija</strong> <span class="pill g">radni takt</span></td><td>Paljenje, širenje, klip se spušta i otvara kanale</td></tr>
 </tbody></table>
-<div class="note"><b>Ključna razlika</b>Dvotaktni motor <strong>nema ventile</strong>, ima <strong>usisne (ispirne) kanale</strong>. Radni takt ima pri <em>svakom</em> okretaju osovine, četverotaktni pri svakom drugom.</div>
+<div class="note"><b>Ključna razlika</b>Dvotaktni motor <strong>nema ventile</strong>, ima <strong>kanale</strong> (usisni, ispirni i ispušni). Radni takt ima pri <em>svakom</em> okretaju osovine, četverotaktni pri svakom drugom.</div>
 
 <h3>Benzinski vs. dizel: princip rada</h3>
 <div class="split">
 <div class="card">
-<h4>🔥 Benzinski (Otto)</h4>
+<h4>Benzinski (Otto)</h4>
 <ol style="font-size:14.5px">
 <li>Zrak i gorivo prolaze kroz <strong>filtere (prečistače)</strong></li>
 <li>Miješaju se u <strong>rasplinjaču (karburatoru)</strong> u određenom omjeru</li>
@@ -1862,7 +1944,7 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 <div class="warn"><b>Kvar kod dvotaktnog na mješavinu</b>Svjećica se lako <strong>zaulji</strong> ili nakupi <strong>gareži</strong> → ne baca iskru → motor ne pali. Nosi rezervne svjećice.</div>
 </div>
 <div class="card">
-<h4>💨 Dizel</h4>
+<h4>Dizel</h4>
 <p style="font-size:14.5px"><strong>Nema rasplinjača niti svjećice.</strong></p>
 <ol style="font-size:14.5px">
 <li>Kroz prečistač u cilindar ulazi <strong>čisti zrak</strong></li>
@@ -1963,7 +2045,7 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 </tbody></table>
 <p>Minimalni kapaciteti prijenosnog aparata iz Pravilnika: <strong>1 kg praha / 3 kg CO₂ / 1,8 l pjene</strong> (nastambe), odnosno <strong>2 kg praha / 5 kg CO₂ / 1,8 l pjene</strong> (kuhinja, izvanbrodski benzinac &gt; 25 kW).</p>
 
-<h4>🔥 Vježba: čime gasiš?</h4>
+<h4>Vježba: čime gasiš?</h4>
 <div class="card"><div id="fireDrill"></div></div>
 
 <h3>Zaštita mora od onečišćenja</h3>
@@ -2204,7 +2286,7 @@ Kriterij je sada <strong>DULJINA plovnog objekta</strong>, ne tip:
 <h2 class="ph"><span class="num">PREDMET 3 · DIO B</span>Meteorologija i vjetrovi Jadrana</h2>
 <p class="lede">„Nabroji vjetrove na Jadranu." „Koji je najopasniji i zašto?" To su pitanja koja padnu skoro svakom. Ruža vjetrova ispod je klikabilna.</p>
 
-<h3>🌬️ Ruža vjetrova: klikni na vjetar</h3>
+<h3>Ruža vjetrova: klikni na vjetar</h3>
 <div class="card">
 <div class="svgbox"><div id="windWidget"></div><div class="svgcap">Strujnice pokazuju kamo zrak ide. Usporedi buru (udari, „refuli") i jugo (ujednačeno).</div></div>
 <div id="windInfo"></div>
@@ -2268,13 +2350,13 @@ Magla je vidljivi skup vrlo sitnih čestica kondenzirane vodene pare pri površi
 <h3>Ciklone i anticiklone</h3>
 <div class="split">
 <div class="card">
-<h4>🌀 Ciklona: <span class="pill r">nizak tlak</span></h4>
+<h4>Ciklona: <span class="pill r">nizak tlak</span></h4>
 <ul><li>Donosi <strong>ružno vrijeme</strong></li>
 <li>Približavanjem tlak <strong>opada</strong></li>
 <li>Na sjevernoj polutki zrak struji <strong>obrnuto od kazaljke na satu</strong></li></ul>
 </div>
 <div class="card">
-<h4>☀️ Anticiklona: <span class="pill g">visok tlak</span></h4>
+<h4>Anticiklona: <span class="pill g">visok tlak</span></h4>
 <ul><li>Donosi <strong>lijepo vrijeme</strong></li>
 <li>Približavanjem tlak <strong>raste</strong></li>
 <li>Zrak struji <strong>u smjeru kazaljke na satu</strong></li></ul>
@@ -2309,9 +2391,9 @@ Kontinuirano izvješće preko repetitora na Visu: <strong>VHF kanal 67</strong>,
 
 <h3>Sile koje djeluju na brodicu</h3>
 <div class="split">
-<div class="card"><h4>🌊 Vanjske sile</h4><ul style="font-size:15px"><li><strong>Morska struja</strong></li><li><strong>Valovi</strong></li><li><strong>Plitko more</strong></li><li><strong>Vjetar</strong></li></ul>
+<div class="card"><h4>Vanjske sile</h4><ul style="font-size:15px"><li><strong>Morska struja</strong></li><li><strong>Valovi</strong></li><li><strong>Plitko more</strong></li><li><strong>Vjetar</strong></li></ul>
 <p style="font-size:13.5px;color:var(--txt2);margin:8px 0 0">Ne možeš ih kontrolirati: možeš ih iskoristiti ili im se prilagoditi.</p></div>
-<div class="card"><h4>⚙️ Unutarnje sile</h4><ul style="font-size:15px"><li><strong>Vijak</strong></li><li><strong>Kormilo</strong></li><li><strong>Sidreni uređaj</strong></li><li><strong>Privezni konopi</strong></li></ul>
+<div class="card"><h4>Unutarnje sile</h4><ul style="font-size:15px"><li><strong>Vijak</strong></li><li><strong>Kormilo</strong></li><li><strong>Sidreni uređaj</strong></li><li><strong>Privezni konopi</strong></li></ul>
 <p style="font-size:13.5px;color:var(--txt2);margin:8px 0 0">Njima upravljaš ti.</p></div>
 </div>
 <div class="note"><b>Načelo</b>Poznavanjem djelovanja tih sila možeš pri manevriranju <strong>povoljno iskoristiti njihov učinak ako je koristan</strong>, ili ga <strong>smanjiti ako je štetan</strong>.</div>
@@ -2379,7 +2461,7 @@ Brodica se najčešće sidri <strong>jednim sidrom</strong>, da ne dođe do zapl
 <h3>Čovjek u moru (MOB)</h3>
 <div class="card"><div id="mobSim"></div></div>
 <div class="card">
-<h4>🆘 Obični okret: postupak za brodicu</h4>
+<h4>Obični okret: postupak za brodicu</h4>
 <ol style="font-size:15.5px;line-height:1.9">
 <li><strong>Odmah kormilo „sve u stranu" pada osobe</strong>, time krma i <em>vijak</em> odlaze od osobe. To je prvi i najvažniji potez.</li>
 <li><strong>Smanji brzinu</strong></li>
@@ -2410,14 +2492,14 @@ Brodica se najčešće sidri <strong>jednim sidrom</strong>, da ne dođe do zapl
 
 <h3>Postupci u nezgodama</h3>
 <div class="grid g2">
-<div class="card"><h4>💥 Sudar</h4>
+<div class="card"><h4>Sudar</h4>
 <ul style="font-size:14.5px">
 <li><strong>Ne smije se napustiti mjesto sudara</strong> dok se sigurno ne utvrdi da su osobe na drugoj brodici na sigurnom</li>
 <li>Brodica s manjim oštećenjima dužna je <strong>pružiti svaku moguću pomoć</strong> drugoj</li>
 <li><strong>Prvenstveno se spašavaju OSOBE</strong>, tek zatim brodica</li>
 <li><strong>Obvezno razmijeniti podatke</strong></li>
 </ul></div>
-<div class="card"><h4>🪨 Nasukavanje</h4>
+<div class="card"><h4>Nasukavanje</h4>
 <p style="font-size:14.5px">Utvrdi:</p>
 <ul style="font-size:14.5px">
 <li><strong>Vrstu dna</strong> na koje se brodica nasukala</li>
@@ -2425,15 +2507,15 @@ Brodica se najčešće sidri <strong>jednim sidrom</strong>, da ne dođe do zapl
 <li><strong>Duljinu</strong> kojom je brodica sjela na dno</li>
 <li>Da li <strong>more prodire</strong> u brodicu</li>
 </ul></div>
-<div class="card"><h4>🌊 Prodor mora</h4>
+<div class="card"><h4>Prodor mora</h4>
 <p style="font-size:14.5px">Svim raspoloživim sredstvima izbaciti more iz brodice (kaljužna pumpa, ispolac / šešula) i <strong>privremeno sanirati: zatvoriti otvore</strong>.</p></div>
-<div class="card"><h4>🔥 Požar</h4>
+<div class="card"><h4>Požar</h4>
 <p style="font-size:14.5px"><strong>Čim uočiš požar</strong>, gasi ga svim raspoloživim sredstvima: obvezno koristi prijenosne protupožarne aparate. Ako je u strojarnici: <strong>ugasi motor, zatvori dovod goriva i zraka</strong>.</p></div>
 </div>
 <div class="warn"><b>Kad ništa ne pomogne</b>Ako sve mjere nisu urodile plodom, voditelj će nastojati <strong>maknuti brodicu s plovnog puta</strong> i pokušati je <strong>nasukati na pogodno tlo</strong>, vodeći računa o spašavanju osoba.<br>
 Ako ni to ne uspije: <strong>naređuje napuštanje brodice</strong> i traži pomoć svim raspoloživim međunarodnim signalima pogibelji (radio, zvučni, vizualni).</div>
 
-<h3>🚨 Vježba: znakovi pogibelji</h3>
+<h3>Vježba: znakovi pogibelji</h3>
 <p>Prepoznaj svaki znak pogibelji (popis iz poglavlja <a href="#p-signali">Zvučni signali</a>). Klikni prizor za opis, pa uključi kviz: nekad vidiš prizor i biraš značenje, nekad biraš prizor za zadano značenje.</p>
 <div class="card">
   <div class="btnrow"><button class="btn p" id="distQuizBtn" type="button">Kviz znakova</button><span id="distScore" style="align-self:center;font-size:13px;color:var(--txt2)"></span></div>
@@ -2453,14 +2535,14 @@ Ako ni to ne uspije: <strong>naređuje napuštanje brodice</strong> i traži pom
 
 <h3>Sredstva za spašavanje</h3>
 <div class="split">
-<div class="card"><h4>👤 Osobna</h4>
+<div class="card"><h4>Osobna</h4>
 <ol style="font-size:15px">
 <li><strong>Prsluk za spašavanje</strong></li>
 <li><strong>Kolut ili pojas za spašavanje</strong></li>
 <li><strong>Odijelo za spašavanje</strong> (hidro i termo zaštita)</li>
 <li><strong>Termo-zaštitna sredstva</strong> (protiv hipotermije: gubitka tjelesne topline)</li>
 </ol></div>
-<div class="card"><h4>👥 Zajednička</h4>
+<div class="card"><h4>Zajednička</h4>
 <ol style="font-size:15px">
 <li><strong>Brodica (čamac) za spašavanje</strong></li>
 <li><strong>Splav za spašavanje</strong>: kruta ili pneumatska</li>
@@ -2490,7 +2572,7 @@ Zoveš: <strong>Nacionalnu središnjicu za usklađivanje traganja i spašavanja 
 <p>Konopi se najčešće izrađuju od <strong>plastičnih masa</strong> (sintetika). <strong>Čelik-čela</strong> (čelični konopi) susreću se kod ribarskih i teretnih brodica te jedrilica. Konopi <strong>biljnog podrijetla</strong> rijetko se koriste: nepraktični su.</p>
 <div class="note"><b>Održavanje</b>Čuvati od sunca i mora: <strong>spremati u potpalublje</strong>. Obvezno zamijeniti kad se primijete oštećenja (puknuća niti).</div>
 
-<h4>🪢 Čvorovi korak po korak</h4>
+<h4>Čvorovi korak po korak</h4>
 <p>Na ispitu će te tražiti da <strong>napraviš jedan čvor</strong>, najčešće <strong>pašnjak</strong>. Četiri su obavezna: <strong>pašnjak, muški, zastavni i vrzni uzao</strong>. Ostala tri su za svakodnevni privez: osmica, vezanje na bitvu te okret i dva poluuzla.</p>
 <div class="ok"><b>Kako vježbati</b>Uzmi pravi konop od metar do metar i pol (može i vezica ili kabel punjača). Pokreni korak, zaustavi, ponovi rukama, pa idući korak. Na kraju veži bez gledanja, pa zažmiri i veži opet. Na ispitu ruke rade, glava se odmara.</div>
 <div class="card">
@@ -2516,33 +2598,33 @@ Zoveš: <strong>Nacionalnu središnjicu za usklađivanje traganja i spašavanja 
 <h2 class="ph"><span class="num">PREDMET 5</span>Pomorska radiotelefonska služba</h2>
 <p class="lede">Ovdje se dobiva najviše pitanja kod trećeg ispitivača. MAYDAY postupak i fonetsku abecedu nauči <strong>napamet</strong>: sve ostalo razumijevanjem.</p>
 
-<h3>🆘 Trenažer: MAYDAY poziv</h3>
+<h3>Trenažer: MAYDAY poziv</h3>
 <div class="card">
 <p style="font-size:14.5px">Popuni podatke i vidi točan tekst poziva koji bi izgovorio na kanalu 16.</p>
 <div id="maydayWidget"></div>
 </div>
-<h4>⏱ Dril: složi redoslijed napamet</h4>
+<h4>Dril: složi redoslijed napamet</h4>
 <div class="card"><div id="mdOrder"></div></div>
 
 <h3>Tri signala po prioritetu</h3>
 <div class="grid g3">
 <div class="card" style="border-color:var(--red)">
 <div class="pill r">PRIORITET 1</div>
-<h4 style="margin-top:8px;color:#ff8d98">MAYDAY <span style="font-size:13px;font-weight:400">(mejdej)</span></h4>
+<h4 style="margin-top:8px;color:var(--red)">MAYDAY <span style="font-size:13px;font-weight:400">(mejdej)</span></h4>
 <p style="font-size:14px"><strong>Pogibelj.</strong> Plovilu i <em>svim osobama</em> na njemu prijeti <strong>životna opasnost</strong>.</p>
 <p style="font-size:13.5px;color:var(--txt2)">Sudar, udar, požar, nasukavanje, prodor mora, eksplozija: u pravilu prije napuštanja plovila. Također: <strong>pad osobe u more</strong>.</p>
 <p style="font-size:13.5px"><strong>Odluku donosi isključivo voditelj / zapovjednik.</strong> Odašilje se <em>svim</em> radijskim postajama.</p>
 </div>
 <div class="card" style="border-color:var(--yellow)">
 <div class="pill y">PRIORITET 2</div>
-<h4 style="margin-top:8px;color:#ffd970">PAN PAN</h4>
+<h4 style="margin-top:8px;color:var(--yellow)">PAN PAN</h4>
 <p style="font-size:14px"><strong>Žurnost / hitnost.</strong> Plovilo i osobe <em>NISU</em> u pogibelji, ali situacija je hitna.</p>
 <p style="font-size:13.5px;color:var(--txt2)">Prestanak rada motora, gubitak vijka ili kormila, manji požar, teška povreda, bolest ili smrt osobe, traženje liječničkog savjeta.</p>
 <p style="font-size:13.5px">Može ići svim postajama ili samo određenoj: odlučuje voditelj.</p>
 </div>
 <div class="card" style="border-color:var(--acc)">
 <div class="pill b">PRIORITET 3</div>
-<h4 style="margin-top:8px;color:#7fd8f7">SECURITE <span style="font-size:13px;font-weight:400">(sekurite)</span></h4>
+<h4 style="margin-top:8px;color:var(--acc)">SECURITE <span style="font-size:13px;font-weight:400">(sekurite)</span></h4>
 <p style="font-size:14px"><strong>Sigurnost.</strong> Na bilo koji način je <em>ugrožena sigurnost plovidbe</em>.</p>
 <p style="font-size:13.5px;color:var(--txt2)">Pluta veći predmet, balvan, mina, otkinuta plutača, olupina, odvezana brodica, ne gori pomorsko svjetlo, ili si se našao u nevremenu bitno lošijem od prognoze.</p>
 <p style="font-size:13.5px">Bitno je dati: <strong>približnu poziciju, vrijeme uočavanja i vrstu ugroze.</strong></p>
@@ -2557,7 +2639,7 @@ Zoveš: <strong>Nacionalnu središnjicu za usklađivanje traganja i spašavanja 
 
 <h3>MAYDAY: točan postupak</h3>
 <div class="danger"><b>Nauči doslovno</b>
-<div style="font-family:var(--mono);font-size:15px;line-height:2;background:rgba(0,0,0,.3);padding:14px;border-radius:8px;margin-top:8px">
+<div style="font-family:var(--mono);font-size:15px;line-height:2;background:var(--panel2);padding:14px;margin-top:8px">
 MAYDAY, MAYDAY, MAYDAY <span style="color:var(--txt3)">(3×)</span><br>
 OVDJE <span style="color:var(--txt3)">(1×)</span><br>
 [ime/oznaka/pozivni znak] ×3 <span style="color:var(--txt3)">(3×)</span><br>
@@ -2592,7 +2674,7 @@ OVDJE <span style="color:var(--txt3)">(1×)</span><br>
 <div class="btnrow"><input type="text" id="spellIn" placeholder="Upiši riječ..." style="flex:1;min-width:200px"><button class="btn p" id="spellBtn">Srici</button><button class="btn" id="spellRnd">Nasumična riječ</button></div>
 <div id="spellOut"></div>
 </div>
-<h4>⏱ Dril: fonetska abeceda na brzinu</h4>
+<h4>Dril: fonetska abeceda na brzinu</h4>
 <div class="card"><div id="phonDrill"></div></div>
 <div class="split">
 <div>
@@ -2773,7 +2855,7 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
 <p class="lede">Klikni karticu da je okreneš. Označi znaš / ne znaš: one koje ne znaš vraćaju se u špil.</p>
 <div class="card">
 <div class="chips" id="cardTopics"></div>
-<div class="btnrow"><button class="btn p" id="cardStart">Pokreni</button><button class="btn" id="cardShuffle">🔀 Promiješaj</button></div>
+<div class="btnrow"><button class="btn p" id="cardStart">Pokreni</button><button class="btn" id="cardShuffle">Promiješaj</button></div>
 </div>
 <div id="cardArea"></div>
 </section>
@@ -2784,7 +2866,7 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
 <h2 class="ph"><span class="num">ARHIVA</span>Stvarna pitanja s ispita</h2>
 <p class="lede">Prikupljena iz iskustava kandidata koji su polagali u Zagrebu, Sisku i Splitu. Klikni pitanje za odgovor.</p>
 
-<h3>📍 Zagreb: Ministarstvo mora (Kockica, Prisavlje 14)</h3>
+<h3>Zagreb: Ministarstvo mora (Kockica, Prisavlje 14)</h3>
 <h4>Stol 1: Kartografija</h4>
 <details><summary>Odredi širinu ove koordinate</summary><p>Očitaj šestarom prema <strong>lijevoj/desnoj skali</strong>. Odgovor mora glasiti npr. <code>45° 39,1' N</code>: <strong>uvijek dodaj „sjeverno" / N.</strong> Klasična zamka: kandidati kažu samo brojku.</p></details>
 <details><summary>Pokazuje lateralnu oznaku (zelenu), koja je to, što nam govori i kako postupamo?</summary><p><strong>Zelena lateralna oznaka = oznaka DESNE strane plovnog puta</strong> (IALA zona A). Vršna oznaka: čunj vrhom gore. Noću zeleno svjetlo. Pri <strong>uplovljavanju</strong> (s mora prema luci) ostavljam je <strong>s desne strane</strong> broda.</p></details>
@@ -2808,7 +2890,7 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
 <details><summary>Tri najbitnije vrste poruka na kanalu 16 i njihovi sastavni dijelovi</summary><p><strong>MAYDAY</strong> (pogibelj), <strong>PAN PAN</strong> (žurnost), <strong>SECURITE</strong> (sigurnost).<br>Poruka pogibelji sadrži: <strong>ime/oznaku/pozivni znak · poziciju · vrstu opasnosti · vrstu tražene pomoći.</strong></p></details>
 <details><summary>Sricanje riječi „ISPITANIKA"</summary><p><code>Indija, Siera, Papa, Indija, Tango, Alfa, November, Indija, Kilo, Alfa</code></p></details>
 
-<h3>📍 Sisak: Lučka kapetanija</h3>
+<h3>Sisak: Lučka kapetanija</h3>
 <details><summary>Navedi sve papire i dokumente koji trebaju biti na brodici</summary><p>Upisni list brodice · Uvjerenje o osposobljenosti za voditelja brodice · Dozvola za radijsku postaju (ako ima VHF). U praksi i polica osiguranja.</p></details>
 <details><summary>Kada brodica mora imati policu osiguranja?</summary><p>Kada je snaga porivnog uređaja <strong>veća od 15 kW</strong>.</p></details>
 <details><summary>Navedi sve instrumente za kontrolu rada porivnog stroja</summary><p><strong>Manometar</strong> (tlak ulja), <strong>termometar</strong> (temperatura rashladnog medija), <strong>ampermetar</strong>, <strong>voltmetar</strong>, <strong>brojilac okretaja</strong>, <strong>nivokaz goriva</strong>. Uz to: osluškivanje i opipavanje izlazne vode.</p></details>
@@ -2833,7 +2915,7 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
 <details><summary>Razlika plovni put i vodni put?</summary><p><strong>Plovni put</strong>: pojas morske površine dovoljne širine i dubine za sigurnu plovidbu, uz odgovarajuće oznake sigurnosti plovidbe (na moru). <strong>Vodni put</strong>: plovni put na <em>unutarnjim vodama</em> (rijeke, kanali, jezera), uređen prema Zakonu o plovidbi i lukama unutarnjih voda.</p></details>
 <details><summary>Opća načela MRCC-a</summary><p>Koordinacija akcija traganja i spašavanja na moru; nadzor pomorskog prometa; kontrola sigurnosti plovidbe; koordinacija u slučaju iznenadnog onečišćenja mora; <strong>24-satno dežurstvo na broju 195</strong>; suradnja s pod-središnjicama (lučkim kapetanijama), obalnim promatračkim jedinicama te pomorskim, zračnim i kopnenim jedinicama.</p></details>
 
-<h3>📍 Split: Lučka kapetanija</h3>
+<h3>Split: Lučka kapetanija</h3>
 <details><summary>Što je kurs: puna definicija?</summary><p><strong>Kurs je KUT</strong> koji zatvara sjeverojužnica (meridijan) s uzdužnicom, odnosno pramcem brodice. Izražava se u stupnjevima 0°–360°, računa u smjeru kazaljke na satu. Određuje se pomoću dva navigacijska trokuta, upisuje se i ucrtava na pomorsku kartu.<br><em>Ispitivači obaraju kandidate koji ne kažu riječ „kut".</em></p></details>
 <details><summary>Dva broda idu jedan prema drugome, kako se izbjegava sudar?</summary><p><strong>OBA mijenjaju kurs UDESNO.</strong> Radnja mora biti pravovremena i odlučna.</p></details>
 <details><summary>Koja bih svjetla vidio noću u toj situaciji?</summary><p>U susretu glava-u-glavu vidiš <strong>oba bočna svjetla</strong> (crveno i zeleno) + jarbolno. Kad počneš skretati udesno, ostaje ti u vidu <strong>njegovo crveno bočno</strong> (jer gledaš njegov lijevi bok), i vi prolazite bok o bok, lijevi uz lijevi.</p></details>
@@ -3608,8 +3690,8 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
       <text x="${ox}" y="${oy+(oy>c?24:-16)}" text-anchor="middle" font-size="11" font-weight="800" fill="${C.acc}">TI</text>`;
     b.querySelector('.secsvg').innerHTML=SVG(S,S,g).replace(`viewBox="0 0 ${S} ${S}"`,`viewBox="-40 -28 ${S+80} ${S+56}"`); // v3: mjesta za vanjsku skalu
     // tumačenje
-    const L=[]; if(v.mast) L.push('<b style="color:#fff">jarbolno</b>'); if(v.port) L.push('<b style="color:var(--red)">crveno bočno</b>');
-    if(v.stbd) L.push('<b style="color:var(--green)">zeleno bočno</b>'); if(v.stern) L.push('<b style="color:#cfd9e2">krmeno</b>');
+    const L=[]; if(v.mast) L.push('<b style="color:var(--txt)">jarbolno</b>'); if(v.port) L.push('<b style="color:var(--red)">crveno bočno</b>');
+    if(v.stbd) L.push('<b style="color:var(--green)">zeleno bočno</b>'); if(v.stern) L.push('<b style="color:var(--txt2)">krmeno</b>');
     let m;
     if(v.stern && !v.mast) m='Gledaš mu krmu. Ako ga sustižeš, ti si brod koji pretječe i <b>ti se uklanjaš</b>.';
     else if(v.port && v.stbd) m='Gledaš ga ravno u pramac. Nasuprotni kursevi: <b>oba skreću udesno</b>.';
@@ -3665,7 +3747,7 @@ const VESSELS = [
    note:'Kombinirana trobojna svjetiljka pri vrhu jarbola (bočna + krmeno u jednoj). Tada NE SMIJE pokazivati nikakva druga svjetla.'},
   {id:'motsail',n:'Motorni jedrenjak (jedra + motor)',cat:'motor',
    L:[{t:'mast',c:'w'},{t:'side'},{t:'stern'}],day:'cone_down',
-   note:'⚠️ TRIK: smatra se BRODOM NA MEHANIČKI POGON: pokazuje sva svjetla motornog broda. Danju: CRNI ČUNJ VRHOM DOLJE. NEMA prednost jedrilice!'},
+   note:'TRIK: smatra se BRODOM NA MEHANIČKI POGON: pokazuje sva svjetla motornog broda. Danju: CRNI ČUNJ VRHOM DOLJE. NEMA prednost jedrilice!'},
   {id:'anchor',n:'Usidreni brod',cat:'spec',
    L:[{t:'allround',c:'w'}],day:'ball',
    note:'Jedno bijelo kružno svjetlo na pramčanom dijelu. >50 m: još jedno bijelo na krmi, niže. >100 m: pali i sva palubna svjetla. Danju: JEDNA CRNA KUGLA.'},
@@ -3909,7 +3991,7 @@ const VESSELS = [
     }));
   }
   (function(){ const box=stage.closest('.svgbox'); if(!box) return; box.classList.add('dnBox');
-    box.insertAdjacentHTML('afterbegin','<div class="dnToggle" role="group" aria-label="Doba dana"><button type="button" data-dn="n" class="on" aria-pressed="true">🌙 Noć</button><button type="button" data-dn="d" aria-pressed="false">☀️ Dan</button></div>');
+    box.insertAdjacentHTML('afterbegin','<div class="dnToggle" role="group" aria-label="Doba dana"><button type="button" data-dn="n" class="on" aria-pressed="true">Noć</button><button type="button" data-dn="d" aria-pressed="false">Dan</button></div>');
     $$('.dnToggle button',box).forEach(bt=>bt.addEventListener('click',()=>{ DAY=bt.dataset.dn==='d'; box.classList.toggle('night',!DAY); box.classList.toggle('isDay',DAY);
       $$('.dnToggle button',box).forEach(x=>{ x.classList.toggle('on',x===bt); x.setAttribute('aria-pressed',x===bt); });
       if(quiz) askQ(); else info(cur,render(cur)); })); })();
@@ -4770,7 +4852,7 @@ const WINDS=[
   b.innerHTML=`<div class="nlTabs">${MODES.map(m=>`<button class="knTab" data-m="${m[0]}">${m[1]}</button>`).join('')}<button class="knTab nlBig" type="button" aria-pressed="false" title="Karta preko cijele širine, zadatak ispod nje">⤢ Veća karta</button></div>
     <div class="nlWrap"><div class="nlChart"><svg viewBox="0 0 ${W.toFixed(0)} ${H}" class="nlSvg"><g class="nlBase">${chartBase()}</g><g class="nlDyn"></g><g class="nlHand"></g></svg></div>
     <div class="nlPanel"><div class="nlTask"></div><div class="nlIn"></div><div class="nlOut" aria-live="polite"></div>
-    <div class="btnrow"><button class="btn p nlCheck">Provjeri</button><button class="btn nlShow">Pokaži postupak</button><button class="btn nlNew">Novi zadatak</button><button class="btn nlHandBtn" type="button" aria-pressed="false">🖐 Pribor rukom</button></div>
+    <div class="btnrow"><button class="btn p nlCheck">Provjeri</button><button class="btn nlShow">Pokaži postupak</button><button class="btn nlNew">Novi zadatak</button><button class="btn nlHandBtn" type="button" aria-pressed="false">Pribor rukom</button></div>
     <div class="nlHandTip" hidden></div>
     <div class="nlScore"></div></div></div>`;
   const svg=$('.nlSvg',b), dyn=$('.nlDyn',b);
@@ -5665,8 +5747,8 @@ window.VBExam=(function(){
     S={t:0,i:0,items:[],res:TABLES.map(()=>({ok:0,n:0,wrong:[]})),elim:false,strict:!!(opts&&opts.strict),times:[0,0,0],t0:0};
     intro(); }
   function intro(){
-    area.innerHTML=`<div class="qcard exIntro"><div class="qmeta"><span>${S.strict?'🎓 REŽIM ISPITA':'SIMULACIJA ISPITA'}</span><span>3 stola · 22 zadatka</span></div>
-      <p style="margin:6px 0 12px">Kao na pravom ispitu: tri ispitivača, jedan po jedan. Na svakom stolu treba <b>80 % točnih</b>. <b>Stol 1 je eliminacijski</b>: ako na njemu padneš, pao je cijeli ispit.</p>
+    area.innerHTML=`<div class="qcard exIntro"><div class="qmeta"><span>${S.strict?'REŽIM ISPITA':'SIMULACIJA ISPITA'}</span><span>3 stola · 22 zadatka</span></div>
+      <p style="margin:6px 0 12px">Kao na pravom ispitu: tri ispitivača, jedan po jedan. Za prolaz simulacije na svakom stolu treba <b>80 % točnih</b> (pravi ispit je usmeni i ocjenjuje ga ispitivač). <b>Stol 1 je eliminacijski</b>: ako na njemu padneš, pao je cijeli ispit.</p>
       ${S.strict?`<div class="exStrict"><b>Strogo kao na ispitu.</b> Nema povratne informacije dok ne završiš stol. Vrijeme po stolu: <b>10, 7 i 6 min</b>. Kad vrijeme istekne, neodgovorena pitanja broje se kao netočna.</div>`:''}
       <div class="exTables">${TABLES.map(t=>`<div class="exT"><span class="pill ${t.n===1?'r':t.n===2?'y':'b'}">${t.tag}</span><h4>Stol ${t.n} · ${t.name}</h4><p>${t.d}</p><p class="exN">${t.q} pitanja${t.chart?` + ${t.chart} zadatka na karti`:''}${S.strict?` · ${LIMIT[t.n-1]} min`:''}</p></div>`).join('')}</div>
       <div class="btnrow"><button class="btn p" id="exGo" type="button">Sjedni za Stol 1</button></div></div>`;
@@ -5674,13 +5756,13 @@ window.VBExam=(function(){
   function table(t){ S.t=t; S.i=0; const T=TABLES[t]; S.items=pick(T).concat(T.chart?chartItems():[]); S.t0=Date.now();
     stopTick(); if(S.strict){ const end=S.t0+LIMIT[t]*60000;
       tick=setInterval(()=>{ const c=el('exClock'); if(!c || !area.contains(c)){ if(!$('.exRun',area)) stopTick(); return; }
-        const left=end-Date.now(); c.textContent='⏱ '+mmss(left); c.classList.toggle('low',left<60000); if(left<=0) timeUp(); },250); }
+        const left=end-Date.now(); c.textContent=mmss(left); c.classList.toggle('low',left<60000); if(left<=0) timeUp(); },250); }
     show(); }
   function timeUp(){ stopTick(); const r=S.res[S.t]; // sve što nije odgovoreno ide kao netočno
     for(let k=r.n;k<S.items.length;k++){ r.n++; r.wrong.push(S.items[k]); }
     S.i=S.items.length; tableDone(true); }
   function head(){ const T=TABLES[S.t], r=S.res[S.t];
-    const right=S.strict?`<span class="exClock mono" id="exClock">⏱ ${mmss(S.t0+LIMIT[S.t]*60000-Date.now())}</span>`:`<span>${r.ok} točnih</span>`;
+    const right=S.strict?`<span class="exClock mono" id="exClock">${mmss(S.t0+LIMIT[S.t]*60000-Date.now())}</span>`:`<span>${r.ok} točnih</span>`;
     return `<div class="qmeta exRun"><span>STOL ${T.n} · ${T.name.toUpperCase()} · ${S.i+1} / ${S.items.length}</span>${right}</div>`; }
   function next(){ S.i++; if(S.i>=S.items.length) tableDone(); else show(); }
   function nextBtn(){ return `<div class="btnrow"><button class="btn p" id="exNext" type="button">${S.i+1>=S.items.length?'Kraj stola →':'Sljedeće ›'}</button></div>`; }
@@ -5708,8 +5790,8 @@ window.VBExam=(function(){
     else { const a=N.px(it.a[0],it.a[1]), b=N.px(it.b[0],it.b[1]); extra=mark(a,'A','#0b5fa5')+mark(b,'B','#0b5fa5');
       task='Zadatak na karti: <b>odredi pravi kurs od A do B</b> (trokutima prenosiš smjer s ruže).';
       inp=`<label>Kurs <input class="nlI exIn" data-k="c" inputmode="numeric" placeholder="npr. 047"> °</label>`; }
-    const dtools=it.kind==='pos'&&N.divTool?`<div class="nlHandTip exTools">📏 <b>Šestar.</b> ① Jedan vrh na <b>P</b>, drugi na najbližu <b>paralelu</b> (vodoravna crta mreže). ② Uhvati zglob <b>✥</b> i prenesi šestar na <b>bočnu skalu</b>: to su minute širine koje dodaješ ili oduzimaš od paralele. ③ Isto za dužinu: od P do najbližeg <b>meridijana</b>, pa na <b>gornju ili donju skalu</b>.<div class="nlHandStat exDivStat" aria-live="polite"></div></div>`:'';
-    const tools=it.kind==='course'&&N.triTool?`<div class="nlHandTip exTools">📐 <b>Trokut.</b> Okreni ga ručicom <b>⟳</b> (ili gumbima) dok hipotenuza ne legne na A–B, zatim ga <b>vuci</b> do središta ruže: kut ostaje isti. Očitaj kurs na obodu u smjeru plovidbe.<div class="btnrow"><button class="btn exRot" data-d="-1" type="button">↺ 1°</button><button class="btn exRot" data-d="-0.25" type="button">↺ ¼°</button><button class="btn exRot" data-d="0.25" type="button">↻ ¼°</button><button class="btn exRot" data-d="1" type="button">↻ 1°</button></div></div>`:'';
+    const dtools=it.kind==='pos'&&N.divTool?`<div class="nlHandTip exTools"><b>Šestar.</b> ① Jedan vrh na <b>P</b>, drugi na najbližu <b>paralelu</b> (vodoravna crta mreže). ② Uhvati zglob <b>✥</b> i prenesi šestar na <b>bočnu skalu</b>: to su minute širine koje dodaješ ili oduzimaš od paralele. ③ Isto za dužinu: od P do najbližeg <b>meridijana</b>, pa na <b>gornju ili donju skalu</b>.<div class="nlHandStat exDivStat" aria-live="polite"></div></div>`:'';
+    const tools=it.kind==='course'&&N.triTool?`<div class="nlHandTip exTools"><b>Trokut.</b> Okreni ga ručicom <b>⟳</b> (ili gumbima) dok hipotenuza ne legne na A–B, zatim ga <b>vuci</b> do središta ruže: kut ostaje isti. Očitaj kurs na obodu u smjeru plovidbe.<div class="btnrow"><button class="btn exRot" data-d="-1" type="button">↺ 1°</button><button class="btn exRot" data-d="-0.25" type="button">↺ ¼°</button><button class="btn exRot" data-d="0.25" type="button">↻ ¼°</button><button class="btn exRot" data-d="1" type="button">↻ 1°</button></div></div>`:'';
     area.innerHTML=`<div class="qcard">${head()}<div class="qtext">${task}</div><div class="exChartWrap">${chartSvg(extra)}</div>${tools}${dtools}
       <div class="nlIn exInRow">${inp}<button class="btn p" id="exChk" type="button">Provjeri</button></div><div id="exExpl"></div></div>`;
     if(tools){ const a=N.px(it.a[0],it.a[1]), b=N.px(it.b[0],it.b[1]), c=N.brg(a,b), m=[(a[0]+b[0])/2,(a[1]+b[1])/2], q=c*Math.PI/180;
@@ -5770,9 +5852,9 @@ window.VBExam=(function(){
     $$('[data-go]',area).forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); go(a.dataset.go); }));
     renderLast(); }
   function renderLast(){ const box=el('examSimLast'); if(!box) return; const st=store.get('examsim',{});
-    if(!st.last){ box.innerHTML=`<div class="exLast"><span>🎓 Simulacija ispita (3 stola) još nije odrađena.</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Pokreni u Kvizu ›</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
+    if(!st.last){ box.innerHTML=`<div class="exLast"><span>Simulacija ispita (3 stola) još nije odrađena.</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Pokreni u Kvizu ›</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
     else { const L=st.last, B=st.best;
-      box.innerHTML=`<div class="exLast"><span>🎓 Zadnja simulacija: <b class="mono">${L.ok}/${L.n}</b>, <b style="color:var(${L.pass?'--green':'--red'})">${L.pass?'PROLAZ':'PAD'}</b>${L.elim?' (Stol 1)':''}${L.strict?' <span class="pill y">režim ispita</span>':''} · najbolja ${B.ok}/${B.n}</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Nova simulacija ›</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
+      box.innerHTML=`<div class="exLast"><span>Zadnja simulacija: <b class="mono">${L.ok}/${L.n}</b>, <b style="color:var(${L.pass?'--green':'--red'})">${L.pass?'PROLAZ':'PAD'}</b>${L.elim?' (Stol 1)':''}${L.strict?' <span class="pill y">režim ispita</span>':''} · najbolja ${B.ok}/${B.n}</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Nova simulacija ›</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
     $$('[data-go]',box).forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); go(a.dataset.go); if(a.dataset.go==='p-kviz') setTimeout(start,0); }));
     $$('.exStrictGo',box).forEach(b=>b.addEventListener('click',()=>{ go('p-kviz'); setTimeout(()=>start({strict:true}),0); })); }
   document.addEventListener('DOMContentLoaded',renderLast); if(document.readyState!=='loading') setTimeout(renderLast,0);
@@ -5935,7 +6017,7 @@ window.VBExam=(function(){
   if('IntersectionObserver' in window) new IntersectionObserver(es=>{ vis=es[0].isIntersecting; if(vis) loop(); }).observe(b);
 
   b.innerHTML=`<div class="cdStrip">${strip()}</div>
-    <div class="cdTabs" role="tablist"><button class="knTab on" data-m="quad" type="button">🗺 Kvadranti</button><button class="knTab" data-m="night" type="button">🌙 Noćni kviz: po ritmu</button><button class="knTab" data-m="day" type="button">☀ Dnevni kviz: po izgledu</button></div>
+    <div class="cdTabs" role="tablist"><button class="knTab on" data-m="quad" type="button">Kvadranti</button><button class="knTab" data-m="night" type="button">Noćni kviz: po ritmu</button><button class="knTab" data-m="day" type="button">☀ Dnevni kviz: po izgledu</button></div>
     <div class="cdQ"></div>`;
   function showQuad(){ $('.cdQ',b).innerHTML=`<div class="cdQuadWrap">${quad()}<div class="cdInfo">${qInfo()}<p class="cdHint">Klikni oznaku na shemi.</p></div></div>`;
     $$('.cdQm',b).forEach(x=>{ const f=()=>{ qSel=x.dataset.k; showQuad(); }; x.addEventListener('click',f); x.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); f(); } }); });
@@ -5969,11 +6051,11 @@ window.VBSrs=(function(){
   function startC(){ const l=dueC(); if(!l.length||!window.VBCards) return; go('p-cards'); VBCards.deck(shuffle(l)); }
   function html(where){ const q=dueQ().length, c=dueC().length, s=soon(), t=total();
     const pips=[0,1,2].map(i=>{ const n=Object.values(S.q).concat(Object.values(S.c)).filter(e=>e.b===i).length; return `<span class="srsPip" title="${GAP[i]} ${GAP[i]===1?'dan':'dana'}">${GAP[i]} d · <b>${n}</b></span>`; }).join('');
-    if(!t && !S.done) return `<div class="srsBox"><span>🔁 <b>Ponavljanje s razmakom.</b> Krivo odgovorena pitanja iz kviza i kartice označene „Ne znam" vraćat će se ovdje nakon 1, 3 i 7 dana.</span></div>`;
+    if(!t && !S.done) return `<div class="srsBox"><span><b>Ponavljanje s razmakom.</b> Krivo odgovorena pitanja iz kviza i kartice označene „Ne znam" vraćat će se ovdje nakon 1, 3 i 7 dana.</span></div>`;
     const btnQ=where!=='cards'&&q?`<button class="btn p srsGoQ" type="button">Ponovi pitanja (${q})</button>`:'';
     const btnC=where!=='quiz'&&c?`<button class="btn${btnQ?'':' p'} srsGoC" type="button">Ponovi kartice (${c})</button>`:'';
     const now=where==='quiz'?q:where==='cards'?c:q+c;
-    return `<div class="srsBox${now?' due':''}"><span>🔁 <b>Ponavljanje s razmakom:</b> ${now?`danas na redu <b>${where==='cards'?c+' kartica':where==='quiz'?q+' pitanja':q+' pitanja i '+c+' kartica'}</b>.`:'danas je sve ponovljeno.'}
+    return `<div class="srsBox${now?' due':''}"><span><b>Ponavljanje s razmakom:</b> ${now?`danas na redu <b>${where==='cards'?c+' kartica':where==='quiz'?q+' pitanja':q+' pitanja i '+c+' kartica'}</b>.`:'danas je sve ponovljeno.'}
       ${s?` Sutra i prekosutra: ${s}.`:''} <span class="srsMeta">${pips}<span class="srsPip">naučeno · <b>${S.done||0}</b></span></span></span>
       ${btnQ||btnC?`<span class="btnrow">${btnQ}${btnC}</span>`:''}</div>`; }
   const SLOTS=[['srsHome','home','examSimLast','afterend'],['srsQuiz','quiz','quizArea','beforebegin'],['srsCards','cards','cardArea','beforebegin']];
@@ -6029,8 +6111,8 @@ window.VBSrs=(function(){
     <rect x="18" y="50" width="30" height="20" rx="4" fill="#39434c"/><path d="M48,54 L104,34 L104,86 L48,66 Z" fill="url(#sqBr)" stroke="#5a3f10"/><ellipse cx="104" cy="60" rx="7" ry="26" fill="#b5842b" stroke="#5a3f10"/>
     <g class="sqWaves" opacity=".12">${[0,1,2].map(i=>`<path d="M${122+i*22},${30-i*8} Q${140+i*26},60 ${122+i*22},${90+i*8}" stroke="#ffd166" stroke-width="${4-i}" fill="none" stroke-linecap="round"/>`).join('')}</g></svg>`;
   let score=store.get('soundquiz',{ok:0,n:0}), mode='hear', cur=null, done=false;
-  b.innerHTML=`<h4>🎧 Vježba: čuj i prepoznaj · zatrubi sam</h4>
-    <div class="sqTop"><div class="sqTabs"><button class="knTab on" data-m="hear" type="button">👂 Čuj i prepoznaj</button><button class="knTab" data-m="blow" type="button">📯 Zatrubi sam</button><button class="knTab" data-m="fog" type="button">🌫 Ritam u magli</button></div>
+  b.innerHTML=`<h4>Vježba: čuj i prepoznaj · zatrubi sam</h4>
+    <div class="sqTop"><div class="sqTabs"><button class="knTab on" data-m="hear" type="button">Čuj i prepoznaj</button><button class="knTab" data-m="blow" type="button">Zatrubi sam</button><button class="knTab" data-m="fog" type="button">Ritam u magli</button></div>
     <label class="sqReal"><input type="checkbox" class="sqRealCb"> stvarno trajanje (kratki 1 s, dugi 4 s)</label></div>
     <div class="sqBody"></div>`;
   const body=$('.sqBody',b);
@@ -6135,7 +6217,7 @@ window.VBSrs=(function(){
   const hull=()=>{ const q=s.h*Math.PI/180, c=Math.cos(q), n=Math.sin(q);
     return [[-12,-28],[12,-28],[13,20],[-13,20],[0,-31]].map(([x,y])=>[s.x+x*c-y*n, s.y+x*n+y*c]); };
 
-  b.innerHTML=`<h4>🎮 Pristani sam: vjetar i struja</h4>
+  b.innerHTML=`<h4>Pristani sam: vjetar i struja</h4>
     <p class="dwIntro"><b>Zadatak:</b> dovezi brodicu u <b>žuti okvir VEZ</b> između dviju privezanih brodica i zaustavi je <b>bokom uz obalu</b>, na mjestu prozirne brodice. Pravilo iz poglavlja: prilazi <b>pramcem u vjetar ili struju</b>. Tada te struja koči, kormilo bolje sluša i lakše staneš. Vijak je desnokretni: kad voziš krmom, krma izbija <b>ulijevo</b>.</p>
     <div class="dwEnv seg"><span>Uvjeti</span>${Object.keys(ENV).map(k=>`<button type="button" data-e="${k}"${k===env?' class="on"':''}>${ENV[k].n}</button>`).join('')}</div>
     <div class="dwEnv seg dwStr"><span>Jačina</span>${STR.map((x,i)=>`<button type="button" data-s="${i}"${i===str?' class="on"':''}>${x[0]}</button>`).join('')}</div>
@@ -6147,7 +6229,7 @@ window.VBSrs=(function(){
       <div class="dwGrp"><span>Stroj</span><button class="btn" data-t="-1" type="button">◀◀ Krmom</button><button class="btn" data-t="0" type="button">■ Stop</button><button class="btn" data-t="1" type="button">Polako</button><button class="btn" data-t="2" type="button">▶▶ Naprijed</button></div>
       <div class="dwGrp"><span>Kormilo</span>${RUD.map(r=>`<button class="btn" data-r="${r}" type="button">${r<0?`◀ ${-r}°`:r>0?`${r}° ▶`:'● Ravno'}</button>`).join('')}</div>
       <button class="btn dwReset" type="button">↺ Ispočetka</button></div>
-    <div class="dwKeys">⌨ Tipkovnica (klikni na lučicu): <kbd>↑</kbd> <kbd>↓</kbd> stroj · <kbd>←</kbd> <kbd>→</kbd> kormilo · <kbd>razmak</kbd> stop. Kormilo lijevo okreće pramac ulijevo.</div>
+    <div class="dwKeys">Tipkovnica (klikni na lučicu): <kbd>↑</kbd> <kbd>↓</kbd> stroj · <kbd>←</kbd> <kbd>→</kbd> kormilo · <kbd>razmak</kbd> stop. Kormilo lijevo okreće pramac ulijevo.</div>
     <div class="dwMsg" aria-live="polite"></div>`;
   const base=$('.dwBase',b), flow=$('.dwFlow',b), dyn=$('.dwDyn',b), hud=$('.dwHud',b), msg=$('.dwMsg',b), goal=$('.dwGoal',b);
   function drawBase(){ let g=SIM.water(W,H,'dw');
@@ -6193,10 +6275,10 @@ window.VBSrs=(function(){
     // sudari: obala i privezane brodice
     const P=hull(), minX=Math.min(...P.map(p=>p[0])); let touch=false;
     if(minX<QX){ const into=-g[0]; touch=true;
-      if(into>8||Math.hypot(g[0],g[1])>12) return end(false,`💥 <b>Udarac u obalu</b> brzinom ${(Math.hypot(g[0],g[1])/10).toFixed(1).replace('.',',')} čv. Priđi pod kutom i uspori na vrijeme: stani s <b>krmom</b>.`);
+      if(into>8||Math.hypot(g[0],g[1])>12) return end(false,`<b>Udarac u obalu</b> brzinom ${(Math.hypot(g[0],g[1])/10).toFixed(1).replace('.',',')} čv. Priđi pod kutom i uspori na vrijeme: stani s <b>krmom</b>.`);
       s.x+=QX-minX; s.v*=.6; }
     if(minX<QX+.8) touch=true; // leži uz obalu: sila prema obali se poništava
-    for(const [x,y,w,h] of MOOR) if(P.some(p=>p[0]>x&&p[0]<x+w&&p[1]>y&&p[1]<y+h)) return end(false,`💥 <b>Udario si u privezanu brodicu.</b> ${E.cur[1]||E.wind[1]?`Pazi: ${E.what==='struju'?'struja':'vjetar'} te nosi ${ (E.cur[1]||E.wind[1])>0?'prema jugu':'prema sjeveru'}.`:'Uspori ranije.'}`);
+    for(const [x,y,w,h] of MOOR) if(P.some(p=>p[0]>x&&p[0]<x+w&&p[1]>y&&p[1]<y+h)) return end(false,`<b>Udario si u privezanu brodicu.</b> ${E.cur[1]||E.wind[1]?`Pazi: ${E.what==='struju'?'struja':'vjetar'} te nosi ${ (E.cur[1]||E.wind[1])>0?'prema jugu':'prema sjeveru'}.`:'Uspori ranije.'}`);
     if(s.x>W+30||s.y<-40||s.y>H+40) return end(false,'Izašao si iz lučice. Pokušaj ponovno.');
     // uspjeh: bokom uz obalu, na vezu, gotovo stoji
     const hn=((s.h%360)+360)%360, par=Math.min(hn,Math.abs(hn-180),360-hn)<14, gap=Math.max(0,minX-QX), spd=Math.hypot(touch?Math.max(0,g[0]):g[0],g[1]);
@@ -6210,7 +6292,7 @@ window.VBSrs=(function(){
   function frame(now){ raf=null; if(!vis) return; const dt=Math.min(.05,(now-(last||now))/1000); last=now; t+=dt;
     if(!s.over) step(dt); draw(); drawFlow(); if(!s.over) raf=requestAnimationFrame(frame); }
   function run(){ last=0; if(s.started&&!raf&&!s.over) raf=requestAnimationFrame(frame); }
-  function restart(){ if(raf){ cancelAnimationFrame(raf); raf=null; } reset(); msg.innerHTML=''; drawBase(); drawFlow(); draw(); const E=ENV[env]; msg.innerHTML=(E.cross?`<div class="dwHint">💡 ${HINT[E.cross]}</div>`:'')+'<div class="dwSc">Simulacija kreće kad dirneš stroj ili kormilo.</div>'; }
+  function restart(){ if(raf){ cancelAnimationFrame(raf); raf=null; } reset(); msg.innerHTML=''; drawBase(); drawFlow(); draw(); const E=ENV[env]; msg.innerHTML=(E.cross?`<div class="dwHint">${HINT[E.cross]}</div>`:'')+'<div class="dwSc">Simulacija kreće kad dirneš stroj ili kormilo.</div>'; }
   b.addEventListener('click',e=>{ const x=e.target.closest('button'); if(!x) return;
     if(x.dataset.e){ env=x.dataset.e; $$('.dwEnv:not(.dwStr) button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
     if(x.dataset.s){ str=+x.dataset.s; $$('.dwStr button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
@@ -6305,7 +6387,7 @@ window.VBOsnova=(function(){
     'Instrumenti: manometar (tlak ulja), termometar, ampermetar, voltmetar, obrtomjer i nivokaz goriva.',
     'Pri krcanju goriva iskrcaj sve osim posade, zabrani pušenje, aparat u pripravu i zatvori otvore.'],
    map:{n:[['Usis','Četverotaktni motor',0,.12],['Kompresija','Četverotaktni motor',0,.37],['Ekspanzija','Četverotaktni motor',0,.63],['Ispuh','Četverotaktni motor',0,.88],
-     ['Benzin: iskra','Benzinski (Otto)',1,.3],['Dizel: samozapaljenje','💨 Dizel',1,.72],
+     ['Benzin: iskra','Benzinski (Otto)',1,.3],['Dizel: samozapaljenje','Dizel',1,.72],
      ['Ventil za ulaz mora','Hlađenje motora',2,.17],['Instrumenti','Instrumenti za kontrolu',2,.5],['Krcanje goriva','Krcanje goriva',2,.83]],
     e:[[0,1],[1,2],[2,3],[1,4],[1,5]]}},
   'p-propisi':{t:'rules',os:[
@@ -6346,8 +6428,8 @@ window.VBOsnova=(function(){
     'SAR: besplatni broj 195, MRCC Rijeka, 24 sata.',
     'Četiri obavezna čvora: pašnjak, muški, zastavni i vrzni uzao.'],
    map:{n:[['Nezgode','Postupci u nezgodama',0,.17],['Spašavanje','Spašavanje: pravna pravila',0,.5],['SAR: 195','SAR služba',0,.83],
-     ['Sudar: osobe prvo','💥 Sudar',1,.17],['Osobe: bez naknade','Spašavanje: pravna pravila',1,.5],['MRCC Rijeka','SAR služba',1,.83],
-     ['Požar: gasi odmah','🔥 Požar',2,.17],['Imovina: naknada','Spašavanje: pravna pravila',2,.5],['4 obavezna čvora','Konopi i čvorovi',2,.83]],
+     ['Sudar: osobe prvo','Sudar',1,.17],['Osobe: bez naknade','Spašavanje: pravna pravila',1,.5],['MRCC Rijeka','SAR služba',1,.83],
+     ['Požar: gasi odmah','Požar',2,.17],['Imovina: naknada','Spašavanje: pravna pravila',2,.5],['4 obavezna čvora','Konopi i čvorovi',2,.83]],
     e:[[0,3,'l'],[3,6,'l'],[1,4,'l'],[4,7,'l'],[2,5]]}},
   'p-radio':{t:'radio',os:[
     'Kanal 16 (156,800 MHz) je za pogibelj, poziv i sigurnost i pratiš ga cijelo vrijeme plovidbe.',
@@ -6392,7 +6474,7 @@ window.VBOsnova=(function(){
     lis.forEach(li=>$('.osShow',li).addEventListener('click',e=>{ $('.osAns',li).hidden=false; e.currentTarget.remove(); upd(); }));
     $('.osNew',tools).addEventListener('click',()=>{ tools.classList.remove('open'); oral(bx,t,btn); }); upd(); }
   function mount(){ Object.keys(D).forEach(id=>{ const sec=el(id); if(!sec||$('.osBox',sec)) return; const d=D[id], h2=$('h2.ph',sec);
-      const box=`<div class="osBox" data-topic="${d.t}"><div class="osHead"><b>OSNOVA</b><span>ako naučiš samo ovo, prolaziš</span><button class="osOralBtn" type="button" aria-expanded="false">🔊 Usmeno</button></div>
+      const box=`<div class="osBox" data-topic="${d.t}"><div class="osHead"><b>OSNOVA</b><span>ako naučiš samo ovo, prolaziš</span><button class="osOralBtn" type="button" aria-expanded="false">Usmeno</button></div>
         <ul class="osList">${d.os.map(s=>`<li>${s}</li>`).join('')}</ul><div class="osTools"></div>
         <div class="osMap"><div class="osMapTitle">Karta uma <small>klikni pojam za skok u tekst</small></div>${mapSvg(d.map,id)}</div></div>`;
       if(h2) h2.insertAdjacentHTML('afterend',box); else sec.insertAdjacentHTML('afterbegin',box);
@@ -6972,12 +7054,12 @@ function seaBackground(w,h,o){
       </select></div>
     <div><label style="font-size:12px;color:var(--txt2)">Broj osoba / tražena pomoć</label><br><input type="text" id="mdHelp" value="4 osobe na brodici, tražimo hitno spašavanje" style="width:100%"></div>
   </div>
-  <div class="btnrow"><button class="btn p" id="mdGo">Sastavi poziv</button><button class="btn" id="mdTimer" type="button">⏱ Izgovori naglas (7 s po retku)</button></div><div id="mdTime"></div>
+  <div class="btnrow"><button class="btn p" id="mdGo">Sastavi poziv</button><button class="btn" id="mdTimer" type="button">Izgovori naglas (7 s po retku)</button></div><div id="mdTime"></div>
   <div id="mdOut"></div>`;
   function build(){
     const n=el('mdName').value.trim()||'(ime)', p=el('mdPos').value.trim()||'(pozicija)',
           d=el('mdDanger').value, h=el('mdHelp').value.trim()||'(tražena pomoć)';
-    el('mdOut').innerHTML=`<div class="mdRadio" aria-label="Radio: kanal 16, 156.800 MHz, odašiljanje"><span class="mdTx">TX</span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div style="font-family:var(--mono);font-size:14.5px;line-height:1.95;background:rgba(239,74,90,.1);border-left:3px solid var(--red);padding:16px;border-radius:0 10px 10px 0;margin-top:6px">
+    el('mdOut').innerHTML=`<div class="mdRadio" aria-label="Radio: kanal 16, 156.800 MHz, odašiljanje"><span class="mdTx">TX</span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div style="font-family:var(--mono);font-size:14.5px;line-height:1.95;background:var(--panel2);border-left:3px solid var(--red);padding:16px;margin-top:6px">
       <span style="color:var(--red);font-weight:800">MAYDAY, MAYDAY, MAYDAY</span><br>
       OVDJE<br>
       <span style="color:var(--acc)">${n}, ${n}, ${n}</span><br><br>
@@ -7164,7 +7246,7 @@ const QB=[
 
 /* ---------- ENGINE ---------- */
 {t:'engine',q:'Koji su četiri takta četverotaktnog motora, redom?',o:['Usis, kompresija, ekspanzija, ispuh','Kompresija, usis, ispuh, ekspanzija','Usis, ekspanzija, kompresija, ispuh','Paljenje, usis, ispuh, hlađenje'],a:0,e:'Radni takt je <b>ekspanzija</b>: jedini koji daje snagu.'},
-{t:'engine',q:'Koja su dva takta dvotaktnog motora?',o:['Izmjena medija i kompresija; izgaranje i ekspanzija','Usis i ispuh','Kompresija i paljenje','Punjenje i pražnjenje'],a:0,e:'Dvotaktni <b>nema ventile</b>, ima usisne (ispirne) kanale. Radni takt pri svakom okretaju.'},
+{t:'engine',q:'Koja su dva takta dvotaktnog motora?',o:['Izmjena medija i kompresija; izgaranje i ekspanzija','Usis i ispuh','Kompresija i paljenje','Punjenje i pražnjenje'],a:0,e:'Dvotaktni <b>nema ventile</b>, ima kanale (usisni, ispirni i ispušni). Radni takt pri svakom okretaju.'},
 {t:'engine',q:'Kako radi dizel motor?',o:['Čisti zrak se sabija do ~700 °C, pa se ubrizga raspršeno gorivo koje se samozapali','Smjesa goriva i zraka pali se svjećicom','Gorivo se pali kompresorom','Zrak i gorivo miješaju se u rasplinjaču'],a:0,e:'Dizel <b>nema rasplinjača ni svjećice</b>. Visokotlačna pumpa kroz rasprskač ubrizga gorivo „u vidu magle".'},
 {t:'engine',q:'Gdje se kod benzinskog motora miješaju zrak i gorivo?',o:['U rasplinjaču (karburatoru)','U cilindru','U ispušnoj grani','U spremniku goriva'],a:0,e:'Smjesa uslijed <b>podtlaka</b> ulazi u cilindar i pali se iskrom svjećice blizu gornje mrtve točke.'},
 {t:'engine',q:'Koje su vrste hlađenja motora?',o:['Zračno i vodeno (vodeno: izravno i neizravno)','Samo vodeno','Uljno i zračno','Zračno, vodeno i uljno'],a:0,e:'<b>Izravno</b>: morska voda ulazi u motor (jeftinije, češće). <b>Neizravno</b>: motor hladi slatka voda iz hladnjaka (kilera), a kiler hladi morska voda.'},
@@ -7371,7 +7453,7 @@ const QB=[
 (function(){
   const area=el('quizArea'); if(!area) return;
   let sel=new Set(Object.keys(TOPICS)), deck=[], i=0, correct=0, answers=[], streak=0, best=0;
-  const stk=()=> streak>=2?` · <span class="streak${streak>=5?' hot':''}" title="uzastopno točnih">🔥 streak ${streak}</span>`:'';
+  const stk=()=> streak>=2?` · <span class="streak${streak>=5?' hot':''}" title="uzastopno točnih">streak ${streak}</span>`:'';
   function renderTopics(){
     el('quizTopics').innerHTML=Object.keys(TOPICS).map(k=>
       `<span class="chip qtc${sel.has(k)?' on':''}" data-k="${k}">${TOPICS[k]} <b style="opacity:.6">${QB.filter(q=>q.t===k).length}</b></span>`).join('')
@@ -7658,7 +7740,7 @@ const CARDS=[
   (function(){
     const bt=el('xpReset'), msg=el('xpResetMsg'); if(!bt||!window.VB) return;
     let armed=0, tm=0;
-    const idle='Briše XP, level, značke, pročitana poglavlja, checkliste, plan učenja i rezultate vježbi.';
+    const idle='Briše značke, pročitana poglavlja, checkliste, plan učenja i rezultate vježbi.';
     bt.addEventListener('click',()=>{
       if(!armed){
         armed=1; bt.classList.add('p'); bt.textContent='Klikni ponovno za potvrdu';
@@ -7755,12 +7837,12 @@ const CARDS=[
       const cls=(d.date===tISO?' today':'')+(all?' done':'')+(d.date<tISO?' past':'');
       h+=`<div class="pday${cls}"><div class="dh"><b>Dan ${di+1}${d.date===tISO?' · danas':''}</b><span>${DAYN[dt.getDay()]} ${dt.getDate()}.${dt.getMonth()+1}.</span></div>`;
       d.items.forEach((it,ii)=>{
-        const links=it.pg.map(pg=>{ const pe=el(pg); return pe?`<a data-go="${pg}">${pe.dataset.icon||''} ${pe.dataset.title}</a>`:''; }).join('');
+        const links=it.pg.map(pg=>{ const pe=el(pg); return pe?`<a data-go="${pg}">${pe.dataset.title}</a>`:''; }).join('');
         h+=`<label><input type="checkbox" data-k="${di}_${ii}" ${done[di+'_'+ii]?'checked':''}><span>${it.n}</span></label><div class="plinks">${links}</div>`;
       });
       const qts=d.items.map(x=>x.qt).filter(Boolean);
-      if(qts.length) h+=`<div class="pq">🎯 Odradi <b>${qn} pitanja</b> iz: ${[...new Set(qts)].map(q=>TOPICS[q]).join(', ')}</div>`;
-      else if(d.items.some(x=>x.id==='rev')) h+=`<div class="pq">🎯 <b>Simulacija ispita</b> (20 pitanja) + <b>samo trik-pitanja</b></div>`;
+      if(qts.length) h+=`<div class="pq">Odradi <b>${qn} pitanja</b> iz: ${[...new Set(qts)].map(q=>TOPICS[q]).join(', ')}</div>`;
+      else if(d.items.some(x=>x.id==='rev')) h+=`<div class="pq"><b>Simulacija ispita</b> (20 pitanja) + <b>samo trik-pitanja</b></div>`;
       h+='</div>';
     });
     h+='</div>';
