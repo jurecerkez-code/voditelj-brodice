@@ -1080,11 +1080,17 @@ select,input[type=text],input[type=number],input[type=date]{background:var(--bg)
 .wBfB,.wBfB.on{background:linear-gradient(0deg,#b9c9d2 0,#b9c9d2 var(--h),transparent var(--h))!important; border:1px solid var(--line)!important; color:var(--txt2)!important; font:500 12px var(--mono)!important}
 .wBfB.on{background:linear-gradient(0deg,var(--red) 0,var(--red) var(--h),transparent var(--h))!important; border:2px solid var(--red)!important; color:var(--txt)!important; font-weight:700!important}
 .wBfTxt{font-size:16px!important; margin-top:12px!important} .wBfTxt b{font-size:18px}
+:root:not([data-theme="night"]){--txt3:#5f6670; --yellow:#7a5d00}
+:root[data-theme="night"]{--txt3:#a07a70; --gold:#d9a84a}
+:root[data-theme="night"] .knStage .btn.p{color:#1c2430!important}
 :root{--sea-t:#e6eff3; --sea-m:#dae7ed; --sea-b:#cddfe6; --sea-line:#6f9bb0; --sea-k:1.7}
 :root[data-theme="night"]{--sea-t:#3f86b3; --sea-m:#1f5a82; --sea-b:#0b2a44; --sea-line:#a9dcf5; --sea-k:1}
+.lgScroll{-webkit-overflow-scrolling:touch; scrollbar-width:thin}
+:focus-visible{outline:2px solid var(--acc)!important; outline-offset:2px!important}
+.lgHint{font:500 12px var(--sans); color:var(--txt2); margin:4px 0 10px}
 .chip.on{background:none!important; color:var(--txt)!important; border:1.5px solid var(--txt)!important; font-weight:600}
 .chip.on::before{content:"\2713\00a0"; color:var(--green)}
-:root:not([data-theme="night"]) .svgbox,:root:not([data-theme="night"]) .night,:root:not([data-theme="night"]) .knStage{background:transparent!important; border:0!important; border-top:1px solid var(--line)!important; border-bottom:1px solid var(--line)!important; padding:14px 0!important; --txt:#1c2430; --txt2:#4a5360; --txt3:#7b828c; --line:#d6cfc0; --line2:#b9b09c; --acc:#1f4e79; --acc2:#1f4e79; --panel:#f6f3ec; --panel2:#efeadf; --green:#2f6b3a; --red:#b3261e; --yellow:#8a6a00; color:#1c2430!important}
+:root:not([data-theme="night"]) .svgbox,:root:not([data-theme="night"]) .night,:root:not([data-theme="night"]) .knStage{background:transparent!important; border:0!important; border-top:1px solid var(--line)!important; border-bottom:1px solid var(--line)!important; padding:14px 0!important; --txt:#1c2430; --txt2:#4a5360; --txt3:#5f6670; --line:#d6cfc0; --line2:#b9b09c; --acc:#1f4e79; --acc2:#1f4e79; --panel:#f6f3ec; --panel2:#efeadf; --green:#2f6b3a; --red:#b3261e; --yellow:#8a6a00; color:#1c2430!important}
 :root:not([data-theme="night"]) .svgcap{color:var(--txt3)!important}
 :root:not([data-theme="night"]) .svgbox strong{color:var(--txt)!important}
 :root:not([data-theme="night"]) .svgbox .btn,:root:not([data-theme="night"]) .knStage .btn{color:var(--txt)!important; border-color:var(--line2)!important}
@@ -1129,7 +1135,7 @@ select,input[type=text],input[type=number],input[type=date]{background:var(--bg)
 
 <div id="main">
   <div id="topbar">
-    <button id="burger">☰</button>
+    <button id="burger" aria-label="Izbornik poglavlja">☰</button>
     <span class="crumb" id="crumb">Početna</span>
     <span class="spacer"></span>
     <div class="topxp" id="topXp" title="Iskustvo (XP)"><span class="lvmini" id="topLvl">Lv 0</span><span id="topXpTxt">0 XP</span><div class="xpbar"><i id="topXpBar"></i></div></div>
@@ -3202,7 +3208,7 @@ pages.forEach(p=>{ const g=p.dataset.group||'Ostalo'; (groups[g]=groups[g]||[]).
 let navHTML='';
 Object.keys(groups).forEach(g=>{
   navHTML+=`<div class="navgrp"><span>${g}</span>`;
-  groups[g].forEach(p=>{ navHTML+=`<div class="navlink" data-t="${p.id}"><span class="ic">${p.dataset.icon||'•'}</span><span>${p.dataset.title}</span><span class="dot"></span></div>`; });
+  groups[g].forEach(p=>{ navHTML+=`<div class="navlink" data-t="${p.id}"><span class="ic" aria-hidden="true">${p.dataset.icon||'•'}</span><span>${p.dataset.title}</span><span class="dot"></span></div>`; });
   navHTML+='</div>';
 });
 el('navlist').innerHTML=navHTML;
@@ -4199,7 +4205,7 @@ const COLREG=[
 (function(){
   const b=el('riskWidget'); if(!b) return;
   const W=340,H=300;
-  let g=`<rect width="${W}" height="${H}" fill="#0b2135" rx="10"/>`;
+  let g=`<clipPath id="seaClip${W}x${H}"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#seaClip${W}x${H})">${seaBackground(W,H,{view:'top'})}</g>`;
   g+=`<g transform="translate(${W/2},${H-50})"><path d="M0,-20 L10,-4 L10,14 L-10,14 L-10,-4 Z" fill="${C.acc}"/></g>`;
   g+=`<text x="${W/2}" y="${H-16}" text-anchor="middle" font-size="12" fill="${C.acc}" font-weight="700">TI</text>`;
   const other=[[250,60],[228,105],[206,150]];
@@ -4226,7 +4232,7 @@ const COLREG=[
       <text x="${x}" y="${y+42}" text-anchor="middle" font-size="12.5" font-weight="800" fill="${c}">${lbl}</text>
       <text x="${x}" y="${y+58}" text-anchor="middle" font-size="11" fill="${C.txt2}">${sub}</text>`;
   }
-  let g=`<rect width="${W}" height="${H}" fill="#0b2135" rx="10"/>`;
+  let g=`<clipPath id="seaClip${W}x${H}"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#seaClip${W}x${H})">${seaBackground(W,H,{view:'top'})}</g>`;
   g+=`<line x1="${W/2}" y1="14" x2="${W/2}" y2="${H-14}" stroke="${C.line}" stroke-dasharray="6 5"/>`;
   // left: different tacks
   g+=`<text x="${W/4}" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${C.txt}">RAZLIČITI BOK</text>`;
@@ -4711,7 +4717,7 @@ const WINDS=[
     return g;
   }
   const defs=`<defs><marker id="ahw" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><polygon points="0,0 9,4.5 0,9" fill="#39b8e8"/></marker></defs>`;
-  let g=`<rect width="${W}" height="${H}" fill="#0b2135" rx="10"/>`;
+  let g=`<clipPath id="seaClip${W}x${H}"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#seaClip${W}x${H})">${seaBackground(W,H,{view:'top'})}</g>`;
   g+=panel(20,'DESNOKRETNI vijak: vožnja KRMOM',-1,'krma izbija ULIJEVO → pristani LIJEVIM bokom',C.acc);
   g+=`<line x1="${W/2}" y1="14" x2="${W/2}" y2="${H-14}" stroke="${C.line}" stroke-dasharray="6 5"/>`;
   g+=panel(340,'LIJEVOKRETNI vijak: vožnja KRMOM',1,'krma izbija UDESNO → pristani DESNIM bokom',C.acc);
@@ -4722,8 +4728,7 @@ const WINDS=[
 (function(){
   const b=el('anchorWidget'); if(!b) return;
   const W=660,H=280;
-  let g=`<rect width="${W}" height="${H}" fill="#0e3350" rx="10"/>`;
-  g+=`<rect width="${W}" height="60" fill="#0b1e30"/>`;
+  let g=`<rect width="${W}" height="60" fill="#0b1e30"/>`+seaBackground(W,H,{y:60,view:'section'});
   g+=`<path d="M0,238 q120,-14 260,4 t400,-8 L${W},${H} L0,${H} Z" fill="#7a6a2e"/>`;
   g+=`<text x="16" y="${H-10}" font-size="11" fill="#d9cf9a">morsko dno: mulj / pijesak = najbolje</text>`;
   // boat
@@ -5216,7 +5221,7 @@ const SIM={
       ${o.prop?`<circle cx="0" cy="19" r="3" fill="none" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3 2"><animateTransform attributeName="transform" type="rotate" from="0 0 19" to="${o.prop>0?360:-360} 0 19" dur=".5s" repeatCount="indefinite"/></circle>`:''}
     </g>`; },
   water(W,H,id){ return seaBackground(W,H,{view:'top'}); }, // v4: zajedničko more (ptičja perspektiva)
-  ctl(){ return `<div class="knCtl"><button class="btn" data-a="first">⏮</button><button class="btn" data-a="prev">◀ Nazad</button><button class="btn p" data-a="play">▶ Reproduciraj</button><button class="btn" data-a="next">Dalje ▶</button></div><div class="knProg"></div>`; }
+  ctl(){ return `<div class="knCtl"><button class="btn" data-a="first" aria-label="Na početak" title="Na početak">⏮</button><button class="btn" data-a="prev">◀ Nazad</button><button class="btn p" data-a="play">▶ Reproduciraj</button><button class="btn" data-a="next">Dalje ▶</button></div><div class="knProg"></div>`; }
 };
 
 /* ── ČOVJEK U MORU ── */
@@ -5445,7 +5450,7 @@ const SIM={
   const norm=s=>s.toUpperCase().replace(/Č|Ć/g,'C').replace(/Š/g,'S').replace(/Ž/g,'Z').replace(/Đ|DŽ/g,'DZ').replace(/[^A-Z]/g,'');
   const N=10; let q=[], i=0, ok=0, t0=0, mode='l2w';
   b.innerHTML=`<div class="nlTabs"><button class="knTab on" data-m="l2w">Slovo → riječ</button><button class="knTab" data-m="w2l">Riječ → slovo</button></div>
-    <div class="phBox"><div class="phQ" aria-live="polite"></div><input class="phIn" autocomplete="off" spellcheck="false" placeholder="upiši i Enter"><div class="phFb"></div></div>
+    <div class="phBox"><div class="phQ" aria-live="polite"></div><input class="phIn" aria-label="Odgovor: riječ fonetske abecede" autocomplete="off" spellcheck="false" placeholder="upiši i Enter"><div class="phFb"></div></div>
     <div class="phBar"></div><div class="btnrow"><button class="btn p phGo">Novi krug (10)</button></div>`;
   const inp=$('.phIn',b);
   function show(){ const L=q[i]; $('.phQ',b).innerHTML=mode==='l2w'?`<span class="phBig">${L}</span>`:`<span class="phBig w">${MAIN[L]}</span>`;
@@ -5479,7 +5484,7 @@ const SIM={
   let si=0, first=true, score=0, done=0;
   b.innerHTML=`<div class="frWrap"><div class="frTri">
     <svg viewBox="0 0 260 230" class="frSvg"><g class="frSides"></g><g class="frFlame" transform="translate(130,150)"></g></svg>
-    <div class="frBtns"><button class="btn" data-x="g">Zatvori dovod goriva</button><button class="btn" data-x="k">Pokrij / zatvori otvore</button><button class="btn" data-x="t">Hladi</button><button class="btn" data-x="r">↺</button></div>
+    <div class="frBtns"><button class="btn" data-x="g">Zatvori dovod goriva</button><button class="btn" data-x="k">Pokrij / zatvori otvore</button><button class="btn" data-x="t">Hladi</button><button class="btn" data-x="r" aria-label="Ispočetka" title="Ispočetka">↺</button></div>
     <div class="frTxt">Vatri trebaju tri stvari: <b>gorivo</b>, <b>kisik</b> i <b>toplina</b>. Makni jednu i vatra se gasi.</div></div>
     <div class="frQ"><div class="frScen"></div><div class="frAg">${AG.map(a=>`<button class="ordItem" data-a="${a[0]}">${a[1]}</button>`).join('')}</div><div class="frFb" aria-live="polite"></div>
     <div class="btnrow"><button class="btn frNext">Sljedeći požar ▶</button></div>
@@ -8054,6 +8059,85 @@ const CARDS=[
   function observe(){ mo.observe(content,{childList:true,subtree:true,attributes:true,attributeFilter:PROPS}); }
   run(); observe();
   new MutationObserver(function(){ mo.disconnect(); run(); observe(); }).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();
+</script>
+<script>
+/* v3: WCAG AA kontrast u dnevnom načinu. Tekst (HTML i SVG) čija boja nema dovoljan kontrast
+   prema podlozi potamni se miješanjem s tintom, zadržavajući ton. Noćni način vraća original. */
+(function(){
+  var root=document.documentElement, content=document.getElementById('content'); if(!content) return;
+  var INK=[28,36,48], SKIP='[data-keep-dark], #lightStage, .dnBox, .dsCard, #distressWidget, .wSea';
+  function rgb(c){ var m=String(c).match(/[\d.]+/g); return m?m.map(Number):null; }
+  function lin(v){ v/=255; return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4); }
+  function lum(c){ return .2126*lin(c[0])+.7152*lin(c[1])+.0722*lin(c[2]); }
+  function ratio(a,b){ var x=lum(a), y=lum(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); }
+  function mix(c,t){ return [0,1,2].map(function(k){ return Math.round(c[k]*(1-t)+INK[k]*t); }); }
+  function bgOf(e){ var cur=e, stack=[];
+    while(cur&&cur.nodeType===1){ var c=rgb(getComputedStyle(cur).backgroundColor); if(c&&(c[3]===undefined||c[3]>0)) stack.push(c); if(c&&(c[3]===undefined||c[3]>=.95)) break; cur=cur.parentElement; }
+    var base=[246,243,236]; for(var i=stack.length-1;i>=0;i--){ var s=stack[i], a=s[3]===undefined?1:s[3]; base=[0,1,2].map(function(k){ return s[k]*a+base[k]*(1-a); }); } return base; }
+  function need(cs){ var fs=parseFloat(cs.fontSize), fw=+cs.fontWeight||400; return (fs>=24||(fs>=18.66&&fw>=700))?3:4.5; }
+  function fixHTML(e){
+    if(e.dataset.occ!=null) return; var cs=getComputedStyle(e); if(cs.display==='none') return;
+    var has=false; for(var i=0;i<e.childNodes.length;i++){ var n=e.childNodes[i]; if(n.nodeType===3&&n.textContent.trim()){ has=true; break; } } if(!has) return;
+    var fg=rgb(cs.color); if(!fg) return; var a=fg[3]===undefined?1:fg[3]; if(a<.99) return;
+    var bg=bgOf(e); if(lum(bg)<.35) return; // tamna podloga: nije dnevni tekst
+    var nd=need(cs); if(ratio(fg,bg)>=nd) return;
+    var t=0, c=fg; while(ratio(c,bg)<nd && t<1){ t+=.1; c=mix(fg,t); }
+    e.dataset.occ=e.style.getPropertyValue('color')||''; e.style.setProperty('color','rgb('+c.join(',')+')','important');
+  }
+  function fixSVG(e){
+    if(e.dataset.ocf!=null) return; var cs=getComputedStyle(e); var fg=rgb(cs.fill); if(!fg||cs.fill==='none') return;
+    var bg=[230,238,242]; var nd=parseFloat(cs.fontSize)>=18?3:4.5; if(ratio(fg,bg)>=nd) return;
+    var t=0, c=fg; while(ratio(c,bg)<nd && t<1){ t+=.1; c=mix(fg,t); }
+    e.dataset.ocf='1'; e.style.setProperty('fill','rgb('+c.join(',')+')','important');
+  }
+  function restore(scope){ scope.querySelectorAll('[data-occ]').forEach(function(e){ if(e.dataset.occ) e.style.setProperty('color',e.dataset.occ); else e.style.removeProperty('color'); delete e.dataset.occ; });
+    scope.querySelectorAll('[data-ocf]').forEach(function(e){ e.style.removeProperty('fill'); delete e.dataset.ocf; }); }
+  function scan(scope){
+    if(root.dataset.theme==='night') return;
+    var list=scope.nodeType===1?[scope].concat([].slice.call(scope.querySelectorAll('*'))):[];
+    list.forEach(function(e){ if(e.closest(SKIP)) return;
+      if(e.closest('svg')){ if(/^(text|tspan)$/i.test(e.tagName)) fixSVG(e); } else fixHTML(e); });
+  }
+  var mo=new MutationObserver(function(ms){ mo.disconnect();
+    ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if(n.nodeType===1&&n.isConnected) scan(n); }); }); obs(); });
+  function obs(){ mo.observe(content,{childList:true,subtree:true}); }
+  // stranice su skrivene (display:none) dok nisu aktivne: skeniraj aktivnu i svaku koju otvoriš
+  function scanVisible(){ document.querySelectorAll('section.page').forEach(function(s){ if(getComputedStyle(s).display!=='none'&&!s.dataset.ctok){ s.dataset.ctok='1'; scan(s); } }); }
+  scan(content); obs();
+  new MutationObserver(scanVisible).observe(content,{attributes:true,subtree:true,attributeFilter:['class']});
+  window.addEventListener('hashchange',function(){ setTimeout(scanVisible,50); });
+  new MutationObserver(function(){ mo.disconnect(); if(root.dataset.theme==='night') restore(content); else scan(content); obs(); }).observe(root,{attributes:true,attributeFilter:['data-theme']});
+  scan(document.getElementById('sidebar')||document.createElement('i'));
+  var tb=document.getElementById('topbar'); if(tb) scan(tb);
+})();
+</script>
+<script>
+/* v3: čitljivost crteža na mobitelu. Ako bi najmanji tekst u SVG-u bio manji od 10 px,
+   crtež dobije minimalnu širinu, a okvir vodoravni pomak (kao široke tablice). */
+(function(){
+  var content=document.getElementById('content'); if(!content) return;
+  var MIN=10;
+  function fix(svg){
+    var vb=svg.viewBox&&svg.viewBox.baseVal; if(!vb||!vb.width) return;
+    if(vb.width/vb.height<1.6){ svg.style.minWidth=''; return; } // okrugli/kvadratni crteži moraju stati cijeli
+    if(svg.closest('.osMap,.osMapWrap,[data-no-legible],#chartWidget,#navLab,#dockWind,#dockSim,#mobSim,#anchorSim,.dsCard,.ialaCard,#lateralWidget,#cardinalWidget,#otherMarksWidget,#anchorWidget,.wSea,#lightStage')) return;
+    var fs=Infinity; svg.querySelectorAll('text').forEach(function(t){ var f=parseFloat(t.getAttribute('font-size')||getComputedStyle(t).fontSize); if(f>0&&f<fs) fs=f; });
+    if(fs===Infinity) return;
+    var need=Math.min(vb.width, Math.ceil(vb.width*MIN/fs));
+    var host=svg.parentElement; if(!host) return;
+    var avail=host.clientWidth||0;
+    if(avail && avail<need){ svg.style.minWidth=need+'px'; svg.style.maxWidth='none'; host.style.overflowX='auto'; host.classList.add('lgScroll');
+      if(!(host.nextElementSibling&&host.nextElementSibling.classList.contains('lgHint'))&&!host.querySelector(':scope > .lgHint')){ var h=document.createElement('div'); h.className='lgHint'; h.textContent='↔ Povuci vodoravno za cijeli crtež'; if(host===svg.parentElement&&host.tagName!=='svg') host.insertAdjacentElement('afterend',h); } }
+    else { svg.style.minWidth=''; var nx=host.nextElementSibling; if(nx&&nx.classList.contains('lgHint')) nx.remove(); }
+  }
+  function all(scope){ (scope||content).querySelectorAll('svg').forEach(fix); }
+  var t=null; function later(){ clearTimeout(t); t=setTimeout(function(){ all(); },120); }
+  window.addEventListener('resize',later);
+  new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if(n.nodeType!==1) return; if(n.tagName&&n.tagName.toLowerCase()==='svg') fix(n); else if(n.querySelectorAll) n.querySelectorAll('svg').forEach(fix); }); }); })
+    .observe(content,{childList:true,subtree:true});
+  new MutationObserver(later).observe(content,{attributes:true,subtree:true,attributeFilter:['class']});
+  all();
 })();
 </script>
 </body>
