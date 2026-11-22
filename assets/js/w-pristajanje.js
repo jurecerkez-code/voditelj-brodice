@@ -11,17 +11,19 @@
     on:'Vjetar s mora gura te prema obali: stani usporedno s vezom dva do tri metra od obale i pusti da te vjetar primakne.'};
   const num=(x,d)=>x.toFixed(d==null?1:d).replace('.',','), wrap=a=>((a+540)%360)-180;
   let env='calm', str=1, w=null, over=false, started=false, paused=false, raf=null, last=0, vis=true, t=0, speed=1, ghost=true, trail=[], tt=0;
-  let score=store.get('dockwind',{ok:0,n:0});
+  let score=store.get('dockwind',{ok:0,n:0}), ob=!!store.get('dockdrive',0);
 
   b.innerHTML=`<h4>Simulator pristajanja: vozi sam</h4>
-    <p class="dwIntro"><b>Zadatak:</b> dovezi brodicu u <b>žuti okvir VEZ</b> između dviju privezanih brodica i zaustavi je <b>bokom uz obalu</b>. Brodica je duga 6 m, ima ugrađeni motor, desnokretni vijak i kormilo. Vrijeme teče stvarnom brzinom.</p>
+    <p class="dwIntro"><b>Zadatak:</b> dovezi brodicu u <b>žuti okvir VEZ</b> između dviju privezanih brodica i zaustavi je <b>bokom uz obalu</b>. Brodica je duga 6 m. Biraš pogon: ugrađeni motor s kormilom ili izvanbrodski motor. Vrijeme teče stvarnom brzinom.</p>
     <details class="dwPhys"><summary>Kako se brodica ponaša (pročitaj prije prve vožnje)</summary><ul>
       <li><b>Nema kočnice.</b> Iz 2 čv u neutralu klizi još desetak metara. Zaustavljaš je kratkom vožnjom krmom.</li>
       <li><b>Kormilo radi samo dok preko njega struji voda.</b> Kad stojiš, okret kormila ne čini ništa. Kratki udar gasa naprijed baci mlaz vijka na kormilo i zakrene krmu, a brodica jedva krene.</li>
       <li><b>Okreće se krma, ne pramac.</b> Brodica se vrti oko točke blizu pramca, pa krma u okretu zanosi van. Pazi na nju uz obalu.</li>
-      <li><b>Krmom krma bježi ulijevo</b> (desnokretni vijak). Zato je lakše pristati lijevim bokom: kočenje krmom samo privuče krmu obali.</li>
+      <li><b>Ugrađeni motor: krmom krma bježi ulijevo</b> (desnokretni vijak), a kormilo krmom gotovo ne pomaže. Zato je lakše pristati lijevim bokom: kočenje krmom samo privuče krmu obali.</li>
+      <li><b>Izvanbrodski motor: zakreće se cijeli vijak.</b> Bez gasa skreće slabo, pa se upravlja kratkim udarima gasa. Krmom vuče krmu onamo kamo okreneš kormilo, pa krmu možeš privući obali s bilo koje strane.</li>
       <li><b>Vjetar nosi cijelu brodicu i okreće pramac niz vjetar</b>, najviše kad ideš sporo. Struja nosi brodicu zajedno s vodom, bez obzira na to kamo gleda pramac.</li></ul></details>
     <div class="dwCoach knStepTxt" aria-live="polite"></div>
+    <div class="dwEnv seg dwDrive"><span>Pogon</span><button type="button" data-ob="0"${ob?'':' class="on"'}>Ugrađeni motor i kormilo</button><button type="button" data-ob="1"${ob?' class="on"':''}>Izvanbrodski motor</button></div>
     <div class="dwEnv seg"><span>Uvjeti</span>${Object.keys(ENV).map(k=>`<button type="button" data-e="${k}"${k===env?' class="on"':''}>${ENV[k].n}</button>`).join('')}</div>
     <div class="dwEnv seg dwStr"><span>Jačina</span>${STR.map((x,i)=>`<button type="button" data-s="${i}"${i===str?' class="on"':''}>${x.n}</button>`).join('')}</div>
     <div class="dwStage" tabindex="0" aria-label="Simulator pristajanja. Strelice gore i dolje: stroj. Strelice lijevo i desno: kormilo. Razmak: neutral. R: kormilo ravno.">
@@ -96,6 +98,8 @@
     else if(!started) tip='<b>Kreni:</b> stroj na <b>Polako</b>. Brodica je teška tonu i pol, pa joj treba desetak sekundi da dobije brzinu. Vez je uz obalu lijevo.';
     else if(paused) tip='<b>Pauza.</b> Pogledaj žutu crtu: tamo će brodica biti za 10 s ako ništa ne promijeniš.';
     else if(s.thr===0&&kn<.25&&dist>9) tip='<b>Stojiš.</b> Dok stojiš, kormilo ne radi. Daj <b>Polako</b>.';
+    else if(ob&&s.thr<0&&Math.abs(s.rud)>=10) tip=`<b>Krmom te vodi motor.</b> Krma ide ${s.rud>0?'udesno':'ulijevo'}, na stranu na koju je kormilo. Za ravno krmom vrati kormilo na <b>Ravno</b>.`;
+    else if(ob&&s.thr===0&&Math.abs(s.rud)>=15&&kn<1.3&&dist>4) tip='<b>Izvanbrodski bez gasa skreće slabo.</b> Ostavi kormilo zakrenuto i daj kratko <b>Polako</b>: mlaz vijka zakrene krmu.';
     else if(down) tip=`<b>Prilaziš niz ${E.what}.</b> ${E.what==='struju'?'Struja te gura':'Vjetar te gura'} naprijed i teže ćeš stati. Lakše je proći vez, okrenuti se i prići <b>pramcem u ${E.what}</b>.`;
     else if(dist>17&&Math.abs(off)>25) tip=`<b>Okreni pramac prema vezu:</b> kormilo ${off<0?'lijevo':'desno'}. Vrati ga na <b>Ravno</b> malo prije nego pramac dođe na cilj, jer se brodica još kratko zakreće.`;
     else if(dist>17) tip='<b>Dobar smjer.</b> Na pola puta stavi <b>Neutral</b> i pusti je da klizi. Prema obali ciljaj pod kutom od 20 do 30°.';
@@ -124,14 +128,16 @@
     tt+=1; if(tt%8===0){ const s=w.s, q=s.psi/R2D; trail.push((s.x*PPM-Math.sin(q)*24).toFixed(1)+','+(s.y*PPM+Math.cos(q)*24).toFixed(1)); if(trail.length>70) trail.shift(); }
     draw(); drawFlow(); if(!over) raf=requestAnimationFrame(frame); }
   function run(){ last=0; if(started&&!paused&&!over&&!raf) raf=requestAnimationFrame(frame); }
-  function restart(){ if(raf){ cancelAnimationFrame(raf); raf=null; } w=DockWorld.world(env,str); DockWorld.tick(w,0); over=false; started=false; paused=false; trail=[]; lastTip=null;
+  function restart(){ if(raf){ cancelAnimationFrame(raf); raf=null; } w=DockWorld.world(env,str,ob); DockWorld.tick(w,0); over=false; started=false; paused=false; trail=[]; lastTip=null;
     $('.dwPause',b).textContent='Pauza'; drawBase(); drawFlow(); draw();
-    const E=ENV[env]; msg.innerHTML=(E.cross?`<div class="dwHint">${HINT[E.cross]}</div>`:'')+'<div class="dwSc">Simulacija kreće kad dirneš stroj ili kormilo.</div>'; }
+    const E=ENV[env], hard=ob&&env==='windOff'&&str===2;
+    msg.innerHTML=(hard?'<div class="dwHint"><b>Najteži slučaj.</b> Izvanbrodski motor nema čime držati brodicu uz obalu protiv jakog vjetra s kopna. Na pravom moru ovdje prilaziš pramcem, daješ pramčani konop na obalu i tek tada motorom privlačiš krmu. U simulatoru nema konopa, pa je uspjeh ovdje stvar sreće.</div>':E.cross?`<div class="dwHint">${HINT[E.cross]}</div>`:'')+'<div class="dwSc">Simulacija kreće kad dirneš stroj ili kormilo.</div>'; }
   function act(f){ if(over) return; f(w.s); started=true; vis=true; if(paused) togglePause(); draw(); run(); }
   function togglePause(){ if(over||!started) return; paused=!paused; $('.dwPause',b).textContent=paused?'Nastavi':'Pauza'; draw(); run(); }
   const setRud=v=>act(s=>{ s.rud=BoatPhys.clamp(v,-35,35); });
   b.addEventListener('click',e=>{ const x=e.target.closest('button'); if(!x) return;
-    if(x.dataset.e){ env=x.dataset.e; $$('.dwEnv:not(.dwStr) button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
+    if(x.dataset.ob){ ob=x.dataset.ob==='1'; store.set('dockdrive',ob?1:0); $$('.dwDrive button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
+    if(x.dataset.e){ env=x.dataset.e; $$('.dwEnv:not(.dwStr):not(.dwDrive) button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
     if(x.dataset.s){ str=+x.dataset.s; $$('.dwStr button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
     if(x.classList.contains('dwReset')) return restart();
     if(x.classList.contains('dwPause')) return togglePause();

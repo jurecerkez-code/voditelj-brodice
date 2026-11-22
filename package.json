@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npx --yes serve -l 8080 .",
-    "test": "node tests/fizika.mjs && node tests/smoke.mjs && node tests/a11y.mjs"
+    "test": "node tests/fizika.mjs && node tests/smoke.mjs && node tests/pristajanje.mjs && node tests/a11y.mjs"
   },
   "devDependencies": {
     "axe-core": "^4.10.0",

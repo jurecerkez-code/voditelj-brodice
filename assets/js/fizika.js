@@ -19,24 +19,29 @@ const BoatPhys=(function(){
     Nr:3000, Nur:1500, Nrr:12000, // prigušenje zakreta
     xr:-2.8, Ar:.12, CL:3, kT:1.2,     // kormilo: položaj, površina, uzgon, udio poriva koji mlaz vijka skrene u stranu
     walk:.25,                     // izboj krme: udio poriva koji pri vožnji krmom gura krmu ulijevo
+    ArOb:.07, walkOb:.06,         // izvanbrodski motor: mala peraja umjesto kormila, slab izboj krme
     Af:2.5, Al:7, Cx:.8, Cy:.9, xw:.5, // nadvođe: čeona i bočna površina, hvatište vjetra
     T:{'-2':-420,'-1':-160,'0':0,'1':252,'2':821}, // poriv po položaju ručice (N)
     rudMax:35, rudRate:25 };      // kormilo: najveći otklon (°) i brzina zakretanja (°/s)
   const THR=[-2,-1,0,1,2];
   const clamp=(x,a,b)=>x<a?a:x>b?b:x;
 
-  function create(o){ return Object.assign({x:0,y:0,psi:0,u:0,v:0,r:0,thr:0,rud:0,T:0,del:0},o); }
+  // ob: izvanbrodski motor (zakreće se cijeli poriv); inače ugrađeni motor s kormilom iza vijka
+  function create(o){ return Object.assign({x:0,y:0,psi:0,u:0,v:0,r:0,thr:0,rud:0,T:0,del:0,ob:false},o); }
   // sile u sustavu brodice; env={cur:[x,y], wind:[x,y]} u m/s, vektor pokazuje KAMO voda ili zrak ide
   function forces(s,env){
     const q=s.psi*D2R, sn=Math.sin(q), c=Math.cos(q);
     const g=ground(s,env), ax=env.wind[0]-g[0], ay=env.wind[1]-g[1];       // prividni vjetar
     const wa=ax*sn-ay*c, wb=ax*c+ay*sn;                                     // uzduž i poprijeko brodice
     const Xw=.5*RHO_A*B.Cx*B.Af*wa*Math.abs(wa), Yw=.5*RHO_A*B.Cy*B.Al*wb*Math.abs(wb);
-    // kormilo skreće mlaz vijka (samo pri vožnji naprijed) i vodu koja struji zbog brzine brodice
-    const d=s.del*D2R, Yr=-Math.sin(d)*((s.T>0?B.kT*s.T:0)+.5*RHO*B.Ar*B.CL*s.u*Math.abs(s.u));
-    const Yp=s.T<0?-B.walk*Math.abs(s.T):0;                                 // izboj krme
+    // ugrađeni motor: kormilo skreće mlaz vijka (samo pri vožnji naprijed) i vodu koja struji zbog brzine brodice.
+    // izvanbrodski: zakreće se cijeli poriv, i naprijed i krmom; bez poriva ostaje samo mala peraja.
+    const d=s.del*D2R, ob=s.ob, sd=Math.sin(d);
+    const hyd=.5*RHO*(ob?B.ArOb:B.Ar)*B.CL*s.u*Math.abs(s.u), jet=ob?s.T:(s.T>0?B.kT*s.T:0);
+    const Yr=-sd*(jet+hyd);
+    const Yp=s.T<0?-(ob?B.walkOb:B.walk)*Math.abs(s.T):0;                   // izboj krme
     const Yl=-B.Yuv*Math.abs(s.u)*s.v;                                      // uzgon trupa kad brodica klizi bočno
-    const X=s.T-(B.Xu*s.u+B.Xuu*s.u*Math.abs(s.u))-Math.abs(Yr*Math.sin(d))*.5+Xw;
+    const X=(ob?s.T*Math.cos(d):s.T)-(B.Xu*s.u+B.Xuu*s.u*Math.abs(s.u))-(ob?Math.abs(hyd)*sd*sd*.5:Math.abs(Yr*sd)*.5)+Xw;
     const Y=-(B.Yv*s.v+B.Yvv*s.v*Math.abs(s.v))+Yl+Yr+Yp+Yw;
     const N=-((B.Nr+B.Nur*Math.abs(s.u))*s.r+B.Nrr*s.r*Math.abs(s.r))+Yl*B.xh*Math.sign(s.u)+(Yr+Yp)*B.xr+Yw*B.xw;
     return {X,Y,N,Yw,Yr,Yp,wa,wb};
@@ -109,7 +114,7 @@ const DockWorld=(function(){
     if(w.chk.berth&&par&&w.chk.side&&w.chk.slow){ w.hold+=dt; if(w.hold>=LIM.hold) return {ok:true,heading:hn}; } else w.hold=0;
     return null;
   }
-  const world=(key,str)=>({s:start(),env:env(key,str),hold:0,chk:{},touch:false,gap:99,sog:0});
+  const world=(key,str,ob)=>({s:Object.assign(start(),{ob:!!ob}),env:env(key,str),hold:0,chk:{},touch:false,gap:99,sog:0});
   return {PPM,W,H,QX,BERTH,HULL,MOOR,MOORC,LIM,STR,ENV,env,start,hull,tick,world};
 })();
 
