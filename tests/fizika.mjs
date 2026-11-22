@@ -3,7 +3,7 @@
 // 2) Može li se u svakom zadanom uvjetu pristati: kormilar iz skripte vozi samo ručicom stroja i kormilom, kao korisnik.
 import fs from 'node:fs'; import vm from 'node:vm';
 const ctx={Math}; vm.createContext(ctx);
-vm.runInContext(fs.readFileSync(new URL('../assets/js/fizika.js',import.meta.url),'utf8')+';this.BoatPhys=BoatPhys;this.DockWorld=DockWorld;this.AnchorPhys=AnchorPhys;',ctx);
+vm.runInContext(fs.readFileSync(new URL('../assets/js/fizika.js',import.meta.url),'utf8')+';this.BoatPhys=BoatPhys;this.DockWorld=DockWorld;this.AnchorPhys=AnchorPhys;this.MobPhys=MobPhys;',ctx);
 const P=ctx.BoatPhys, D=ctx.DockWorld, KN=P.KN, PPM=D.PPM, R2D=180/Math.PI, calm={cur:[0,0],wind:[0,0]};
 const wrap=a=>((a+540)%360)-180, clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 let fails=0, n=0;
@@ -42,6 +42,14 @@ check('brzina na „naprijed"',run(P.create({thr:2}),calm,60).u/KN,3.8,4.2,'čv'
   check('u neutralu izvanbrodski skreće slabije od kormila (omjer zakreta)',co/ci,.15,.75,'');
   const kick=ob=>{ const s=P.create({ob,rud:35,thr:1}); run(s,calm,3); return wrap(s.psi); };
   check('izvanbrodski: udar gasa iz mjesta zakrene brodicu',kick(true),6,40,'°'); }
+
+// čovjek u moru: manevar koji se prikazuje u gradivu mora završiti uz osobu, pramcem u vjetar, bez vijka koji radi blizu nje
+{ const M=ctx.MobPhys, {out,ev,per}=M.track(), e=out[ev.end], dist=(o,back)=>{ const q=o.h/R2D; return Math.hypot(o.x-Math.sin(q)*back-per[0],o.y+Math.cos(q)*back-per[1]); };
+  check('čovjek u moru: manevar traje',ev.end*M.DT,50,120,'s');
+  check('... završava s osobom uz desni bok (m od uzdužnice)',per[0]-e.x,1.5,2.8,'m'); check('... osoba je uz trup, ne iza krme (m ispred sredine)',e.y-per[1],-1,2.5,'m');
+  check('... pramcem u vjetar (otklon)',Math.abs(wrap(e.h)),0,20,'°'); check('... gotovo stoji',e.sp,0,.45,'čv');
+  let stern=1e9, powered=0; out.forEach((o,i)=>{ if(i<ev.fall+20) return; stern=Math.min(stern,dist(o,2.9)); if(i>=ev.appr&&o.thr!==0&&dist(o,2.9)<4) powered++; });
+  check('... krma nikad nije bliže osobi od',stern,1.5,99,'m'); check('... u prilazu vijak ne radi dok je krma unutar 4 m od osobe (broj uzoraka)',powered,0,0,''); }
 
 // ── 2) kormilar iz skripte ──
 function pilot(key,str,o){

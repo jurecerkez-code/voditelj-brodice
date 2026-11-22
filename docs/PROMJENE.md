@@ -52,6 +52,14 @@ Svaka stavka ima svoj odlomak u gradivu.
   Taj je slučaj u simulatoru označen kao najteži, s objašnjenjem što se na pravom moru tada radi.
 - Novi test `tests/pristajanje.mjs`: u pregledniku pristaje s oba pogona isključivo pritiscima tipki.
 
+### Čovjek u moru
+- Putanja više nije nacrtana rukom. Cijeli manevar vozi isti model brodice kao simulator pristajanja (`MobPhys.track`
+  u `fizika.js`): okret u stranu pada, plovidba niz vjetar pokraj osobe, okret u vjetar i prilaz u neutralu.
+  Crtež je u mjerilu, prikazuje brzinu i proteklo vrijeme (manevar traje oko 85 s, prikaz je 3 × ubrzan).
+- Test provjerava da brodica stane uz osobu pramcem u vjetar, da krma nikad nije bliže od 1,5 m i da u prilazu vijak
+  ne radi dok je krma unutar 4 m od osobe.
+- Shema izboja krme označena je kao shema: nije u stvarnom vremenu i izboj je namjerno naglašen.
+
 ### Kod
 - `base.css` i `ui.css` spojeni su u jedan `assets/css/app.css`. Uklonjeno je 548 deklaracija koje je kasnije pravilo
   s istim selektorom ionako nadjačavalo: 104,6 kB → 91,6 kB, jedan zahtjev manje pri učitavanju.

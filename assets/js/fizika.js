@@ -141,3 +141,30 @@ const AnchorPhys=(function(){
   const beaufort=kn=>[1,4,7,11,17,22,28,34,41,48,56,64].filter(x=>kn>=x).length;
   return {B,windForce,solve,shape,need,beaufort};
 })();
+
+/* Čovjek u moru: cijeli manevar odvozi isti model brodice. Brodica plovi 4 čv prema sjeveru, vjetar 10 čv u pramac,
+   osoba padne s desnog boka. Vraća uzorke stanja svakih DT sekundi, položaj osobe i redne brojeve ključnih trenutaka. */
+const MobPhys=(function(){
+  const DT=.05;
+  function track(){ const P=BoatPhys, KN=P.KN, R2D=180/Math.PI, wrap=a=>((a+540)%360)-180, clamp=P.clamp;
+    const env={cur:[0,0],wind:[0,10*KN]}, s=P.create({psi:0,u:4*KN,thr:2,T:P.B.T[2]}), out=[], ev={};
+    let t=0, per=null, ph=0, turned=0, lastPsi=0, tStop=0;
+    const rec=()=>out.push({x:s.x,y:s.y,h:s.psi,rud:s.del,thr:s.thr,sp:Math.hypot(s.u,s.v)/KN});
+    while(t<150){ rec();
+      if(ph===0&&t>=3){ per=[s.x+2,s.y]; ev.fall=out.length-1; ph=1; }
+      if(ph===1){ s.rud=35; if(t>=5&&!ev.buoy) ev.buoy=out.length-1; if(t>=6.5){ s.thr=1; if(!ev.slow) ev.slow=out.length-1; }
+        if(turned>168){ ph=2; ev.down=out.length-1; } }
+      else if(ph===2){ // niz vjetar, osoba ostaje daleko s desne strane
+        s.rud=clamp(2*wrap(180-s.psi)-4*s.r*R2D,-35,35); s.thr=Math.hypot(s.u,s.v)<1.6*KN?1:0;
+        if(s.y>=per[1]+6.5){ ph=3; ev.round=out.length-1; turned=0; } }
+      else if(ph===3){ s.rud=35; s.thr=1; if(turned>138){ ph=4; ev.appr=out.length-1; } }   // okret u vjetar
+      else if(ph===4){ // prilaz pramcem u vjetar. Bez vožnje krmom: vijak ne smije raditi blizu čovjeka, zadnje metre brodica klizi u neutralu.
+        const ax=per[0]-2, ay=per[1]-1.5, brg=Math.atan2(ax-s.x,-(ay-s.y))*R2D, along=s.y-per[1], v=Math.hypot(s.u,s.v);
+        s.rud=clamp(2.2*wrap(brg-s.psi)-4*s.r*R2D,-35,35);
+        s.thr=along>4.2?(v<.62?1:0):(v<.1&&along>1.3?1:0); if(along<=4.2&&!ev.neutral) ev.neutral=out.length-1;
+        if(along<1.1&&v<.16){ s.thr=0; s.rud=0; ph=5; ev.stop=out.length-1; tStop=t; } }
+      else if(ph===5&&t>tStop+1.5) break;
+      P.step(s,env,DT); t+=DT; turned+=wrap(s.psi-lastPsi); lastPsi=s.psi; }
+    rec(); ev.end=out.length-1; return {out,ev,per}; }
+  return {track,DT};
+})();

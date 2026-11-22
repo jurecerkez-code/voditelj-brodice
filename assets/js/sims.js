@@ -19,31 +19,32 @@ const SIM={
 (function(){
   const b=el('mobSim'); if(!b) return;
   const W=640,H=380;
-  const PATH='M320,356 L320,236 C320,186 380,166 410,196 C440,226 430,300 390,318 C350,336 296,328 296,298 C296,282 306,268 318,262';
-  const NS='http://www.w3.org/2000/svg', mp=document.createElementNS(NS,'path'); mp.setAttribute('d',PATH);
-  const ms=document.createElementNS(NS,'svg'); ms.style.cssText='position:absolute;width:0;height:0;visibility:hidden'; ms.appendChild(mp); document.body.appendChild(ms);
-  const LEN=mp.getTotalLength(), FALL=120;
-  const at=s=>{ s=Math.max(0,Math.min(LEN,s)); const p=mp.getPointAtLength(s), q=mp.getPointAtLength(Math.min(LEN,s+1.5)), r=mp.getPointAtLength(Math.max(0,s-1.5));
-    return {x:p.x,y:p.y,h:Math.atan2(q.x-r.x,-(q.y-r.y))*180/Math.PI}; };
-  const P0=[333,246];
-  const person=s=>s<FALL?null:[P0[0], P0[1]+Math.min(1,(s-FALL)/(LEN-FALL))*12];
+  /* Putanja nije nacrtana rukom: manevar vozi isti model brodice kao simulator pristajanja (MobPhys.track u fizika.js).
+     Brodica 6 m plovi 4 čv prema sjeveru, vjetar 10 čv u pramac. Uzorak svakih 0,05 s; crtež je u mjerilu 6 px = 1 m. */
+  const PPM=6, X0=320, Y0=272, DT=MobPhys.DT;
+  const TR=MobPhys.track(), LEN=TR.ev.end, FALL=TR.ev.fall, px=o=>[X0+o.x*PPM,Y0+o.y*PPM];
+  const at=q=>{ q=Math.max(0,Math.min(LEN,q)); const i=Math.floor(q), f=q-i, a=TR.out[i], c=TR.out[Math.min(LEN,i+1)], m=(u,v)=>u+(v-u)*f, [x,y]=px({x:m(a.x,c.x),y:m(a.y,c.y)});
+    return {x,y,h:m(a.h,c.h),rud:m(a.rud,c.rud),thr:a.thr,sp:m(a.sp,c.sp),t:q*DT}; };
+  const P0=px({x:TR.per[0],y:TR.per[1]}), PATHPTS=TR.out.filter((_,i)=>i%6===0).map(o=>px(o).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const person=q=>q<FALL?null:P0;
   const STEPS=[
-    {s:30,t:'Ploviš prema sjeveru. Vjetar puše sa sjevera, u pramac.',rud:0,eng:'NAPRIJED'},
-    {s:FALL,t:'<b>Čovjek u moru, desno!</b> Viči glasno da svi čuju i s koje je strane pao.',rud:0,eng:'NAPRIJED',fall:1},
-    {s:176,t:'Odmah <b>kormilo sve DESNO</b>, u stranu pada. Pramac ide prema osobi, a <b>krma i vijak bježe od nje</b>.',rud:35,eng:'NAPRIJED'},
-    {s:236,t:'<b>Baci kolut</b> ili prsluk. Jednoj osobi zadaj samo jedan posao: <b>ne skidati pogled</b> s čovjeka i pokazivati rukom.',rud:35,eng:'NAPRIJED',buoy:1},
-    {s:452,t:'<b>Smanji brzinu</b> i nastavi okret oko osobe.',rud:30,eng:'NAPRIJED'},
-    {s:LEN,t:'Priđi <b>polako, pramcem u vjetar</b>, tako da osoba dođe uz bok na tvojoj strani, ispred krme.',rud:0,eng:'NAPRIJED'},
-    {s:LEN,t:'Uz osobu: <b>motor u neutral</b>, vijak mora stajati. Izvuci je, po mogućnosti vodoravno. Ako je izgubiš iz vida: <b>MAYDAY</b>, potraga i obavijest kapetaniji.',rud:0,eng:'NEUTRAL'}
+    {s:30,t:'Ploviš prema sjeveru brzinom od 4 čv. Vjetar puše sa sjevera, u pramac.'},
+    {s:FALL,t:'<b>Čovjek u moru, desno!</b> Viči glasno da svi čuju i s koje je strane pao.'},
+    {s:FALL+36,t:'Odmah <b>kormilo sve DESNO</b>, u stranu pada. Pramac ide prema osobi, a <b>krma i vijak bježe od nje</b>.'},
+    {s:TR.ev.buoy+30,t:'<b>Baci kolut</b> ili prsluk. Jednoj osobi zadaj samo jedan posao: <b>ne skidati pogled</b> s čovjeka i pokazivati rukom.',buoy:1},
+    {s:TR.ev.down,t:'<b>Smanji brzinu</b> i nastavi okret dok ne zaploviš niz vjetar. Osoba ti ostaje s desne strane, daleko od krme.'},
+    {s:TR.ev.appr,t:'Prođi osobu <b>niz vjetar</b>, pa okreni natrag: želiš joj prići <b>pramcem u vjetar</b>, jer te tada vjetar koči i brodica sluša kormilo do kraja.'},
+    {s:TR.ev.neutral,t:'Priđi <b>polako</b>, tako da osoba dođe uz bok na tvojoj strani, ispred krme.'},
+    {s:LEN,t:'Nekoliko metara prije osobe: <b>motor u neutral</b>, vijak mora stajati. Brodica doklizi do nje. Izvuci je, po mogućnosti vodoravno. Ako je izgubiš iz vida: <b>MAYDAY</b>, potraga i obavijest kapetaniji.'}
   ];
-  b.innerHTML=`<div class="simHead"><span class="simTitle">Obični okret: brodica, pogled odozgo</span><span class="simInst"><span>Kormilo <b class="mRud">ravno</b></span><span>Stroj <b class="mEng">NAPRIJED</b></span></span></div>
+  b.innerHTML=`<div class="simHead"><span class="simTitle">Čovjek u moru: okret i prilaz u vjetar, pogled odozgo</span><span class="simInst"><span>Kormilo <b class="mRud">ravno</b></span><span>Stroj <b class="mEng">NAPRIJED</b></span><span>Brzina <b class="mV">4,0 čv</b></span><span>Vrijeme <b class="mT">0 s</b></span></span></div>
     <svg viewBox="176 150 360 214" class="simSvg" role="img" aria-label="Animacija spašavanja čovjeka iz mora"><g class="mBg">${SIM.water(W,H,'mob')}
     <g transform="translate(206,180) scale(.6)"><circle r="22" fill="rgba(0,0,0,.25)" stroke="#9fb6c9"/><path d="M0,-16 L0,12 M-6,4 L0,14 L6,4" stroke="#e6eef5" stroke-width="2.2" fill="none"/><text y="36" text-anchor="middle" font-size="11" fill="#9fb6c9">vjetar</text></g></g>
     <g class="mDyn"></g></svg>${SIM.ctl()}<div class="knStepTxt mTxt" aria-live="polite"></div>`;
   const dyn=$('.mDyn',b); let step=0, cur=0, anim=null, playing=false, trail=[];
   function paint(s,k){ const p=at(s), st=STEPS[k];
     trail.push([p.x,p.y]); if(trail.length>90) trail.shift();
-    let g=`<path d="${PATH}" fill="none" stroke="#9fb6c9" stroke-width="1" stroke-dasharray="3 5" opacity=".25"/>`;
+    let g=`<polyline points="${PATHPTS}" fill="none" stroke="#9fb6c9" stroke-width="1" stroke-dasharray="3 5" opacity=".25"/><g data-keep-dark="1"><path d="M500,352 h30" stroke="#1c2430" stroke-width="1.4"/><path d="M500,348 v8 M530,348 v8" stroke="#1c2430" stroke-width="1.4"/><text x="515" y="345" text-anchor="middle" font-size="8" fill="#1c2430">5 m</text></g>`;
     if(trail.length>1) g+=`<polyline points="${trail.map(q=>q.join(',')).join(' ')}" fill="none" stroke="#cfe6f5" stroke-width="5" opacity=".18" stroke-linecap="round"/>`;
     const pr=person(s);
     if(pr){ if(k>=3){ const bt=Math.min(1,(s-STEPS[2].s)/40), bx=pr[0]+10, by=pr[1]-8, sx=at(STEPS[2].s).x, sy=at(STEPS[2].s).y;
@@ -51,10 +52,12 @@ const SIM={
       if(k>=3) g+=`<line x1="${p.x}" y1="${p.y}" x2="${pr[0]}" y2="${pr[1]}" stroke="#ffd166" stroke-width="1" stroke-dasharray="4 4" opacity=".7"/>`;
       g+=`<g transform="translate(${pr[0]},${pr[1]})"><circle r="9" fill="none" stroke="#e6eef5" stroke-width=".8" opacity=".5"><animate attributeName="r" values="6;13;6" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;0;.6" dur="2.4s" repeatCount="indefinite"/></circle><g class="mobP"><path d="M-7,1 L-3,-1 M7,1 L3,-1" stroke="#34536f" stroke-width="1.8" stroke-linecap="round"/><path d="M-4.2,-1.6 Q0,-4.4 4.2,-1.6 L3.6,3.6 Q0,5 -3.6,3.6 Z" fill="#ff7a1a" stroke="#8a3a08" stroke-width=".6"/><path d="M-3.9,1.2 L3.9,1.2" stroke="#fff" stroke-width=".8"/><circle cy="-1.9" r="2.1" fill="#e2ae84"/><path d="M-2.1,-2.1 A2.1,2.1 0 0 1 2.1,-2.1 Z" fill="#3a2618"/></g></g>`; // v4: osoba u moru u narančastoj životnoj jakni s reflektirajućom trakom
       if(k===1) g+=`<text x="${pr[0]+12}" y="${pr[1]+4}" font-size="8" font-weight="700" fill="#ffd166">čovjek u moru</text>`; }
-    g+=SIM.boat(p.x,p.y,p.h,{rud:st.rud,prop:st.eng==='NAPRIJED'?1:0});
+    g+=SIM.boat(p.x,p.y,p.h,{rud:p.rud,prop:p.thr>0?1:0});
     if(k===2){ const q=at(Math.max(FALL,s-26)); g+=`<text x="${p.x-70}" y="${p.y+30}" font-size="8" fill="#ffd166" font-weight="700">krma bježi od osobe</text>`; }
     dyn.innerHTML=g;
-    $('.mRud',b).textContent=st.rud>0?'sve DESNO':'ravno'; $('.mEng',b).textContent=st.eng; $('.mEng',b).classList.toggle('n',st.eng==='NEUTRAL');
+    $('.mRud',b).textContent=p.rud>28?'sve DESNO':p.rud>4?'desno':p.rud<-4?'lijevo':'ravno'; const eng=p.thr>1?'NAPRIJED':p.thr>0?'POLAKO':'NEUTRAL';
+    $('.mEng',b).textContent=eng; $('.mEng',b).classList.toggle('n',eng==='NEUTRAL');
+    $('.mV',b).textContent=p.sp.toFixed(1).replace('.',',')+' čv'; $('.mT',b).textContent=Math.round(p.t)+' s';
   }
   function ui(){ $('.mTxt',b).innerHTML=`<span>Korak ${step+1} / ${STEPS.length}</span>${STEPS[step].t}`;
     $('.knProg',b).innerHTML=STEPS.map((_,i)=>`<i class="${i<=step?'on':''}"></i>`).join('');
@@ -63,7 +66,7 @@ const SIM={
   function go(k,instant){ k=Math.max(0,Math.min(STEPS.length-1,k)); const from=k>step?cur:(k===0?0:STEPS[k-1].s), to=STEPS[k].s;
     if(k<step){ trail=[]; } step=k; ui(); if(anim) cancelAnimationFrame(anim);
     if(instant||SIM.RM||from===to){ if(instant||SIM.RM){ trail=[]; } cur=to; paint(cur,k); if(playing) setTimeout(()=>{ if(playing) next(); },1600); return; }
-    const t0=performance.now(), dur=Math.abs(to-from)*14;
+    const t0=performance.now(), dur=Math.abs(to-from)*DT*1000/3;   // 3 × brže od stvarnog vremena
     const f=n=>{ const t=Math.min(1,(n-t0)/dur); cur=from+(to-from)*t; paint(cur,k); if(t<1) anim=requestAnimationFrame(f); else { anim=null; if(playing) setTimeout(()=>{ if(playing) next(); },1500); } };
     anim=requestAnimationFrame(f); if(k===STEPS.length-1 && window.VB) VB.add(5,'sim_mob'); }
   function next(){ if(step>=STEPS.length-1){ playing=false; ui(); return; } go(step+1); }
