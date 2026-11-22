@@ -41,11 +41,11 @@
     ['70','156.525','DSC: digitalno selektivno pozivanje. Nije za govor!','DSC']]; // V4-B2: dodani 06 i 13
   let ci=0;
   function lcd(){ const c=CH[ci];
-    $('.vhTxt',b).innerHTML=`<text x="94" y="112" font-size="9" fill="#8ff0b4" font-family="JetBrains Mono,monospace" opacity=".85">CH</text>
-      <text x="206" y="134" text-anchor="end" font-size="34" font-weight="800" fill="#6dffa8" font-family="JetBrains Mono,monospace" style="letter-spacing:1px">${c[0]}</text>
-      <text x="234" y="112" text-anchor="end" font-size="9" fill="#8ff0b4" font-family="JetBrains Mono,monospace">${c[3]}</text>
-      <text x="163" y="148" text-anchor="middle" font-size="10.5" fill="#8ff0b4" font-family="JetBrains Mono,monospace">${c[1]} MHz</text>`;
-    $('.vhCh',b).innerHTML=`<b class="c-acc">Kanal ${c[0]} · ${c[1].replace('.',',')} MHz</b>: ${c[2]} <span class="c-txt3">(klikni zaslon za sljedeći kanal)</span>`; }
+    $('.vhTxt',b).innerHTML=`<text x="94" y="112" font-size="9" fill="#8ff0b4" font-family="var(--mono)" opacity=".85">CH</text>
+      <text x="206" y="134" text-anchor="end" font-size="34" font-weight="800" fill="#6dffa8" font-family="var(--mono)" style="letter-spacing:1px">${c[0]}</text>
+      <text x="234" y="112" text-anchor="end" font-size="9" fill="#8ff0b4" font-family="var(--mono)">${c[3]}</text>
+      <text x="163" y="148" text-anchor="middle" font-size="10.5" fill="#8ff0b4" font-family="var(--mono)">${c[1]} MHz</text>`;
+    $('.vhCh',b).innerHTML=`<b class="c-acc">Kanal ${c[0]}: ${c[1].replace('.',',')} MHz</b>: ${c[2]} <span class="c-txt3">(klikni zaslon za sljedeći kanal)</span>`; }
   $('.vhLcd',b).addEventListener('click',()=>{ ci=(ci+1)%CH.length; lcd(); });
   lcd();
 })();
@@ -68,7 +68,7 @@
   function build(){
     const n=el('mdName').value.trim()||'(ime)', p=el('mdPos').value.trim()||'(pozicija)',
           d=el('mdDanger').value, h=el('mdHelp').value.trim()||'(tražena pomoć)';
-    el('mdOut').innerHTML=`<div class="mdRadio" role="img" aria-label="Radio: kanal 16, 156,800 MHz, odašiljanje"><span class="mdTx" aria-hidden="true"></span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div style="font-family:var(--mono);font-size:14.5px;line-height:1.95;background:var(--panel2);border-left:3px solid var(--red);padding:16px;margin-top:6px">
+    el('mdOut').innerHTML=`<div class="mdRadio" role="img" aria-label="Radio: kanal 16, 156,800 MHz, odašiljanje"><span class="mdTx" aria-hidden="true"></span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div style="font-family:var(--mono);font-size:14.5px;line-height:1.95;background:var(--panel2);border-top:2px solid var(--red);padding:16px;margin-top:6px">
       <span class="c-red fw8">MAYDAY, MAYDAY, MAYDAY</span><br>
       OVDJE<br>
       <span class="c-acc">${n}, ${n}, ${n}</span><br><br>
@@ -78,7 +78,7 @@
       ${h.toUpperCase()}<br>
       PRIJEM (OVER)
     </div>
-    <div class="note mt10"><b>Redoslijed koji ispitivač traži</b>1) MAYDAY ×3 &nbsp; 2) OVDJE &nbsp; 3) ime/oznaka ×3 &nbsp; → zatim poruka: <b>ime · pozicija · vrsta opasnosti · vrsta tražene pomoći</b>.</div>`;
+    <div class="note mt10"><b>Redoslijed koji ispitivač traži</b>1) MAYDAY ×3 &nbsp; 2) OVDJE &nbsp; 3) ime/oznaka ×3 &nbsp; → zatim poruka: <b>ime, pozicija, vrsta opasnosti, vrsta tražene pomoći</b>.</div>`;
   }
   el('mdGo').addEventListener('click',()=>{ build();
     if(window.VB && el('mdName').value.trim() && el('mdPos').value.trim() && el('mdHelp').value.trim()) VB.flag('md'); });
@@ -90,7 +90,7 @@
     const L=['MAYDAY, MAYDAY, MAYDAY','OVDJE',`${n}, ${n}, ${n}`,`MAYDAY ${n}`,'POZICIJA','VRSTA OPASNOSTI','TRAŽENA POMOĆ','PRIJEM'];
     let i=0, t=7; el('mdOut').style.display='none';
     const RMd=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const show=()=>{ box.innerHTML=`<div class="mdTbox"><div class="mdRadio on"><span class="mdTx" aria-hidden="true"></span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div class="mdTstep">Redak ${i+1} / ${L.length} · izgovori naglas:</div><div class="mdTline">${i===0?L[0]:'?'}</div>
+    const show=()=>{ box.innerHTML=`<div class="mdTbox"><div class="mdRadio on"><span class="mdTx" aria-hidden="true"></span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div class="mdTstep">Redak ${i+1} / ${L.length}, izgovori naglas:</div><div class="mdTline">${i===0?L[0]:'?'}</div>
       <div class="mdTbar"><i style="width:${t/7*100}%;${RMd?'transition:none':''}"></i></div><div class="mdTsec mono">${t} s</div>
       <div class="mdTprev">${L.slice(0,i).map(x=>'<span>'+x+'</span>').join('')}</div></div>`; };
     show();
@@ -131,7 +131,7 @@ const CHECKS={
   clLights:['Znam 4 kardinalne oznake: čunjeve, boje i broj bljeskova','Znam lateralne: crveno=lijevo (valjak), zeleno=desno (čunj gore)','Znam usamljenu opasnost, sigurnu vodu i posebnu oznaku','Znam sektore: jarbolno 225°, krmeno 135°, bočna 112,5°','Znam svjetla motornog broda &lt;50 m i &gt;50 m','Znam svjetla jedrenjaka i trobojnu svjetiljku','Znam <b>motorni jedrenjak = čunj vrhom dolje = motorni brod</b>','Znam usidreni / nesposoban / nasukan / ograničen gazom','Znam ribolov (C-B) vs. koćarenje (Z-B) vs. peljar (B-C)','Znam sve dnevne znakove i što znače za prednost'],
   clColreg:['Nasuprotni kursevi → <b>oba udesno</b>','Križanje → <b>izbjegava onaj koji drugoga vidi zdesna</b>','Onaj s prednošću <b>zadržava kurs i brzinu</b>','Ako drugi ne reagira → <b>5 kratkih, pa puni okret UDESNO</b>','Pretjecanje → onaj koji pretječe se uvijek uklanja, ne presijeca kurs','Jedrilice: različiti bok → izbjegava <b>lijevi bok</b>','Jedrilice: isti bok → izbjegava <b>privjetrina</b>','Brod koji izlazi iz luke ima prednost','Uski kanal: plovila ≤20 m se sklanjaju većima; prelazak okomito','Znam hijerarhiju: nesposoban = ograničen › ribolov › jedra › motor'],
   clEngine:['4 takta: usis, kompresija, ekspanzija, ispuh','2 takta: izmjena medija+kompresija, izgaranje+ekspanzija','Dvotaktni nema ventile, ima kanale','Benzinski: rasplinjač + svjećica. Dizel: bez njih, samozapaljenje na ~700 °C','Hlađenje: zračno / vodeno (izravno i neizravno)','Podmazivanje: tlačno, zapljuskivanjem, mješavinom','6 instrumenata: manometar, termometar, ampermetar, voltmetar, brojilac okretaja, nivokaz','5 koraka krcanja goriva','Akumulator: olovni (sumporna kiselina) / čelični (kalijeva lužina), 2 V po ćeliji, samo DC','Gašenje požara: prah, CO₂, pjena, voda, pokrivač'],
-  clRules:['Brodica = 2,5–15 m ili &gt;5 kW · Jahta &gt;15 m · Brod &gt;15 m ili &gt;12 putnika','Područja plovidbe: I, II (20), III (12), IIIa (6), IIIb (3), IIIc (1), IV','Isprave na brodici: upisni list, uvjerenje, dozvola za VHF, polica (&gt;15 kW), punomoć ako brodica nije tvoja','Pregledi: osnovni, redovni (2 / 5 godina), izvanredni','Nesreća se prijavljuje odmah, nezgoda u roku <b>12 sati</b>','Udaljenosti od obale po duljini: ≥30 m → 300 · 15–30 m → 150 · &lt;15 m → 50','Brzina do 300 m od obale: <b>max 8 čvorova</b>','Glisiranje: samo &gt; 300 m od obale','Sidreni konop: 3–4 × dubina','8 vjetrova + bura je najopasnija i zašto','195 = MRCC Rijeka','Oprema ovisi o području: prsluci za sve, sidro, 3 užeta, uže za tegalj, aparat'],
+  clRules:['Brodica = 2,5–15 m ili &gt;5 kW, Jahta &gt;15 m, Brod &gt;15 m ili &gt;12 putnika','Područja plovidbe: I, II (20), III (12), IIIa (6), IIIb (3), IIIc (1), IV','Isprave na brodici: upisni list, uvjerenje, dozvola za VHF, polica (&gt;15 kW), punomoć ako brodica nije tvoja','Pregledi: osnovni, redovni (2 / 5 godina), izvanredni','Nesreća se prijavljuje odmah, nezgoda u roku <b>12 sati</b>','Udaljenosti od obale po duljini: ≥30 m → 300, 15–30 m → 150, &lt;15 m → 50','Brzina do 300 m od obale: <b>max 8 čvorova</b>','Glisiranje: samo &gt; 300 m od obale','Sidreni konop: 3–4 × dubina','8 vjetrova + bura je najopasnija i zašto','195 = MRCC Rijeka','Oprema ovisi o području: prsluci za sve, sidro, 3 užeta, uže za tegalj, aparat'],
   clRadio:['4 dijela VHF postaje','Kanal 16 = 156,8 MHz; kapetanije 10; marine 17 (1 W); DSC 70','MAYDAY postupak <b>napamet</b>, 3× MAYDAY, OVDJE, 3× ime, pa 4 podatka','Razlika MAYDAY / PAN PAN / SECURITE s primjerima','Fonetska abeceda: mogu sricati bilo koju riječ','Squelch nikad na maksimum i zašto','Max snaga 25 W, domet 20–30 M','Dozvolu izdaje HAKOM; radio dnevnik ovjerava kapetanija','Pozivanje na kanalu 16 max <b>1 minuta</b>'],
   clDay:['Naspavan sam','Osobna iskaznica sa sobom','Fotografije 3×3,5 cm','Potvrda o uplati','Dolazim sat vremena ranije i predajem papire','Ako ne znam odgovor, <b>ne šutim</b>, objašnjavam logiku i ono što znam','Govorim <b>potpune definicije</b> (npr. „kurs je KUT koji…")','Kod koordinata uvijek dodajem N / E']
 };

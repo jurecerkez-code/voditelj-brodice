@@ -122,7 +122,7 @@
   }
   function done(ok,s){ score.t++; if(ok){ score.c++; if(window.VB) VB.widgetOk('distress'); }
     if(scoreEl) scoreEl.textContent=`Rezultat: ${score.c}/${score.t}`;
-    $('.dsDet',area).innerHTML=`<div class="expl"><b>${ok?'✓ Točno':'✗ Netočno'}: ${s.n}</b><br>${s.d}</div><div class="btnrow"><button class="btn p dsNext" type="button">Sljedeće ›</button></div>`;
+    $('.dsDet',area).innerHTML=`<div class="expl"><b>${ok?'✓ Točno':'✗ Netočno'}: ${s.n}</b><br>${s.d}</div><div class="btnrow"><button class="btn p dsNext" type="button">Sljedeće</button></div>`;
     $('.dsNext',area).addEventListener('click',ask); }
   function ask(){
     let s; do{ s=rnd(SIG); }while(SIG.length>1 && s===last); last=s;

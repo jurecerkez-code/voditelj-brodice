@@ -93,7 +93,7 @@
   /* ---------- pretraga gradiva ---------- */
   (function(){ const root=el('srch'); if(!root) return; const inp=el('srchIn'), res=el('srchRes'); let idx=null, sel=0, hits=[];
     function build(){ idx=[]; pages.forEach(p=>{ const pt=p.dataset.title; idx.push({pg:p.id,el:null,t:pt,sub:'Poglavlje',w:3});
-        $$('h3,h4',p).forEach(h=>{ if(h.closest('.chFoot,.osBox,.hmCard,.hmH')) return; const t=h.textContent.trim(); if(t.length>2) idx.push({pg:p.id,el:h,t,sub:pt,w:h.tagName==='H3'?2:1}); });
+        $$('h3,h4',p).forEach(h=>{ if(h.closest('.chFoot,.osBox,.hmCard,.hmH,.hmQ')) return; const t=h.textContent.trim(); if(t.length>2) idx.push({pg:p.id,el:h,t,sub:pt,w:h.tagName==='H3'?2:1}); });
         $$('.note>b:first-child,.warn>b:first-child,.danger>b:first-child,.ok>b:first-child,.mnem>b:first-child,td:first-child>strong,details>summary',p).forEach(h=>{ const t=h.textContent.trim(); if(t.length>2&&t.length<90) idx.push({pg:p.id,el:h,t,sub:pt,w:0}); }); });
       idx.forEach(x=>x.f=UI.fold(x.t)); }
     function run(){ if(!idx) build(); const q=UI.fold(inp.value.trim()); sel=0;
@@ -157,26 +157,18 @@
      o:['To je jedrilica: uklanjam joj se','To je motorni brod: oboje skrećemo udesno','Zadržavam kurs, imam prednost'],
      why:'Bočna svjetla bez jarbolnog pokazuje <b>brod na jedra</b>. Motorni brod ustupa jedrilici, osim kad ga ona pretječe.',pg:'p-sudari'}
   ];
+  /* ploča sa svjetlima: ravna noć, obzor, jedva vidljiva silueta i svjetla. Boje podloge su u CSS-u (.hsSky, .hsSea, .hsHull). */
   function sceneSvg(sc){ const W=560,H=280,HOR=186, cx=W*sc.at, cy=HOR-4, uid='hs';
-    let g=`<defs><linearGradient id="${uid}Sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020812"/><stop offset=".7" stop-color="#07213a"/><stop offset="1" stop-color="#0d3352"/></linearGradient>
-      <linearGradient id="${uid}Sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a2c49"/><stop offset=".5" stop-color="#061a2c"/><stop offset="1" stop-color="#03101c"/></linearGradient>
-      <filter id="${uid}B" x="-80%" y="-10%" width="260%" height="130%"><feGaussianBlur stdDeviation="2.2"/></filter>
-      ${Object.entries(LIGHT).map(([k,c])=>`<radialGradient id="${uid}${k}"><stop offset="0" stop-color="${c}" stop-opacity=".95"/><stop offset=".3" stop-color="${c}" stop-opacity=".3"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>`).join('')}</defs>
-      <rect width="${W}" height="${HOR}" fill="url(#${uid}Sky)"/><rect y="${HOR}" width="${W}" height="${H-HOR}" fill="url(#${uid}Sea)"/>`;
-    [[40,30],[96,72],[150,22],[214,58],[300,34],[352,84],[420,26],[470,66],[520,40],[250,104],[70,120],[500,128]].forEach(([x,y],i)=>g+=`<circle cx="${x}" cy="${y}" r="${i%3?0.9:1.3}" fill="#dbe9ff" opacity="${.35+(i%4)*.12}"/>`);
-    g+=`<rect y="${HOR-1}" width="${W}" height="2" fill="#5fa3cf" opacity=".28"/>`;
-    for(let i=0;i<6;i++){ const y=HOR+10+i*i*3.2, w=30+i*16; g+=`<path class="hmWave" style="animation-delay:${-i*.7}s" d="M${(i*83)%W-40},${y} q${w/4},-${1+i*.4} ${w/2},0 t${w/2},0 M${(i*197+120)%W},${y+6} q${w/4},-${1+i*.4} ${w/2},0 t${w/2},0" stroke="#6fb2dc" stroke-width="${.8+i*.12}" fill="none" opacity="${.16+i*.03}"/>`; }
-    // silueta: jedva vidljiva, da se čita po svjetlima, kao noću
-    g+=`<g opacity=".8"><path d="M${cx+sc.hull[0]},${cy-6} L${cx+sc.hull[1]},${cy-6} L${cx+sc.hull[1]-12},${cy+3} L${cx+sc.hull[0]+12},${cy+3} Z" fill="#041220"/>${sc.sail?`<path d="M${cx},${cy-6} L${cx},${cy-74} L${cx+26},${cy-10} Z" fill="#051523"/>`:`<path d="M${cx+sc.hull[0]*.5},${cy-6} L${cx+sc.hull[0]*.42},${cy-22} L${cx+sc.hull[1]*.42},${cy-22} L${cx+sc.hull[1]*.5},${cy-6} Z" fill="#041220"/>`}</g>`;
-    sc.L.forEach(([dx,dy,c],i)=>{ const x=cx+dx, y=cy+dy, col=LIGHT[c];
-      g+=`<g class="hmRef" style="animation-delay:${-i*.5}s" filter="url(#${uid}B)" opacity=".5"><rect x="${x-2.5}" y="${HOR+2}" width="5" height="${Math.min(H-HOR-4,60-dy)}" fill="${col}" opacity=".55"/><path d="M${x-10},${HOR+14} h20 M${x-8},${HOR+30} h16 M${x-12},${HOR+50} h24 M${x-9},${HOR+72} h18" stroke="${col}" stroke-width="2.4"/></g>
-        <circle cx="${x}" cy="${y}" r="26" fill="url(#${uid}${c})"/><circle cx="${x}" cy="${y}" r="5" fill="${col}"/><circle cx="${x-1.3}" cy="${y-1.3}" r="1.6" fill="#fff" opacity=".9"/>`; });
-    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">${g}</svg>`; }
+    let g=`<defs>${Object.entries(LIGHT).map(([k,c])=>`<radialGradient id="${uid}${k}"><stop offset="0" stop-color="${c}" stop-opacity=".9"/><stop offset=".35" stop-color="${c}" stop-opacity=".25"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>`).join('')}</defs>
+      <rect class="hsSky" width="${W}" height="${HOR}"/><rect class="hsSea" y="${HOR}" width="${W}" height="${H-HOR}"/>
+      <g class="hsHull"><path d="M${cx+sc.hull[0]},${cy-6} L${cx+sc.hull[1]},${cy-6} L${cx+sc.hull[1]-12},${cy+3} L${cx+sc.hull[0]+12},${cy+3} Z"/>${sc.sail?`<path d="M${cx},${cy-6} L${cx},${cy-74} L${cx+26},${cy-10} Z"/>`:`<path d="M${cx+sc.hull[0]*.5},${cy-6} L${cx+sc.hull[0]*.42},${cy-22} L${cx+sc.hull[1]*.42},${cy-22} L${cx+sc.hull[1]*.5},${cy-6} Z"/>`}</g>`;
+    sc.L.forEach(([dx,dy,c])=>{ const x=cx+dx, y=cy+dy, col=LIGHT[c];
+      g+=`<path d="M${x-10},${HOR+14} h20 M${x-8},${HOR+30} h16 M${x-12},${HOR+50} h24" stroke="${col}" stroke-width="2" opacity=".3"/><circle cx="${x}" cy="${y}" r="24" fill="url(#${uid}${c})"/><circle cx="${x}" cy="${y}" r="5" fill="${col}"/>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true" focusable="false">${g}</svg>`; }
   let scI=(store.get('hmScene',-1)+1)%SCENES.length;
   function renderScene(){ const box=el('hmScene'); if(!box) return; const sc=SCENES[scI]; store.set('hmScene',scI);
     const order=shuffle(sc.o.map((t,i)=>({t,i})));
-    box.innerHTML=sceneSvg(sc)+`<span class="hmTag">Noć je. Ovo vidiš s kormila.</span>
-      <div class="hmQ"><h3 id="hmQt">${sc.q}</h3><div class="hmOpts" role="group" aria-labelledby="hmQt">${order.map(o=>`<button type="button" data-i="${o.i}">${o.t}</button>`).join('')}</div><div class="hmAfter" aria-live="polite"></div></div>`;
+    box.innerHTML=sceneSvg(sc)+`<div class="hmQ"><h4 id="hmQt">${sc.q}</h4><div class="hmOpts" role="group" aria-labelledby="hmQt">${order.map(o=>`<button type="button" data-i="${o.i}">${o.t}</button>`).join('')}</div><div class="hmAfter" aria-live="polite"></div></div>`;
     $$('.hmOpts button',box).forEach(b=>b.addEventListener('click',()=>{ const ok=+b.dataset.i===0;
       $$('.hmOpts button',box).forEach(x=>{ x.disabled=true; if(+x.dataset.i===0) x.classList.add('ok'); else if(x===b) x.classList.add('no'); });
       $('.hmAfter',box).innerHTML=`<p class="hmWhy"><b>${ok?'Točno.':'Netočno.'}</b> ${sc.why}</p><div class="hmMore"><button type="button" data-more>Još jedan prizor</button><a href="#${sc.pg}">${title(sc.pg)}</a></div>`;
@@ -222,16 +214,15 @@
     const hg=el('hmGo'); if(hg){ const nextCh=CH.find(c=>!isRead(c.id)); const tgt=(last&&chOf(last))?last:(nextCh?nextCh.id:'p-kviz');
       hg.dataset.go=tgt; hg.querySelector('span').textContent=started?('Nastavi: '+title(tgt)):'Počni od karte'; } }
   document.addEventListener('click',e=>{ const a=e.target.closest('a[data-quiz],a[data-srs]'); if(!a) return; e.preventDefault(); e.stopPropagation();
-    if(a.dataset.quiz) quizTopic(a.dataset.quiz,10); else if(window.VBSrs){ const q=VBSrs.dueQ(); if(q.length){ go('p-kviz'); VBQuiz.start(shuffle(q),'PONAVLJANJE'); } else if(window.VBCards){ go('p-cards'); VBCards.deck(shuffle(VBSrs.dueC())); } } },true);
+    if(a.dataset.quiz) quizTopic(a.dataset.quiz,10); else if(window.VBSrs){ const q=VBSrs.dueQ(); if(q.length){ go('p-kviz'); VBQuiz.start(shuffle(q),'Ponavljanje'); } else if(window.VBCards){ go('p-cards'); VBCards.deck(shuffle(VBSrs.dueC())); } } },true);
 
   /* spremnost po ispitnim stolovima */
   const STOL=[[1,'Stol 1: karta','Eliminacijski. Koordinate, kurs, udaljenost, oznake.'],[2,'Stol 2: motor, svjetla, sudari','Traži se razumijevanje, ne definicije.'],[3,'Stol 3: sigurnost, propisi, radio','Najviše pitanja. MAYDAY i jedan čvor.']];
-  function renderTables(){ const box=el('hmTables'); if(!box) return;
-    box.innerHTML=STOL.map(([n,name,sub])=>{ const list=CH.filter(c=>c.stol===n); let sum=0;
-      const li=list.map(c=>{ const r=isRead(c.id), m=mastery(c.t); sum+=(r?40:0)+(m===null?0:m*.6);
-        return `<li${r?' class="read"':''}><button type="button" data-next="${c.id}"><span class="st" aria-hidden="true"></span><span>${title(c.id)}<span class="sr"> ${r?'(pročitano)':'(nije pročitano)'}</span></span><span class="pc${m===null?'':m>=80?' good':m<60?' low':''}">${m===null?'':'kviz '+m+' %'}</span></button></li>`; }).join('');
-      const pct=Math.round(sum/list.length);
-      return `<section class="hmT" aria-label="${name}"><header><b>${name}</b><em>${pct} %</em><span>${sub}</span></header>${UI.meter(pct,'Spremnost')}<ul>${li}</ul></section>`; }).join(''); }
+  function renderTables(){ const box=el('hmTables'); if(!box) return; const nx=CH.find(c=>!isRead(c.id)), no=t=>`<span aria-hidden="true">–</span><span class="sr">${t}</span>`;
+    box.innerHTML=`<table class="hmP"><caption class="sr">Ispitni program po stolovima</caption><thead><tr><th scope="col">Poglavlje</th><th scope="col" class="n">Pročitano</th><th scope="col" class="n">Kviz</th></tr></thead>`+STOL.map(([n,name,sub])=>{ const list=CH.filter(c=>c.stol===n); let sum=0;
+      const rows=list.map(c=>{ const r=isRead(c.id), m=mastery(c.t); sum+=(r?40:0)+(m===null?0:m*.6);
+        return `<tr${nx&&nx.id===c.id?' class="cur"':''}><td><button type="button" data-next="${c.id}">${title(c.id)}</button></td><td class="n">${r?'<span class="rd">da</span>':no('ne')}</td><td class="n${m===null?'':m>=80?' good':m<60?' low':''}">${m===null?no('nije rješavan'):m+' %'}</td></tr>`; }).join('');
+      return `<tbody><tr class="grp"><th scope="rowgroup" colspan="3"><div class="hmG"><b>${name}</b><i>spremnost <span>${Math.round(sum/list.length)} %</span></i><span>${sub}</span></div></th></tr>${rows}</tbody>`; }).join('')+'</table>'; }
 
   function renderNavStats(){ $$('.navlink').forEach(l=>{ const c=chOf(l.dataset.t); if(!c) return; const m=mastery(c.t); let s=$('.pct',l);
       if(m===null){ if(s) s.remove(); return; } if(!s){ s=document.createElement('span'); s.className='pct'; l.insertBefore(s,$('.dot',l)); } s.textContent=m+' %'; }); }
@@ -251,7 +242,7 @@
   let userNav=false; document.addEventListener('click',()=>{ userNav=true; },true); document.addEventListener('keydown',()=>{ userNav=true; },true);
   const prevOnGo=window.VBOnGo;
   window.VBOnGo=function(id){ if(prevOnGo) try{ prevOnGo(id); }catch(e){ console.error(e); }
-    const p=el(id); document.title=(p&&id!=='p-start'?p.dataset.title+' · ':'')+'Voditelj brodice B';
+    const p=el(id); document.title='Voditelj brodice B'+(p&&id!=='p-start'?': '+p.dataset.title:'');
     if(chOf(id)) store.set('last',id);
     if(tabs) $$('button',tabs).forEach(b=>{ const on=(TAB[b.dataset.tab]||[]).includes(id); if(on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
     if(id==='p-start') refreshHome();

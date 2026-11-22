@@ -33,13 +33,13 @@
     <div class="dwCtl">
       <div class="dwGrp dwThr"><span id="dwThrL">Stroj</span><div class="dwLever" role="group" aria-labelledby="dwThrL">${[-2,-1,0,1,2].map(v=>`<button class="btn" data-t="${v}" type="button">${{'-2':'Krmom','-1':'Krmom polako','0':'Neutral','1':'Polako','2':'Naprijed'}[v]}</button>`).join('')}</div></div>
       <div class="dwGrp dwRud"><label for="dwRudIn">Kormilo</label>
-        <div class="dwRudRow"><button class="btn" data-rd="-5" type="button" aria-label="Kormilo 5 stupnjeva ulijevo">◀</button>
+        <div class="dwRudRow"><button class="btn" data-rd="-5" type="button" aria-label="Kormilo 5 stupnjeva ulijevo">←</button>
         <input id="dwRudIn" type="range" min="-35" max="35" step="5" value="0" aria-describedby="dwRudV">
-        <button class="btn" data-rd="5" type="button" aria-label="Kormilo 5 stupnjeva udesno">▶</button></div>
+        <button class="btn" data-rd="5" type="button" aria-label="Kormilo 5 stupnjeva udesno">→</button></div>
         <b id="dwRudV" class="dwRudV">ravno</b><button class="btn" data-r="0" type="button">Ravno</button></div>
       <div class="dwGrp dwOpt"><button class="btn dwPause" type="button">Pauza</button><button class="btn dwReset" type="button">Ispočetka</button>
         <button class="btn dwLine" type="button" aria-pressed="false">Pramčani konop</button><button class="btn dwGhost" type="button" aria-pressed="true">Predviđanje 10 s</button><button class="btn dwSpeed" type="button" aria-pressed="false">Vrijeme 2×</button></div></div>
-    <div class="dwKeys">Tipkovnica (klikni na lučicu): <kbd>↑</kbd> <kbd>↓</kbd> stroj · <kbd>←</kbd> <kbd>→</kbd> kormilo · <kbd>razmak</kbd> neutral · <kbd>R</kbd> kormilo ravno · <kbd>K</kbd> pramčani konop · <kbd>P</kbd> pauza</div>
+    <div class="dwKeys">Tipkovnica (klikni na lučicu): <kbd>↑</kbd> <kbd>↓</kbd> stroj, <kbd>←</kbd> <kbd>→</kbd> kormilo, <kbd>razmak</kbd> neutral, <kbd>R</kbd> kormilo ravno, <kbd>K</kbd> pramčani konop, <kbd>P</kbd> pauza</div>
     <div class="dwMsg" aria-live="polite"></div>`;
   const base=$('.dwBase',b), flow=$('.dwFlow',b), dyn=$('.dwDyn',b), hud=$('.dwHud',b), msg=$('.dwMsg',b), goal=$('.dwGoal',b), rudIn=el('dwRudIn');
   const arrow=(x,y,ux,uy,L,col,sw)=>`<line x1="${(x-ux*L/2).toFixed(1)}" y1="${(y-uy*L/2).toFixed(1)}" x2="${(x+ux*(L/2-7)).toFixed(1)}" y2="${(y+uy*(L/2-7)).toFixed(1)}" stroke="${col}" stroke-width="${sw||3}" stroke-linecap="round"/><polygon points="${(x+ux*L/2).toFixed(1)},${(y+uy*L/2).toFixed(1)} ${(x+ux*(L/2-11)-uy*6).toFixed(1)},${(y+uy*(L/2-11)+ux*6).toFixed(1)} ${(x+ux*(L/2-11)+uy*6).toFixed(1)},${(y+uy*(L/2-11)-ux*6).toFixed(1)}" fill="${col}"/>`;
@@ -81,7 +81,7 @@
     if(w.line){ const [bx,by]=DockWorld.bowAt(w.s); g+=`<line x1="${(bx*PPM).toFixed(1)}" y1="${(by*PPM).toFixed(1)}" x2="${(w.line.x*PPM).toFixed(1)}" y2="${(w.line.y*PPM).toFixed(1)}" stroke="#f2c14e" stroke-width="${w.line.T>5?2.6:1.6}" stroke-linecap="round"/><circle cx="${(w.line.x*PPM-3).toFixed(1)}" cy="${(w.line.y*PPM).toFixed(1)}" r="3.2" fill="#2a3138"/>`; }
     dyn.innerHTML=g;
     const sg=BoatPhys.ground(s,w.env);
-    hud.innerHTML=`Stroj <b>${THR[s.thr]}</b> · Kormilo <b>${rudTxt(s.rud)}</b> · Kroz vodu <b>${num(Math.abs(s.u)/KN)} čv</b> · Nad dnom <b>${num(Math.hypot(sg[0],sg[1])/KN)} čv</b> · Do obale <b>${num(Math.max(0,w.gap))} m</b>`;
+    hud.innerHTML=`Stroj <b>${THR[s.thr]}</b>&emsp;Kormilo <b>${rudTxt(s.rud)}</b>, Kroz vodu <b>${num(Math.abs(s.u)/KN)} čv</b>, Nad dnom <b>${num(Math.hypot(sg[0],sg[1])/KN)} čv</b>, Do obale <b>${num(Math.max(0,w.gap))} m</b>`;
     $$('[data-t]',b).forEach(e=>{ const on=+e.dataset.t===s.thr; e.classList.toggle('p',on); e.setAttribute('aria-pressed',on); });
     if(document.activeElement!==rudIn) rudIn.value=s.rud; el('dwRudV').textContent=rudTxt(s.rud);
     const k=w.chk, it=(ok,tx)=>`<span class="${ok?'met':''}">${ok?'✓':'○'} ${tx}</span>`;

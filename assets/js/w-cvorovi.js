@@ -268,7 +268,7 @@
     ['M378,206 C378,228 395,240 420,240 L580,240',4]];
   /* u: dokle je svako uže položeno (3.5 = do pola 4. dijela putanje; 99 = cijelo) */
   const KNOTS=[
-  {id:'pasnjak',n:'Pašnjak',en:'bowline',tag:'NAJČEŠĆE NA ISPITU',
+  {id:'pasnjak',n:'Pašnjak',en:'bowline',tag:'Najčešće na ispitu',
    use:'Petlja na kraju konopa koja se <b>ne steže i ne klizi</b>. Spašavanje osobe iz mora (petlja ispod pazuha), privez na bitvu ili kolut, petlja za bacanje.',
    exam:'Ispitivač ti da konop i traži pašnjak. Veži ga mirno i reci za što služi.',
    check:'Petlja ne mijenja veličinu kad povučeš stojeći dio. Kratki kraj završava <b>unutar</b> velike petlje.',
@@ -283,7 +283,7 @@
     {s:'Zategni',t:'Zategni: kraj i krak petlje uz njega drži zajedno u jednoj ruci, drugom povuci stojeći dio.',u:[99],tight:[252,128,112,.26]}
    ]},
 
-  {id:'osmica',n:'Osmica',en:'figure-eight',tag:'STOPER',
+  {id:'osmica',n:'Osmica',en:'figure-eight',tag:'Stoper',
    use:'Čvor na <b>kraju konopa</b> da ne izleti kroz koloturnik, kroz oko ili kroz ruke. Stavlja se na krajeve škota i konopa za vezanje.',
    check:'Gotov čvor izgleda kao <b>broj 8</b>. Lako se odveže i nakon jakog opterećenja.',
    err:'Ako preskočiš obilazak iza stojećeg dijela, dobiješ obični jednostruki čvor. On se pod teretom zategne toliko da se teško odveže.',
@@ -296,7 +296,7 @@
     {s:'Zategni',t:'Zategni oba kraja. Gledaj oblik: to je osmica.',u:[99],tight:[272,196,110,.24]}
    ]},
 
-  {id:'muski',n:'Muški uzao',en:'reef knot',tag:'SPAJANJE ISTE DEBLJINE',
+  {id:'muski',n:'Muški uzao',en:'reef knot',tag:'Spajanje iste debljine',
    use:'Spajanje <b>dvaju konopa jednake debljine</b> (ili dvaju krajeva istog konopa, npr. vezanje jedra ili vreće).',
    exam:'Brzo pravilo: <b>lijevi preko desnog i ispod, pa desni preko lijevog i ispod</b>. Ovdje ga vežeš provlačenjem da vidiš kako je građen: rezultat je isti čvor.',
    check:'Svaki konop stvara „U" koji obuhvaća drugi. Oba kraja istog konopa izlaze <b>s iste strane</b>, uz svoj stojeći dio, i čvor leži ravno.',
@@ -311,7 +311,7 @@
     {s:'Zategni',t:'Zategni povlačeći oba stojeća dijela. Dva „U" su se obuhvatila, krajevi leže uz svoje stojeće dijelove.',u:[99,99],tight:[275,244,150,.16]}
    ]},
 
-  {id:'zastavni',n:'Zastavni uzao',en:'sheet bend',tag:'RAZLIČITE DEBLJINE',
+  {id:'zastavni',n:'Zastavni uzao',en:'sheet bend',tag:'Različite debljine',
    use:'Spajanje <b>dvaju konopa različite debljine</b>. Deblji konop stvara omču (U), tanji se oko nje veže.',
    check:'Oba kratka kraja izlaze <b>s iste strane</b> čvora (ovdje oba gore). Tanki konop steže oba kraka omče debljeg konopa, a omča debljeg obuhvaća tanki.',
    err:'Ako tanki kraj provučeš preko sebe umjesto ispod, čvor se raspada pod opterećenjem. Omču uvijek radi od <b>debljeg</b> konopa.',
@@ -324,7 +324,7 @@
     {s:'Zategni',t:'Zategni. Provjeri: oba kratka kraja su s iste strane.',u:[99,99],tight:[270,200,120,.18]}
    ]},
 
-  {id:'vrzni',n:'Vrzni uzao',en:'clove hitch',tag:'NA STUP ILI BITVU',
+  {id:'vrzni',n:'Vrzni uzao',en:'clove hitch',tag:'Na stup ili bitvu',
    use:'Brzo vezanje za <b>stup, bitvu, prečku ili ogradu</b>. Npr. bokobran na ogradu. Lako se veže i odvezuje.',
    check:'Sprijeda se vidi <b>kosi dio</b> koji prelazi preko dva usporedna dijela: stojećeg i kraja. Krajevi izlaze na suprotne strane.',
    err:'Ako drugi namotaj ide u suprotnom smjeru, dobiješ čvor koji se odmota. Kad se smjer vuče mijenja (ljuljanje broda), vrzni može popustiti: za dugi privez dodaj poluuzao.',
@@ -338,7 +338,7 @@
     {s:'Zategni',t:'Zategni oba kraja.',u:[99],tight:[280,131,85,.12]}
    ]},
 
-  {id:'bitva',n:'Vezanje na bitvu',en:'cleat hitch',tag:'PRIVEZ',
+  {id:'bitva',n:'Vezanje na bitvu',en:'cleat hitch',tag:'Privez',
    use:'Privez konopa na <b>bitvu</b> (rogati okov na palubi ili rivi). Drži jako, a odvezuje se jednim potezom i pod opterećenjem.',
    check:'Jedan puni okret oko podnožja, jedna osmica preko rogova (na vrhu se vidi <b>križ</b>), jedna zaključna petlja. Odozgo: <b>dvije usporedne crte i jedna preko njih</b>.',
    err:'Nemoj namotavati više osmica i petlji: bitva se tada ne može brzo odvezati. Konop prvo vodi prema <b>daljem rogu</b>, gledano od tereta.',
@@ -352,7 +352,7 @@
     {s:'Zategni',t:'Povuci kraj. Petlja sjedne <b>pod rog</b>, a kraj ostane ukliješten <b>ispod zadnjeg kosog dijela</b>, usporedno s prvim. Gotova bitva: dvije usporedne crte i jedna preko njih.',u:[99],tight:true,h:[{x:268,y:184,t:'kraj ispod'}]}
    ]},
 
-  {id:'poluuzli',n:'Okret i dva poluuzla',en:'round turn & two half hitches',tag:'KOLUT, PRSTEN, OGRADA',
+  {id:'poluuzli',n:'Okret i dva poluuzla',en:'round turn & two half hitches',tag:'Kolut, prsten, ograda',
    use:'Privez za <b>kolut, prsten, plutaču ili ogradu</b>. Puni okret preuzima teret, poluuzli ga samo osiguravaju. Može se odvezati i pod opterećenjem.',
    check:'Oko prečke su <b>dva puna namotaja</b>. Oba poluuzla idu <b>u istom smjeru</b> (zajedno čine vrzni uzao oko stojećeg dijela).',
    err:'Poluuzli u suprotnim smjerovima se odmotavaju. Samo jedan namotaj oko prečke se trlja i troši konop.',
@@ -366,7 +366,7 @@
     {s:'Zategni',t:'Zategni i pogurni poluuzle do okreta.',u:[99],tight:[262,200,80,.12]}
    ]},
 
-  {id:'sidreni',n:'Sidreni uzao',en:'anchor bend',tag:'KONOP NA SIDRO',
+  {id:'sidreni',n:'Sidreni uzao',en:'anchor bend',tag:'Konop na sidro',
    use:'Vezanje sidrenog konopa za <b>prsten sidra</b> ili za plutaču, kad veza ostaje dugo pod teretom i u moru. Sigurniji je od okreta s dva poluuzla jer namotaji sami stežu kraj.',
    check:'Oko prstena su <b>dva namotaja</b>, a kraj prolazi <b>ispod oba</b>, između konopa i prstena. Na stojećem dijelu je još jedan poluuzao.',
    err:'Ako kraj provučeš samo ispod jednog namotaja ili ga uopće ne provučeš, dobio si običan okret s poluuzlom, koji se na sidru s vremenom razlabavi. Na sidru kraj još osiguraj tankim konopom.',
@@ -380,7 +380,7 @@
     {s:'Zategni',t:'Zategni namotaje i pogurni poluuzao do njih. Što jače sidro vuče, namotaji jače drže kraj.',u:[99],tight:[262,205,80,.12]}
    ]},
 
-  {id:'trubni',n:'Trubni uzao',en:'sheepshank',tag:'SKRAĆIVANJE KONOPA',
+  {id:'trubni',n:'Trubni uzao',en:'sheepshank',tag:'Skraćivanje konopa',
    use:'Zove se i <b>margarita</b>. Skraćuje predug konop bez rezanja. Njime se može i premostiti oštećeno mjesto na konopu: ono mora doći u <b>srednji</b> od tri dijela.',
    check:'Tri usporedna dijela, a na svakom kraju <b>petlja koja steže pregib</b>. Vrh svakog pregiba viri kroz svoju petlju.',
    err:'Drži samo dok je konop <b>napet</b>. Kad teret popusti, petlje skliznu s pregiba i uzao se raspadne. Nije za trajan privez.',
@@ -409,10 +409,10 @@
        <g class="knGlow"></g><g class="knRope"></g><g class="knGh"></g><g class="knHint"></g></svg>
      <label class="knScrub"><span>Povuci i veži sam</span><input type="range" min="0" max="100" step="1" value="0" aria-label="Tijek vezanja: povuci da provlačiš konop"></label>
      <div class="knCtl">
-       <button class="btn" data-a="first" title="Početak" aria-label="Na početak">⏮</button>
-       <button class="btn" data-a="prev">◀ Nazad</button>
-       <button class="btn p" data-a="play">▶ Reproduciraj</button>
-       <button class="btn" data-a="next">Dalje ▶</button>
+       <button class="btn" data-a="first" title="Početak" aria-label="Na početak">Početak</button>
+       <button class="btn" data-a="prev">Nazad</button>
+       <button class="btn p" data-a="play">Reproduciraj</button>
+       <button class="btn" data-a="next">Dalje</button>
        <label class="knSpd">Brzina <select><option value="0.55">sporo</option><option value="1" selected>normalno</option><option value="1.7">brzo</option></select></label>
      </div>
      <div class="knProg"></div>
@@ -485,7 +485,7 @@
     $('.knStepTxt',b).innerHTML=`<span>Korak ${step+1} / ${cur.steps.length}</span>${cur.steps[step].t}`;
     $('.knSteps',b).innerHTML=cur.steps.map((f,i)=>`<li class="${i===step?'on':i<step?'done':''}" data-i="${i}">${f.s}</li>`).join('');
     $('.knProg',b).innerHTML=cur.steps.map((_,i)=>`<i class="${i<=step?'on':''}"></i>`).join('');
-    $('[data-a=play]',b).textContent=playing?'⏸ Pauza':(step>=cur.steps.length-1?'↺ Ponovi':'▶ Reproduciraj');
+    $('[data-a=play]',b).textContent=playing?'Pauza':(step>=cur.steps.length-1?'Ponovi':'Reproduciraj');
     $('[data-a=prev]',b).disabled=step===0; $('[data-a=next]',b).disabled=step>=cur.steps.length-1;
     $('.knInfo',b).innerHTML=`<div class="knI"><h5>Za što služi</h5>${cur.use}</div>
       <div class="knI"><h5>Provjera</h5>${cur.check}</div><div class="knI warnI"><h5>Česta greška</h5>${cur.err}</div>

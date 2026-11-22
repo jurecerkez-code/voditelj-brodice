@@ -2,7 +2,7 @@
 /* Kardinalne oznake: stupovi, kvadranti, noćni i dnevni kviz. */
 /* ═══════════════ KARDINALNE OZNAKE: stupovi, kvadranti, noćni i dnevni kviz ═══════════════ */
 /* Sadržaj iz poglavlja IALA: vršne oznake (dva crna čunja), boje odozgo, bijelo svjetlo
-   N Q neprekidno · E Q(3) 10s · S Q(6) + dugi bljesak 15s · W Q(9) 15s. Ritam je isti kao RHYTHM u galeriji oznaka. */
+   N Q neprekidno, E Q(3) 10s, S Q(6) + dugi bljesak 15s, W Q(9) 15s. Ritam je isti kao RHYTHM u galeriji oznaka. */
 (function(){
   const b=el('cardinalWidget'); if(!b) return;
   const RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -60,8 +60,8 @@
   /* ── 1. dnevni prikaz: četiri stupa ── */
   function strip(){ const W=680,H=318,HOR=150; let g=DEFS+daySky(W,H,HOR);
     M.forEach((m,i)=>{ const x=95+i*163; g+=pillar(m,{x,y:236,s:1.12});
-      g+=`<text x="${x}" y="280" text-anchor="middle" font-size="15" font-weight="800" fill="#fff" paint-order="stroke" stroke="#0b2a44" stroke-width="3">${m.k} · ${m.n}</text>
-        <text x="${x}" y="298" text-anchor="middle" font-size="11.5" fill="#dfe9f1" font-family="JetBrains Mono,monospace" paint-order="stroke" stroke="#0b2a44" stroke-width="3">bijelo ${m.ch}</text>`; });
+      g+=`<text x="${x}" y="280" text-anchor="middle" font-size="15" font-weight="800" fill="#fff" paint-order="stroke" stroke="#0b2a44" stroke-width="3">${m.k}, ${m.n}</text>
+        <text x="${x}" y="298" text-anchor="middle" font-size="11.5" fill="#dfe9f1" font-family="var(--mono)" paint-order="stroke" stroke="#0b2a44" stroke-width="3">bijelo ${m.ch}</text>`; });
     return SVG(W,H,g,'class="cdSvg" role="img" aria-label="Četiri kardinalne oznake: sjeverna, istočna, južna i zapadna, sa stvarnim oblikom stupa, bojama i vršnim oznakama"'); }
 
   /* ── 2. kvadranti: opasnost u sredini, oznaka stoji u kvadrantu sa sigurne strane ── */
@@ -73,7 +73,7 @@
     const wedge=a=>{ const r=c*1.5, p1=(a-45)*Math.PI/180, p2=(a+45)*Math.PI/180; return `M${c},${c} L${c+Math.sin(p1)*r},${c-Math.cos(p1)*r} L${c+Math.sin(a*Math.PI/180)*r*1.2},${c-Math.cos(a*Math.PI/180)*r*1.2} L${c+Math.sin(p2)*r},${c-Math.cos(p2)*r} Z`; };
     g+=`<clipPath id="cdQc"><rect width="${S}" height="${S}" rx="10"/></clipPath><g clip-path="url(#cdQc)"><path d="${wedge(ang)}" fill="#25c26a" opacity=".16"/></g>`;
     g+=`<line x1="0" y1="0" x2="${S}" y2="${S}" stroke="#9fd2f0" stroke-dasharray="5 5" opacity=".6"/><line x1="${S}" y1="0" x2="0" y2="${S}" stroke="#9fd2f0" stroke-dasharray="5 5" opacity=".6"/>`;
-    [['NW',16,20,'start'],['NE',S-16,20,'end'],['SE',S-16,S-10,'end'],['SW',16,S-10,'start']].forEach(([t,x,y,a])=>g+=`<text x="${x}" y="${y}" font-size="11" fill="#9fd2f0" text-anchor="${a}" font-family="JetBrains Mono,monospace" font-weight="700">${t}</text>`);
+    [['NW',16,20,'start'],['NE',S-16,20,'end'],['SE',S-16,S-10,'end'],['SW',16,S-10,'start']].forEach(([t,x,y,a])=>g+=`<text x="${x}" y="${y}" font-size="11" fill="#9fd2f0" text-anchor="${a}" font-family="var(--mono)" font-weight="700">${t}</text>`);
     // opasnost: plićina/hrid
     g+=`<path d="M${c-34},${c+4} C${c-30},${c-24} ${c-6},${c-30} ${c+14},${c-22} C${c+36},${c-14} ${c+34},${c+14} ${c+18},${c+26} C${c},${c+36} ${c-30},${c+28} ${c-34},${c+4} Z" fill="#bfe0f2" stroke="#6fa6c8"/>
       <path d="M${c-12},${c+6} l6,-12 l5,7 l6,-10 l8,15 Z" fill="#6b5a22"/><text x="${c}" y="${c+22}" text-anchor="middle" font-size="10" fill="#0b2a44" font-weight="800">OPASNOST</text>`;
@@ -94,7 +94,7 @@
   // vremenska traka ritma (jedan period)
   function tl(m){ const T=period(m), Wd=300; let x=0, g=`<rect width="${Wd}" height="26" rx="5" fill="#050d18"/>`;
     m.rh.forEach(([on,off])=>{ g+=`<rect x="${(x/T*Wd).toFixed(1)}" y="5" width="${Math.max(1.5,on/T*Wd).toFixed(1)}" height="16" rx="1.5" fill="#fff6d8"/>`; x+=on+off; });
-    for(let s=0;s<=T;s+=5) g+=`<text x="${s>=T?Wd-1:s/T*Wd+2}" y="38" font-size="9" fill="#9fb6c9" text-anchor="${s>=T?'end':'start'}" font-family="JetBrains Mono,monospace">${s}s</text>`;
+    for(let s=0;s<=T;s+=5) g+=`<text x="${s>=T?Wd-1:s/T*Wd+2}" y="38" font-size="9" fill="#9fb6c9" text-anchor="${s>=T?'end':'start'}" font-family="var(--mono)">${s}s</text>`;
     return `<div class="cdTl"><span>Ritam svjetla, jedan period (${T} s):</span>${SVG(Wd,42,g,'role="img" aria-label="Ritam: '+m.ch+'"')}</div>`; }
 
   /* ── 3. kviz ── */
@@ -108,7 +108,7 @@
       <path d="M0,${HOR} L0,${HOR-8} C80,${HOR-16} 150,${HOR-6} 220,${HOR-9} L230,${HOR} Z M${W},${HOR} L${W},${HOR-12} C420,${HOR-18} 360,${HOR-8} 330,${HOR-5} L322,${HOR} Z" fill="#050b12"/>
       ${[[40,20],[120,48],[300,30],[410,60],[460,16],[210,70]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r=".9" fill="#cfe3ef" opacity=".6"/>`).join('')}
       <g class="cdNL"><circle cx="276" cy="${HOR-6}" r="28" fill="url(#cdNg)"/><circle cx="276" cy="${HOR-6}" r="2.4" fill="var(--sig-white)"/><rect x="273" y="${HOR+3}" width="6" height="60" fill="url(#cdNr)"/></g>
-      <text x="12" y="${H-12}" font-size="11" fill="#6f8aa0" font-family="JetBrains Mono,monospace">noć · bijelo svjetlo na obzoru</text>`;
+      <text x="12" y="${H-12}" font-size="11" fill="#6f8aa0" font-family="var(--mono)">noć, bijelo svjetlo na obzoru</text>`;
     return SVG(W,H,g,'class="cdNight" role="img" aria-label="Noćni prizor s bijelim svjetlom koje treperi"'); }
   function dayOne(m){ const W=300,H=260,HOR=120; return SVG(W,H,DEFS+daySky(W,H,HOR)+pillar(m,{x:150,y:206,s:1.05}),'class="cdOne" role="img" aria-label="Kardinalna oznaka, prepoznaj je"'); }
   function ask(){ answered=false; cur=rnd(M); qType=mode==='day'&&Math.random()<.5?'side':'name';
@@ -125,7 +125,7 @@
       ${cur.cones}, boje odozgo ${cur.col}, svjetlo <b>bijelo ${cur.ch}</b>. Prolaziš sa <b>${cur.g}</b> strane oznake.
       ${mode==='night'?'<br><small>Trik: brojčanik sata. N = 12 (neprekidno), E = 3, S = 6 + dugi, W = 9.</small>':''}</div>
       ${mode==='night'?`<div class="cdAns">${dayOne(cur)}</div>`:''}
-      <div class="btnrow"><button class="btn p cdNext" type="button">Sljedeća ›</button><span class="cdSc">Točno ${score.ok} od ${score.n}</span></div>`;
+      <div class="btnrow"><button class="btn p cdNext" type="button">Sljedeća</button><span class="cdSc">Točno ${score.ok} od ${score.n}</span></div>`;
     $('.cdNext',b).addEventListener('click',ask); loop(); }
 
   /* ── treptanje: jedan rAF sat za sve lampe u widgetu (i na traci i u kvizu) ── */

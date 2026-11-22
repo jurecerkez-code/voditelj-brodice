@@ -24,8 +24,8 @@
     // v3: vanjska skala: crtice svakih 22,5° i oznake 0/90/180/270 (od pramca)
     for(let d=0;d<360;d+=22.5){ const q=d*Math.PI/180, r1=OR+(d%90?9:4), r2=OR+16; g+=`<line x1="${(c+Math.sin(q)*r1).toFixed(1)}" y1="${(c-Math.cos(q)*r1).toFixed(1)}" x2="${(c+Math.sin(q)*r2).toFixed(1)}" y2="${(c-Math.cos(q)*r2).toFixed(1)}" stroke="#5b8bab" stroke-width="${d%90?1:1.6}" opacity="${d%90?.6:.9}"/>`; }
     [0,90,180,270].forEach(d=>{ const q=d*Math.PI/180, x=c+Math.sin(q)*(OR+26), y=c-Math.cos(q)*(OR+26)+4; if(d===90||d===270) return;
-      g+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="JetBrains Mono,monospace">${d}°</text>`; });
-    g+=`<text x="${c+OR+20}" y="${c+4}" text-anchor="start" font-size="10" fill="${C.txt2}" font-family="JetBrains Mono,monospace">90°</text><text x="${c-OR-20}" y="${c+4}" text-anchor="end" font-size="10" fill="${C.txt2}" font-family="JetBrains Mono,monospace">270°</text>`;
+      g+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="var(--mono)">${d}°</text>`; });
+    g+=`<text x="${c+OR+20}" y="${c+4}" text-anchor="start" font-size="10" fill="${C.txt2}" font-family="var(--mono)">90°</text><text x="${c-OR-20}" y="${c+4}" text-anchor="end" font-size="10" fill="${C.txt2}" font-family="var(--mono)">270°</text>`;
     g+=arc(247.5,112.5,SIG.w,R,v.mast?.24:.07);
     g+=arc(112.5,247.5,'#cfd9e2',R*0.72,v.stern?.26:.12); // i kad ga ne vidiš, sektor ostaje uočljiv
     g+=arc(0,112.5,SIG.g,R*0.88,v.stbd?.42:.1);
@@ -39,7 +39,7 @@
     // granice sektora
     [112.5,247.5].forEach(a=>{ const x=c+Math.sin(a*Math.PI/180)*(OR+10), y=c-Math.cos(a*Math.PI/180)*(OR+10);
       g+=`<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="#5b8bab" stroke-opacity=".35" stroke-dasharray="3 4"/>`;
-      g+=`<text x="${c+Math.sin(a*Math.PI/180)*(OR+22)}" y="${c-Math.cos(a*Math.PI/180)*(OR+22)+4}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="JetBrains Mono,monospace">${String(a).replace('.',',')}°</text>`; });
+      g+=`<text x="${c+Math.sin(a*Math.PI/180)*(OR+22)}" y="${c-Math.cos(a*Math.PI/180)*(OR+22)+4}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="var(--mono)">${String(a).replace('.',',')}°</text>`; });
     g+=`<text x="${c}" y="${c-R+2}" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.mast?1:.6}">JARBOLNO 225°</text>`;
     g+=`<text x="${c}" y="${c+R*0.72+16}" text-anchor="middle" font-size="12" fill="#cfd9e2" font-weight="700" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.stern?1:.6}">KRMENO 135°</text>`;
     g+=`<text x="${c+R*0.62}" y="${c-30}" text-anchor="middle" font-size="12" fill="${SIG.g}" font-weight="700" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.stbd?1:.6}">112,5°</text>`;
@@ -87,11 +87,11 @@
   const btn=b.querySelector('button'), rng=b.querySelector('input');
   btn.addEventListener('click',()=>{
     if(RM){ brg=(Math.round(brg/45)*45+45)%360; draw(); return; } // bez animacije: korak od 45°
-    playing=!playing; btn.textContent=playing?'⏸ Zaustavi':'▶ Obiđi brod';
+    playing=!playing; btn.textContent=playing?'Zaustavi':'Obiđi brod';
     if(playing){ t0=0; raf=requestAnimationFrame(loop); } else cancelAnimationFrame(raf);
   });
-  rng.addEventListener('input',()=>{ playing=false; cancelAnimationFrame(raf); btn.textContent='▶ Obiđi brod'; brg=+rng.value; draw(); });
-  if(RM) btn.textContent='▶ Sljedećih 45°';
+  rng.addEventListener('input',()=>{ playing=false; cancelAnimationFrame(raf); btn.textContent='Obiđi brod'; brg=+rng.value; draw(); });
+  if(RM) btn.textContent='Sljedećih 45°';
   draw();
 })();
 
@@ -307,9 +307,9 @@ const VESSELS = [
         g+=`<path d="M${cx},${cy} L${e[0].toFixed(1)},${e[1].toFixed(1)}" stroke="#ffd166" stroke-width=".9" stroke-dasharray="1.5 3" opacity=".75"/>
           <path d="M${s1[0].toFixed(1)},${s1[1].toFixed(1)} A92,92 0 0 ${sw} ${s2[0].toFixed(1)},${s2[1].toFixed(1)}" fill="none" stroke="#ffd166" stroke-width="2"/>`;
         lab((bm+a)/2,78,'22,5°','#ffd166'); });
-      if(sect) g+=`<text x="${W-12}" y="${H-10}" font-size="10" fill="#ffd166" text-anchor="end">točkasto: poprečnica · granica je 22,5° iza nje</text>`; }
+      if(sect) g+=`<text x="${W-12}" y="${H-10}" font-size="10" fill="#ffd166" text-anchor="end">točkasto: poprečnica, granica je 22,5° iza nje</text>`; }
     [112.5,247.5].forEach(a=>{ const e=P(a,118), t=P(a,130); g+=`<path d="M${cx},${cy} L${e[0].toFixed(1)},${e[1].toFixed(1)}" stroke="#7fa8c8" stroke-width=".9" stroke-dasharray="2 3"/>
-      <text x="${t[0].toFixed(1)}" y="${(t[1]+4).toFixed(1)}" font-size="10" fill="${C.txt2}" text-anchor="middle" font-family="JetBrains Mono,monospace">${String(a).replace('.',',')}°</text>`; });
+      <text x="${t[0].toFixed(1)}" y="${(t[1]+4).toFixed(1)}" font-size="10" fill="${C.txt2}" text-anchor="middle" font-family="var(--mono)">${String(a).replace('.',',')}°</text>`; });
     g+=`<path d="M${cx},${cy} L${cx},${cy-120}" stroke="#7fa8c8" stroke-width=".7" opacity=".5"/><text x="${cx}" y="${cy-122}" font-size="10" fill="${C.txt2}" text-anchor="middle">0° pramac</text>`;
     g+=`<g transform="translate(${cx},${cy})"><path d="M0,-30 C9,-18 11,0 10,24 L-10,24 C-11,0 -9,-18 0,-30 Z" fill="url(#lsCab)" stroke="#7fa8c8" stroke-width="1.2"/><rect x="-6" y="-6" width="12" height="14" rx="2" fill="#0a1522"/></g>`;
     g+=`<text x="16" y="22" font-size="12" fill="${C.acc}" font-weight="700">Pogled odozgo: sektori svjetala</text>`;
@@ -357,7 +357,7 @@ const VESSELS = [
       $$('.vopt').forEach(x=>{x.disabled=true; if(x.dataset.id===v.id)x.classList.add('correct'); else if(x===b)x.classList.add('wrong');});
       el('lightScore').textContent=`Rezultat: ${score.c}/${score.t}`;
       const L=render(v);
-      el('lightInfo').insertAdjacentHTML('beforeend',`<div class="expl"><b>${v.n}</b><br>${v.note}</div><div class="btnrow"><button class="btn p" id="lqNext">Sljedeće ›</button></div>`);
+      el('lightInfo').insertAdjacentHTML('beforeend',`<div class="expl"><b>${v.n}</b><br>${v.note}</div><div class="btnrow"><button class="btn p" id="lqNext">Sljedeće</button></div>`);
       el('lqNext').addEventListener('click',askQ);
     }));
   }
@@ -369,7 +369,7 @@ const VESSELS = [
   controls(); info(cur,render(cur));
   el('lightQuizBtn').addEventListener('click',function(){
     quiz=!quiz;
-    this.textContent=quiz?'⏹ Natrag na simulator':'▶ Kviz svjetala';
+    this.textContent=quiz?'Natrag na simulator':'Kviz svjetala';
     this.classList.toggle('p',!quiz);
     if(quiz){score={c:0,t:0};el('lightScore').textContent='';askQ();}
     else {el('lightScore').textContent='';controls();info(cur,render(cur));}

@@ -69,7 +69,7 @@
     MARKS.forEach(m=>{ const p=px(m.p[0],m.p[1]);
       if(m.id==='zvonik') g+=`<g transform="translate(${p[0]},${p[1]})"><circle r="3" fill="none" stroke="#222" stroke-width="1.1"/><path d="M0,-3 v-7 M-3,-7 h6" stroke="#222" stroke-width="1.1"/></g>`;
       else g+=`<g transform="translate(${p[0]},${p[1]})"><circle r="2.4" fill="#222"/><path d="M0,0 L-6,-16 A17,17 0 0 1 6,-16 Z" fill="#c2185b" opacity=".75"/></g>`;
-      g+=`<text x="${p[0]+(m.id==='mali'?-10:6)}" y="${p[1]+(m.id==='zvonik'?-12:m.id==='mali'?-6:14)}" font-size="9" fill="#333" text-anchor="${m.id==='mali'?'end':'start'}">${m.n}${m.s?' · '+m.s:''}</text>`; });
+      g+=`<text x="${p[0]+(m.id==='mali'?-10:6)}" y="${p[1]+(m.id==='zvonik'?-12:m.id==='mali'?-6:14)}" font-size="9" fill="#333" text-anchor="${m.id==='mali'?'end':'start'}">${m.n}${m.s?', '+m.s:''}</text>`; });
     g+=`<text x="${px(4.8,3.8)[0]}" y="${px(4.8,3.8)[1]}" font-size="11" fill="#6b5a22" font-style="italic">o. Vela</text>`;
     g+=`<text x="${px(15.5,5.4)[0]}" y="${px(15.5,5.4)[1]+2}" font-size="9" fill="#6b5a22" font-style="italic">o. Mali</text>`;
     g+=`</g>`;
@@ -87,7 +87,7 @@
     for(let m=0;m<=NLON;m+=1){ const x=px(m,0)[0]; if(m%5===0||m%1===0)
       g+=`<text x="${x}" y="${Y0+NLAT*K+bw+11}" font-size="8" fill="#222" text-anchor="middle">${m%5===0?'16°':''}${20+m}'</text>`; }
     g+=`<text x="${X0+4}" y="${Y0-bw-6}" font-size="9" fill="#555">Vježbovna karta, izmišljeno područje. Nije za navigaciju.</text>`;
-    g+=`<text x="${X0+NLON*KX}" y="${Y0-bw-6}" font-size="9" fill="#555" text-anchor="end">Merkator · dubine u metrima</text>`;
+    g+=`<text x="${X0+NLON*KX}" y="${Y0-bw-6}" font-size="9" fill="#555" text-anchor="end">Merkator, dubine u metrima</text>`;
     return g;
   }
 
@@ -110,7 +110,7 @@
   }
 
   /* ── UI ── */
-  const MODES=[['sestar','Šestar: udaljenost'],['kurs','Trokuti: kurs'],['pbv','Put · brzina · vrijeme'],['fix','Pozicija iz 2 azimuta']];
+  const MODES=[['sestar','Šestar: udaljenost'],['kurs','Trokuti: kurs'],['pbv','Put, brzina, vrijeme'],['fix','Pozicija iz 2 azimuta']];
   let mode='sestar', st={}, anim=null, score=store.get('navlab',{ok:0,n:0});
   b.innerHTML=`<div class="nlTabs">${MODES.map(m=>`<button class="knTab" data-m="${m[0]}">${m[1]}</button>`).join('')}<button class="knTab nlBig" type="button" aria-pressed="false" title="Karta preko cijele širine, zadatak ispod nje">⤢ Veća karta</button></div>
     <div class="nlWrap"><div class="nlChart"><svg viewBox="0 0 ${W.toFixed(0)} ${H}" class="nlSvg"><g class="nlBase">${chartBase()}</g><g class="nlDyn"></g><g class="nlHand"></g></svg></div>
@@ -212,7 +212,7 @@
         eta:[`Isplovio si iz A u <b>${hhmm(st.dep)}</b>. Put do B je <b>${f1(st.d)} M</b>, brzina <b>${f1(st.v)} čv</b>. U koliko sati stižeš u B?`,`<label>Dolazak <input class="nlI" data-k="eta" placeholder="hh:mm" style="width:84px"></label>`],
         v:[`Put od A do B je <b>${f1(st.d)} M</b> i prešao si ga za <b>${hmTxt(st.t)}</b>. Kolika je bila prosječna brzina?`,`<label>Brzina <input class="nlI" data-k="v" inputmode="decimal"> čv</label>`],
         s:[`Ploviš <b>${hmTxt(st.t)}</b> brzinom <b>${f1(st.v)} čv</b>. Koliki put prijeđeš?`,`<label>Put <input class="nlI" data-k="s" inputmode="decimal"> M</label>`]}[st.type];
-      return {t:T[0]+'<div class="nlTri"><svg viewBox="0 0 150 92"><path d="M75,4 L146,88 L4,88 Z" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="36" y1="50" x2="114" y2="50" stroke="currentColor" stroke-width="1.2"/><line x1="75" y1="50" x2="75" y2="88" stroke="currentColor" stroke-width="1.2"/><text x="75" y="40" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">P</text><text x="46" y="76" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">B</text><text x="104" y="76" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">V</text></svg><span>Pokrij ono što tražiš.<br>P = B × V · B = P ÷ V · V = P ÷ B<br><small>P put (M) · B brzina (čv) · V vrijeme (h)</small></span></div>',i:T[1]}; },
+      return {t:T[0]+'<div class="nlTri"><svg viewBox="0 0 150 92"><path d="M75,4 L146,88 L4,88 Z" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="36" y1="50" x2="114" y2="50" stroke="currentColor" stroke-width="1.2"/><line x1="75" y1="50" x2="75" y2="88" stroke="currentColor" stroke-width="1.2"/><text x="75" y="40" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">P</text><text x="46" y="76" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">B</text><text x="104" y="76" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">V</text></svg><span>Pokrij ono što tražiš.<br>P = B × V, B = P ÷ V, V = P ÷ B<br><small>P put (M), B brzina (čv), V vrijeme (h)</small></span></div>',i:T[1]}; },
     draw(){ dyn.innerHTML=`<line x1="${st.A[0]}" y1="${st.A[1]}" x2="${st.B[0]}" y2="${st.B[1]}" stroke="#c62828" stroke-width="1.2"/>`+mark(st.A,'A')+mark(st.B,'B'); },
     explain(){ const s=st;
       if(s.type==='t'||s.type==='eta'){ const h=s.d/s.v, {H,m}=hm(h);
@@ -231,7 +231,7 @@
       const q=brg(A,B)*Math.PI/180;
       tween(2600,e=>{ const x=A[0]+(B[0]-A[0])*e, y=A[1]+(B[1]-A[1])*e, mins=Math.round(T*60*e);
         dyn.innerHTML=base+`<g class="tool"><g transform="translate(${x},${y}) rotate(${q*180/Math.PI})"><path d="M0,-9 C4,-4 4,4 3.5,8 L-3.5,8 C-4,4 -4,-4 0,-9 Z" fill="#0b3954" stroke="#fff" stroke-width="1"/></g>
-          <rect x="${x+10}" y="${y-24}" width="${st.type==='eta'?58:48}" height="17" rx="4" fill="#0b3954"/><text x="${x+14}" y="${y-12}" font-size="11" fill="#fff" font-family="monospace">${st.type==='eta'?st.hhmm(st.dep+mins):'+'+mins+' min'}</text></g>`; }); }
+          <rect x="${x+10}" y="${y-24}" width="${st.type==='eta'?58:48}" height="17" rx="4" fill="#0b3954"/><text x="${x+14}" y="${y-12}" font-size="11" fill="#fff" font-family="var(--mono)">${st.type==='eta'?st.hhmm(st.dep+mins):'+'+mins+' min'}</text></g>`; }); }
   };
 
   /* ═ POZICIJA IZ DVA AZIMUTA ═ */

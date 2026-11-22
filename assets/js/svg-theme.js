@@ -16,7 +16,8 @@
     return {r:r,g:g,b:b,a:a,H:H,S:S,L:L};
   }
   function rgba(hex,a){ return a<1? 'rgba('+parseInt(hex.substr(1,2),16)+','+parseInt(hex.substr(3,2),16)+','+parseInt(hex.substr(5,2),16)+','+a+')' : hex; }
-  var INK='#0b2233', INK2='#3a5266', INK3='#6b8194', NAVY='#14507f', PAPER='#f3f7fa', PAPER2='#e6eef4', WATER='#dcebf4', WATER2='#c5dcea', RULE='#a3b8c8';
+  /* iste vrijednosti kao tokeni u app.css: tinta, prigušeno, list, papir-2, crta */
+  var INK='#0f171e', INK2='#3b434b', INK3='#6a737b', NAVY='#14507f', PAPER='#e5eaef', PAPER2='#d8dee4', WATER='#d5e6f0', WATER2='#bdd6e6', RULE='#a1a9af';
   function map(val, prop, el){
     var c=parse(val); if(!c) return null;
     var isText=/^(text|tspan|textPath)$/i.test(el.tagName);

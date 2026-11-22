@@ -87,7 +87,7 @@
       if(!armed){
         armed=1; bt.classList.add('p'); bt.textContent='Klikni ponovno za potvrdu';
         msg.textContent='Sve se vraća na nulu: poglavlja, kviz, plan i značke.';
-        tm=setTimeout(()=>{ armed=0; bt.classList.remove('p'); bt.textContent='↺ Resetiraj sav napredak'; msg.textContent=idle; },4000);
+        tm=setTimeout(()=>{ armed=0; bt.classList.remove('p'); bt.textContent='Resetiraj sav napredak'; msg.textContent=idle; },4000);
         return;
       }
       clearTimeout(tm); armed=0; VB.reset();
@@ -168,15 +168,15 @@
     const left=Math.round((parse(P.exam)-today())/864e5);
     const qn=P.h*5+5;
     let h=`<div class="planhead"><div><b style="font-family:var(--display)">Ispit ${parse(P.exam).toLocaleDateString('hr-HR')}</b>
-      <span class="pmeta">&ensp;${left>0?'još '+left+' '+(left===1?'dan':'dana'):left===0?'danas je ispit: sretno!':'ispit je prošao'} · ${P.h}&nbsp;h/dan</span></div>
-      <div class="pmeta">${ok}/${tot} blokova · ${tot?Math.round(ok/tot*100):0}%</div></div>
+      <span class="pmeta">&ensp;${left>0?'još '+left+' '+(left===1?'dan':'dana'):left===0?'danas je ispit: sretno!':'ispit je prošao'}, ${P.h}&nbsp;h/dan</span></div>
+      <div class="pmeta">${ok}/${tot} blokova, ${tot?Math.round(ok/tot*100):0}%</div></div>
       <div class="xpbar mb6"><i style="width:${tot?ok/tot*100:0}%"></i></div>`;
     if(P.intensive) h+=`<div class="danger" style="margin:12px 0"><b>Kratko vrijeme: intenzivni mod</b>Manje od 3 dana do ispita. Raspored ide po prioritetu: <strong>karta → svjetla → sudari → MAYDAY → ostalo</strong>. Ostalo samo prolistaj i riješi kviz.</div>`;
     h+='<div class="plandays">';
     P.days.forEach((d,di)=>{
       const dt=parse(d.date), all=d.items.every((_,ii)=>done[di+'_'+ii]);
       const cls=(d.date===tISO?' today':'')+(all?' done':'')+(d.date<tISO?' past':'');
-      h+=`<div class="pday${cls}"><div class="dh"><b>Dan ${di+1}${d.date===tISO?' · danas':''}</b><span>${DAYN[dt.getDay()]} ${dt.getDate()}.${dt.getMonth()+1}.</span></div>`;
+      h+=`<div class="pday${cls}"><div class="dh"><b>Dan ${di+1}${d.date===tISO?', danas':''}</b><span>${DAYN[dt.getDay()]} ${dt.getDate()}.${dt.getMonth()+1}.</span></div>`;
       d.items.forEach((it,ii)=>{
         const links=it.pg.map(pg=>{ const pe=el(pg); return pe?`<a href="#${pg}">${pe.dataset.title}</a>`:''; }).join('');
         h+=`<label><input type="checkbox" data-k="${di}_${ii}" ${done[di+'_'+ii]?'checked':''}><span>${it.n}</span></label><div class="plinks">${links}</div>`;
@@ -226,6 +226,6 @@
     const seen=store.get('daydone',{}), k=P.created+'_'+P.exam+'_'+di; if(seen[k]) return;
     seen[k]=1; store.set('daydone',seen);
     setTimeout(()=>{ const n=tomorrowSrs(), xp=store.get('xp',0); // nakon plana, pa XP već uključuje ovu kvačicu
-    if(window.VB) VB.toast('✅',`Dan ${di+1} gotov`,`SRS ima ${n} ${n%10===1&&n%100!==11?'pitanje':'pitanja'} za sutra. Ukupno: ${xp} XP.`); },0);
+    if(window.VB) VB.toast('',`Dan ${di+1} gotov`,`SRS ima ${n} ${n%10===1&&n%100!==11?'pitanje':'pitanja'} za sutra. Ukupno: ${xp} XP.`); },0);
   },true);
 })();

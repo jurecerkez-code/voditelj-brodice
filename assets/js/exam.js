@@ -5,11 +5,11 @@
    (karta i alati iz Radnog stola: window.__NL). Prag po stolu 80 %. Rezultat: store 'examsim' (vb_examsim). */
 window.VBExam=(function(){
   const TABLES=[
-    {n:1,name:'Kartografija',tag:'ELIMINACIJSKI',topics:['nav','iala'],q:7,chart:2,
+    {n:1,name:'Kartografija',tag:'Eliminacijski',topics:['nav','iala'],q:7,chart:2,
      d:'Kurs, pozicija, koordinate, oznake na karti.'},
-    {n:2,name:'Motoristika, svjetla, sudari',tag:'RAZUMIJEVANJE',topics:['engine','lights','shapes','colreg','sound'],q:7,chart:0,
+    {n:2,name:'Motoristika, svjetla, sudari',tag:'Razumijevanje',topics:['engine','lights','shapes','colreg','sound'],q:7,chart:0,
      d:'Motor, svjetla i dnevni znakovi, izbjegavanje sudara, zvučni signali.'},
-    {n:3,name:'Sigurnost, propisi, radio',tag:'ŠIROK RASPON',topics:['safe','rules','meteo','man','radio'],q:6,chart:0,
+    {n:3,name:'Sigurnost, propisi, radio',tag:'Širok raspon',topics:['safe','rules','meteo','man','radio'],q:6,chart:0,
      d:'Sigurnost i spašavanje, propisi, meteorologija, manevriranje, VHF i MAYDAY, sricanje.'}
   ];
   const PASS=.8, LIMIT=[10,7,6]; // režim ispita: minute po stolu
@@ -31,10 +31,10 @@ window.VBExam=(function(){
     S={t:0,i:0,items:[],res:TABLES.map(()=>({ok:0,n:0,wrong:[]})),elim:false,strict:!!(opts&&opts.strict),times:[0,0,0],t0:0};
     intro(); }
   function intro(){
-    area.innerHTML=`<div class="qcard exIntro"><div class="qmeta"><span>${S.strict?'REŽIM ISPITA':'SIMULACIJA ISPITA'}</span><span>3 stola · 22 zadatka</span></div>
+    area.innerHTML=`<div class="qcard exIntro"><div class="qmeta"><span>${S.strict?'Režim ispita':'Simulacija ispita'}</span><span>3 stola, 22 zadatka</span></div>
       <p style="margin:6px 0 12px">Kao na pravom ispitu: tri ispitivača, jedan po jedan. Za prolaz simulacije na svakom stolu treba <b>80 % točnih</b> (pravi ispit je usmeni i ocjenjuje ga ispitivač). <b>Stol 1 je eliminacijski</b>: ako na njemu padneš, pao je cijeli ispit.</p>
       ${S.strict?`<div class="exStrict"><b>Strogo kao na ispitu.</b> Nema povratne informacije dok ne završiš stol. Vrijeme po stolu: <b>10, 7 i 6 min</b>. Kad vrijeme istekne, neodgovorena pitanja broje se kao netočna.</div>`:''}
-      <div class="exTables">${TABLES.map(t=>`<div class="exT"><span class="pill ${t.n===1?'r':t.n===2?'y':'b'}">${t.tag}</span><h4>Stol ${t.n} · ${t.name}</h4><p>${t.d}</p><p class="exN">${t.q} pitanja${t.chart?` + ${t.chart} zadatka na karti`:''}${S.strict?` · ${LIMIT[t.n-1]} min`:''}</p></div>`).join('')}</div>
+      <div class="exTables">${TABLES.map(t=>`<div class="exT"><span class="pill ${t.n===1?'r':t.n===2?'y':'b'}">${t.tag}</span><h4>Stol ${t.n}: ${t.name}</h4><p>${t.d}</p><p class="exN">${t.q} pitanja${t.chart?` + ${t.chart} zadatka na karti`:''}${S.strict?`, ${LIMIT[t.n-1]} min`:''}</p></div>`).join('')}</div>
       <div class="btnrow"><button class="btn p" id="exGo" type="button">Sjedni za Stol 1</button></div></div>`;
     el('exGo').addEventListener('click',()=>table(0)); }
   function table(t){ S.t=t; S.i=0; const T=TABLES[t]; S.items=pick(T).concat(T.chart?chartItems():[]); S.t0=Date.now();
@@ -47,9 +47,9 @@ window.VBExam=(function(){
     S.i=S.items.length; tableDone(true); }
   function head(){ const T=TABLES[S.t], r=S.res[S.t];
     const right=S.strict?`<span class="exClock mono" id="exClock">${mmss(S.t0+LIMIT[S.t]*60000-Date.now())}</span>`:`<span>${r.ok} točnih</span>`;
-    return `<div class="qmeta exRun"><span>STOL ${T.n} · ${T.name.toUpperCase()} · ${S.i+1} / ${S.items.length}</span>${right}</div>`; }
+    return `<div class="qmeta exRun"><span>Stol ${T.n}: ${T.name}, ${S.i+1} / ${S.items.length}</span>${right}</div>`; }
   function next(){ S.i++; if(S.i>=S.items.length) tableDone(); else show(); }
-  function nextBtn(){ return `<div class="btnrow"><button class="btn p" id="exNext" type="button">${S.i+1>=S.items.length?'Kraj stola →':'Sljedeće ›'}</button></div>`; }
+  function nextBtn(){ return `<div class="btnrow"><button class="btn p" id="exNext" type="button">${S.i+1>=S.items.length?'Kraj stola':'Sljedeće'}</button></div>`; }
   function score(ok,item){ const r=S.res[S.t]; r.n++; if(ok) r.ok++; else r.wrong.push(item); }
   function show(){ const it=S.items[S.i];
     if(it.kind==='q') return showQ(it);
@@ -107,26 +107,26 @@ window.VBExam=(function(){
   function tableDone(late){ stopTick(); const T=TABLES[S.t], r=S.res[S.t], ok=passed(r); if(S.t===0 && !ok) S.elim=true;
     const last=S.t===TABLES.length-1; S.times[S.t]=Math.min(Date.now()-S.t0,LIMIT[S.t]*60000);
     if(S.strict){ // bez ocjene do kraja, kao kod ispitivača koji samo skupi papir
-      area.innerHTML=`<div class="qcard scorebox"><div class="qmeta"><span>STOL ${T.n} · ${T.name.toUpperCase()}</span><span class="mono">${mmss(S.times[S.t])}</span></div>
+      area.innerHTML=`<div class="qcard scorebox"><div class="qmeta"><span>Stol ${T.n}: ${T.name}</span><span class="mono">${mmss(S.times[S.t])}</span></div>
         <div class="exVerdict n">STOL ${T.n} ZAVRŠEN</div>
         <p class="c-txt2">${late?'Vrijeme je isteklo. ':''}Vrijeme: <b class="mono">${mmss(S.times[S.t])}</b> od ${LIMIT[S.t]}:00. Ocjenu vidiš na kraju ispita.</p>
-        <div class="btnrow jcc"><button class="btn p" id="exOn" type="button">${last?'Rezultat ispita →':`Stol ${T.n+1} →`}</button></div></div>`;
+        <div class="btnrow jcc"><button class="btn p" id="exOn" type="button">${last?'Rezultat ispita':`Stol ${T.n+1}`}</button></div></div>`;
       el('exOn').addEventListener('click',()=>last?finish():table(S.t+1)); return; }
-    area.innerHTML=`<div class="qcard scorebox"><div class="qmeta"><span>STOL ${T.n} · ${T.name.toUpperCase()}</span><span>${r.ok} / ${r.n}</span></div>
-      <div class="exVerdict ${ok?'g':'b'}">${ok?'ZADOVOLJIO':'NIJE ZADOVOLJIO'}</div>
+    area.innerHTML=`<div class="qcard scorebox"><div class="qmeta"><span>Stol ${T.n}: ${T.name}</span><span>${r.ok} / ${r.n}</span></div>
+      <div class="exVerdict ${ok?'g':'b'}">${ok?'Zadovoljio':'Nije zadovoljio'}</div>
       <p class="c-txt2">${r.ok} od ${r.n} točno (${Math.round(r.ok/r.n*100)} %). Prag je 80 %.</p>
       ${S.t===0&&!ok?`<div class="danger tl"><b>Eliminacija</b>Stol 1 je eliminacijski: na pravom ispitu ovdje bi završio i cijeli ispit bi bio pao. Stolove 2 i 3 možeš odraditi za vježbu.</div>`:''}
-      <div class="btnrow jcc"><button class="btn p" id="exOn" type="button">${last?'Rezultat ispita →':`Stol ${T.n+1} →`}</button></div></div>`;
+      <div class="btnrow jcc"><button class="btn p" id="exOn" type="button">${last?'Rezultat ispita':`Stol ${T.n+1}`}</button></div></div>`;
     el('exOn').addEventListener('click',()=>last?finish():table(S.t+1)); }
   function finish(){
     const pass=S.res.every(passed), tot=S.res.reduce((a,r)=>a+r.ok,0), n=S.res.reduce((a,r)=>a+r.n,0);
     const why=S.elim?'Pao je Stol 1 (eliminacijski), pa je pao cijeli ispit, bez obzira na ostale stolove.':pass?'Svi stolovi su zadovoljeni.':'Barem jedan stol nije zadovoljen: na pravom ispitu taj dio ponavljaš.';
     const rec={ok:tot,n,pass,elim:S.elim,strict:S.strict,times:S.times.slice(),tables:S.res.map(r=>[r.ok,r.n]),at:Date.now()};
     const st=store.get('examsim',{}); st.last=rec; if(!st.best || tot/n>st.best.ok/st.best.n) st.best=rec; st.runs=(st.runs||0)+1; store.set('examsim',st);
-    let h=`<div class="qcard scorebox"><div class="qmeta"><span>${S.strict?'REZULTAT · REŽIM ISPITA':'REZULTAT SIMULACIJE'}</span><span>${tot} / ${n}</span></div>
-      <div class="exVerdict ${pass?'g':'b'}">${pass?'PROLAZ':'PAD'}</div><p class="c-txt2">${why}</p>
+    let h=`<div class="qcard scorebox"><div class="qmeta"><span>${S.strict?'Rezultat u režimu ispita':'Rezultat simulacije'}</span><span>${tot} / ${n}</span></div>
+      <div class="exVerdict ${pass?'g':'b'}">${pass?'Prolaz':'Pad'}</div><p class="c-txt2">${why}</p>
       <table class="exRes"><thead><tr><th>Stol</th><th>Točno</th>${S.strict?'<th>Vrijeme</th>':''}<th>Ocjena</th></tr></thead><tbody>${TABLES.map((T,i)=>{ const r=S.res[i];
-        return `<tr><td>${T.n} · ${T.name}${T.n===1?' <span class="pill r">elim.</span>':''}</td><td class="mono">${r.ok} / ${r.n}</td>${S.strict?`<td class="mono">${mmss(S.times[i])}</td>`:''}<td><b style="color:var(${passed(r)?'--green':'--red'})">${passed(r)?'ZADOVOLJIO':'NIJE'}</b></td></tr>`; }).join('')}</tbody></table>
+        return `<tr><td>${T.n}. ${T.name}${T.n===1?' <span class="pill r">elim.</span>':''}</td><td class="mono">${r.ok} / ${r.n}</td>${S.strict?`<td class="mono">${mmss(S.times[i])}</td>`:''}<td><b style="color:var(${passed(r)?'--green':'--red'})">${passed(r)?'ZADOVOLJIO':'NIJE'}</b></td></tr>`; }).join('')}</tbody></table>
       <div class="btnrow jcc"><button class="btn p" id="exAgain" type="button">↻ Ponovi</button></div></div>`;
     const wrong=S.res.flatMap((r,i)=>r.wrong.map(w=>[i,w]));
     if(wrong.length){ h+='<h3>Što si promašio</h3>'; wrong.forEach(([i,w])=>{
@@ -136,9 +136,9 @@ window.VBExam=(function(){
     $$('[data-go]',area).forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); go(a.dataset.go); }));
     renderLast(); }
   function renderLast(){ const box=el('examSimLast'); if(!box) return; const st=store.get('examsim',{});
-    if(!st.last){ box.innerHTML=`<div class="exLast"><span>Simulacija ispita (3 stola) još nije odrađena.</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Pokreni u Kvizu ›</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
+    if(!st.last){ box.innerHTML=`<div class="exLast"><span>Simulacija ispita (3 stola) još nije odrađena.</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Pokreni u Kvizu</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
     else { const L=st.last, B=st.best;
-      box.innerHTML=`<div class="exLast"><span>Zadnja simulacija: <b class="mono">${L.ok}/${L.n}</b>, <b style="color:var(${L.pass?'--green':'--red'})">${L.pass?'PROLAZ':'PAD'}</b>${L.elim?' (Stol 1)':''}${L.strict?' <span class="pill y">režim ispita</span>':''} · najbolja ${B.ok}/${B.n}</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Nova simulacija ›</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
+      box.innerHTML=`<div class="exLast"><span>Zadnja simulacija: <b class="mono">${L.ok}/${L.n}</b>, <b style="color:var(${L.pass?'--green':'--red'})">${L.pass?'Prolaz':'Pad'}</b>${L.elim?' (Stol 1)':''}${L.strict?' <span class="pill y">režim ispita</span>':''}, najbolja ${B.ok}/${B.n}</span><span class="exLastAct"><a href="#p-kviz" data-go="p-kviz">Nova simulacija</a><button class="btn exStrictGo" type="button">Režim ispita</button></span></div>`; }
     $$('[data-go]',box).forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); go(a.dataset.go); if(a.dataset.go==='p-kviz') setTimeout(start,0); }));
     $$('.exStrictGo',box).forEach(b=>b.addEventListener('click',()=>{ go('p-kviz'); setTimeout(()=>start({strict:true}),0); })); }
   document.addEventListener('DOMContentLoaded',renderLast); if(document.readyState!=='loading') setTimeout(renderLast,0);

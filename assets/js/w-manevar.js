@@ -53,9 +53,9 @@
   const boxes=[
     {x:W/2-115,y:14,w:230,h:46,t:'STOŽER: ZAGREB',s:'Ministarstvo mora + zamjenik + 5 članova',c:C.txt2},
     {x:W/2-140,y:80,w:280,h:52,t:'MRCC RIJEKA: tel. 195',s:'Nacionalna središnjica za traganje i spašavanje',c:C.red},
-    {x:W/2-190,y:152,w:380,h:46,t:'POD-SREDIŠNJICE (MRSC)',s:'8 lučkih kapetanija: PU · RI · SE · ZD · ŠI · ST · PL · DU',c:C.acc},
+    {x:W/2-190,y:152,w:380,h:46,t:'POD-SREDIŠNJICE (MRSC)',s:'8 lučkih kapetanija: PU, RI, SE, ZD, ŠI, ST, PL, DU',c:C.acc},
     {x:24,y:220,w:300,h:46,t:'OBALNE PROMATRAČKE JEDINICE',s:'sve ispostave lučkih kapetanija',c:C.green},
-    {x:356,y:220,w:300,h:46,t:'JEDINICE TRAGANJA I SPAŠAVANJA',s:'pomorske · zračne · kopnene',c:C.yellow}
+    {x:356,y:220,w:300,h:46,t:'JEDINICE TRAGANJA I SPAŠAVANJA',s:'pomorske, zračne, kopnene',c:C.yellow}
   ];
   let g=`<rect width="${W}" height="${H}" fill="#0b1a28" rx="10"/>`;
   g+=`<line x1="${W/2}" y1="60" x2="${W/2}" y2="80" stroke="${C.line}" stroke-width="2"/>`;

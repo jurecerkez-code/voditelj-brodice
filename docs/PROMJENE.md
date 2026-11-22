@@ -2,6 +2,25 @@
 
 Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama.
 
+## 5.3.0: novi izgled po Hallmarku (tema Almanac)
+
+- **Sustav.** Hladni sivoplavi papir, blijedi list za tablice, crteže i vježbe, plavocrna tinta, crte u dvije debljine,
+  kvadratni rubovi i jedna magenta, boja kojom pomorska karta tiska svjetla. Nema kartica, sjena ni zaobljenja.
+- **Pisma.** Hanken Grotesk za naslove i kontrole, Newsreader za tekst, IBM Plex Mono samo za brojke. Učitavaju se
+  lokalno. Atkinson Hyperlegible je uklonjen.
+- **Početna** je radni ekran: lijevo što sada (gumb, datum ispita ili današnje stavke), desno ispitni program kao jedna
+  tablica s tri stola. Red sljedećeg poglavlja je u magenti. Vježba je popis na crtama. Noćni prizor je ploča sa
+  svjetlima bez zvijezda, valova i animacije.
+- **Noćni način** je izveden iz istih tokena (ista nijansa, tamni papir), više nije crvenkast.
+- **Uklonjeno što odaje generirani izgled:** nadnaslovi iznad naslova poglavlja (predmet je sada redak ispod naslova),
+  oznake velikim slovima, 268 točaka-razdjelnika, strelice uz tekst 23 gumba i linka, emoji i znakovi ▶ ⏸ ⏹ kao ikone,
+  krugovi s brojevima, obojene trake uz lijevi rub, `transition` na svim svojstvima i animacije širine.
+- **Tokeni.** Sve boje i pisma u CSS-u idu kroz tokene na vrhu datoteke, u OKLCH. Kontrast svakog para tokena je
+  izračunat za dan i noć.
+- **Što nije dirano:** sadržaj, pitanja, fizika, id-jevi i sve što skripte i testovi čitaju. Boje unutar crteža (SVG)
+  ostaju upisane u crtežu, jer su gradivo: svjetla, oznake, karta.
+- Hallmarkov alat `sloplint` nije pokrenut; pravila su provjerena ručno i testovima projekta.
+
 ## 5.2.1: pramčani konop u simulatoru
 
 - Gumb **Pramčani konop** (tipka K): kad je pramac bliže od 2 m obali i brodica ide sporije od 1 čv, konop se daje na

@@ -41,7 +41,7 @@
     <rect x="18" y="50" width="30" height="20" rx="4" fill="#39434c"/><path d="M48,54 L104,34 L104,86 L48,66 Z" fill="url(#sqBr)" stroke="#5a3f10"/><ellipse cx="104" cy="60" rx="7" ry="26" fill="#b5842b" stroke="#5a3f10"/>
     <g class="sqWaves" opacity=".12">${[0,1,2].map(i=>`<path d="M${122+i*22},${30-i*8} Q${140+i*26},60 ${122+i*22},${90+i*8}" stroke="#ffd166" stroke-width="${4-i}" fill="none" stroke-linecap="round"/>`).join('')}</g></svg>`;
   let score=store.get('soundquiz',{ok:0,n:0}), mode='hear', cur=null, done=false;
-  b.innerHTML=`<h4>Vježba: čuj i prepoznaj · zatrubi sam</h4>
+  b.innerHTML=`<h4>Vježba: čuj i prepoznaj, zatrubi sam</h4>
     <div class="sqTop"><div class="sqTabs"><button class="knTab on" data-m="hear" type="button">Čuj i prepoznaj</button><button class="knTab" data-m="blow" type="button">Zatrubi sam</button><button class="knTab" data-m="fog" type="button">Ritam u magli</button></div>
     <label class="sqReal"><input type="checkbox" class="sqRealCb"> stvarno trajanje (kratki 1 s, dugi 4 s)</label></div>
     <div class="sqBody"></div>`;
@@ -49,7 +49,7 @@
   const waves=on=>{ const w=$('.sqWaves',b); if(w) w.setAttribute('opacity',on?1:.12); const h=$('.sqHorn',b); if(h) h.classList.toggle('on',on); };
   const sc=()=>`<span class="sqSc">Točno ${score.ok} od ${score.n}</span>`;
   function result(ok,html){ score.n++; if(ok){ score.ok++; if(window.VB) VB.widgetOk('sound'); } store.set('soundquiz',score);
-    $('.sqFb',b).innerHTML=`<div class="expl"><b>${ok?'✓ Točno.':'✗ Nije.'}</b> ${html}</div><div class="btnrow"><button class="btn p sqNext" type="button">Sljedeći ›</button>${sc()}</div>`;
+    $('.sqFb',b).innerHTML=`<div class="expl"><b>${ok?'✓ Točno.':'✗ Nije.'}</b> ${html}</div><div class="btnrow"><button class="btn p sqNext" type="button">Sljedeći</button>${sc()}</div>`;
     $('.sqNext',b).addEventListener('click',()=>mode==='hear'?hear():blow()); }
 
   /* ── 1. čuj i prepoznaj ── */
@@ -93,11 +93,11 @@
   function fog(){ const W=640, H=210, X0=196, X1=620, T=6, px=m=>X0+(X1-X0)*m/T;
     const rows=[['U plovidbi, kreće se','svake 2 min',2,[4]],['Plovi, ne kreće se','svake 2 min',2,[4,4]],['Jedrilica, tegalj, ribolov…','svake 2 min',2,[4,1,1]],['Usidren (zvono 5 s)','svake 1 min',1,'bell']];
     let g=`<rect width="${W}" height="${H}" rx="10" fill="#0b2135"/>`;
-    for(let m=0;m<=T;m++) g+=`<line x1="${px(m)}" y1="18" x2="${px(m)}" y2="${H-26}" stroke="#22415c" stroke-dasharray="${m%2?'2 4':'0'}"/><text x="${px(m)}" y="${H-10}" text-anchor="middle" font-size="11" fill="#9fb6c9" font-family="JetBrains Mono,monospace">${m} min</text>`;
+    for(let m=0;m<=T;m++) g+=`<line x1="${px(m)}" y1="18" x2="${px(m)}" y2="${H-26}" stroke="#22415c" stroke-dasharray="${m%2?'2 4':'0'}"/><text x="${px(m)}" y="${H-10}" text-anchor="middle" font-size="11" fill="#9fb6c9" font-family="var(--mono)">${m} min</text>`;
     rows.forEach(([n,ev,step,p],i)=>{ const y=40+i*40;
       g+=`<text x="12" y="${y+4}" font-size="12" fill="#e6eef5" font-weight="700">${n}</text><text x="12" y="${y+18}" font-size="10.5" fill="#9fb6c9">${ev}</text>`;
       for(let m=0;m<T;m+=step){ let x=px(m)+3;
-        if(p==='bell') g+=`<rect x="${x}" y="${y-6}" width="${(X1-X0)/T/12}" height="12" rx="2" fill="#ffd166"/><text x="${x+14}" y="${y+4}" font-size="11" fill="#ffd166">🔔</text>`;
+        if(p==='bell') g+=`<rect x="${x}" y="${y-6}" width="${(X1-X0)/T/12}" height="12" rx="2" fill="#ffd166"/><text x="${x+14}" y="${y+4}" font-size="11" fill="#ffd166">zvono</text>`;
         else p.forEach(u=>{ const w=u===1?5:16; g+=`<rect x="${x}" y="${y-5}" width="${w}" height="10" rx="3" fill="#39b8e8"/>`; x+=w+4; }); } });
     body.innerHTML=`<div class="sqFog">${SVG(W,H,g,'role="img" aria-label="Vremenska traka: brodovi u plovidbi daju signal svake 2 minute, usidreni svake 1 minute"')}
       <p class="sqHint">Iz poglavlja: svi brodovi u plovidbi daju signal <b>svake 2 minute</b>, usidreni i nasukani <b>svake 1 minute</b>. Nasukani uz zvonjavu daje i po tri odvojena udarca zvonom prije i poslije.</p></div>`; }

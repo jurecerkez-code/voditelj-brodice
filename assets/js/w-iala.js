@@ -115,14 +115,14 @@ const IALA_DEFS = (function(){
         else if(x===b) x.classList.add('wrong'); });
       el('ialaScore').textContent=`Rezultat: ${score.c}/${score.t}`;
       el('ialaDet').innerHTML=`<div class="expl"><b>${cur.name}</b><br>${cur.desc}</div>
-        <div class="btnrow"><button class="btn p" id="ialaNext">Sljedeća ›</button></div>`;
+        <div class="btnrow"><button class="btn p" id="ialaNext">Sljedeća</button></div>`;
       el('ialaNext').addEventListener('click',ask);
     }));
   }
   gallery();
   el('ialaQuizBtn').addEventListener('click',function(){
     quiz=!quiz;
-    this.textContent=quiz?'⏹ Natrag na pregled':'▶ Kviz oznaka';
+    this.textContent=quiz?'Natrag na pregled':'Kviz oznaka';
     this.classList.toggle('p',!quiz);
     if(quiz){score={c:0,t:0};el('ialaScore').textContent='';ask();} else {el('ialaScore').textContent='';gallery();}
   });
@@ -191,10 +191,10 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
   // udaljeni par (manji), bliži par (veći)
   g+=mark(262,128,.42,true,.6)+mark(418,128,.42,false,.6);
   g+=mark(150,212,.95,true,0)+mark(530,212,.95,false,0);
-  g+=`<text x="150" y="258" text-anchor="middle" font-size="13" fill="${C.red}" font-weight="800" paint-order="stroke" stroke="#0b2a44" stroke-width="3">CRVENA, lijevo · valjak</text>
-      <text x="150" y="274" text-anchor="middle" font-size="11" fill="#ffb4b0" font-family="JetBrains Mono,monospace">C Bl 4s</text>
-      <text x="530" y="258" text-anchor="middle" font-size="13" fill="${C.green}" font-weight="800" paint-order="stroke" stroke="#0b2a44" stroke-width="3">ZELENA, desno · čunj</text>
-      <text x="530" y="274" text-anchor="middle" font-size="11" fill="#b4f5cf" font-family="JetBrains Mono,monospace">Z Bl 4s</text>`;
+  g+=`<text x="150" y="258" text-anchor="middle" font-size="13" fill="${C.red}" font-weight="800" paint-order="stroke" stroke="#0b2a44" stroke-width="3">CRVENA, lijevo, valjak</text>
+      <text x="150" y="274" text-anchor="middle" font-size="11" fill="#ffb4b0" font-family="var(--mono)">C Bl 4s</text>
+      <text x="530" y="258" text-anchor="middle" font-size="13" fill="${C.green}" font-weight="800" paint-order="stroke" stroke="#0b2a44" stroke-width="3">ZELENA, desno, čunj</text>
+      <text x="530" y="274" text-anchor="middle" font-size="11" fill="#b4f5cf" font-family="var(--mono)">Z Bl 4s</text>`;
   // brodica (<12 m) odozgo-straga: trag pjene, sveokružno bijelo + crveno lijevo + zeleno desno
   g+=`<g transform="translate(340,226)">
       <path class="lwWake" d="M-10,22 L-58,80 L-40,80 L-4,30 Z M10,22 L58,80 L40,80 L4,30 Z" fill="#e8f6ff" opacity=".35" filter="url(#lwSoft)"/>

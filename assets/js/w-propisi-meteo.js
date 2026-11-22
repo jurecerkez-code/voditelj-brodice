@@ -18,9 +18,9 @@
   { const x=96, y0=41; // obala kod x≈96
     g+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+20*scale}" stroke="#e6eef5" stroke-width="1.4" opacity=".8"/>`;
     [[0,'0'],[1,'1'],[3,'3'],[6,'6'],[12,'12'],[20,'20']].forEach(([n,t])=>{ const y=y0+n*scale, L=n===0; // 0 lijevo od crte, da se ne preklopi s 1
-      g+=`<line x1="${x-5}" y1="${y}" x2="${x+5}" y2="${y}" stroke="#e6eef5" stroke-width="1.4"/><text x="${L?x-9:x+9}" y="${y+4}"${L?' text-anchor="end"':''} font-size="10" fill="#e6eef5" font-family="JetBrains Mono,monospace" paint-order="stroke" stroke="#0e3350" stroke-width="3">${t}</text>`; });
+      g+=`<line x1="${x-5}" y1="${y}" x2="${x+5}" y2="${y}" stroke="#e6eef5" stroke-width="1.4"/><text x="${L?x-9:x+9}" y="${y+4}"${L?' text-anchor="end"':''} font-size="10" fill="#e6eef5" font-family="var(--mono)" paint-order="stroke" stroke="#0e3350" stroke-width="3">${t}</text>`; });
     g+=`<text x="${x+34}" y="${y0+20*scale+18}" font-size="10.5" fill="${C.txt2}">Nm od obale (u mjerilu)</text>`; }
-  g+=`<text x="10" y="${H-12}" font-size="11.5" fill="${C.txt2}"><tspan font-weight="800" fill="${C.txt}">I</tspan> = bez ograničenja &nbsp;·&nbsp; <tspan font-weight="800" fill="${C.txt}">IV</tspan> = luke, zaljevi, ušća rijeka</text>`;
+  g+=`<text x="10" y="${H-12}" font-size="11.5" fill="${C.txt2}"><tspan font-weight="800" fill="${C.txt}">I</tspan> = bez ograničenja,  <tspan font-weight="800" fill="${C.txt}">IV</tspan> = luke, zaljevi, ušća rijeka</text>`;
   g+=`<text x="14" y="30" font-size="12" fill="#5a4508" font-weight="800">KOPNO / OTOK</text>`;
   b.innerHTML=SVG(W,H,g);
 })();
@@ -68,7 +68,7 @@ const WINDS=[
   let cur=45, bf=4;
   b.innerHTML=`<div class="wRose"></div>
     <div class="wAdr"><div class="wLbl">Jadranski vjetrovi: klikni karticu</div><div class="wCards"></div></div>
-    <div class="wBf"><div class="wLbl">Beaufortova ljestvica (snaga vjetra) · klikni stupanj</div><div class="wSea"></div><div class="wBfRow"></div><div class="wBfTxt"></div></div>`;
+    <div class="wBf"><div class="wLbl">Beaufortova ljestvica (snaga vjetra), klikni stupanj</div><div class="wSea"></div><div class="wBfRow"></div><div class="wBfTxt"></div></div>`;
   const ADR=[ // opisi iz teksta poglavlja
     {d:45,t:'Najopasniji vjetar na Jadranu. Hladan, puše na refule s kopna prema moru i u vrlo kratkom vremenu dosiže orkansku snagu.'},
     {d:135,t:'Topao i vlažan, puše ujednačeno s mora prema obali, donosi kišu i visoke valove. Jača postupno, pa imaš vremena da se sigurno zakloniš.'},
@@ -117,13 +117,13 @@ const WINDS=[
     $$('.wdot',b).forEach(d=>d.addEventListener('click',()=>pick(+d.dataset.d)));
   }
   function cards(){ $('.wCards',b).innerHTML=ADR.map(a=>{ const w=WINDS.find(x=>x.d===a.d);
-      return `<button class="wCard${a.d===cur?' on':''}" data-d="${a.d}" type="button" style="--wc:${w.c}"><b>${w.n.split(' ')[0]}</b><span class="mono">${w.dir} · ${w.d}°</span><small>${a.t}</small></button>`; }).join('');
+      return `<button class="wCard${a.d===cur?' on':''}" data-d="${a.d}" type="button" style="--wc:${w.c}"><b>${w.n.split(' ')[0]}</b><span class="mono">${w.dir}, ${w.d}°</span><small>${a.t}</small></button>`; }).join('');
     $$('.wCard',b).forEach(x=>x.addEventListener('click',()=>pick(+x.dataset.d))); }
   function pick(d){
     cur=d; const w=WINDS.find(x=>x.d===d);
     draw(d); cards();
     el('windInfo').innerHTML=`<div class="card" style="border-color:${w.c}">
-      <h4 style="color:${w.c};margin-top:0">${w.n} <span style="font-weight:400;color:var(--txt2);font-size:14px">· ${w.dir} · ${w.d}° · ${w.it}</span></h4>
+      <h4 style="margin-top:0">${w.n} <span style="font-weight:400;color:var(--txt2);font-size:14px">${w.dir}, ${w.d}°, ${w.it}</span></h4>
       <p style="margin:0;font-size:14.5px">${w.t}</p></div>`;
   }
   // more: amplituda, valna duljina, bijele kapice i brzina ovise o stupnju
@@ -138,7 +138,7 @@ const WINDS=[
     if(caps>0){ for(let i=0;i<Math.round(6+caps*18);i++){ const x=(i*97)%W, y=48+((i*37)%40); g+=`<ellipse class="wCap" style="animation-delay:${-(i%7)*.4}s" cx="${x}" cy="${y}" rx="${4+caps*8}" ry="1.6" fill="#fff" opacity="${.35+caps*.5}"/>`; } }
     if(bf>=9) g+=`<rect width="${W}" height="${H}" fill="#e8eef3" opacity="${(bf-8)*.08}"/>`;
     $('.wSea',b).innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" class="wSeaSvg" role="img" aria-label="Stanje mora za Beaufort ${bf}">${g}</svg>`;
-    $('.wBfTxt',b).innerHTML=`<b>${bf} Bf · ${BF[bf][0]}</b> · ${BF[bf][1]} čv · ${BF[bf][2]}`;
+    $('.wBfTxt',b).innerHTML=`<b>${bf} Bf, ${BF[bf][0]}</b>, ${BF[bf][1]} čv, ${BF[bf][2]}`;
     $$('.wBfB',b).forEach(x=>x.classList.toggle('on',+x.dataset.bf===bf));
   }
   $('.wBfRow',b).innerHTML=BF.map((x,i)=>`<button class="wBfB" data-bf="${i}" type="button" title="${x[0]}" style="--h:${10+i*3}px">${i}</button>`).join('');

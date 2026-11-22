@@ -12,7 +12,7 @@ const SIM={
       ${o.prop?`<circle cx="0" cy="19" r="3" fill="none" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3 2"><animateTransform attributeName="transform" type="rotate" from="0 0 19" to="${o.prop>0?360:-360} 0 19" dur=".5s" repeatCount="indefinite"/></circle>`:''}
     </g>`; },
   water(W,H,id){ return seaBackground(W,H,{view:'top'}); }, // v4: zajedničko more (ptičja perspektiva)
-  ctl(){ return `<div class="knCtl"><button class="btn" data-a="first" aria-label="Na početak" title="Na početak">⏮</button><button class="btn" data-a="prev">◀ Nazad</button><button class="btn p" data-a="play">▶ Reproduciraj</button><button class="btn" data-a="next">Dalje ▶</button></div><div class="knProg"></div>`; }
+  ctl(){ return `<div class="knCtl"><button class="btn" data-a="first" aria-label="Na početak" title="Na početak">Početak</button><button class="btn" data-a="prev">Nazad</button><button class="btn p" data-a="play">Reproduciraj</button><button class="btn" data-a="next">Dalje</button></div><div class="knProg"></div>`; }
 };
 
 /* ── ČOVJEK U MORU ── */
@@ -61,7 +61,7 @@ const SIM={
   }
   function ui(){ $('.mTxt',b).innerHTML=`<span>Korak ${step+1} / ${STEPS.length}</span>${STEPS[step].t}`;
     $('.knProg',b).innerHTML=STEPS.map((_,i)=>`<i class="${i<=step?'on':''}"></i>`).join('');
-    const pb=$('[data-a=play]',b); pb.textContent=playing?'⏸ Pauza':(step>=STEPS.length-1?'↺ Ponovi':'▶ Reproduciraj');
+    const pb=$('[data-a=play]',b); pb.textContent=playing?'Pauza':(step>=STEPS.length-1?'Ponovi':'Reproduciraj');
     $('[data-a=prev]',b).disabled=step===0; $('[data-a=next]',b).disabled=step>=STEPS.length-1; }
   function go(k,instant){ k=Math.max(0,Math.min(STEPS.length-1,k)); const from=k>step?cur:(k===0?0:STEPS[k-1].s), to=STEPS[k].s;
     if(k<step){ trail=[]; } step=k; ui(); if(anim) cancelAnimationFrame(anim);
@@ -182,7 +182,7 @@ const SIM={
     // dubina
     g+=`<path d="M${W-26},${SEA} h12 M${W-20},${SEA} V${bed.toFixed(1)} M${W-26},${bed.toFixed(1)} h12" stroke="#39b8e8" stroke-width="1.4" fill="none"/><text transform="translate(${W-6},${((SEA+bed)/2).toFixed(1)}) rotate(-90)" font-size="${fs(12)}" font-weight="800" fill="#39b8e8" text-anchor="middle">${sm?'':'dubina '}${D} m</text>`;
     if(st.final&&st.g){ const q=st.g, ok=q.theta<=1, mid=q.theta<8, col=ok?'#14532d':mid?'#7a4a00':'#8a1c1c', my=Math.min(H-10,bed+30);
-      g+=`<g data-keep-dark="1"><text x="${XA+6}" y="${Math.min(H-8,bed+16+14*fk)}" font-size="${fs(13)}" font-weight="800" fill="${col}" text-anchor="end">${ok?`drži · na dnu leži ${num(q.lie)} m${sm?'':' lanca'}`:mid?`na granici · ${sm?'':'lanac vuče '}pod ${num(q.theta,0)}°`:`ore · ${sm?'vuče gore':'lanac vuče prema gore'} pod ${num(q.theta,0)}°`}</text>
+      g+=`<g data-keep-dark="1"><text x="${XA+6}" y="${Math.min(H-8,bed+16+14*fk)}" font-size="${fs(13)}" font-weight="800" fill="${col}" text-anchor="end">${ok?`drži, na dnu leži ${num(q.lie)} m${sm?'':' lanca'}`:mid?`na granici, ${sm?'':'lanac vuče '}pod ${num(q.theta,0)}°`:`ore, ${sm?'vuče gore':'lanac vuče prema gore'} pod ${num(q.theta,0)}°`}</text>
 </g><path d="M${(bowX-len).toFixed(1)},${SEA-dk-16} v-7 M${(bowX-len).toFixed(1)},${SEA-dk-19.5} H${XA} M${XA},${SEA-dk-16} v-7" stroke="#9fb6c9" stroke-width="1.5" fill="none"/>
         <text x="${XA}" y="${SEA-dk-25}" text-anchor="end" font-size="${fs(11.5)}" fill="#9fb6c9">${sm?'krug':'krug zakretanja: polumjer'} ${Math.round(st.X+A.B.len)} m${sm?'':' oko sidra'}</text>`; }
     dyn.innerHTML=g; }
@@ -232,7 +232,7 @@ const SIM={
   const best=store.get('mdbest',{});
   b.innerHTML=`<div class="nlTabs">${Object.entries(SETS).map(([k,v])=>`<button class="knTab" data-s="${k}">${v.n}</button>`).join('')}</div>
     <p class="ordHint">Klikni stavke <b>redom</b>, od prve do zadnje. Pogrešan klik se broji.</p>
-    <div class="ordGrid"></div><ol class="ordDone"></ol><div class="ordRes" aria-live="polite"></div><div class="btnrow"><button class="btn ordNew">↺ Ispočetka</button></div>`;
+    <div class="ordGrid"></div><ol class="ordDone"></ol><div class="ordRes" aria-live="polite"></div><div class="btnrow"><button class="btn ordNew">Ispočetka</button></div>`;
   function start(){ const S=SETS[key]; pos=0; miss=0; t0=0; order=shuffle(S.items.map((_,i)=>i));
     $$('.knTab',b).forEach(x=>x.classList.toggle('on',x.dataset.s===key));
     $('.ordGrid',b).innerHTML=order.map(i=>`<button class="ordItem" data-i="${i}">${S.items[i]}</button>`).join('');
@@ -293,10 +293,10 @@ const SIM={
   let si=0, first=true, score=0, done=0;
   b.innerHTML=`<div class="frWrap"><div class="frTri">
     <svg viewBox="0 0 260 230" class="frSvg"><g class="frSides"></g><g class="frFlame" transform="translate(130,150)"></g></svg>
-    <div class="frBtns"><button class="btn" data-x="g">Zatvori dovod goriva</button><button class="btn" data-x="k">Pokrij / zatvori otvore</button><button class="btn" data-x="t">Hladi</button><button class="btn" data-x="r" aria-label="Ispočetka" title="Ispočetka">↺</button></div>
+    <div class="frBtns"><button class="btn" data-x="g">Zatvori dovod goriva</button><button class="btn" data-x="k">Pokrij / zatvori otvore</button><button class="btn" data-x="t">Hladi</button><button class="btn" data-x="r" aria-label="Ispočetka" title="Ispočetka">Ispočetka</button></div>
     <div class="frTxt">Vatri trebaju tri stvari: <b>gorivo</b>, <b>kisik</b> i <b>toplina</b>. Makni jednu i vatra se gasi.</div></div>
     <div class="frQ"><div class="frScen"></div><div class="frAg">${AG.map(a=>`<button class="ordItem" data-a="${a[0]}">${a[1]}</button>`).join('')}</div><div class="frFb" aria-live="polite"></div>
-    <div class="btnrow"><button class="btn frNext">Sljedeći požar ▶</button></div>
+    <div class="btnrow"><button class="btn frNext">Sljedeći požar</button></div>
     <div class="knI"><h5>Aparat: kako se koristi</h5>Izvuci osigurač. Stani na sigurnu udaljenost, s izlazom iza sebe. Mlaznicu usmjeri u <b>podnožje plamena</b>, ne u vrh. Pritisni ručicu i pomiči mlaz lijevo-desno.</div></div></div>`;
   let off={g:0,k:0,t:0};
   function tri(){ const sides=[['g','GORIVO',[40,190],[220,190]],['k','KISIK',[40,190],[130,30]],['t','TOPLINA',[130,30],[220,190]]];

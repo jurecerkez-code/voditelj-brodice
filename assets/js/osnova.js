@@ -23,7 +23,7 @@ window.VBOsnova=(function(){
     'Posebna oznaka je žuta sa žutim X i nije navigacijska opasnost.'],
    map:{n:[['Zona A','Lateralni (bočni) sustav',0,.17],['Kardinalni sustav','Kardinalni sustav',0,.5],['Ostale oznake','Ostale oznake',0,.83],
      ['Smjer uplovljavanja','Lateralni (bočni) sustav',1,.17],['Dva crna čunja','Kardinalni sustav',1,.5],['Usamljena opasnost','Ostale oznake',1,.83],
-     ['Crvena lijevo','Lateralni (bočni) sustav',2,.1],['Zelena desno','Lateralni (bočni) sustav',2,.38],['Bijelo: 12 · 3 · 6 · 9','Mnemonik broja bljeskova',2,.7]],
+     ['Crvena lijevo','Lateralni (bočni) sustav',2,.1],['Zelena desno','Lateralni (bočni) sustav',2,.38],['Bijelo: 12, 3, 6, 9','Mnemonik broja bljeskova',2,.7]],
     e:[[0,3],[3,6],[3,7],[1,4],[4,8],[2,5]]}},
   'p-svjetla':{t:'lights',os:[
     'Svjetla se pokazuju od zalaska do izlaska sunca, a danju u slaboj vidljivosti.',
@@ -62,8 +62,8 @@ window.VBOsnova=(function(){
     'U magli brodovi u plovidbi daju signal svake 2 minute, usidreni i nasukani svake 1 minute.',
     'SOS je tri kratka, tri duga, tri kratka, zvukom ili svjetlom.'],
    map:{n:[['Brodovi se vide','Signali za manevar',0,.17],['Magla','Signali pri ograničenoj vidljivosti',0,.5],['Pogibelj','Signali opasnosti',0,.83],
-     ['1 D · 2 L · 3 krmom','Signali za manevar',1,.17],['Plovi: 1 dugi','Signali pri ograničenoj vidljivosti',1,.5],['SOS · MAYDAY','Signali opasnosti',1,.83],
-     ['5+ upozorenje','Signali za manevar',2,.17],['Svake 2 min / 1 min','Signali pri ograničenoj vidljivosti',2,.5],['Rakete · buktinje','Signali opasnosti',2,.83]],
+     ['1 D, 2 L, 3 krmom','Signali za manevar',1,.17],['Plovi: 1 dugi','Signali pri ograničenoj vidljivosti',1,.5],['SOS, MAYDAY','Signali opasnosti',1,.83],
+     ['5+ upozorenje','Signali za manevar',2,.17],['Svake 2 min / 1 min','Signali pri ograničenoj vidljivosti',2,.5],['Rakete, buktinje','Signali opasnosti',2,.83]],
     e:[[0,3],[3,6,'l'],[1,4],[4,7,'l'],[2,5],[5,8,'l']]}},
   'p-motor':{t:'engine',os:[
     'Četverotaktni motor ima usis, kompresiju, ekspanziju (radni takt) i ispuh. Dvotaktni nema ventile i radni takt ima pri svakom okretaju.',
@@ -82,7 +82,7 @@ window.VBOsnova=(function(){
     'Plovilo kraće od 15 m plovi najmanje 50 m od obale, a do 300 m od obale najviše 8 čvorova (NN 52/2025).',
     'Pomorsku nesreću prijavljuješ odmah, a nezgodu lučkoj kapetaniji najkasnije u roku od 12 sati.'],
    map:{n:[['Brodica','Definicije plovnih objekata',0,.17],['Područja plovidbe','Područja plovidbe',0,.5],['Plovidba uz obalu','Plovidba uz obalu',0,.83],
-     ['Isprave','Isprave koje MORAJU',1,.17],['20 · 12 · 6 · 3 · 1 Nm','Područja plovidbe',1,.5],['50 m od obale','Plovidba uz obalu',1,.83],
+     ['Isprave','Isprave koje MORAJU',1,.17],['20, 12, 6, 3, 1 Nm','Područja plovidbe',1,.5],['50 m od obale','Plovidba uz obalu',1,.83],
      ['Pregledi','Pregledi brodice',2,.17],['Nezgoda: 12 h','Prijava pomorske nesreće',2,.5],['8 čv do 300 m','Ograničenja brzine',2,.83]],
     e:[[0,3,'l'],[3,6,'l'],[1,4,'l'],[2,5,'l'],[5,8,'l']]}},
   'p-meteo':{t:'meteo',os:[
@@ -92,8 +92,8 @@ window.VBOsnova=(function(){
     'Tri najvažnija elementa su temperatura (termometar), tlak (barometar, hPa) i vlažnost (higrometar).',
     'Ciklona je nizak tlak i ružno vrijeme, anticiklona visok tlak i lijepo vrijeme.'],
    map:{n:[['Visok → nizak tlak','Zašto vjetar puše',0,.17],['Vjetar','Zašto vjetar puše',0,.5],['8 vjetrova','Osam vjetrova Jadrana',0,.83],
-     ['Ciklona · anticiklona','Ciklone i anticiklone',1,.17],['Bura: kopno, refuli','Bura: najopasniji vjetar',1,.5],['Jugo: more, postupno','Bura: najopasniji vjetar',1,.83],
-     ['T · tlak · vlaga','Meteorološki elementi',2,.17],['Nevera: kratka','Nevera',2,.5],['Izvješća: VHF 07, 21','Vremenska izvješća',2,.83]],
+     ['Ciklona, anticiklona','Ciklone i anticiklone',1,.17],['Bura: kopno, refuli','Bura: najopasniji vjetar',1,.5],['Jugo: more, postupno','Bura: najopasniji vjetar',1,.83],
+     ['T, tlak, vlaga','Meteorološki elementi',2,.17],['Nevera: kratka','Nevera',2,.5],['Izvješća: VHF 07, 21','Vremenska izvješća',2,.83]],
     e:[[0,1],[1,2],[2,4],[2,5]]}},
   'p-manevar':{t:'man',os:[
     'Desnokretni vijak pri vožnji krmom izbija krmu ulijevo, pa pristaješ lijevim bokom. Lijevokretni obrnuto.',
@@ -102,7 +102,7 @@ window.VBOsnova=(function(){
     'Mjestu sidrenja prilaziš uz vjetar ili uz struju, oboriš sidro i zavoziš krmom da se ukopa.',
     'Čovjek u moru: odmah kormilo sve u stranu pada osobe, smanji brzinu, dobaci kolut, jedna osoba ga stalno gleda.'],
    map:{n:[['Vanjske sile','Sile koje djeluju na brodicu',0,.17],['Unutarnje sile','Sile koje djeluju na brodicu',0,.5],['Sidrenje','Sidrenje',0,.83],
-     ['Vjetar · struja','Sile koje djeluju na brodicu',1,.17],['Vijak','Vijak i izboj krme',1,.5],['3–4 × dubina','Sidrenje',1,.83],
+     ['Vjetar, struja','Sile koje djeluju na brodicu',1,.17],['Vijak','Vijak i izboj krme',1,.5],['3–4 × dubina','Sidrenje',1,.83],
      ['Čovjek u moru','Čovjek u moru',2,.17],['Izboj krme','Vijak i izboj krme',2,.5],['Uz vjetar ili struju','Postupak sidrenja',2,.83],
      ['Pristajanje bokom','Kako to iskoristiti',3,.5]],
     e:[[0,3,'l'],[1,4],[4,7],[7,9],[2,5],[5,8]]}},
@@ -124,7 +124,7 @@ window.VBOsnova=(function(){
     'Pozivanje na kanalu 16 ne smije trajati duže od jedne minute. Nakon uspostave veze odmah prijeđi na radni kanal.',
     'Squelch nikad na maksimum, jer propuštaš slabe signale pogibelji. Najveća snaga je 25 W.'],
    map:{n:[['MAYDAY','Tri signala po prioritetu',0,.17],['PAN PAN','Tri signala po prioritetu',0,.5],['SECURITE','Tri signala po prioritetu',0,.83],
-     ['Kanal 16 · 156,800','VHF kanali',1,.17],['Kanal 70: DSC','GMDSS i DSC',1,.5],['Kanal 10: kapetanija','VHF kanali',1,.83],
+     ['Kanal 16, 156,800','VHF kanali',1,.17],['Kanal 70: DSC','GMDSS i DSC',1,.5],['Kanal 10: kapetanija','VHF kanali',1,.83],
      ['MAYDAY ×3, OVDJE','MAYDAY: točan postupak',2,.17],['Poziv najviše 1 min','Uspostavljanje veze',2,.5],['Squelch ne na max','Kontrole na uređaju',2,.83]],
     e:[[0,1],[1,2],[0,3],[3,6]]}}
   };
@@ -141,7 +141,7 @@ window.VBOsnova=(function(){
       const dot=c==='w'?`<circle cx="${p.x-p.w/2+12}" cy="${p.y}" r="4" fill="var(--sig-white)"/>`:c==='rg'?`<circle cx="${p.x-p.w/2+9}" cy="${p.y}" r="3.6" fill="var(--sig-red)"/><circle cx="${p.x-p.w/2+17}" cy="${p.y}" r="3.6" fill="var(--sig-green)"/>`:'';
       const tx=p.x+(c==='rg'?7:c==='w'?5:0);
       g+=`<g class="osNode" data-h="${esc(n[1])}" role="button" tabindex="0" aria-label="${esc(n[0])}: skoči na „${esc(n[1])}"">
-        <rect x="${(p.x-p.w/2).toFixed(1)}" y="${p.y-14}" width="${p.w}" height="28" rx="14"/>${dot}
+        <rect x="${(p.x-p.w/2).toFixed(1)}" y="${p.y-14}" width="${p.w}" height="28" rx="2"/>${dot}
         <text x="${tx.toFixed(1)}" y="${p.y+4.5}" text-anchor="middle">${esc(n[0])}</text></g>`; });
     return `<svg viewBox="0 0 ${W} ${H}" class="osMapSvg" role="group" aria-label="Karta uma poglavlja">${g}</svg>`; }
   function jump(sec,h){ const want=h.toLowerCase(); const cands=$$('h3,h4,h5,summary,b,strong',sec).filter(e=>!e.closest('.osBox'));
@@ -160,10 +160,11 @@ window.VBOsnova=(function(){
     lis.forEach(li=>$('.osShow',li).addEventListener('click',e=>{ $('.osAns',li).hidden=false; e.currentTarget.remove(); upd(); }));
     $('.osNew',tools).addEventListener('click',()=>{ tools.classList.remove('open'); oral(bx,t,btn); }); upd(); }
   function mount(){ Object.keys(D).forEach(id=>{ const sec=el(id); if(!sec||$('.osBox',sec)) return; const d=D[id], h2=$('h2.ph',sec);
-      const box=`<div class="osBox" data-topic="${d.t}"><div class="osHead"><b>OSNOVA</b><span>ako naučiš samo ovo, prolaziš</span><button class="osOralBtn" type="button" aria-expanded="false">Usmeno</button></div>
+      const box=`<div class="osBox" data-topic="${d.t}"><div class="osHead"><b>Osnova</b><span>ako naučiš samo ovo, prolaziš</span><button class="osOralBtn" type="button" aria-expanded="false">Usmeno</button></div>
         <ul class="osList">${d.os.map(s=>`<li>${s}</li>`).join('')}</ul><div class="osTools"></div>
         <div class="osMap"><div class="osMapTitle">Karta uma <small>klikni pojam za skok u tekst</small></div>${mapSvg(d.map,id)}</div></div>`;
-      if(h2) h2.insertAdjacentHTML('afterend',box); else sec.insertAdjacentHTML('afterbegin',box);
+      const sub=h2&&h2.nextElementSibling, at=sub&&sub.classList.contains('phSub')?sub:h2;   // osnova ide ispod naslova i retka s predmetom
+      if(at) at.insertAdjacentHTML('afterend',box); else sec.insertAdjacentHTML('afterbegin',box);
       const bx=$('.osBox',sec);
       const ob=$('.osOralBtn',bx); ob.addEventListener('click',()=>oral(bx,d.t,ob));
       $$('.osNode',bx).forEach(n=>{ const f=()=>jump(sec,n.dataset.h); n.addEventListener('click',f); n.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); f(); } }); }); }); }

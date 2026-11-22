@@ -246,7 +246,7 @@
   let g=`<rect width="${W}" height="${H}" fill="#0b1a28" rx="10"/>`;
   // direct
   g+=`<text x="170" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${C.green}">IZRAVNO (direktno)</text>`;
-  g+=`<text x="170" y="44" text-anchor="middle" font-size="11" fill="${C.txt2}">morska voda ULAZI u motor · jeftinije, češće</text>`;
+  g+=`<text x="170" y="44" text-anchor="middle" font-size="11" fill="${C.txt2}">morska voda ULAZI u motor, jeftinije, češće</text>`;
   g+=`<rect x="110" y="88" width="120" height="70" rx="8" fill="#1d3a52" stroke="#37627f" stroke-width="2"/><text x="170" y="128" text-anchor="middle" font-size="13" fill="#cfe" font-weight="700">MOTOR</text>`;
   g+=`<path d="M30,190 L30,123 L108,123" fill="none" stroke="${C.acc}" stroke-width="3" marker-end="url(#ah2)"/>`;
   g+=`<path d="M232,123 L300,123 L300,190" fill="none" stroke="#ff7a45" stroke-width="3" marker-end="url(#ah3)"/>`;

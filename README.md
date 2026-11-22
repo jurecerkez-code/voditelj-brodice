@@ -29,7 +29,7 @@ assets/js/w-*.js          vježbe, jedna datoteka po području (karta, svjetla, 
 assets/js/fizika.js       fizika simulatora (brodica, lučica, sidreni lanac), bez crtanja, pa se testira bez preglednika
 assets/js/practice.js     kviz i kartice;  exam.js probni ispit;  srs.js ponavljanje s razmakom
 assets/js/plan.js         plan učenja;  app.js početna, pretraga, donja navigacija
-assets/fonts/             Atkinson Hyperlegible Next (SIL OFL), učitava se lokalno
+assets/fonts/             Hanken Grotesk, Newsreader, IBM Plex Mono (SIL OFL), učitavaju se lokalno
 sw.js                     rad bez interneta
 tests/                    provjera fizike, dimni test glavnih tokova, pristajanje samo tipkovnicom, provjera pristupačnosti
 docs/KOMPONENTE.md        popis komponenti i pravila za novi kod

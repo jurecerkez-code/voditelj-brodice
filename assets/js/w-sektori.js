@@ -22,7 +22,7 @@
      pos:[['A',128,120],['B',200,205],['C',172,250]]},
     {ch:'B C Z Pr 6s 15m 10-7 M',t:'Pr',n:1,P:6, sec:[['C',100,152],['B',152,178],['Z',178,238]], rocks:[[125,150]], shoal:[[208,160]],
      pos:[['A',165,215],['B',120,200],['C',222,120]]},
-    {ch:'B Bl(2) 6s 14m 10 M · Pot',t:'Bl',n:2,P:6, sec:[['B',100,203],['P',203,238],['B',238,262]], islet:[220,70],
+    {ch:'B Bl(2) 6s 14m 10 M, Pot',t:'Bl',n:2,P:6, sec:[['B',100,203],['P',203,238],['B',238,262]], islet:[220,70],
      pos:[['A',222,190],['B',170,220],['C',250,170]]},
     {ch:'B C Bl(4) 10s 21m 15-10 M',t:'Bl',n:4,P:10, sec:[['C',108,150],['B',150,200],['C',200,255]], rocks:[[128,130],[232,150]],
      pos:[['A',178,240],['B',140,110],['C',226,215]]}
@@ -73,7 +73,7 @@
   }
   function draw(){ const e=EX[k];
     $('.slSvg',b).innerHTML=chart(e);
-    $('.slHead',b).innerHTML=`Vježba <b>${k+1}</b> / ${EX.length} · karakteristika <code>${e.ch}</code>`;
+    $('.slHead',b).innerHTML=`Vježba <b>${k+1}</b> / ${EX.length}, karakteristika <code>${e.ch}</code>`;
     $('.slRows',b).innerHTML=e.pos.map(([id])=>{ const a=ans[id];
       return `<div class="slRow"><span class="slId">${id}</span>${['B','C','Z','P'].map(c=>`<button class="opt slOpt${a?(c===a.right?' correct':c===a.c&&!a.ok?' wrong':''):''}" data-p="${id}" data-c="${c}" ${a?'disabled':''} type="button">${COLN[c]}</button>`).join('')}</div>`; }).join('');
     $('.slScore',b).textContent=score.n?`Ukupno: ${score.ok} / ${score.n} točnih`:'';
@@ -86,7 +86,7 @@
     return {right, ok:c===right, t:`<b>Pozicija ${id}: ${COLN[right]}.</b> Brod je unutar sektora ${right==='P'?'Pot':right} (od ${s[1]}° do ${s[2]}° gledano od svjetla). ${why}`}; }
   b.innerHTML=`<div class="slHead"></div><div class="slWrap"><svg class="slSvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Karta sa sektorima svjetionika"></svg></div>
     <p class="slAsk">Koju boju svjetla vidi brod na svakoj poziciji?</p><div class="slRows"></div><div class="slOut"></div>
-    <div class="btnrow"><button class="btn p slNext" type="button">Sljedeća vježba ›</button><span class="slScore"></span></div>`;
+    <div class="btnrow"><button class="btn p slNext" type="button">Sljedeća vježba</button><span class="slScore"></span></div>`;
   b.addEventListener('click',ev=>{ const o=ev.target.closest('.slOpt'); if(!o) return; const e=EX[k], id=o.dataset.p;
     if(ans[id]) return; const r=explain(e,id,o.dataset.c); ans[id]={c:r.right,ok:r.ok,right:r.right};
     score.n++; if(r.ok){ score.ok++; if(window.VB) VB.widgetOk('sectors'); } store.set('sectors',score);

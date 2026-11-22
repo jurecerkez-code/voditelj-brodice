@@ -44,7 +44,7 @@
     g+=`<path d="M0,-24 L4,0 L0,5 L-4,0 Z" fill="#6d4a8a"/><text y="-38" font-size="9" fill="#6d4a8a" text-anchor="middle" font-weight="700">N</text>`;
     // V4-C3: magnetska ruža unutra, zakrenuta za deklinaciju (vježbovni podatak), kao na pravoj karti
     g+=`<g transform="rotate(3)"><circle r="18" fill="none" stroke="#6d4a8a" stroke-width=".5" stroke-dasharray="1.5 1.5"/><path d="M0,-18 l-3,6 h6 Z" fill="#fff" stroke="#6d4a8a" stroke-width=".9"/><text x="8" y="-12" font-size="7.5" fill="#6d4a8a" font-weight="700">M</text></g>
-      <text y="48" font-size="7.5" fill="#6d4a8a" text-anchor="middle" paint-order="stroke" stroke="#f7f8f4" stroke-width="3">N istinit · M magnetski</text><text y="57" font-size="7.5" fill="#6d4a8a" text-anchor="middle" paint-order="stroke" stroke="#f7f8f4" stroke-width="3">deklinacija 3° E (vježba)</text></g>`;
+      <text y="48" font-size="7.5" fill="#6d4a8a" text-anchor="middle" paint-order="stroke" stroke="#f7f8f4" stroke-width="3">N istinit, M magnetski</text><text y="57" font-size="7.5" fill="#6d4a8a" text-anchor="middle" paint-order="stroke" stroke="#f7f8f4" stroke-width="3">deklinacija 3° E (vježba)</text></g>`;
     // V4-C3: imena obale u hrvatskom stilu i upozorenje kao na pravim kartama
     g+=`<text x="${M+30}" y="${M+50}" font-size="10" fill="#6b5a22" font-style="italic" font-weight="600">rt Zub</text>
       <text x="${W-M-196}" y="${H-M-22}" font-size="9.5" fill="#2f5f86" font-style="italic">uvala Vela luka</text>
@@ -64,11 +64,11 @@
     // oznake stupnjeva i minuta
     for(let i=0;i<=6;i++){
       const y=M+IH*i/6, lat=lat1-(lat1-lat0)*i/6, d=Math.floor(lat+1e-9), m=Math.round((lat-d)*60);
-      g+=`<text x="${M-bw-4}" y="${y+4}" text-anchor="end" font-size="10" fill="${C.txt2}" font-family="monospace">${d}°${String(m).padStart(2,'0')}'</text>`;
+      g+=`<text x="${M-bw-4}" y="${y+4}" text-anchor="end" font-size="10" fill="${C.txt2}" font-family="var(--mono)">${d}°${String(m).padStart(2,'0')}'</text>`;
       const x=M+IW*i/6, lon=lon0+(lon1-lon0)*i/6, dd=Math.floor(lon+1e-9), mm=Math.round((lon-dd)*60);
-      g+=`<text x="${x}" y="${H-M+bw+13}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="monospace">${dd}°${String(mm).padStart(2,'0')}'</text>`;
+      g+=`<text x="${x}" y="${H-M+bw+13}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="var(--mono)">${dd}°${String(mm).padStart(2,'0')}'</text>`;
     }
-    g+=`<text x="${M+IW/2}" y="${M-bw-5}" text-anchor="middle" font-size="9" fill="${C.txt2}">Vježbovna karta · dubine u metrima · nije za navigaciju</text>`;
+    g+=`<text x="${M+IW/2}" y="${M-bw-5}" text-anchor="middle" font-size="9" fill="${C.txt2}">Vježbovna karta, dubine u metrima, nije za navigaciju</text>`;
     g+=`<text x="${-PADL+14}" y="${H/2}" font-size="10" fill="${C.acc}" text-anchor="middle" transform="rotate(-90 ${-PADL+14} ${H/2})" font-weight="700">ŠIRINA (N), ovdje mjeriš milje</text>`;
     g+=`<text x="${W/2}" y="${H-8}" font-size="10" fill="${C.txt2}" text-anchor="middle" font-weight="700">DUŽINA (E)</text>`;
     
@@ -98,7 +98,7 @@
       const c=coords(x,y);
       if(mode===0){
         draw({x,y}); bind();
-        el('chartOut').innerHTML=`<div style="color:var(--acc);font-weight:700;margin-top:8px">${c.lat}&ensp;·&ensp;${c.lon}</div>
+        el('chartOut').innerHTML=`<div style="color:var(--acc);font-weight:700;margin-top:8px">${c.lat}, ${c.lon}</div>
         <div style="font-size:12.5px;color:var(--txt2);font-family:var(--sans)">Širinu očitavaš na lijevoj/desnoj skali, dužinu na gornjoj/donjoj. Uvijek dodaj <b>N</b> i <b>E</b>.</div>`;
       } else {
         score.t++;
@@ -109,7 +109,7 @@
         target.done=true;
         draw({x:target.x,y:target.y}); bind();
         el('chartOut').innerHTML=`<div style="color:${ok?'var(--green)':'var(--red)'};font-weight:700;margin-top:8px">${ok?'✓ Točno!':'✗ Promašaj'}</div>
-        <div style="font-size:13px;color:var(--txt2);font-family:var(--sans)">Tražena točka je bila <b class="c-acc">${target.c.lat}&ensp;·&ensp;${target.c.lon}</b></div>`;
+        <div style="font-size:13px;color:var(--txt2);font-family:var(--sans)">Tražena točka je bila <b class="c-acc">${target.c.lat}, ${target.c.lon}</b></div>`;
         el('chartScore').textContent=`Rezultat: ${score.c}/${score.t}`;
       }
     });
@@ -123,7 +123,7 @@
   }
   el('chartModeBtn').addEventListener('click',function(){
     mode=mode?0:1;
-    this.textContent = mode? '⏹ Izađi iz vježbe' : '▶ Način vježbe';
+    this.textContent = mode? 'Izađi iz vježbe' : 'Način vježbe';
     this.classList.toggle('p',!mode);
     el('chartNewBtn').style.display = mode?'':'none';
     if(mode) newTarget(); else { draw(null); bind(); el('chartOut').innerHTML=''; }
@@ -166,7 +166,7 @@
   const W=680, x0=150, len=470, per=4;
   rows.forEach((r,i)=>{
     const y=26+i*44;
-    g+=`<text x="8" y="${y+4}" font-size="13" font-weight="700" fill="${C.acc}" font-family="monospace">${r[0]}</text>`;
+    g+=`<text x="8" y="${y+4}" font-size="13" font-weight="700" fill="${C.acc}" font-family="var(--mono)">${r[0]}</text>`;
     g+=`<text x="8" y="${y+20}" font-size="10.5" fill="${C.txt2}">${r[1]}</text>`;
     g+=`<line x1="${x0}" y1="${y+6}" x2="${x0+len}" y2="${y+6}" stroke="${C.line}" stroke-width="12"/>`;
     r[3].forEach(seg=>{
@@ -189,7 +189,7 @@
   for(let d=0;d<360;d+=5){
     const a=(d-90)*Math.PI/180, big=d%30===0, len=big?13:(d%10===0?8:5);
     g+=`<line x1="${c+Math.cos(a)*R}" y1="${c+Math.sin(a)*R}" x2="${c+Math.cos(a)*(R-len)}" y2="${c+Math.sin(a)*(R-len)}" stroke="${big?C.txt:C.txt2}" stroke-width="${big?1.6:.8}" opacity="${big?1:.6}"/>`;
-    if(d%30===0) g+=`<text x="${c+Math.cos(a)*(R-26)}" y="${c+Math.sin(a)*(R-26)+4}" font-size="11" text-anchor="middle" fill="${C.txt2}" font-family="monospace">${d}</text>`;
+    if(d%30===0) g+=`<text x="${c+Math.cos(a)*(R-26)}" y="${c+Math.sin(a)*(R-26)+4}" font-size="11" text-anchor="middle" fill="${C.txt2}" font-family="var(--mono)">${d}</text>`;
   }
   // quadrant shading
   const quad=[[0,90,'I','#39b8e8'],[90,180,'II','#25c26a'],[180,270,'III','#f5c542'],[270,360,'IV','#ef4a5a']];

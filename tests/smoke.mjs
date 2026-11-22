@@ -39,6 +39,25 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   await page.evaluate(() => go('p-start'));
   await page.locator('#hmScene .hmOpts button[data-i="0"]').click();
   ok(await page.locator('#hmScene .hmWhy').count() === 1, `[${name}] prizor na početnoj ne pokazuje objašnjenje`);
+  // 2a. početna: ispitni program je jedna tablica, red sljedećeg poglavlja je označen i vodi u poglavlje
+  ok(await page.locator('#hmTables table.hmP tbody tr:not(.grp)').count() >= 12, `[${name}] ispitni program nema sva poglavlja`);
+  ok(await page.locator('#hmTables tr.cur').count() === 1, `[${name}] u ispitnom programu nije označen sljedeći red`);
+  const curTo = await page.$eval('#hmTables tr.cur button', b => b.dataset.next);
+  await page.locator('#hmTables tr.cur button').click(); await page.waitForTimeout(150);
+  ok(await page.$eval('#' + curTo, e => e.classList.contains('active')), `[${name}] red u ispitnom programu ne otvara poglavlje`);
+  await page.evaluate(() => go('p-start'));
+  // 2a'. izgled: pravila sustava vrijede u cijelom dokumentu (docs/KOMPONENTE.md, Boje, pisma i plohe)
+  const look = await page.evaluate(async () => { await document.fonts.ready; const bad = [];
+    const w = document.createTreeWalker(document.getElementById('app'), NodeFilter.SHOW_TEXT); let n;
+    while ((n = w.nextNode())) if (/\S [·•] \S/.test(n.nodeValue)) { bad.push('točka-razdjelnik: ' + n.nodeValue.trim().slice(0, 50)); break; }
+    for (const e of document.querySelectorAll('.btn,.chip,.card,.note,.warn,.danger,.ok,.qcard,table,details,select,input[type=date],.pill,.knTab,.opt')) {
+      const c = getComputedStyle(e); if (parseFloat(c.borderTopLeftRadius) > 2) { bad.push('zaobljenje ' + c.borderTopLeftRadius + ' na .' + e.className); break; }
+      if (c.boxShadow !== 'none' && !/inset/.test(c.boxShadow)) { bad.push('sjena na .' + e.className); break; } }
+    for (const e of document.querySelectorAll('h2,h3,h4,th,.pill,.lbl,.qmeta,.navgrp>span,.btn')) { const c = getComputedStyle(e);
+      if (c.textTransform === 'uppercase' || parseFloat(c.letterSpacing) > 0.3) { bad.push('velika ili razmaknuta slova na ' + e.tagName + '.' + e.className); break; } }
+    for (const f of ['600 20px "Hanken Grotesk"', '400 17px "Newsreader"', '400 14px "IBM Plex Mono"']) if (!document.fonts.check(f)) bad.push('pismo nije učitano: ' + f);
+    return bad; });
+  ok(look.length === 0, `[${name}] izgled: ${look.join('; ')}`);
   // 2b. prijenos napretka: spremanje daje datoteku s podacima aplikacije, kriva datoteka se odbija s porukom
   await page.evaluate(() => { document.querySelector('.hmSet').open = true; });
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#progSave')]);

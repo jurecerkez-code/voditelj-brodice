@@ -10,12 +10,12 @@ window.VB=(function(){
   };
   const LEVELS=[[0,'Kandidat'],[100,'Pitoma voda'],[250,'Priobalje'],[500,'Navigator'],[900,'Skiper'],[1400,'Kapetan'],[2000,'Admiral']];
   const BADGES=[
-    {id:'kartograf',ic:'🧭',n:'Kartograf',d:'10 točnih u vježbi koordinata na karti',need:10,cnt:'chart'},
-    {id:'svjetlar',ic:'💡',n:'Svjetlar',d:'10 točnih u kvizu svjetala',need:10,cnt:'lights'},
-    {id:'iala',ic:'🔺',n:'IALA majstor',d:'10 točnih u kvizu IALA oznaka',need:10,cnt:'iala'},
-    {id:'radio',ic:'📻',n:'Radiooperater',d:'Sastavi MAYDAY poziv i sricaj riječ fonetskom abecedom'},
-    {id:'trik',ic:'🔥',n:'Trikovi savladani',d:'Završi kviz „Samo trik-pitanja“ s više od 80 %'},
-    {id:'ispit',ic:'🎓',n:'Ispit dan',d:'Checklista pred ispit: sve kvačice'}
+    {id:'kartograf',n:'Kartograf',d:'10 točnih u vježbi koordinata na karti',need:10,cnt:'chart'},
+    {id:'svjetlar',n:'Svjetlar',d:'10 točnih u kvizu svjetala',need:10,cnt:'lights'},
+    {id:'iala',n:'IALA majstor',d:'10 točnih u kvizu IALA oznaka',need:10,cnt:'iala'},
+    {id:'radio',n:'Radiooperater',d:'Sastavi MAYDAY poziv i sricaj riječ fonetskom abecedom'},
+    {id:'trik',n:'Trikovi savladani',d:'Završi kviz „Samo trik-pitanja“ s više od 80 %'},
+    {id:'ispit',n:'Ispit dan',d:'Checklista pred ispit: sve kvačice'}
   ];
   let xp=S.get('xp',0), badges=S.get('badges',[]), once=S.get('xp_once',{}), cnt=S.get('cnt',{});
   function level(x){ let i=0; for(let k=0;k<LEVELS.length;k++) if(x>=LEVELS[k][0]) i=k; return i; }
@@ -25,7 +25,7 @@ window.VB=(function(){
     const q=id=>document.getElementById(id);
     if(q('xpLvl')){
       q('xpLvl').innerHTML='<b>'+i+'</b>'; q('xpName').textContent=LEVELS[i][1];
-      q('xpSub').textContent=nxt? xp+' / '+nxt+' XP → '+LEVELS[i+1][1] : xp+' XP · maksimalni level';
+      q('xpSub').textContent=nxt? xp+' / '+nxt+' XP → '+LEVELS[i+1][1] : xp+' XP, maksimalni level';
       q('xpBar').style.width=pct+'%';
     }
     if(q('topXp')){
@@ -42,7 +42,6 @@ window.VB=(function(){
     const before=level(xp);
     xp+=n; S.set('xp',xp); render(true,n);
     const after=level(xp);
-    if(false&&after>before) toast('⚓','Novi level '+after,LEVELS[after][1]);
     return true;
   }
   /* toast: max 1 istovremeno, ostali čekaju u redu */
@@ -52,7 +51,7 @@ window.VB=(function(){
     const box=document.getElementById('toast'); const t=queue.shift();
     if(!box||!t){ busy=false; return; }
     busy=true;
-    box.innerHTML=`<div class="toast"><div class="tic">${t[0]}</div><div><b>${t[1]}</b><span>${t[2]}</span></div></div>`;
+    box.innerHTML=`<div class="toast"><div><b>${t[1]}</b><span>${t[2]}</span></div></div>`;
     setTimeout(()=>{ const e=box.firstChild; if(e) e.classList.add('out'); },3000);
     setTimeout(()=>{ box.innerHTML=''; nextToast(); },3500);
   }
@@ -60,7 +59,7 @@ window.VB=(function(){
     if(badges.includes(id)) return;
     badges.push(id); S.set('badges',badges);
     const b=BADGES.find(x=>x.id===id);
-    if(b) toast(b.ic,'Značka osvojena',b.n);
+    if(b) toast('','Značka osvojena',b.n);
     renderBadges();
   }
   function count(k){
@@ -76,7 +75,7 @@ window.VB=(function(){
     g.innerHTML=BADGES.map(b=>{
       const won=badges.includes(b.id);
       const prog=b.need&&!won?` <span class="mono c-txt3">(${Math.min(cnt[b.cnt]||0,b.need)}/${b.need})</span>`:'';
-      return `<div class="badge ${won?'won':'locked'}" data-reveal><div class="bic">${b.ic}</div><div><h5>${b.n}</h5><p>${won?'Osvojeno ✓':b.d+prog}</p></div></div>`;
+      return `<div class="badge ${won?'won':'locked'}" data-reveal><div><h5>${b.n}</h5><p>${won?'Osvojeno ✓':b.d+prog}</p></div></div>`;
     }).join('');
     if(window.VBReveal) window.VBReveal(g);
   }
@@ -174,7 +173,7 @@ window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1), p=el(
 /* ═══════════════ JEDNO MORE ZA SVE WIDGETE (v4) ═══════════════ */
 /* seaBackground(w,h,opts) vraća SVG: gradijent dubine + 3 sloja valova (daleki, srednji, bliski) + odsjaje svjetala.
    opts.view: 'side' (pogled s broda, obzor na opts.y), 'top' (ptičja perspektiva), 'section' (presjek: površina na opts.y, voda do dna)
-   opts.night: noćna paleta · opts.lights: [{x, c}] odsjaji ispod svjetala (samo 'side') · opts.calm: niži valovi.
+   opts.night: noćna paleta, opts.lights: [{x, c}] odsjaji ispod svjetala (samo 'side'), opts.calm: niži valovi.
    Valovi se sporo pomiču CSS animacijom (.seaL0–2); prefers-reduced-motion ih zaustavlja. Deklaracija funkcije je
    podignuta (hoisting), pa je mogu zvati i widgeti koji su u kodu iznad ovog modula. */
 function seaBackground(w,h,o){

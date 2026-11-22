@@ -123,7 +123,7 @@ const COLREG=[
   function show(){
     const sc=COLREG[idx];
     draw(sc,solved);
-    el('colregInfo').innerHTML=`<h4 class="mt14">${idx+1}/${COLREG.length} · ${sc.t}</h4>`+
+    el('colregInfo').innerHTML=`<h4 class="mt14">${idx+1}/${COLREG.length}, ${sc.t}</h4>`+
       (solved?`<div class="expl"><b>Rješenje</b><br>${sc.r}<div style="margin-top:8px;font-size:13.5px;color:var(--txt2)"><b>Zvučni signal:</b> <code>${sc.signal}</code></div></div>`
        :`<p class="c-txt2">Tko ima prednost i kojim putem prolaziš? Razmisli, pa otkrij rješenje.</p>`)+
       (myView?`<div class="note"><b>Moj pramac gore</b>${(((sc.a.h%360)+360)%360)===0?'Tvoj brod (TI) ovdje već plovi prema sjeveru, pa je slika ista kao prije. Razlika se vidi u situacijama gdje TI plovi u drugom smjeru (npr. 3, 4, 5).':'Slika je zakrenuta tako da TI plovi prema gore, kao da stojiš na svom brodu i gledaš naprijed. Sad odmah vidiš je li drugi brod s tvoje <b>desne</b> ili <b>lijeve</b> strane.'}</div>`:`<p style="font-size:13.5px;color:var(--txt3)">Savjet: gumb <b>Okreni: moj pramac gore</b> zakrene sliku kao da gledaš sa svog broda, pa lakše vidiš dolazi li drugi brod zdesna ili slijeva.</p>`);

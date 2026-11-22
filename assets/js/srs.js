@@ -18,16 +18,16 @@ window.VBSrs=(function(){
   const dueC=()=>{ const n=Date.now(); return (typeof CARDS!=='undefined'?CARDS:[]).filter(c=>{ const e=S.c[key(c[1])]; return e&&e.due<=n; }); };
   const soon=()=>{ const t=midnight()+2*DAY; return Object.values(S.q).concat(Object.values(S.c)).filter(e=>e.due>Date.now()&&e.due<t).length; };
   const total=()=>Object.keys(S.q).length+Object.keys(S.c).length;
-  function startQ(){ const l=dueQ(); if(!l.length||!window.VBQuiz) return; go('p-kviz'); VBQuiz.start(shuffle(l),'PONAVLJANJE'); }
+  function startQ(){ const l=dueQ(); if(!l.length||!window.VBQuiz) return; go('p-kviz'); VBQuiz.start(shuffle(l),'Ponavljanje'); }
   function startC(){ const l=dueC(); if(!l.length||!window.VBCards) return; go('p-cards'); VBCards.deck(shuffle(l)); }
   function html(where){ const q=dueQ().length, c=dueC().length, s=soon(), t=total();
-    const pips=[0,1,2].map(i=>{ const n=Object.values(S.q).concat(Object.values(S.c)).filter(e=>e.b===i).length; return `<span class="srsPip" title="${GAP[i]} ${GAP[i]===1?'dan':'dana'}">${GAP[i]} d · <b>${n}</b></span>`; }).join('');
+    const pips=[0,1,2].map(i=>{ const n=Object.values(S.q).concat(Object.values(S.c)).filter(e=>e.b===i).length; return `<span class="srsPip" title="${GAP[i]} ${GAP[i]===1?'dan':'dana'}">${GAP[i]} d: <b>${n}</b></span>`; }).join('');
     if(!t && !S.done) return `<div class="srsBox"><span><b>Ponavljanje s razmakom.</b> Krivo odgovorena pitanja iz kviza i kartice označene „Ne znam" vraćat će se ovdje nakon 1, 3 i 7 dana.</span></div>`;
     const btnQ=where!=='cards'&&q?`<button class="btn p srsGoQ" type="button">Ponovi pitanja (${q})</button>`:'';
     const btnC=where!=='quiz'&&c?`<button class="btn${btnQ?'':' p'} srsGoC" type="button">Ponovi kartice (${c})</button>`:'';
     const now=where==='quiz'?q:where==='cards'?c:q+c;
     return `<div class="srsBox${now?' due':''}"><span><b>Ponavljanje s razmakom:</b> ${now?`danas na redu <b>${where==='cards'?c+' kartica':where==='quiz'?q+' pitanja':q+' pitanja i '+c+' kartica'}</b>.`:'danas je sve ponovljeno.'}
-      ${s?` Sutra i prekosutra: ${s}.`:''} <span class="srsMeta">${pips}<span class="srsPip">naučeno · <b>${S.done||0}</b></span></span></span>
+      ${s?` Sutra i prekosutra: ${s}.`:''} <span class="srsMeta">${pips}<span class="srsPip">naučeno: <b>${S.done||0}</b></span></span></span>
       ${btnQ||btnC?`<span class="btnrow">${btnQ}${btnC}</span>`:''}</div>`; }
   const SLOTS=[['srsHome','home','examSimLast','afterend'],['srsQuiz','quiz','quizArea','beforebegin'],['srsCards','cards','cardArea','beforebegin']];
   function render(){ SLOTS.forEach(([id,where,anchor,pos])=>{ let box=el(id); const a=el(anchor); if(!a) return;
