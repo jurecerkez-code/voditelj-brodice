@@ -79,7 +79,7 @@ const WINDS=[
   const BF=[['tišina','< 1','more kao zrcalo'],['lahor','1–3','sitno mreškanje'],['povjetarac','4–6','mali valići, ne lome se'],['slab vjetar','7–10','valići, ponegdje bijela kapica'],
     ['umjeren vjetar','11–16','manji valovi, česte bijele kapice'],['umjereno jak','17–21','umjereni valovi, mnogo bijelih kapica'],['jak vjetar','22–27','veći valovi, pjena posvuda'],
     ['žestok vjetar','28–33','more se gomila, pjena u prugama'],['olujni vjetar','34–40','visoki valovi, pjena u gustim prugama'],['jak olujni','41–47','visoki valovi, rasprskavanje smanjuje vidljivost'],
-    ['žestoki olujni','48–55','vrlo visoki valovi, more bijelo'],['orkanski','56–63','iznimno visoki valovi'],['orkan','≥ 64','zrak pun pjene i rasprskavanja']];
+    ['orkanski vjetar','48–55','vrlo visoki valovi, more bijelo'],['jak orkanski','56–63','iznimno visoki valovi'],['orkan','≥ 64','zrak pun pjene i rasprskavanja']];
   function draw(sel){
     let g=`<defs><radialGradient id="wBg"><stop offset="0" stop-color="#12304a"/><stop offset="1" stop-color="#0b1d2e"/></radialGradient></defs>`;
     g+=`<circle cx="${c}" cy="${c}" r="${R+18}" fill="url(#wBg)" stroke="${C.line}"/>`;
