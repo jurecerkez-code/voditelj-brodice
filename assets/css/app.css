@@ -1195,3 +1195,4 @@ td.danger.soft{border:0;background:rgba(239,74,90,.12)}
 .jcc{justify-content:center!important} .w100{width:100%!important} .w54{width:54px!important} .w64{width:64px!important} .tl{text-align:left!important} .vam{vertical-align:middle!important}
 .mb6{margin:0 0 6px!important} .mt4{margin-top:4px!important} .mt14{margin-top:14px!important} .hint12{font-size:12px!important;color:var(--txt3)!important;margin-top:6px!important}
 .cur-ptr{cursor:pointer!important} .cur-move{cursor:move!important} .cur-grab{cursor:grab!important} .pe-none{pointer-events:none!important}
+.report{margin-top:14px;text-align:right} .report a{color:var(--txt2)}

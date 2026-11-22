@@ -60,6 +60,15 @@ Svaka stavka ima svoj odlomak u gradivu.
   ne radi dok je krma unutar 4 m od osobe.
 - Shema izboja krme označena je kao shema: nije u stvarnom vremenu i izboj je namjerno naglašen.
 
+### Prijava greške
+- Na dnu svakog poglavlja je poveznica „Našao si grešku? Prijavi je." Otvara obrazac s upisanim poglavljem i verzijom.
+  Odredište je jedna konstanta (`REPORT` u `app.js`), trenutačno GitHub Issues.
+
+### Provjera izgleda usred vježbi
+- Uz početno stanje svake stranice, prije i poslije spajanja CSS-a uspoređeno je i 12 stanja usred vježbi (točan i
+  krivi odgovor u kvizu, fokus tipkovnicom, probni ispit, okrenuta kartica, pretraga, ladica na mobitelu, čvor,
+  checklista), na računalu i mobitelu, u obje teme. Razlika nema.
+
 ### Kod
 - `base.css` i `ui.css` spojeni su u jedan `assets/css/app.css`. Uklonjeno je 548 deklaracija koje je kasnije pravilo
   s istim selektorom ionako nadjačavalo: 104,6 kB → 91,6 kB, jedan zahtjev manje pri učitavanju.

@@ -20,10 +20,14 @@
     go('p-kviz'); VBQuiz.start(list,TOPICS[t]); const a=el('quizArea'); if(a) a.scrollIntoView({block:'start'}); }
   function quizWeak(){ const weak=CH.map(c=>[c.t,mastery(c.t)]).filter(x=>x[1]!==null).sort((a,b)=>a[1]-b[1])[0]; if(weak) quizTopic(weak[0],10); }
 
+  /* Prijava greške: otvara obrazac s upisanim poglavljem i verzijom. Za prijave e-poštom zamijeni adresu s 'mailto:...'
+     (tada ?title= treba promijeniti u ?subject=). */
+  const REPORT='https://github.com/jurecerkez-code/voditelj-brodice/issues/new', VER=(document.querySelector('link[href*="app.css?v="]')||{href:''}).href.split('v=')[1]||'';
   /* ---------- dno svakog poglavlja: provjera + sljedeće; tu se poglavlje i označi pročitanim ---------- */
   CH.forEach((c,i)=>{ const p=el(c.id); if(!p) return; const nx=CH[i+1], n=typeof QB!=='undefined'?QB.filter(q=>q.t===c.t).length:0;
     p.insertAdjacentHTML('beforeend',`<aside class="chFoot" aria-label="Kraj poglavlja"><div><h4>Kraj poglavlja</h4><p>Odmah se provjeri: 10 od ${n} pitanja iz ove teme. Cilj je 80 % prije nego što kreneš dalje.</p></div>
-      <div class="btnrow">${UI.btn('Kviz ove teme',{kind:'p',attrs:{'data-quiz':c.t}})}${nx?UI.btn('Dalje: '+title(nx.id),{icon:'next',cls:'icoEnd',attrs:{'data-next':nx.id}}):UI.btn('Probni ispit',{attrs:{'data-exam':'1'}})}</div></aside>`); });
+      <div class="btnrow">${UI.btn('Kviz ove teme',{kind:'p',attrs:{'data-quiz':c.t}})}${nx?UI.btn('Dalje: '+title(nx.id),{icon:'next',cls:'icoEnd',attrs:{'data-next':nx.id}}):UI.btn('Probni ispit',{attrs:{'data-exam':'1'}})}</div></aside>
+      <p class="fine report"><a href="${REPORT}?title=${encodeURIComponent('Greška u poglavlju: '+title(c.id))}&body=${encodeURIComponent('Što je krivo i gdje (naslov odlomka ili tekst pitanja):\n\n\nIzvor, ako ga imaš:\n\n(verzija '+VER+')')}" target="_blank" rel="noopener">Našao si grešku u ovom poglavlju? Prijavi je.</a></p>`); });
   document.addEventListener('click',e=>{ const b=e.target.closest('[data-quiz],[data-next],[data-exam],[data-weak]'); if(!b||b.classList.contains('kuGo')) return;
     if(b.dataset.quiz) quizTopic(b.dataset.quiz,10);
     else if(b.dataset.next) go(b.dataset.next);

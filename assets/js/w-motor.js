@@ -12,7 +12,7 @@
   let running=false, four=true, th=0, raf=0, last=0, diesel=false;
   const strokes4=()=>[
     ['USIS',`Klip se spušta od GMT prema DMT i širi prostor iznad sebe. Usisni ventil je otvoren, pa u cilindar ulazi ${diesel?'<b>čisti zrak</b>':'<b>smjesa zraka i benzina</b>'}. Tlak je malo ispod atmosferskog.`,C.acc],
-    ['KOMPRESIJA',`Oba ventila su zatvorena. Klip se diže i istu količinu plina sabija u ${diesel?'18':'oko 9'} puta manji prostor: čestice su gušće, pa tlak raste na oko ${diesel?'45':'19'} bara, a plin se zagrije na oko ${diesel?'630':'450'} °C. Taj rad daje zamašnjak.`,C.yellow],
+    ['KOMPRESIJA',`Oba ventila su zatvorena. Klip se diže i istu količinu plina sabija u ${diesel?'18':'oko 9'} puta manji prostor: čestice su gušće, pa tlak raste na oko ${diesel?'45':'19'} bara, a plin se zagrije na ${diesel?'600 do 700':'oko 450'} °C.${diesel?' Zato se gorivo zapali samo, bez svjećice.':''} Taj rad daje zamašnjak.`,C.yellow],
     ['EKSPANZIJA',`${diesel?'Brizgaljka ubrizga gorivo u vrući zrak i ono se <b>samo zapali</b>':'Svjećica pali smjesu malo prije GMT i plamen se širi od svjećice'}. Tlak naglo skoči i gura klip prema DMT. Jedini <b>RADNI TAKT</b>: samo ovdje plin predaje rad koljenu.`,'#ff7a45'],
     ['ISPUH','Ispušni ventil se otvori, tlak padne i klip na putu prema GMT istisne izgorjele plinove. Zamašnjak ga nosi kroz ovaj i sljedeća dva takta.','#8fa6b8']
   ];
