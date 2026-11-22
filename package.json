@@ -1,0 +1,15 @@
+{
+  "name": "voditelj-brodice",
+  "version": "5.2.0",
+  "private": true,
+  "description": "Priprema za ispit voditelja brodice kategorije B",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve -l 8080 .",
+    "test": "node tests/fizika.mjs && node tests/smoke.mjs && node tests/pristajanje.mjs && node tests/a11y.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.0",
+    "playwright": "^1.50.0"
+  }
+}
