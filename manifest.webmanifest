@@ -1,0 +1,14 @@
+{
+  "name": "Voditelj brodice B: priprema za ispit",
+  "short_name": "Brodica B",
+  "description": "Gradivo, vježbe i probni ispit za voditelja brodice kategorije B.",
+  "lang": "hr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b2a44",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
