@@ -79,7 +79,35 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   const xs = await page.$$eval('#lightStage svg circle[r="6.5"]', cs => cs.map(c => [c.getAttribute('fill'), +c.getAttribute('cx')]));
   const g = xs.find(c => /green/.test(c[0])), r = xs.find(c => /red/.test(c[0]));
   ok(g && r && g[1] < r[1], `[${name}] simulator svjetala: zeleno mora biti lijevo od crvenog kad brod ide prema promatraču`);
-  // 12. noćni način se pali i pamti
+  // 12. simulator pristajanja: brodica kreće na stroj, klizi u neutralu, pauza je zaustavlja
+  await page.evaluate(() => go('p-manevar')); await page.waitForTimeout(200);
+  await page.locator('#dockWind [data-t="2"]').click(); await page.waitForTimeout(2600);
+  const hud1 = await page.$eval('#dockWind .dwHud', e => e.textContent), kn = t => parseFloat((t.match(/Kroz vodu ([\d,]+)/) || [])[1]?.replace(',', '.'));
+  ok(/NAPRIJED/.test(hud1) && kn(hud1) > 0.3 && kn(hud1) < 4.2, `[${name}] simulator pristajanja: brodica ne kreće (${hud1})`);
+  await page.locator('#dockWind [data-t="0"]').click(); await page.waitForTimeout(600);
+  ok(kn(await page.$eval('#dockWind .dwHud', e => e.textContent)) > 0.2, `[${name}] simulator pristajanja: brodica u neutralu mora klizati, ne stati odmah`);
+  await page.locator('#dockWind .dwPause').click(); const h2 = await page.$eval('#dockWind .dwHud', e => e.textContent); await page.waitForTimeout(400);
+  ok(h2 === await page.$eval('#dockWind .dwHud', e => e.textContent), `[${name}] simulator pristajanja: pauza ne zaustavlja vrijeme`);
+  await page.locator('#dockWind .dwReset').first().click();
+  // 13. sidrenje: premalo lanca na jakom vjetru ore, dovoljno lanca drži
+  const setR = (sel, v) => page.$eval(sel, (e, v) => { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); }, v);
+  await setR('#anchorSim .aW', 30); await setR('#anchorSim .aK', 3);
+  ok(/ore/.test(await page.$eval('#anchorSim .aTxt', e => e.textContent)), `[${name}] sidrenje: 3 × dubina na 30 čv mora orati`);
+  await setR('#anchorSim .aK', 7);
+  ok(/drži/.test(await page.$eval('#anchorSim .aTxt', e => e.textContent)), `[${name}] sidrenje: 7 × dubina na 30 čv mora držati`);
+  // 14. motor: klizač okreće koljeno, tlak je najveći u radnom taktu; dizel ima veću kompresiju
+  await page.evaluate(() => go('p-motor')); await page.waitForTimeout(200);
+  const bar = async a => { await setR('#engAngle', a); return parseFloat((await page.$eval('#engineStage', e => e.textContent)).match(/tlak u cilindru ([\d,]+) bar/)[1].replace(',', '.')); };
+  const pIn = await bar(90), pCo = await bar(355), pEx = await bar(372);
+  ok(pIn < 1 && pCo > 12 && pCo < 25 && pEx > 35 && pEx < 65, `[${name}] motor: tlak ne prati taktove (usis ${pIn}, kompresija ${pCo}, ekspanzija ${pEx})`);
+  await page.click('#engFuel'); ok(await bar(355) > 35, `[${name}] motor: dizel mora imati veći tlak kompresije`); await page.click('#engFuel');
+  // 15. čvorovi: klizačem se konop provlači, zadnji korak bitve je zatezanje
+  await page.evaluate(() => go('p-sigurnost')); await page.waitForTimeout(200);
+  await setR('#knotWidget .knScrub input', 250);
+  ok(/Korak 3/.test(await page.$eval('#knotWidget .knStepTxt', e => e.textContent)), `[${name}] čvorovi: klizač ne vodi kroz korake`);
+  await page.locator('#knotWidget [data-id="bitva"]').click(); await setR('#knotWidget .knScrub input', 500);
+  ok(/Zategni|Povuci kraj/.test(await page.$eval('#knotWidget .knStepTxt', e => e.textContent)), `[${name}] čvorovi: bitva nema korak zatezanja`);
+  // 16. noćni način se pali i pamti
   await page.click('#themeBtn'); ok(await page.evaluate(() => document.documentElement.dataset.theme === 'night' && localStorage.getItem('vbTheme') === 'night'), `[${name}] noćni način se ne pamti`);
   await ctx.close();
 }

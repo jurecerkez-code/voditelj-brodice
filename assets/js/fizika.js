@@ -112,3 +112,27 @@ const DockWorld=(function(){
   const world=(key,str)=>({s:start(),env:env(key,str),hold:0,chk:{},touch:false,gap:99,sog:0});
   return {PPM,W,H,QX,BERTH,HULL,MOOR,MOORC,LIM,STR,ENV,env,start,hull,tick,world};
 })();
+
+/* Sidreni lanac kao lančanica. Brodica na sidru stoji pramcem u vjetar; vjetar je gura vodoravnom silom F,
+   a lanac težine w po metru visi u krivulji y = a·(cosh(x/a) − 1), a = F/w. Dok je ispušteno dovoljno lanca,
+   dio leži na dnu i sidro se vuče vodoravno (tako drži). Kad ga je premalo, cijeli lanac se podigne i vuče
+   sidro prema gore pod kutom theta: sidro ore. Odatle pravilo 3 do 4 × dubina, a po jakom vjetru 5 do 7 ×. */
+const AnchorPhys=(function(){
+  const KN=0.5144;
+  // brodica oko 6,5 m: površina koju vjetar hvata (m²), lanac 6 mm u vodi (N/m), visina pramca nad morem (m)
+  const B={A:4, Cd:1, w:6.8, bow:.8, len:6.5};
+  const windForce=kn=>.5*1.2*B.Cd*B.A*Math.pow(kn*KN,2);
+  // D dubina (m), L ispušteni lanac (m), F vodoravna sila (N)
+  function solve(D,L,F){ const h=D+B.bow, a=Math.max(.05,F/B.w), s0=Math.sqrt(h*h+2*a*h);
+    if(L<=h) return {h,a,s0,lie:0,span:0,theta:90,x1:0,short:true};
+    if(L>=s0) return {h,a,s0,lie:L-s0,span:a*Math.acosh(1+h/a),theta:0,x1:0};
+    const d=a*Math.acosh(1+(L*L-h*h)/(2*a*a)), A=Math.asinh((h/a)/(2*Math.sinh(d/a/2)))-d/a/2;
+    return {h,a,s0,lie:0,span:d,theta:Math.atan(Math.sinh(A))*180/Math.PI,x1:a*A}; }
+  // točke lanca od sidra (0,0) do pramca: x vodoravna udaljenost, y visina iznad dna (m)
+  function shape(g,n){ const P=[[0,0]]; if(g.short) return [[0,0],[0,g.h]]; if(g.lie>0) P.push([g.lie,0]); const c0=Math.cosh(g.x1/g.a);
+    for(let i=1;i<=n;i++){ const x=g.span*i/n; P.push([g.lie+x, g.a*(Math.cosh((x+g.x1)/g.a)-c0)]); } return P; }
+  // najmanja duljina lanca uz koju se sidro još vuče vodoravno
+  const need=(D,kn)=>{ const h=D+B.bow, a=windForce(kn)/B.w; return Math.sqrt(h*h+2*a*h); };
+  const beaufort=kn=>[1,4,7,11,17,22,28,34,41,48,56,64].filter(x=>kn>=x).length;
+  return {B,windForce,solve,shape,need,beaufort};
+})();

@@ -143,63 +143,78 @@ const SIM={
   draw(W/2-20,H-60,-24,{prop:0}); txt('Odaberi vrstu vijka i stranu obale, pa klikni <b>Pristani</b>.');
 })();
 
-/* ── SIDRENJE: DUBINA I DULJINA LANCA ── */
+/* ── SIDRENJE: DUBINA, LANAC I VJETAR ── */
+/* Crtež je u mjerilu (vodoravno i okomito isto), a oblik lanca računa AnchorPhys (fizika.js). */
 (function(){
   const b=el('anchorSim'); if(!b) return;
-  const W=680,H=210, SEA=64, KM=7; // 7 px po metru, vodoravno i okomito isto (pravi omjer)
-  let D=6, bad=false, anim=null;
-  b.innerHTML=`<div class="simOpts"><label class="simRange">Dubina <input type="range" min="2" max="12" step="1" value="6" class="aD"><b class="aDv">6 m</b></label>
-    <div class="seg" data-k="w"><span>Vrijeme</span><button data-v="0" class="on">lijepo</button><button data-v="1">loše</button></div>
-    <button class="btn p aGo">Usidri</button></div>
-    <svg viewBox="0 0 ${W} ${H}" class="simSvg" role="img" aria-label="Animacija sidrenja"><g class="aDyn"></g></svg>
+  const W=680,H=216, SEA=74, XA=W-64, A=AnchorPhys, num=(x,d)=>x.toFixed(d==null?1:d).replace('.',',');
+  let D=6, K=4, WK=15, anim=null, runGen=0;
+  b.innerHTML=`<div class="simOpts">
+    <label class="simRange">Dubina <input type="range" min="2" max="12" step="1" value="6" class="aD"><b class="aDv"></b></label>
+    <label class="simRange">Lanac <input type="range" min="1.5" max="8" step="0.5" value="4" class="aK"><b class="aKv"></b></label>
+    <label class="simRange">Vjetar <input type="range" min="5" max="40" step="5" value="15" class="aW"><b class="aWv"></b></label>
+    <button class="btn p aGo" type="button">Usidri korak po korak</button></div>
+    <svg viewBox="0 0 ${W} ${H}" class="simSvg" role="img" aria-label="Sidrenje u presjeku, u mjerilu: brodica, lanac i sidro na dnu"><g class="aDyn"></g></svg>
     <div class="knStepTxt aTxt" aria-live="polite"></div>`;
-  const dyn=$('.aDyn',b);
-  const fac=()=>bad?6:4;
-  function scene(bx,chain,anc,dig,msg){ const bed=SEA+D*KM;
-    let g=`<rect width="${W}" height="${SEA}" fill="#0b1e30"/>`+seaBackground(W,H,{y:SEA,view:'section'}); // v4
-    g+=`<path data-keep-dark="1" d="M0,${bed} q160,-6 340,2 t340,-3 L${W},${H} L0,${H} Z" fill="#d9c48a"/>`;
-    g+=`<g transform="translate(44,30)"><path d="M16,0 H-16 M-10,-6 L-16,0 L-10,6" stroke="#e6eef5" stroke-width="2" fill="none"/><text y="22" text-anchor="middle" font-size="10.5" fill="#9fb6c9">vjetar</text></g>`;
-    // brodica bočno, pramac desno (u vjetar)
-    g+=`<g transform="translate(${bx},${SEA})"><path d="M-40,-2 L34,-2 L44,-14 L-44,-14 Z" fill="#e6eef5" stroke="#1d2b36"/><rect x="-18" y="-26" width="22" height="12" fill="#9fb6c9" stroke="#1d2b36"/></g>`;
-    const bow=[bx+40,SEA-6];
-    if(anc){ const ax=anc[0], ay=anc[1];
-      if(chain>0){ // lanac: dio po dnu + luk do pramca
-        const hz=Math.abs(bow[0]-ax), vt=ay-bow[1], hyp=Math.hypot(hz,vt), L=chain*KM, dir=bow[0]<ax?-1:1;
-        const lie=Math.max(0,Math.min(hz*.7,(L-hyp)*.9));
-        const tx=ax+dir*lie;
-        g+=`<path d="M${ax},${ay} L${tx},${ay} Q${tx+(bow[0]-tx)*.55},${ay} ${bow[0]},${bow[1]}" fill="none" stroke="#c8d6e2" stroke-width="2.4" stroke-dasharray="5 2.5"/>`;
-        // v3: duljina lanca u istom mjerilu kao dubina (7 px = 1 m) i omjer prema dubini
-        if(chain>D+.5){ const my=Math.min(H-8,ay+22), x1=Math.max(ax,bow[0]), x0=x1-L, tx2=Math.max(150,Math.min(W-150,(x0+x1)/2));
-          g+=`<path data-keep-dark="1" d="M${x0},${my-4} v8 M${x0},${my} H${x1} M${x1},${my-4} v8" stroke="#5c4708" stroke-width="1.4"/>`;
-          g+=`<text data-keep-dark="1" x="${tx2}" y="${my+15>H-4?my-7:my+15}" text-anchor="middle" font-size="12" font-weight="800" fill="#3d2f05">lanac ${Math.round(chain)} m = ${(chain/D).toFixed(1).replace('.',',')} × dubina</text>`; } }
-      g+=`<g transform="translate(${ax},${ay-2+dig*3}) rotate(${-70+dig*55})"><path d="M0,-16 v22 M-12,2 q12,14 24,0 M-7,-14 h14" stroke="#c8d6e2" stroke-width="3" fill="none"/><circle cy="-19" r="3.5" fill="none" stroke="#c8d6e2" stroke-width="2.5"/></g>`; }
-    // dubina i duljina
-    g+=`<line x1="${W-18}" y1="${SEA}" x2="${W-18}" y2="${bed}" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="4 3"/><text x="${W-24}" y="${SEA+13}" font-size="12" font-weight="800" fill="#39b8e8" text-anchor="end">dubina ${D} m</text>`;
-    if(msg) g+=`<text data-keep-dark="1" x="16" y="${H-12}" font-size="13" font-weight="800" fill="#14532d">${msg}</text>`;
+  const dyn=$('.aDyn',b), txt=h=>$('.aTxt',b).innerHTML=h;
+  const Lf=()=>K*D, ppm=()=>Math.min(7,(W-190)/(Lf()+A.B.len+4));
+  /* st: {X: vodoravna udaljenost pramca od sidra (m), g: rješenje lančanice ili null, drop: visina sidra iznad dna dok pada (m) ili null,
+          dig: 0..1 koliko je sidro ukopano, final: prikaži ocjenu} */
+  function scene(st){ const s=ppm(), bed=SEA+D*s, bowX=XA-st.X*s, bowY=SEA-A.B.bow*s, len=A.B.len*s, wb=A.beaufort(WK);
+    let g=`<rect width="${W}" height="${SEA}" fill="#0b1e30"/>`+seaBackground(W,H,{y:SEA,view:'section'});
+    g+=`<rect data-keep-dark="1" x="0" y="${bed.toFixed(1)}" width="${W}" height="${(H-bed).toFixed(1)}" fill="#d9c48a"/>`;
+    { const L=26+WK*1.4; g+=`<g transform="translate(${30+L},34)"><path d="M0,0 H${-L} M${-L+9},-6 L${-L},0 L${-L+9},6" stroke="#e6eef5" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="${-L}" y="22" font-size="11.5" fill="#9fb6c9">vjetar ${WK} čv (${wb} Bf)</text></g>`; }
+    // brodica u mjerilu: pramac desno, u vjetar; gaz ispod vodene linije
+    const dk=A.B.bow*s, dr=.45*s;
+    g+=`<g transform="translate(${bowX.toFixed(1)},${SEA})"><path d="M0,${-dk} L${(-len).toFixed(1)},${(-dk*.85).toFixed(1)} L${(-len).toFixed(1)},${(dr*.7).toFixed(1)} L${(-len*.2).toFixed(1)},${dr.toFixed(1)} Q${(-len*.05).toFixed(1)},${(dr*.4).toFixed(1)} 0,${-dk} Z" fill="#e6eef5" stroke="#1d2b36" stroke-width="1.2"/>
+      <rect x="${(-len*.68).toFixed(1)}" y="${(-dk*.85-1.1*s).toFixed(1)}" width="${(len*.34).toFixed(1)}" height="${(1.1*s).toFixed(1)}" fill="#9fb6c9" stroke="#1d2b36" stroke-width="1"/></g>`;
+    const ax=XA, ay=st.drop!=null?bed-st.drop*s:bed;
+    if(st.g){ const P=A.shape(st.g,28).map(([x,y])=>[(XA-x*s).toFixed(1),(bed-y*s-1.5).toFixed(1)]), pts=P.map(p=>p.join(',')).join(' ');
+      g+=`<g data-keep-dark="1"><polyline points="${pts}" fill="none" stroke="#1d2b36" stroke-width="4.2" stroke-linejoin="round" stroke-linecap="round"/><polyline points="${pts}" fill="none" stroke="#e6eef5" stroke-width="2.2" stroke-dasharray="5 3" stroke-linejoin="round"/>`;
+      if(st.g.lie>.3) g+=`<line x1="${XA}" y1="${bed+7}" x2="${(XA-st.g.lie*s).toFixed(1)}" y2="${bed+7}" stroke="#14532d" stroke-width="3"/>`;
+      g+=`</g>`;
+    } else if(st.drop!=null) g+=`<line data-keep-dark="1" x1="${bowX.toFixed(1)}" y1="${bowY.toFixed(1)}" x2="${ax}" y2="${ay.toFixed(1)}" stroke="#1d2b36" stroke-width="2.4" stroke-dasharray="5 3"/>`;
+    if(st.drop!=null||st.g){ const th=st.g&&st.final?Math.min(40,st.g.theta):0, rot=(st.drop!=null&&!st.g)?0:-78+st.dig*62+th;
+      g+=`<g data-keep-dark="1" transform="translate(${ax},${(ay-2+st.dig*3).toFixed(1)}) rotate(${rot.toFixed(1)})"><path d="M0,-16 v22 M-12,2 q12,14 24,0 M-7,-14 h14" stroke="#1d2b36" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cy="-19" r="3.5" fill="none" stroke="#1d2b36" stroke-width="2.6"/></g>`; }
+    // dubina
+    g+=`<path d="M${W-26},${SEA} h12 M${W-20},${SEA} V${bed.toFixed(1)} M${W-26},${bed.toFixed(1)} h12" stroke="#39b8e8" stroke-width="1.4" fill="none"/><text transform="translate(${W-6},${((SEA+bed)/2).toFixed(1)}) rotate(-90)" font-size="12" font-weight="800" fill="#39b8e8" text-anchor="middle">dubina ${D} m</text>`;
+    if(st.final&&st.g){ const q=st.g, ok=q.theta<=1, mid=q.theta<8, col=ok?'#14532d':mid?'#7a4a00':'#8a1c1c', my=Math.min(H-10,bed+30);
+      g+=`<g data-keep-dark="1"><text x="${XA+6}" y="${my}" font-size="13" font-weight="800" fill="${col}" text-anchor="end">${ok?`drži · na dnu leži ${num(q.lie)} m lanca`:mid?`na granici · lanac vuče pod ${num(q.theta,0)}°`:`ore · lanac vuče prema gore pod ${num(q.theta,0)}°`}</text>
+        <path d="M${(bowX-len).toFixed(1)},${SEA-dk-16} v-7 M${(bowX-len).toFixed(1)},${SEA-dk-19.5} H${XA} M${XA},${SEA-dk-16} v-7" stroke="#3a5266" stroke-width="1.3" fill="none"/></g>
+        <text x="${Math.max(300,Math.min(W-150,(bowX-len+XA)/2)).toFixed(1)}" y="${SEA-dk-25}" text-anchor="middle" font-size="11.5" fill="#9fb6c9">krug zakretanja: polumjer ${Math.round(st.X+A.B.len)} m oko sidra</text>`; }
     dyn.innerHTML=g; }
-  const txt=h=>$('.aTxt',b).innerHTML=h;
-  let runGen=0; // novi klik prekida staru animaciju, i u pauzi između koraka
+  const dist=q=>q.lie+q.span;
+  function verdict(){ const F=A.windForce(WK), q=A.solve(D,Lf(),F), nd=A.need(D,WK), ok=q.theta<=1;
+    return `Dubina <b>${D} m</b>, lanac <b>${num(Lf(),Lf()%1?1:0)} m</b> (${num(K,K%1?1:0)} × dubina), vjetar <b>${WK} čv</b>. `+
+      (ok?`<b>Sidro drži:</b> na dnu leži ${num(q.lie)} m lanca, pa ga brodica vuče vodoravno, onako kako je sidro građeno da drži.`
+        :q.theta<8?`<b>Na granici:</b> vjetar je podigao cijeli lanac s dna i vuče sidro prema gore pod ${num(q.theta,0)}°. Prvi jači udar vjetra može ga iščupati.`
+        :`<b>Sidro ore, ne drži:</b> lanac je prekratak, cijeli je podignut i vuče sidro prema gore pod ${num(q.theta,0)}°.`)+
+      (ok?'':` Za ovaj vjetar ovdje treba najmanje <b>${Math.ceil(nd)} m</b> lanca (${num(nd/D)} × dubina).`)+
+      ` Oko sidra ti treba slobodan krug polumjera oko ${Math.round(dist(q)+A.B.len)} m.`; }
+  function show(){ const q=A.solve(D,Lf(),A.windForce(WK)); scene({X:dist(q),g:q,dig:1,final:true}); txt(verdict()); }
+  function labels(){ $('.aDv',b).textContent=D+' m'; $('.aKv',b).textContent=`${num(K,K%1?1:0)} × = ${num(Lf(),Lf()%1?1:0)} m`; $('.aWv',b).textContent=`${WK} čv`; }
   function run(steps){ if(anim) cancelAnimationFrame(anim); let i=0; const my=++runGen;
     const nx=()=>{ if(my!==runGen||i>=steps.length) return; const s=steps[i++]; if(s.say) txt(s.say);
       if(SIM.RM){ s.f(1); return setTimeout(nx,50); }
-      const t0=performance.now(); const f=n=>{ const t=Math.min(1,(n-t0)/s.d); s.f(t); if(t<1) anim=requestAnimationFrame(f); else setTimeout(nx,s.w??350); }; anim=requestAnimationFrame(f); };
+      const t0=performance.now(); const f=n=>{ if(my!==runGen) return; const t=Math.min(1,(n-t0)/s.d); s.f(t); if(t<1) anim=requestAnimationFrame(f); else setTimeout(nx,s.w??350); }; anim=requestAnimationFrame(f); };
     nx(); }
-  function go(){
-    const bed=SEA+D*KM, L=fac()*D, x1=596, drop=x1+40, bx2=drop-40-Math.sqrt(Math.max(0,(L*.93)**2-D*D))*KM;
+  function go(){ const h=D+A.B.bow, w=A.B.w, aw=A.windForce(WK)/w, far=Math.min(Lf()*.9,(XA-120)/ppm());
+    const pay=t=>A.solve(D,h+.01+(Lf()-h)*t,(1.2+(aw*.5-1.2)*t)*w);
     run([
-      {say:'Prilaziš odabranom mjestu <b>pramcem u vjetar</b> (ili u struju), malom brzinom, i zaustaviš brodicu.',d:1800,f:t=>scene(150+(x1-150)*(1-Math.pow(1-t,2)),0,null,0)},
-      {say:'Obaraš sidro dok ne dotakne dno.',d:1200,f:t=>scene(x1,D*t,[drop,SEA+(bed-SEA)*t],0)},
-      {say:`Vjetar i lagana vožnja <b>krmom</b> odmiču brodicu unatrag, a ti ispuštaš lanac. Ukupno: <b>${fac()===4?'3 do 4':'5 do 7'} × dubina</b>.`,d:2600,f:t=>scene(x1+(bx2-x1)*t,D+(L-D)*t,[drop,bed],0)},
-      {say:'Kratko <b>zavozi krmom</b>: lanac se zategne i sidro se <b>ukopa</b> u dno.',d:1100,f:t=>scene(bx2+6*Math.sin(t*Math.PI),L,[drop,bed],t)},
-      {say:`Gotovo. Dubina <b>${D} m</b> × ${fac()===4?'3 do 4':'5 do 7'} = <b>${fac()===4?3*D+' do '+4*D:5*D+' do '+7*D} m lanca</b>. ${bad?'Po lošem vremenu ispuštaš više.':'Kvaliteta dna: najbolje drže mulj i pijesak.'}`,d:300,f:t=>scene(bx2,L,[drop,bed],1,`${D} m × ${fac()===4?'3–4':'5–7'} = ${fac()===4?3*D+'–'+4*D:5*D+'–'+7*D} m`)}
+      {say:'<b>1.</b> Prilaziš odabranom mjestu <b>pramcem u vjetar</b> (ili u struju), malom brzinom, i zaustaviš brodicu.',d:2000,f:t=>scene({X:far*Math.pow(1-t,2),g:null,dig:0})},
+      {say:'<b>2.</b> Obaraš sidro dok ne dotakne dno. Brodica pritom stoji ili lagano ide krmom, nikad naprijed preko lanca.',d:1300,f:t=>scene({X:0,g:null,drop:h*(1-t),dig:0})},
+      {say:`<b>3.</b> Vjetar i lagana vožnja <b>krmom</b> odmiču brodicu, a ti ispuštaš lanac da se slaže po dnu, ne na hrpu. Ukupno <b>${num(Lf(),Lf()%1?1:0)} m</b>.`,d:3000,f:t=>{ const q=pay(t); scene({X:dist(q),g:q,dig:0}); }},
+      {say:'<b>4.</b> Kratko <b>zavozi krmom</b>: lanac se zategne i sidro se <b>ukopa</b>. Uzmi dvije oznake na obali i provjeri da se ne pomiču.',d:1500,f:t=>{ const q=A.solve(D,Lf(),(aw*.5+aw*2*Math.sin(t*Math.PI))*w); scene({X:dist(q),g:q,dig:t}); }},
+      {d:500,f:t=>{ const q=A.solve(D,Lf(),(aw*(.5+.5*t))*w); scene({X:dist(q),g:q,dig:1}); if(t===1) show(); }}
     ]);
     if(window.VB) VB.add(5,'sim_anchor');
   }
-  $('.aD',b).addEventListener('input',e=>{ D=+e.target.value; $('.aDv',b).textContent=D+' m'; scene(150,0,null,0); txt(`Za ${D} m dubine treba <b>${bad?5*D+' do '+7*D:3*D+' do '+4*D} m</b> lanca. Klikni <b>Usidri</b>.`); });
-  $('.seg',b).addEventListener('click',e=>{ const bt=e.target.closest('button'); if(!bt) return; $$('button',$('.seg',b)).forEach(x=>x.classList.toggle('on',x===bt)); bad=bt.dataset.v==='1';
-    txt(`Za ${D} m dubine treba <b>${bad?5*D+' do '+7*D:3*D+' do '+4*D} m</b> lanca. Klikni <b>Usidri</b>.`); });
+  const stop=()=>{ runGen++; if(anim) cancelAnimationFrame(anim); };
+  $('.aD',b).addEventListener('input',e=>{ stop(); D=+e.target.value; labels(); show(); });
+  $('.aK',b).addEventListener('input',e=>{ stop(); K=+e.target.value; labels(); show(); });
+  $('.aW',b).addEventListener('input',e=>{ stop(); WK=+e.target.value; labels(); show(); });
   $('.aGo',b).addEventListener('click',go);
-  scene(150,0,null,0); txt('Namjesti dubinu i vrijeme, pa klikni <b>Usidri</b>.');
+  labels(); show();
 })();
 
 /* ── MAYDAY: SLOŽI REDOSLIJED ── */

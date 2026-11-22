@@ -21,22 +21,27 @@
 
   // gusto uzorkovanje (svakih ~1,5 px), s granicama dijelova radi „do dijela n"
   function dense(pieces){
-    const X=[],Y=[],Z=[],S=[],CL=[],ends=[]; let s=0;
+    const X=[],Y=[],Z=[],S=[],CL=[],ends=[],cnt=[]; let s=0;
     pieces.forEach(([d,z,cl],pi)=>{
-      mp.setAttribute('d',d); const L=mp.getTotalLength(), n=Math.max(2,Math.ceil(L/1.5));
+      mp.setAttribute('d',d); const L=mp.getTotalLength(), n=Math.max(2,Math.ceil(L/1.5)), n0=X.length;
       for(let i=X.length?1:0;i<=n;i++){ const p=mp.getPointAtLength(L*i/n);
         if(X.length){ s+=Math.hypot(p.x-X[X.length-1],p.y-Y[Y.length-1]); }
         X.push(p.x); Y.push(p.y); Z.push(z); CL.push(cl||''); S.push(s); }
-      ends.push(s);
+      ends.push(s); cnt.push(X.length-n0);
     });
-    return {X,Y,Z,S,CL,ends,L:s};
+    return {X,Y,Z,S,CL,ends,cnt,L:s};
   }
+  // zategnuti oblik zadan vlastitom putanjom: isti dijelovi i isti broj točaka kao labavi, pa se jedan pretapa u drugi
+  function denseLike(pieces,R){ const X=[],Y=[],Z=[],CL=[];
+    pieces.forEach(([d,z,cl],pi)=>{ mp.setAttribute('d',d); const L=mp.getTotalLength(), c=R.cnt[pi], n=pi?c:c-1;
+      for(let i=pi?1:0;i<=n;i++){ const p=mp.getPointAtLength(L*i/n); X.push(p.x); Y.push(p.y); Z.push(z); CL.push(cl||''); } });
+    return {...R,X,Y,Z,CL,own:true}; }
   // „upto" 3.5 = do polovice dijela 3; vraća duljinu po užetu
   const lenAt=(R,u)=>{ if(u>=R.ends.length) return R.L; const i=Math.floor(u), f=u-i, a=i?R.ends[i-1]:0; return a+(R.ends[i]-a)*f; };
   function tighten(R,cx,cy,rad,k){ const X=R.X.slice(), Y=R.Y.slice();
     for(let i=0;i<X.length;i++){ const dx=X[i]-cx, dy=Y[i]-cy, d=Math.hypot(dx,dy); if(d<rad){ const f=k*Math.pow(1-d/rad,.9); X[i]-=dx*f; Y[i]-=dy*f; } }
     return {...R,X,Y}; }
-  const mix=(A,B,t)=>({...A,X:A.X.map((x,i)=>x+(B.X[i]-x)*t),Y:A.Y.map((y,i)=>y+(B.Y[i]-y)*t)});
+  const mix=(A,B,t)=>({...A,X:A.X.map((x,i)=>x+(B.X[i]-x)*t),Y:A.Y.map((y,i)=>y+(B.Y[i]-y)*t),Z:B.own&&t>.5?B.Z:A.Z});
 
   /* ── crtanje: valjkasto sjenčanje + pramenovi po stvarnoj duljini (bez šavova na spojevima) ── */
   const LX=-.55, LY=-.83; // svjetlo odozgo lijevo
@@ -227,10 +232,16 @@
     uR2:['M402,152 C416,162 416,218 402,228',1],
     br:['M402,228 C386,238 352,236 330,222',3],
     d2:['M330,222 L230,160',4],
-    lock:['M230,160 C214,150 176,140 150,146 C126,152 112,170 112,190 C112,212 128,228 152,232 C176,236 196,228 206,216',5],
+    lockA:['M230,160 C214,150 176,140 150,146',5],
+    lockB:['M150,146 C126,152 112,170 112,190 C112,212 128,228 152,232',5],
+    lockC:['M152,232 C176,236 196,228 206,216',5],
     tuck:['M206,216 C212,200 216,176 220,162',4.5],
     tail:['M220,162 C222,154 226,146 232,138',4.5]
   };
+  const CLbase=[CL.s,CL.uR,CL.top,CL.uL,CL.bl,CL.d1,CL.tr,CL.uR2,CL.br,CL.d2];
+  // zategnuto: petlja ide ISPOD roga, kraj leži preko bitve usporedno s prvim kosim dijelom i prolazi ispod drugog
+  const CLtight=[...CLbase,['M230,160 C222,155 210,154 200,158',5],['M200,158 C194,164 192,176 192,190 C192,204 194,214 200,220',1],
+    ['M200,220 C204,224 210,224 216,220',3.5],['M216,220 L262,188',3.5],['M262,188 L318,150',3.5]];
 
   const rfA=[...rfA0,['M256,172 C250,166 248,160 252,152',1],['M252,152 C262,142 285,128 300,122',0],['M300,122 C318,112 312,94 294,90',1],['M294,90 C282,87 266,82 256,72',2],['M256,72 C248,62 246,40 248,10',1]];
   const rfB=[...rfB0,['M294,172 C300,166 302,160 298,152',1],['M298,152 C288,142 265,128 250,122',2],['M250,122 C232,112 238,94 256,90',1],['M256,90 C268,87 284,82 294,72',0],['M294,72 C302,62 304,40 302,10',1]];
@@ -312,15 +323,16 @@
 
   {id:'bitva',n:'Vezanje na bitvu',en:'cleat hitch',tag:'PRIVEZ',
    use:'Privez konopa na <b>bitvu</b> (rogati okov na palubi ili rivi). Drži jako, a odvezuje se jednim potezom i pod opterećenjem.',
-   check:'Jedan puni okret oko podnožja, jedna osmica preko rogova (na vrhu se vidi <b>križ</b>), jedna zaključna petlja.',
+   check:'Jedan puni okret oko podnožja, jedna osmica preko rogova (na vrhu se vidi <b>križ</b>), jedna zaključna petlja. Odozgo: <b>dvije usporedne crte i jedna preko njih</b>.',
    err:'Nemoj namotavati više osmica i petlji: bitva se tada ne može brzo odvezati. Konop prvo vodi prema <b>daljem rogu</b>, gledano od tereta.',
-   ropes:[{c:'cream',w:12,tipDy:-34,tipDx:40,g:[CL.s,CL.uR,CL.top,CL.uL,CL.bl,CL.d1,CL.tr,CL.uR2,CL.br,CL.d2,CL.lock,CL.tuck,CL.tail]}], objs:[CLEATBASE(280,190,0),CLEAT(280,190,2)], lab:[{t:'prema brodu (teret)',x:16,y:350}],
+   ropes:[{c:'cream',w:12,tipDy:-34,tipDx:40,g:[...CLbase,CL.lockA,CL.lockB,CL.lockC,CL.tuck,CL.tail],gt:CLtight}], objs:[CLEATBASE(280,190,0),CLEAT(280,190,2)], lab:[{t:'prema brodu (teret)',x:16,y:350}],
    steps:[
     {s:'Prilaz bitvi',t:'Pogled odozgo. Konop dolazi od broda prema bitvi.',u:[0.8]},
     {s:'Puni okret oko podnožja',t:'Vodi konop <b>prema daljem rogu</b> i napravi <b>puni okret oko podnožja</b>, ispod oba roga.',u:[3.999],h:[{x:356,y:190,t:'ispod roga',side:'r'},{x:204,y:190,t:'ispod roga',side:'l'}]},
     {s:'Koso preko bitve',t:'Prijeđi <b>koso preko</b> bitve i provuci konop ispod suprotnog roga.',u:[7.999],h:[{x:280,y:190,t:'preko'}]},
     {s:'Koso natrag: križ',t:'Vrati se <b>koso preko</b> u drugom smjeru: na vrhu nastaje <b>križ</b> (osmica).',u:[9.999],h:[{x:280,y:190,t:'križ'}]},
-    {s:'Zaključna petlja',t:'Zaključna petlja: napravi petlju tako da je kraj <b>ispod</b>, preokreni je i natakni na rog.',u:[99],h:[{x:222,y:170,t:'kraj ispod petlje'}]}
+    {s:'Zaključna petlja',t:'Zaključna petlja: napravi petlju tako da je kraj <b>ispod</b>, preokreni je i natakni na rog.',u:[99],h:[{x:222,y:170,t:'kraj ispod petlje'}]},
+    {s:'Zategni',t:'Povuci kraj. Petlja sjedne <b>pod rog</b>, a kraj ostane ukliješten <b>ispod zadnjeg kosog dijela</b>, usporedno s prvim. Gotova bitva: dvije usporedne crte i jedna preko njih.',u:[99],tight:true,h:[{x:268,y:184,t:'kraj ispod'}]}
    ]},
 
   {id:'poluuzli',n:'Okret i dva poluuzla',en:'round turn & two half hitches',tag:'KOLUT, PRSTEN, OGRADA',
@@ -351,26 +363,28 @@
        <radialGradient id="knBg" cx=".5" cy=".42" r=".8"><stop offset="0" stop-color="#1a3144"/><stop offset="1" stop-color="#0a1522"/></radialGradient>
        <pattern id="knGrain" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M0,30 C40,26 80,34 120,30 M0,78 C40,74 80,84 120,78" stroke="#ffffff" stroke-opacity=".025" stroke-width="10" fill="none"/></pattern></defs>
        <rect width="${W}" height="${H}" fill="url(#knBg)"/><rect width="${W}" height="${H}" fill="url(#knGrain)"/>
-       <g class="knRope"></g><g class="knGh"></g><g class="knHint"></g></svg>
+       <g class="knGlow"></g><g class="knRope"></g><g class="knGh"></g><g class="knHint"></g></svg>
+     <label class="knScrub"><span>Povuci i veži sam</span><input type="range" min="0" max="100" step="1" value="0" aria-label="Tijek vezanja: povuci da provlačiš konop"></label>
      <div class="knCtl">
-       <button class="btn" data-a="first" title="Početak">⏮</button>
+       <button class="btn" data-a="first" title="Početak" aria-label="Na početak">⏮</button>
        <button class="btn" data-a="prev">◀ Nazad</button>
        <button class="btn p" data-a="play">▶ Reproduciraj</button>
        <button class="btn" data-a="next">Dalje ▶</button>
        <label class="knSpd">Brzina <select><option value="0.55">sporo</option><option value="1" selected>normalno</option><option value="1.7">brzo</option></select></label>
      </div>
      <div class="knProg"></div>
+     <p class="knLegend">Žuti trag je potez ovog koraka, plava crtkana crta sljedeći potez. Na križanju je gore onaj konop koji baca sjenu na drugi.</p>
    </div>
    <div class="knSide">
      <div class="knStepTxt" aria-live="polite"></div>
      <ol class="knSteps"></ol>
      <div class="knInfo"></div>
    </div>`;
-  const svg=$('.knSvg',b), gR=$('.knRope',b), gH=$('.knHint',b), gG=$('.knGh',b);
+  const svg=$('.knSvg',b), gR=$('.knRope',b), gH=$('.knHint',b), gG=$('.knGh',b), gW=$('.knGlow',b), scrub=$('.knScrub input',b);
   $('.knTabs',b).innerHTML=KNOTS.map(k=>`<button class="knTab" role="tab" data-id="${k.id}">${k.n}<small>${k.en}</small></button>`).join('');
 
   function prep(k){ if(k._R) return; k._R=k.ropes.map(r=>dense(r.g));
-    const tf=k.steps.find(s=>s.tight); if(tf) k._T=k._R.map(R=>tighten(R,...tf.tight)); }
+    const tf=k.steps.find(s=>s.tight); if(tf) k._T=k._R.map((R,i)=>k.ropes[i].gt?denseLike(k.ropes[i].gt,R):Array.isArray(tf.tight)?tighten(R,...tf.tight):R); }
   const target=i=>cur.steps[i].u.map((u,ri)=>lenAt(cur._R[ri],u));
   const tkOf=i=>cur.steps[i].tight?1:0;
   const geoNow=()=>tk>0&&cur._T?cur._R.map((R,i)=>mix(R,cur._T[i],tk)):cur._R;
@@ -388,19 +402,33 @@
         <text x="${lx+(r?-4:4)}" y="${h.y+4}" font-size="13" font-weight="700" fill="#ffd166" text-anchor="${r?'end':'start'}" paint-order="stroke" stroke="#0a1522" stroke-width="4">${h.t}</text></g>`; });
     gH.innerHTML=g;
     gG.innerHTML=step<cur.steps.length-1&&!cur.steps[step+1].tight?ghost(geoNow(),Ls,target(step+1)):'';
+    gW.innerHTML=step>0&&!f.tight?glow(geoNow(),target(step-1),Ls):'';
+    scrub.max=(cur.steps.length-1)*100; scrub.value=step*100;
   }
+  function glow(geo,L0,L1){ let g='';
+    geo.forEach((R,ri)=>{ if(L1[ri]-L0[ri]<4) return; const a=idxAt(R,L0[ri]), c=idxAt(R,L1[ri]); let p='';
+      for(let i=a;i<=c;i+=2) p+=R.X[i].toFixed(1)+','+R.Y[i].toFixed(1)+' ';
+      g+=`<polyline data-keep-dark="1" points="${p}" stroke="#ffb703" stroke-opacity=".75" stroke-width="${cur.ropes[ri].w+13}" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`; });
+    return g; }
+  // ručno provlačenje: p = korak + udio puta do sljedećeg koraka
+  function setPos(p){ const n=cur.steps.length-1, i=Math.min(n,Math.floor(p)), f=i<n?p-i:0, A=target(i), B=i<n?target(i+1):A;
+    if(anim){ cancelAnimationFrame(anim); anim=null; } playing=false; clearTimeout(playT);
+    Ls=A.map((a,k)=>a+(B[k]-a)*f); tk=tkOf(i)+((i<n?tkOf(i+1):tkOf(i))-tkOf(i))*f;
+    if(i!==step){ step=i; ui(); }
+    if(f<.005){ paint(false); idle(); return; }
+    paint(B.some((v,k)=>v!==A[k])); gH.innerHTML=''; gW.innerHTML=''; gG.innerHTML=cur.steps[i+1].tight?'':ghost(geoNow(),Ls,B); }
   const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
   function go(k,instant){
     k=Math.max(0,Math.min(cur.steps.length-1,k));
-    const L0=Ls.slice(), L1=target(k), t0k=tk, t1k=tkOf(k);
-    step=k; ui(); gH.innerHTML=''; gG.innerHTML='';
+    const L0=Ls.slice(), L1=target(k), t0k=tk, t1k=tkOf(k), k0=step;
+    step=k; ui(); gH.innerHTML=''; gG.innerHTML=''; gW.innerHTML='';
     if(anim) cancelAnimationFrame(anim);
     const dist=Math.max(...L1.map((v,i)=>Math.abs(v-(L0[i]??v))));
     if(instant||RM||(!dist&&t0k===t1k)){ Ls=L1; tk=t1k; paint(false); idle(); if(playing) schedule(); return; }
     // zatezanje: kratko i mekano (400 ms, ease-out); provlačenje: prema duljini puta
     const tight=t0k!==t1k&&!dist, dur=(tight?400:Math.min(4200,Math.max(700,dist*7+(t0k!==t1k?900:0))))/speed, st=performance.now();
     const tick=now=>{ const t=Math.min(1,(now-st)/dur), e=tight?1-Math.pow(1-t,3):ease(t);
-      Ls=L0.map((a,i)=>a+(L1[i]-a)*e); tk=t0k+(t1k-t0k)*e; paint(t<1&&dist>0);
+      Ls=L0.map((a,i)=>a+(L1[i]-a)*e); tk=t0k+(t1k-t0k)*e; paint(t<1&&dist>0); scrub.value=(k0+(k-k0)*e)*100;
       if(t<1) anim=requestAnimationFrame(tick); else { anim=null; Ls=L1; tk=t1k; paint(false); idle(); if(playing) schedule(); } };
     anim=requestAnimationFrame(tick);
     if(k===cur.steps.length-1 && window.VB) VB.add(5,'knot_'+cur.id);
@@ -438,6 +466,7 @@
     }
   });
   $('.knSpd select',b).addEventListener('change',e=>speed=+e.target.value);
+  scrub.addEventListener('input',()=>setPos(scrub.value/100));
   svg.setAttribute('tabindex','0');
   svg.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){go(step+1);e.preventDefault();} if(e.key==='ArrowLeft'){go(step-1);e.preventDefault();} });
   window.__KN={KNOTS,select,go};

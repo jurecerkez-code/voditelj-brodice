@@ -1,9 +1,9 @@
 // Provjera fizike simulatora pristajanja (assets/js/fizika.js), bez preglednika.
-// 1) Ponaša li se brodica kao prava: brzine, zaustavni put, krug okretanja, izboj krme, zanošenje.
+// 1) Ponaša li se brodica kao prava: brzine, zaustavni put, krug okretanja, izboj krme, zanošenje; drži li sidro.
 // 2) Može li se u svakom zadanom uvjetu pristati: kormilar iz skripte vozi samo ručicom stroja i kormilom, kao korisnik.
 import fs from 'node:fs'; import vm from 'node:vm';
 const ctx={Math}; vm.createContext(ctx);
-vm.runInContext(fs.readFileSync(new URL('../assets/js/fizika.js',import.meta.url),'utf8')+';this.BoatPhys=BoatPhys;this.DockWorld=DockWorld;',ctx);
+vm.runInContext(fs.readFileSync(new URL('../assets/js/fizika.js',import.meta.url),'utf8')+';this.BoatPhys=BoatPhys;this.DockWorld=DockWorld;this.AnchorPhys=AnchorPhys;',ctx);
 const P=ctx.BoatPhys, D=ctx.DockWorld, KN=P.KN, PPM=D.PPM, R2D=180/Math.PI, calm={cur:[0,0],wind:[0,0]};
 const wrap=a=>((a+540)%360)-180, clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 let fails=0, n=0;
@@ -24,6 +24,14 @@ check('brzina na „naprijed"',run(P.create({thr:2}),calm,60).u/KN,3.8,4.2,'čv'
 { const s=run(P.create({thr:1}),calm,30); s.thr=0; run(s,calm,4); const p=s.psi; s.rud=35; run(s,calm,5); check('kormilo u neutralu pri oko 1 čv: zakret u 5 s',s.psi-p,1,6,'°'); }
 { const env={cur:[0,0],wind:[12*KN,0]}, s=P.create({}); run(s,env,30); const g=P.ground(s,env); check('zanošenje, vjetar 12 čv u bok',Math.hypot(g[0],g[1])/KN,.15,.5,'čv'); check('pramac pada niz vjetar',s.psi,10,60,'°'); }
 { const env={cur:[0,.6*KN],wind:[0,0]}, s=P.create({}); run(s,env,20); check('struja 0,6 čv nosi brodicu koja stoji',s.y/20/KN,.59,.61,'čv'); check('struja ne okreće brodicu',Math.abs(s.psi),0,.01,'°'); }
+
+// ── sidreni lanac ──
+{ const A=ctx.AnchorPhys; let q=A.solve(6,24,A.windForce(15));
+  check('sidro, 6 m, 4 × dubina, 15 čv: lanac leži na dnu',q.lie,3,9,'m'); check('... i vuče vodoravno',q.theta,0,0,'°');
+  q=A.solve(6,24,A.windForce(30)); check('isti lanac na 30 čv: podignut, vuče prema gore',q.theta,6,12,'°');
+  check('30 čv na 6 m traži (× dubina)',A.need(6,30)/6,5,7,'×'); check('20 čv na 6 m traži (× dubina)',A.need(6,20)/6,3,4.2,'×');
+  const P=A.shape(q,60); let L=0; for(let i=1;i<P.length;i++) L+=Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]);
+  check('duljina nacrtane lančanice jednaka je ispuštenom lancu',L,23.9,24.1,'m'); check('lančanica završava na pramcu',P[P.length-1][1],6.75,6.85,'m'); }
 
 // ── 2) kormilar iz skripte ──
 function pilot(key,str,o){
