@@ -12,7 +12,7 @@
   bands.slice().reverse().forEach(bd=>{
     const off=bd[0]*scale;
     g+=`<path d="M0,${60+off} Q90,${26+off} 190,${58+off} T400,${52+off} T${W},${70+off}" fill="none" stroke="${bd[3]}" stroke-width="2" stroke-dasharray="7 5" opacity=".9"/>`;
-    g+=`<text x="${W-10}" y="${66+off}" text-anchor="end" font-size="11.5" fill="${bd[3]}" font-weight="800" paint-order="stroke" stroke="#0e3350" stroke-width="4">${bd[1]}: ${bd[2]}</text>`;
+    g+=`<text x="${W-10}" y="${66+off}" text-anchor="end" font-size="11.5" fill="${bd[3]}" font-weight="600" paint-order="stroke" stroke="#0e3350" stroke-width="4">${bd[1]}: ${bd[2]}</text>`;
   });
   // V3-AREA: mjerilo udaljenosti od obale u istom mjerilu kao pojasevi (7,5 px = 1 Nm)
   { const x=96, y0=41; // obala kod x≈96
@@ -20,8 +20,8 @@
     [[0,'0'],[1,'1'],[3,'3'],[6,'6'],[12,'12'],[20,'20']].forEach(([n,t])=>{ const y=y0+n*scale, L=n===0; // 0 lijevo od crte, da se ne preklopi s 1
       g+=`<line x1="${x-5}" y1="${y}" x2="${x+5}" y2="${y}" stroke="#e6eef5" stroke-width="1.4"/><text x="${L?x-9:x+9}" y="${y+4}"${L?' text-anchor="end"':''} font-size="10" fill="#e6eef5" font-family="var(--mono)" paint-order="stroke" stroke="#0e3350" stroke-width="3">${t}</text>`; });
     g+=`<text x="${x+34}" y="${y0+20*scale+18}" font-size="10.5" fill="${C.txt2}">Nm od obale (u mjerilu)</text>`; }
-  g+=`<text x="10" y="${H-12}" font-size="11.5" fill="${C.txt2}"><tspan font-weight="800" fill="${C.txt}">I</tspan> = bez ograničenja,  <tspan font-weight="800" fill="${C.txt}">IV</tspan> = luke, zaljevi, ušća rijeka</text>`;
-  g+=`<text x="14" y="30" font-size="12" fill="#5a4508" font-weight="800">KOPNO / OTOK</text>`;
+  g+=`<text x="10" y="${H-12}" font-size="11.5" fill="${C.txt2}"><tspan font-weight="600" fill="${C.txt}">I</tspan> = bez ograničenja,  <tspan font-weight="600" fill="${C.txt}">IV</tspan> = luke, zaljevi, ušća rijeka</text>`;
+  g+=`<text x="14" y="30" font-size="12" fill="#5a4508" font-weight="600">KOPNO / OTOK</text>`;
   b.innerHTML=SVG(W,H,g);
 })();
 
@@ -40,7 +40,7 @@
   types.forEach((t,i)=>{
     const x=40+(i%3)*220, y=48+Math.floor(i/3)*118;
     g+=`<g transform="translate(${x},${y})"><path d="${t[2]}" fill="#1d3a52" stroke="#5b8bab" stroke-width="2"/></g>`;
-    g+=`<text x="${x+39}" y="${y+42}" text-anchor="middle" font-size="13" font-weight="800" fill="${C.txt}">${t[0]}</text>`;
+    g+=`<text x="${x+39}" y="${y+42}" text-anchor="middle" font-size="13" font-weight="600" fill="${C.txt}">${t[0]}</text>`;
     g+=`<text x="${x+39}" y="${y+58}" text-anchor="middle" font-size="10.5" fill="${C.txt2}">${t[1]}</text>`;
   });
   b.innerHTML=SVG(700,240,g);
@@ -108,10 +108,10 @@ const WINDS=[
         g+=`<line x1="${bx}" y1="${by}" x2="${bx+px*L+ux*L*.55}" y2="${by+py*L+uy*L*.55}" stroke="${w.c}" stroke-width="${on?2.4:1.8}" opacity="${op}" stroke-linecap="round"/>`; }
       const lx=c+ux*(R+2), ly=c+uy*(R+2);
       g+=`<circle class="wdot" data-d="${w.d}" cx="${lx}" cy="${ly}" r="15" fill="${on?w.c:'#132738'}" stroke="${w.c}" stroke-width="2" style="cursor:pointer"/>`;
-      g+=`<text x="${lx}" y="${ly+4}" text-anchor="middle" font-size="10.5" font-weight="800" fill="${on?'#06121c':w.c}" style="pointer-events:none">${w.dir}</text>`;
+      g+=`<text x="${lx}" y="${ly+4}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${on?'#06121c':w.c}" style="pointer-events:none">${w.dir}</text>`;
     });
     g+=`<text x="${c}" y="${c-8}" text-anchor="middle" paint-order="stroke" stroke="#0b1a28" stroke-width="4" stroke-linejoin="round" font-size="12" fill="${C.txt2}">vjetar puše</text>`;
-    g+=`<text x="${c}" y="${c+8}" text-anchor="middle" paint-order="stroke" stroke="#0b1a28" stroke-width="4" stroke-linejoin="round" font-size="12" font-weight="800" fill="${C.acc}">IZ smjera pernatica</text>`;
+    g+=`<text x="${c}" y="${c+8}" text-anchor="middle" paint-order="stroke" stroke="#0b1a28" stroke-width="4" stroke-linejoin="round" font-size="12" font-weight="600" fill="${C.acc}">IZ smjera pernatica</text>`;
     g+=`<text x="${c}" y="${c+24}" text-anchor="middle" paint-order="stroke" stroke="#0b1a28" stroke-width="4" stroke-linejoin="round" font-size="10" fill="${C.txt2}">strelica: kamo zrak ide</text>`;
     $('.wRose',b).innerHTML=SVG(S,S,g,'class="wSvg" role="img" aria-label="Ruža vjetrova"');
     $$('.wdot',b).forEach(d=>d.addEventListener('click',()=>pick(+d.dataset.d)));

@@ -434,7 +434,7 @@
   function labels(geo){ let g='';
     (cur.lab||[]).forEach(l=> g+=`<text x="${l.x}" y="${l.y}" font-size="12" fill="#9fb6c9" paint-order="stroke" stroke="#0a1522" stroke-width="4">${l.t}</text>`);
     geo.forEach((R,ri)=>{ const lb=cur.ropes[ri].tip; if(lb===null) return; const n=idxAt(R,Ls[ri]); if(n<1) return;
-      const rp=cur.ropes[ri]; g+=`<text x="${(R.X[n]-14+(rp.tipDx||0)).toFixed(1)}" y="${(R.Y[n]+20+(rp.tipDy||0)).toFixed(1)}" text-anchor="end" font-size="11.5" fill="#ffb4a8" font-weight="700" paint-order="stroke" stroke="#0a1522" stroke-width="4">${lb||'radni kraj'}</text>`; });
+      const rp=cur.ropes[ri]; g+=`<text x="${(R.X[n]-14+(rp.tipDx||0)).toFixed(1)}" y="${(R.Y[n]+20+(rp.tipDy||0)).toFixed(1)}" text-anchor="end" font-size="11.5" fill="#ffb4a8" font-weight="600" paint-order="stroke" stroke="#0a1522" stroke-width="4">${lb||'radni kraj'}</text>`; });
     return g; }
   function paint(moving){ const geo=geoNow(); gR.innerHTML=render(geo,Ls,moving)+labels(geo); }
   function idle(){ // savjeti i isprekidani prikaz idućeg poteza
@@ -442,7 +442,7 @@
     (f.h||[]).forEach(h=>{ const r=h.side?h.side==="l":h.x>W*.6, lx=h.x+(r?-20:20);
       g+=`<g class="knH"><circle cx="${h.x}" cy="${h.y}" r="11" fill="none" stroke="#ffd166" stroke-width="2.2"/>
         <line x1="${h.x+(r?-11:11)}" y1="${h.y}" x2="${lx}" y2="${h.y}" stroke="#ffd166" stroke-width="1.6"/>
-        <text x="${lx+(r?-4:4)}" y="${h.y+4}" font-size="13" font-weight="700" fill="#ffd166" text-anchor="${r?'end':'start'}" paint-order="stroke" stroke="#0a1522" stroke-width="4">${h.t}</text></g>`; });
+        <text x="${lx+(r?-4:4)}" y="${h.y+4}" font-size="13" font-weight="600" fill="#ffd166" text-anchor="${r?'end':'start'}" paint-order="stroke" stroke="#0a1522" stroke-width="4">${h.t}</text></g>`; });
     gH.innerHTML=g;
     gG.innerHTML=step<cur.steps.length-1&&!cur.steps[step+1].tight?ghost(geoNow(),Ls,target(step+1)):'';
     gW.innerHTML=step>0&&!f.tight?glow(geoNow(),target(step-1),Ls):'';

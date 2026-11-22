@@ -99,7 +99,7 @@
      d:'Zvučni signal pogibelji: pojedinačna pucnjava iz vatrenog oružja <b>u razmacima od jedne minute</b>.',
      svg:()=>day()+sea(0)+boat(80)+`<g class="dsBang"><path d="M128,${SEA-44} l4,8 l9,-3 l-5,8 l8,5 l-9,1 l1,9 l-6,-7 l-6,7 l1,-9 l-9,-1 l8,-5 l-5,-8 l9,3 z" fill="#ffd166" stroke="#e8801a" stroke-width=".8"/></g>
        <rect x="24" y="${H-19}" width="172" height="16" rx="8" fill="#050d18" opacity=".7"/>`+[46,110,174].map(x=>`<path d="M${x},${H-16} l2,4 l4,-1 l-2,4 l4,2 l-4,1 l1,4 l-3,-3 l-3,3 l1,-4 l-4,-1 l4,-2 l-2,-4 l4,1 z" fill="#ffd166"/>`).join('')+
-       [78,142].map(x=>`<text x="${x}" y="${H-7.5}" font-size="8.5" fill="#e6eef5" text-anchor="middle" font-weight="700">1 min</text>`).join('')}
+       [78,142].map(x=>`<text x="${x}" y="${H-7.5}" font-size="8.5" fill="#e6eef5" text-anchor="middle" font-weight="600">1 min</text>`).join('')}
   ];
   const scene=(s,h)=>`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${s.n}" class="dsSvg" style="${h?'height:'+h+'px':''}">${s.svg()}</svg>`;
 

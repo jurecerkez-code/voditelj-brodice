@@ -52,7 +52,7 @@
         g+=`<path d="M${f1(L[0]-n[0])},${f1(L[1]-n[1])} L${f1(p[0]-n[0])},${f1(p[1]-n[1])} M${f1(L[0]+n[0])},${f1(L[1]+n[1])} L${f1(p[0]+n[0])},${f1(p[1]+n[1])}" stroke="#444" stroke-width=".8" stroke-dasharray="6 4"/>`; }
       else g+=`<path d="M${L[0]},${L[1]} L${f1(p[0])},${f1(p[1])}" stroke="#555" stroke-width=".7"/>`; }); });
     e.sec.forEach(s=>{ if(s[0]!=='P') g+=`<path d="${arc(s,56)}" stroke="${COLA[s[0]]}" stroke-width="6" fill="none" stroke-linecap="butt" opacity=".9"/>`;
-      const m=pt((s[1]+s[2])/2,68); g+=`<text x="${f1(m[0])}" y="${f1(m[1]+4)}" font-size="11" font-weight="800" fill="${s[0]==='P'?'#444':COLA[s[0]]}" text-anchor="middle" paint-order="stroke" stroke="#f4f7f5" stroke-width="3">${s[0]==='P'?'Pot':s[0]}</text>`; });
+      const m=pt((s[1]+s[2])/2,68); g+=`<text x="${f1(m[0])}" y="${f1(m[1]+4)}" font-size="11" font-weight="600" fill="${s[0]==='P'?'#444':COLA[s[0]]}" text-anchor="middle" paint-order="stroke" stroke="#f4f7f5" stroke-width="3">${s[0]==='P'?'Pot':s[0]}</text>`; });
     // hridi (križić s točkastim krugom)
     (e.rocks||[]).forEach(([br,d])=>{ const p=pt(br,d); g+=`<g transform="translate(${f1(p[0])},${f1(p[1])})"><circle r="9" fill="none" stroke="#333" stroke-width=".8" stroke-dasharray="1.5 2"/><path d="M-4,0 H4 M0,-4 V4" stroke="#222" stroke-width="1.4"/></g>`; });
     if(e.islet){ const p=pt(e.islet[0],e.islet[1]); g+=`<path d="M${f1(p[0]-16)},${f1(p[1]+2)} C${f1(p[0]-14)},${f1(p[1]-10)} ${f1(p[0]+8)},${f1(p[1]-12)} ${f1(p[0]+15)},${f1(p[1]-2)} C${f1(p[0]+17)},${f1(p[1]+8)} ${f1(p[0]-6)},${f1(p[1]+12)} ${f1(p[0]-16)},${f1(p[1]+2)} Z" fill="url(#slLand)" stroke="#8a7432" stroke-width="1"/><text x="${f1(p[0]-22)}" y="${f1(p[1]+4)}" font-size="9" fill="#6b5a22" font-style="italic" text-anchor="end">hrid Mala</text>`; }
@@ -61,12 +61,12 @@
     // svjetionik: kartografski znak (točka + magenta bljesak), jezgra i halo za bljeskanje
     g+=`<g class="slFlash" opacity="0"><circle cx="${L[0]}" cy="${L[1]}" r="46" fill="url(#slHalo)"/></g>`;
     g+=`<circle cx="${L[0]}" cy="${L[1]}" r="3.2" fill="#222"/><path d="M${L[0]},${L[1]} L${L[0]-7},${L[1]+20} A21,21 0 0 0 ${L[0]+7},${L[1]+20} Z" fill="#c2185b" opacity=".75"/>`;
-    g+=`<text x="${L[0]+12}" y="${L[1]-8}" font-size="10.5" fill="#222" font-weight="700">${e.ch}</text>`;
+    g+=`<text x="${L[0]+12}" y="${L[1]-8}" font-size="10.5" fill="#222" font-weight="600">${e.ch}</text>`;
     // brodovi na pozicijama
     e.pos.forEach(([id,br,d])=>{ const p=pt(br,d), a=ans[id];
       if(a) g+=`<path d="M${f1(p[0])},${f1(p[1])} L${L[0]},${L[1]}" stroke="${COLA[a.c]}" stroke-width="1.4" stroke-dasharray="4 3" opacity=".8"/>`;
       g+=`<g transform="translate(${f1(p[0])},${f1(p[1])}) rotate(${(br+180)%360})"><path d="M0,-9 C4,-6 4.5,2 3.5,8 L-3.5,8 C-4.5,2 -4,-6 0,-9 Z" fill="#2a4a66" stroke="#0d1e2c" stroke-width=".8"/></g>
-        <circle cx="${f1(p[0]+14)}" cy="${f1(p[1]-12)}" r="9" fill="${a?(a.ok?'#25c26a':'#ef4a5a'):'#0e3350'}" stroke="#fff" stroke-width="1.2"/><text x="${f1(p[0]+14)}" y="${f1(p[1]-8.5)}" font-size="10.5" fill="#fff" font-weight="800" text-anchor="middle">${id}</text>`; });
+        <circle cx="${f1(p[0]+14)}" cy="${f1(p[1]-12)}" r="9" fill="${a?(a.ok?'#25c26a':'#ef4a5a'):'#0e3350'}" stroke="#fff" stroke-width="1.2"/><text x="${f1(p[0]+14)}" y="${f1(p[1]-8.5)}" font-size="10.5" fill="#fff" font-weight="600" text-anchor="middle">${id}</text>`; });
     g+=`</g><rect x=".5" y=".5" width="${W-1}" height="${H-1}" fill="none" stroke="#222"/>`;
     g+=`<text x="${W-8}" y="${H-8}" font-size="9" fill="#555" text-anchor="end">Vježbovna karta, izmišljeno područje</text>`;
     return g;

@@ -51,9 +51,9 @@ const SIM={
         g+=`<g transform="translate(${sx+(bx-sx)*bt},${sy+(by-sy)*bt})"><circle r="6" fill="none" stroke="#ff7a1a" stroke-width="3.2"/><circle r="6" fill="none" stroke="#fff" stroke-width="3.2" stroke-dasharray="2.4 4.3"/></g>`; }
       if(k>=3) g+=`<line x1="${p.x}" y1="${p.y}" x2="${pr[0]}" y2="${pr[1]}" stroke="#ffd166" stroke-width="1" stroke-dasharray="4 4" opacity=".7"/>`;
       g+=`<g transform="translate(${pr[0]},${pr[1]})"><circle r="9" fill="none" stroke="#e6eef5" stroke-width=".8" opacity=".5"><animate attributeName="r" values="6;13;6" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;0;.6" dur="2.4s" repeatCount="indefinite"/></circle><g class="mobP"><path d="M-7,1 L-3,-1 M7,1 L3,-1" stroke="#34536f" stroke-width="1.8" stroke-linecap="round"/><path d="M-4.2,-1.6 Q0,-4.4 4.2,-1.6 L3.6,3.6 Q0,5 -3.6,3.6 Z" fill="#ff7a1a" stroke="#8a3a08" stroke-width=".6"/><path d="M-3.9,1.2 L3.9,1.2" stroke="#fff" stroke-width=".8"/><circle cy="-1.9" r="2.1" fill="#e2ae84"/><path d="M-2.1,-2.1 A2.1,2.1 0 0 1 2.1,-2.1 Z" fill="#3a2618"/></g></g>`; // v4: osoba u moru u narančastoj životnoj jakni s reflektirajućom trakom
-      if(k===1) g+=`<text x="${pr[0]+12}" y="${pr[1]+4}" font-size="8" font-weight="700" fill="#ffd166">čovjek u moru</text>`; }
+      if(k===1) g+=`<text x="${pr[0]+12}" y="${pr[1]+4}" font-size="8" font-weight="600" fill="#ffd166">čovjek u moru</text>`; }
     g+=SIM.boat(p.x,p.y,p.h,{rud:p.rud,prop:p.thr>0?1:0});
-    if(k===2){ const q=at(Math.max(FALL,s-26)); g+=`<text x="${p.x-70}" y="${p.y+30}" font-size="8" fill="#ffd166" font-weight="700">krma bježi od osobe</text>`; }
+    if(k===2){ const q=at(Math.max(FALL,s-26)); g+=`<text x="${p.x-70}" y="${p.y+30}" font-size="8" fill="#ffd166" font-weight="600">krma bježi od osobe</text>`; }
     dyn.innerHTML=g;
     $('.mRud',b).textContent=p.rud>28?'sve DESNO':p.rud>4?'desno':p.rud<-4?'lijevo':'ravno'; const eng=p.thr>1?'NAPRIJED':p.thr>0?'POLAKO':'NEUTRAL';
     $('.mEng',b).textContent=eng; $('.mEng',b).classList.toggle('n',eng==='NEUTRAL');
@@ -121,7 +121,7 @@ const SIM={
     const k=kick(), x0=W/2+(side==='L'?60:-60), y0=70, L=230;
     const ghost=`<g data-keep-dark="1" opacity=".55"><line x1="${x0}" y1="${y0+30}" x2="${x0}" y2="${y0+L+40}" stroke="#7b828c" stroke-width="1.5" stroke-dasharray="6 5"/>`+
       `<text x="${x0+(k>0?10:-10)}" y="${y0+L+34}" text-anchor="${k>0?'start':'end'}" font-size="12" fill="#4a5360">bez izboja: ravno natrag</text></g>`;
-    const labels=(x,y,h)=>`<g data-keep-dark="1" transform="translate(${x},${y}) rotate(${h})"><text y="-40" text-anchor="middle" font-size="11" font-weight="700" fill="#1c2430">PRAMAC</text><text y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#1c2430">KRMA</text></g>`;
+    const labels=(x,y,h)=>`<g data-keep-dark="1" transform="translate(${x},${y}) rotate(${h})"><text y="-40" text-anchor="middle" font-size="11" font-weight="600" fill="#1c2430">PRAMAC</text><text y="52" text-anchor="middle" font-size="11" font-weight="600" fill="#1c2430">KRMA</text></g>`;
     const back=(x,y)=>`<g data-keep-dark="1"><path d="M${x},${y+58} v34" stroke="#1f4e79" stroke-width="2.4" marker-end="url(#rvA)"/><text x="${x+10}" y="${y+84}" font-size="12" fill="#1f4e79">stroj KRMOM: brodica ide unatrag</text>`+
       `<defs><marker id="rvA" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1f4e79"/></marker><marker id="rvK" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#b3261e"/></marker></defs></g>`;
     let trail=[];
@@ -180,9 +180,9 @@ const SIM={
     if(st.drop!=null||st.g){ const th=st.g&&st.final?Math.min(40,st.g.theta):0, rot=(st.drop!=null&&!st.g)?0:-78+st.dig*62+th;
       g+=`<g data-keep-dark="1" transform="translate(${ax},${(ay-2+st.dig*3).toFixed(1)}) rotate(${rot.toFixed(1)})"><path d="M0,-16 v22 M-12,2 q12,14 24,0 M-7,-14 h14" stroke="#1d2b36" stroke-width="5.4" fill="none" stroke-linecap="round"/><circle cy="-19" r="3.5" fill="none" stroke="#1d2b36" stroke-width="4.8"/><path d="M0,-16 v22 M-12,2 q12,14 24,0 M-7,-14 h14" stroke="#e6eef5" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cy="-19" r="3.5" fill="none" stroke="#e6eef5" stroke-width="2"/></g>`; }
     // dubina
-    g+=`<path d="M${W-26},${SEA} h12 M${W-20},${SEA} V${bed.toFixed(1)} M${W-26},${bed.toFixed(1)} h12" stroke="#39b8e8" stroke-width="1.4" fill="none"/><text transform="translate(${W-6},${((SEA+bed)/2).toFixed(1)}) rotate(-90)" font-size="${fs(12)}" font-weight="800" fill="#39b8e8" text-anchor="middle">${sm?'':'dubina '}${D} m</text>`;
+    g+=`<path d="M${W-26},${SEA} h12 M${W-20},${SEA} V${bed.toFixed(1)} M${W-26},${bed.toFixed(1)} h12" stroke="#39b8e8" stroke-width="1.4" fill="none"/><text transform="translate(${W-6},${((SEA+bed)/2).toFixed(1)}) rotate(-90)" font-size="${fs(12)}" font-weight="600" fill="#39b8e8" text-anchor="middle">${sm?'':'dubina '}${D} m</text>`;
     if(st.final&&st.g){ const q=st.g, ok=q.theta<=1, mid=q.theta<8, col=ok?'#14532d':mid?'#7a4a00':'#8a1c1c', my=Math.min(H-10,bed+30);
-      g+=`<g data-keep-dark="1"><text x="${XA+6}" y="${Math.min(H-8,bed+16+14*fk)}" font-size="${fs(13)}" font-weight="800" fill="${col}" text-anchor="end">${ok?`drži, na dnu leži ${num(q.lie)} m${sm?'':' lanca'}`:mid?`na granici, ${sm?'':'lanac vuče '}pod ${num(q.theta,0)}°`:`ore, ${sm?'vuče gore':'lanac vuče prema gore'} pod ${num(q.theta,0)}°`}</text>
+      g+=`<g data-keep-dark="1"><text x="${XA+6}" y="${Math.min(H-8,bed+16+14*fk)}" font-size="${fs(13)}" font-weight="600" fill="${col}" text-anchor="end">${ok?`drži, na dnu leži ${num(q.lie)} m${sm?'':' lanca'}`:mid?`na granici, ${sm?'':'lanac vuče '}pod ${num(q.theta,0)}°`:`ore, ${sm?'vuče gore':'lanac vuče prema gore'} pod ${num(q.theta,0)}°`}</text>
 </g><path d="M${(bowX-len).toFixed(1)},${SEA-dk-16} v-7 M${(bowX-len).toFixed(1)},${SEA-dk-19.5} H${XA} M${XA},${SEA-dk-16} v-7" stroke="#9fb6c9" stroke-width="1.5" fill="none"/>
         <text x="${XA}" y="${SEA-dk-25}" text-anchor="end" font-size="${fs(11.5)}" fill="#9fb6c9">${sm?'krug':'krug zakretanja: polumjer'} ${Math.round(st.X+A.B.len)} m${sm?'':' oko sidra'}</text>`; }
     dyn.innerHTML=g; }
@@ -302,11 +302,11 @@ const SIM={
   function tri(){ const sides=[['g','GORIVO',[40,190],[220,190]],['k','KISIK',[40,190],[130,30]],['t','TOPLINA',[130,30],[220,190]]];
     let g=''; sides.forEach(([k,n,a,c])=>{ const on=!off[k], mx=(a[0]+c[0])/2, my=(a[1]+c[1])/2;
       g+=`<line x1="${a[0]}" y1="${a[1]}" x2="${c[0]}" y2="${c[1]}" stroke="${on?'#f5c542':'#3a4a58'}" stroke-width="7" stroke-linecap="round" ${on?'':'stroke-dasharray="4 10"'}/>`;
-      g+=`<text x="${mx+(k==='g'?0:k==='k'?-34:34)}" y="${my+(k==='g'?24:0)}" text-anchor="middle" font-size="12" font-weight="800" fill="${on?'#f5c542':'#6d8ba3'}">${n}</text>`; });
+      g+=`<text x="${mx+(k==='g'?0:k==='k'?-34:34)}" y="${my+(k==='g'?24:0)}" text-anchor="middle" font-size="12" font-weight="600" fill="${on?'#f5c542':'#6d8ba3'}">${n}</text>`; });
     $('.frSides',b).innerHTML=g;
     const alive=!off.g&&!off.k&&!off.t;
     $('.frFlame',b).innerHTML=alive?`<path d="M0,-58 C18,-34 30,-18 22,4 C16,20 -16,20 -22,4 C-30,-18 -8,-30 0,-58 Z" fill="#ff7a1a" class="fl1"/><path d="M0,-30 C9,-18 14,-8 10,4 C6,12 -6,12 -10,4 C-14,-8 -4,-16 0,-30 Z" fill="#ffd166" class="fl2"/>`
-      :`<path d="M-6,4 C-10,-8 4,-14 0,-26 M6,2 C10,-10 -2,-18 4,-32" stroke="#6d8ba3" stroke-width="2.5" fill="none" opacity=".7" class="smk"/><text y="30" text-anchor="middle" font-size="12" fill="#b8f0cf" font-weight="700">ugašeno</text>`; }
+      :`<path d="M-6,4 C-10,-8 4,-14 0,-26 M6,2 C10,-10 -2,-18 4,-32" stroke="#6d8ba3" stroke-width="2.5" fill="none" opacity=".7" class="smk"/><text y="30" text-anchor="middle" font-size="12" fill="#b8f0cf" font-weight="600">ugašeno</text>`; }
   $('.frBtns',b).addEventListener('click',e=>{ const x=e.target.closest('button')?.dataset.x; if(!x) return; if(x==='r') off={g:0,k:0,t:0}; else off[x]=1; tri(); });
   function scen(){ const s=SC[si]; first=true; $('.frScen',b).innerHTML=`<span class="phSum">Požar ${si+1} / ${SC.length}</span><b>${s.t}</b><br>Čime gasiš?`; $('.frFb',b).innerHTML='';
     $$('.frAg .ordItem',b).forEach(x=>{ x.disabled=false; x.className='ordItem'; }); }

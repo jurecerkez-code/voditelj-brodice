@@ -89,7 +89,7 @@ const IALA_DEFS = (function(){
     IALA_DEFS.forEach(m=>{
       h+=`<div class="card tight ialaCard" data-id="${m.id}" style="cursor:pointer;text-align:center">
         ${SVG(70,160,`<g transform="translate(35,88)">${m.svg}</g>`,'style="height:150px"')}
-        <div style="font-size:12px;font-weight:700;margin-top:4px">${m.short}</div></div>`;
+        <div style="font-size:13px;font-weight:600;margin-top:4px">${m.short}</div></div>`;
     });
     h+='</div><div id="ialaDet"></div>';
     box.innerHTML=h;
@@ -102,7 +102,7 @@ const IALA_DEFS = (function(){
   function ask(){
     cur=rnd(IALA_DEFS);
     const opts=shuffle([cur].concat(shuffle(IALA_DEFS.filter(x=>x.id!==cur.id)).slice(0,3)));
-    let h=`<div class="split"><div class="svgbox">${SVG(120,220,`<g transform="translate(60,120)">${cur.svg}</g>`,'style="height:220px"')}</div><div><p style="font-weight:700;font-size:17px">Koja je ovo oznaka?</p>`;
+    let h=`<div class="split"><div class="svgbox">${SVG(120,220,`<g transform="translate(60,120)">${cur.svg}</g>`,'style="height:220px"')}</div><div><p style="font-weight:600;font-size:17px">Koja je ovo oznaka?</p>`;
     opts.forEach(o=> h+=`<button class="opt ialaOpt" data-id="${o.id}">${o.name}</button>`);
     h+='</div></div><div id="ialaDet"></div>';
     box.innerHTML=h;
@@ -135,7 +135,7 @@ function markStrip(target, ids, extra){
   ids.forEach((id,i)=>{
     const m=IALA_DEFS.find(x=>x.id===id);
     g+=`<g transform="translate(${65+i*130},130)">${m.svg}</g>`;
-    g+=`<text x="${65+i*130}" y="215" text-anchor="middle" font-size="12" fill="${C.txt}" font-weight="700">${m.short}</text>`;
+    g+=`<text x="${65+i*130}" y="215" text-anchor="middle" font-size="12" fill="${C.txt}" font-weight="600">${m.short}</text>`;
   });
   b.innerHTML=SVG(W,228,(extra||'')+g);
 }
@@ -191,9 +191,9 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
   // udaljeni par (manji), bliži par (veći)
   g+=mark(262,128,.42,true,.6)+mark(418,128,.42,false,.6);
   g+=mark(150,212,.95,true,0)+mark(530,212,.95,false,0);
-  g+=`<text x="150" y="258" text-anchor="middle" font-size="13" fill="${C.red}" font-weight="800" paint-order="stroke" stroke="#0b2a44" stroke-width="3">CRVENA, lijevo, valjak</text>
+  g+=`<text x="150" y="258" text-anchor="middle" font-size="13" fill="${C.red}" font-weight="600" paint-order="stroke" stroke="#0b2a44" stroke-width="3">CRVENA, lijevo, valjak</text>
       <text x="150" y="274" text-anchor="middle" font-size="11" fill="#ffb4b0" font-family="var(--mono)">C Bl 4s</text>
-      <text x="530" y="258" text-anchor="middle" font-size="13" fill="${C.green}" font-weight="800" paint-order="stroke" stroke="#0b2a44" stroke-width="3">ZELENA, desno, čunj</text>
+      <text x="530" y="258" text-anchor="middle" font-size="13" fill="${C.green}" font-weight="600" paint-order="stroke" stroke="#0b2a44" stroke-width="3">ZELENA, desno, čunj</text>
       <text x="530" y="274" text-anchor="middle" font-size="11" fill="#b4f5cf" font-family="var(--mono)">Z Bl 4s</text>`;
   // brodica (<12 m) odozgo-straga: trag pjene, sveokružno bijelo + crveno lijevo + zeleno desno
   g+=`<g transform="translate(340,226)">
@@ -205,6 +205,6 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
       <circle cx="-11.5" cy="-8" r="7" fill="url(#lwHR)"/><circle cx="-11.5" cy="-8" r="2" fill="#ffd2cf"/>
       <circle cx="11.5" cy="-8" r="7" fill="url(#lwHG)"/><circle cx="11.5" cy="-8" r="2" fill="#d4ffe6"/>
       <circle cx="0" cy="-16" r="8" fill="url(#lwHW)"/><circle cx="0" cy="-16" r="2.2" fill="#fff"/></g>`;
-  g+=`<text x="${W/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="${C.acc}" font-weight="700" paint-order="stroke" stroke="#0b2a44" stroke-width="3">▲ SMJER UPLOVLJAVANJA (s mora prema luci)</text>`;
+  g+=`<text x="${W/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="${C.acc}" font-weight="600" paint-order="stroke" stroke="#0b2a44" stroke-width="3">▲ SMJER UPLOVLJAVANJA (s mora prema luci)</text>`;
   b.innerHTML=SVG(W,H,g,'class="lwSvg" role="img" aria-label="Lateralne oznake pri uplovljavanju: crvena lijevo, zelena desno"');
 })();

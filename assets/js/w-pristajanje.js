@@ -52,16 +52,16 @@
     const by=(BERTH[0]+BERTH[1])/2;
     g+=`<rect x="${QX}" y="${BERTH[0]}" width="44" height="${BERTH[1]-BERTH[0]}" fill="#ffd166" opacity=".1" stroke="#ffd166" stroke-dasharray="6 5" stroke-opacity=".8"/>
       <g opacity=".32">${SIM.boat(QX+15,by,E.into||0,{s:1.6,fill:'#ffd166'})}</g>
-      <text x="${QX+52}" y="${by+5*fk}" font-size="${fs(15)}" fill="#ffd166" font-weight="800">VEZ</text>
-      <text x="${QX+12}" y="${8+14*fk}" font-size="${fs(12)}" fill="#9fb6c9" font-weight="700">N ↑</text>
+      <text x="${QX+52}" y="${by+5*fk}" font-size="${fs(15)}" fill="#ffd166" font-weight="600">VEZ</text>
+      <text x="${QX+12}" y="${8+14*fk}" font-size="${fs(12)}" fill="#9fb6c9" font-weight="600">N ↑</text>
       <g transform="translate(${W-124},${H-16})"><path d="M0,-5 V0 H${10*PPM} V-5" fill="none" stroke="#9fb6c9" stroke-width="1.5"/><text x="${5*PPM}" y="-7" text-anchor="middle" font-size="${fs(11)}" fill="#9fb6c9">10 m</text></g>`;
     if(E.wind[0]||E.wind[1]){ const L=30+S.wind*1.6;
-      g+=`<g>${arrow(W-78,70,E.wind[0],E.wind[1],L,'#f5c542',3.4)}<text x="${W-78}" y="${E.wind[1]?74:70-L/2-12}" dx="${E.wind[1]?-14:0}" text-anchor="${E.wind[1]?'end':'middle'}" font-size="${fs(14)}" fill="#f5c542" font-weight="800">VJETAR ${S.wind} čv</text></g>`; }
+      g+=`<g>${arrow(W-78,70,E.wind[0],E.wind[1],L,'#f5c542',3.4)}<text x="${W-78}" y="${E.wind[1]?74:70-L/2-12}" dx="${E.wind[1]?-14:0}" text-anchor="${E.wind[1]?'end':'middle'}" font-size="${fs(14)}" fill="#f5c542" font-weight="600">VJETAR ${S.wind} čv</text></g>`; }
     base.innerHTML=g; }
   function drawFlow(){ const E=ENV[env], S=STR[str]; if(!E.cur[1]){ if(flow.innerHTML) flow.innerHTML=''; return; } const fk=fitText(base.ownerSVGElement,W);
     const dir=E.cur[1], off=RM?0:(t*dir*S.cur*KN*PPM)%40;
     let g=''; for(let x=210;x<W;x+=90) g+=`<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="#7fd8f7" stroke-width="1.4" stroke-dasharray="10 30" stroke-dashoffset="${(-off).toFixed(1)}" opacity=".4"/>`;
-    g+=`<g>${arrow(W-60,H/2,0,dir,30+S.cur*26,'#7fd8f7',3.4)}<text x="${W-74}" y="${H/2+5}" text-anchor="end" font-size="${(14*fk).toFixed(1)}" fill="#7fd8f7" font-weight="800">STRUJA ${num(S.cur)} čv</text></g>`;
+    g+=`<g>${arrow(W-60,H/2,0,dir,30+S.cur*26,'#7fd8f7',3.4)}<text x="${W-74}" y="${H/2+5}" text-anchor="end" font-size="${(14*fk).toFixed(1)}" fill="#7fd8f7" font-weight="600">STRUJA ${num(S.cur)} čv</text></g>`;
     flow.innerHTML=g; }
   // gdje će brodica biti za 10 s ako ništa ne diraš: ista fizika, bez sudara
   function predict(){ const p=Object.assign({},w.s); let pts=''; for(let i=0;i<20;i++){ BoatPhys.step(p,w.env,.5); pts+=(p.x*PPM).toFixed(1)+','+(p.y*PPM).toFixed(1)+' '; }

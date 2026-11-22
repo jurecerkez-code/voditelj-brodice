@@ -63,7 +63,7 @@ const COLREG=[
       ${extra}
       <circle cx="-10.5" cy="-4" r="5" fill="url(#crGR)"/><circle cx="-10.5" cy="-4" r="1.8" fill="var(--sig-red)"/>
       <circle cx="10.5" cy="-4" r="5" fill="url(#crGG)"/><circle cx="10.5" cy="-4" r="1.8" fill="var(--sig-green)"/></g></g>
-      <text x="${x}" y="${y+(type==='big'?42:34)}" text-anchor="middle" font-size="12" font-weight="800" fill="${c}" paint-order="stroke" stroke="#0b2135" stroke-width="3"${lab}>${label}</text>`;
+      <text x="${x}" y="${y+(type==='big'?42:34)}" text-anchor="middle" font-size="12" font-weight="600" fill="${c}" paint-order="stroke" stroke="#0b2135" stroke-width="3"${lab}>${label}</text>`;
   }
   function arrow(x1,y1,x2,y2,col,dash){
     return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="2" stroke-dasharray="${dash||'0'}" marker-end="url(#ah)"/>`;
@@ -86,10 +86,10 @@ const COLREG=[
     { const rr=Math.min(W,H)/2-8, cx=W/2, cy=H/2; g+=`<circle cx="${cx}" cy="${cy}" r="${rr}" fill="none" stroke="#2d5578" stroke-width="1" opacity=".8"/>`;
       for(let d=0;d<360;d+=10){ const q=d*Math.PI/180, r1=rr-(d%90?5:11); g+=`<line x1="${(cx+Math.sin(q)*r1).toFixed(1)}" y1="${(cy-Math.cos(q)*r1).toFixed(1)}" x2="${(cx+Math.sin(q)*rr).toFixed(1)}" y2="${(cy-Math.cos(q)*rr).toFixed(1)}" stroke="#4d7a9c" stroke-width="${d%90?.7:1.6}"/>`; }
       [['N',0],['E',90],['S',180],['W',270]].forEach(([t,d])=>{ const q=d*Math.PI/180, x=cx+Math.sin(q)*(rr-20), y=cy-Math.cos(q)*(rr-20)+4;
-        g+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="${t==='N'?C.red:'#7fa8c8'}" transform="rotate(${-ROT} ${x.toFixed(1)} ${(y-4).toFixed(1)})">${t}</text>`; }); }
-    if(sc.harbour){ g+=`<rect x="120" y="0" width="230" height="70" fill="#2a3d4d"/><text x="235" y="42" text-anchor="middle" font-size="13" fill="${C.txt2}" font-weight="700" transform="rotate(${-ROT} 235 38)">LUKA</text>`; }
+        g+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="11" font-weight="600" fill="${t==='N'?C.red:'#7fa8c8'}" transform="rotate(${-ROT} ${x.toFixed(1)} ${(y-4).toFixed(1)})">${t}</text>`; }); }
+    if(sc.harbour){ g+=`<rect x="120" y="0" width="230" height="70" fill="#2a3d4d"/><text x="235" y="42" text-anchor="middle" font-size="13" fill="${C.txt2}" font-weight="600" transform="rotate(${-ROT} 235 38)">LUKA</text>`; }
     if(sc.narrow){ g+=`<rect x="0" y="0" width="90" height="${H}" fill="#2a3d4d"/><rect x="${W-90}" y="0" width="90" height="${H}" fill="#2a3d4d"/><text x="45" y="200" text-anchor="middle" font-size="12" fill="${C.txt2}" transform="rotate(-90 45 200)">USKI KANAL</text>`; }
-    if(sc.wind){ g+=`<g opacity=".8">${arrow(40,40,40,110,C.yellow)}<text x="52" y="80" font-size="12" fill="${C.yellow}" font-weight="700">VJETAR</text></g>`; }
+    if(sc.wind){ g+=`<g opacity=".8">${arrow(40,40,40,110,C.yellow)}<text x="52" y="80" font-size="12" fill="${C.yellow}" font-weight="600">VJETAR</text></g>`; }
     // putanje se računaju iz stvarnog kursa: "udesno" = kurs + 40°
     const V=(h,len)=>[Math.sin(h*Math.PI/180)*len,-Math.cos(h*Math.PI/180)*len];
     const TURN={both_right:40,a_right:40,a_pass:20,a_avoid:50};
@@ -101,7 +101,7 @@ const COLREG=[
     g+=gl(onV,boat(B.x,B.y,B.h,B.type,'ON'));
     if(show){
       const bow=(o)=>{ const v=V(o.h,24); return [o.x+v[0],o.y+v[1]]; };
-      const lab=(x,y,t,col)=>{ const X=Math.max(60,Math.min(W-60,x)), Y=Math.max(14,Math.min(H-8,y)); return `<text x="${X}" y="${Y}" text-anchor="middle" font-size="11" fill="${col}" font-weight="700" paint-order="stroke" stroke="#0b2135" stroke-width="3" transform="rotate(${-ROT} ${X} ${Y})">${t}</text>`; };
+      const lab=(x,y,t,col)=>{ const X=Math.max(60,Math.min(W-60,x)), Y=Math.max(14,Math.min(H-8,y)); return `<text x="${X}" y="${Y}" text-anchor="middle" font-size="11" fill="${col}" font-weight="600" paint-order="stroke" stroke="#0b2135" stroke-width="3" transform="rotate(${-ROT} ${X} ${Y})">${t}</text>`; };
       const [ax,ay]=bow(A), [bx,by]=bow(B);
       if(p==='both_right'){ g+=arrow(ax,ay,ax+tiV[0],ay+tiV[1],C.green); g+=arrow(bx,by,bx+onV[0],by+onV[1],C.green); }
       if(p==='a_right'){ g+=arrow(ax,ay,ax+tiV[0],ay+tiV[1],C.green); g+=lab(ax+tiV[0]*1.15,ay+tiV[1]*1.15-6,sc.wind?'udesno, niz vjetar':sc.narrow?'udesno, prema rubu kanala':'udesno, iza krme',C.green); }
@@ -117,7 +117,7 @@ const COLREG=[
       if(p==='a_avoid'){ g+=arrow(ax,ay,ax+tiV[0],ay+tiV[1],C.green); g+=lab(ax+tiV[0],ay+tiV[1]-10,'zaobilazim usidreni brod',C.green); }
     }
     g+=`</g>`;
-    if(myView) g+=`<text x="${W-12}" y="20" text-anchor="end" font-size="11" fill="${C.acc}" font-weight="700">pogled s mog broda: pramac gore</text>`;
+    if(myView) g+=`<text x="${W-12}" y="20" text-anchor="end" font-size="11" fill="${C.acc}" font-weight="600">pogled s mog broda: pramac gore</text>`;
     stage.innerHTML=SVG(W,H,g);
   }
   function show(){
@@ -163,14 +163,14 @@ const COLREG=[
     // tri ranija mjerenja: crta azimuta i očitanje
     [0,.3,.6].forEach((u,i)=>{ if(u>t+.001) return; const p=at(u), mx=(p.a[0]+p.o[0])/2, my=(p.a[1]+p.o[1])/2;
       g+=hull(p.a,0,C.acc,.3)+hull(p.o,hB,'#e6eef5',.3)+`<line x1="${p.a[0].toFixed(1)}" y1="${p.a[1].toFixed(1)}" x2="${p.o[0].toFixed(1)}" y2="${p.o[1].toFixed(1)}" stroke="${C.red}" stroke-width="1.4" stroke-dasharray="4 4" opacity=".55"/>
-        <text x="${(mx+6).toFixed(1)}" y="${(my+16).toFixed(1)}" font-size="${(11.5*fk).toFixed(1)}" font-weight="700" fill="${C.red}" paint-order="stroke" stroke="#0b2135" stroke-width="3">${i+1}. ${f3(brg(p))}</text>`; });
+        <text x="${(mx+6).toFixed(1)}" y="${(my+16).toFixed(1)}" font-size="${(11.5*fk).toFixed(1)}" font-weight="600" fill="${C.red}" paint-order="stroke" stroke="#0b2135" stroke-width="3">${i+1}. ${f3(brg(p))}</text>`; });
     const p=at(t), hit=key==='same'&&t>=c.end-.001;
     g+=`<line x1="${p.a[0].toFixed(1)}" y1="${p.a[1].toFixed(1)}" x2="${p.o[0].toFixed(1)}" y2="${p.o[1].toFixed(1)}" stroke="${C.red}" stroke-width="2.2"/>`;
     g+=hull(p.a,0,C.acc,1)+hull(p.o,hB,'#e6eef5',1);
-    if(!hit) g+=`<text x="${(p.a[0]-16).toFixed(1)}" y="${(p.a[1]+5).toFixed(1)}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" font-weight="800" fill="${C.acc}">TI</text><text x="${(p.o[0]+14).toFixed(1)}" y="${(p.o[1]-10).toFixed(1)}" font-size="${(12*fk).toFixed(1)}" font-weight="800" fill="${C.txt2}">ON</text>`;
-    if(hit) g+=`<circle cx="${X[0]}" cy="${X[1]+10}" r="26" fill="none" stroke="${C.red}" stroke-width="3"/><text x="${X[0]+36}" y="${X[1]+14}" font-size="${(14*fk).toFixed(1)}" font-weight="800" fill="${C.red}">SUDAR</text>`;
-    g+=`</g><text x="${W-14}" y="${8+16*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">azimut <tspan font-weight="800" font-size="${(15*fk).toFixed(1)}" fill="#fff">${f3(brg(p))}</tspan></text>
-      <text x="${W-14}" y="${8+34*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">udaljenost <tspan font-weight="800" fill="#fff">${rng(p).toFixed(1).replace('.',',')} M</tspan></text>`;
+    if(!hit) g+=`<text x="${(p.a[0]-16).toFixed(1)}" y="${(p.a[1]+5).toFixed(1)}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" font-weight="600" fill="${C.acc}">TI</text><text x="${(p.o[0]+14).toFixed(1)}" y="${(p.o[1]-10).toFixed(1)}" font-size="${(12*fk).toFixed(1)}" font-weight="600" fill="${C.txt2}">ON</text>`;
+    if(hit) g+=`<circle cx="${X[0]}" cy="${X[1]+10}" r="26" fill="none" stroke="${C.red}" stroke-width="3"/><text x="${X[0]+36}" y="${X[1]+14}" font-size="${(14*fk).toFixed(1)}" font-weight="600" fill="${C.red}">SUDAR</text>`;
+    g+=`</g><text x="${W-14}" y="${8+16*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">azimut <tspan font-weight="600" font-size="${(15*fk).toFixed(1)}" fill="#fff">${f3(brg(p))}</tspan></text>
+      <text x="${W-14}" y="${8+34*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">udaljenost <tspan font-weight="600" fill="#fff">${rng(p).toFixed(1).replace('.',',')} M</tspan></text>`;
     stage.innerHTML=SVG(W,H,g); }
   function loop(ts){ if(!playing) return; if(!last) last=ts; const c=CASES[key]; t=Math.min(c.end,t+(ts-last)/1000/6); last=ts; draw();
     if(t>=c.end){ playing=false; setTimeout(()=>{ if(!playing){ t=0; start(); } },2600); return; } raf=requestAnimationFrame(loop); }
@@ -189,19 +189,19 @@ const COLREG=[
     return `<g transform="translate(${x},${y}) rotate(${rot})">
       <path d="M0,-26 L12,-4 L12,18 L-12,18 L-12,-4 Z" fill="#12354e" stroke="${c}" stroke-width="1.6"/>
       <path d="M0,-30 L0,16 L17,10 Z" fill="${c}" opacity=".55"/></g>
-      <text x="${x}" y="${y+42}" text-anchor="middle" font-size="12.5" font-weight="800" fill="${c}">${lbl}</text>
+      <text x="${x}" y="${y+42}" text-anchor="middle" font-size="12.5" font-weight="600" fill="${c}">${lbl}</text>
       <text x="${x}" y="${y+58}" text-anchor="middle" font-size="11" fill="${C.txt2}">${sub}</text>`;
   }
   let g=`<clipPath id="seaClip${W}x${H}"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#seaClip${W}x${H})">${seaBackground(W,H,{view:'top'})}</g>`;
   g+=`<line x1="${W/2}" y1="14" x2="${W/2}" y2="${H-14}" stroke="${C.line}" stroke-dasharray="6 5"/>`;
   // left: different tacks
-  g+=`<text x="${W/4}" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${C.txt}">RAZLIČITI BOK</text>`;
-  g+=`<g opacity=".85"><line x1="30" y1="52" x2="30" y2="108" stroke="${C.yellow}" stroke-width="2"/><polygon points="30,116 25,104 35,104" fill="${C.yellow}"/><text x="46" y="86" font-size="11" fill="${C.yellow}" font-weight="700">VJETAR</text></g>`;
+  g+=`<text x="${W/4}" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${C.txt}">RAZLIČITI BOK</text>`;
+  g+=`<g opacity=".85"><line x1="30" y1="52" x2="30" y2="108" stroke="${C.yellow}" stroke-width="2"/><polygon points="30,116 25,104 35,104" fill="${C.yellow}"/><text x="46" y="86" font-size="11" fill="${C.yellow}" font-weight="600">VJETAR</text></g>`;
   g+=sail(110,140,40,C.red,'Vjetar u LIJEVI bok','IZBJEGAVA');
   g+=sail(250,140,-40,C.green,'Vjetar u DESNI bok','IMA PREDNOST');
   // right: same tack
-  g+=`<text x="${W*3/4}" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${C.txt}">ISTI BOK</text>`;
-  g+=`<g opacity=".85"><line x1="382" y1="52" x2="382" y2="108" stroke="${C.yellow}" stroke-width="2"/><polygon points="382,116 377,104 387,104" fill="${C.yellow}"/><text x="398" y="86" font-size="11" fill="${C.yellow}" font-weight="700">VJETAR</text></g>`;
+  g+=`<text x="${W*3/4}" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${C.txt}">ISTI BOK</text>`;
+  g+=`<g opacity=".85"><line x1="382" y1="52" x2="382" y2="108" stroke="${C.yellow}" stroke-width="2"/><polygon points="382,116 377,104 387,104" fill="${C.yellow}"/><text x="398" y="86" font-size="11" fill="${C.yellow}" font-weight="600">VJETAR</text></g>`;
   g+=sail(470,112,30,C.red,'PRIVJETRINA','IZBJEGAVA');
   g+=sail(590,192,30,C.green,'ZAVJETRINA','IMA PREDNOST');
   b.innerHTML=SVG(W,H,g);

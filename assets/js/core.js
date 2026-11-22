@@ -75,7 +75,7 @@ window.VB=(function(){
     g.innerHTML=BADGES.map(b=>{
       const won=badges.includes(b.id);
       const prog=b.need&&!won?` <span class="mono c-txt3">(${Math.min(cnt[b.cnt]||0,b.need)}/${b.need})</span>`:'';
-      return `<div class="badge ${won?'won':'locked'}" data-reveal><div><h5>${b.n}</h5><p>${won?'Osvojeno ✓':b.d+prog}</p></div></div>`;
+      return `<div class="badge ${won?'won':'locked'}" data-reveal><div><h4>${b.n}</h4><p>${won?'Osvojeno ✓':b.d+prog}</p></div></div>`;
     }).join('');
     if(window.VBReveal) window.VBReveal(g);
   }

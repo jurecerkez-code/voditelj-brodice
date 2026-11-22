@@ -13,7 +13,9 @@ preko `:root[data-theme="night"]`. Izvan bloka tokena nema upisanih boja ni nazi
 Crvena i zelena znače lijevi i desni bok te netočno i točno; ne koriste se kao ukras.
 
 Tri pisma, svako s jednom ulogom: Hanken Grotesk 600 za naslove i 500 za kontrole (`--display`), Newsreader za tekst,
-oznake i navigaciju (`--font`), IBM Plex Mono samo za brojke (`--mono`). Debljine su 400, 500 i 600.
+oznake i navigaciju (`--font`), IBM Plex Mono za brojke, mjerne oznake i radijski zapis (`--mono`). Debljine su 400, 500 i 600.
+Najmanji tekst je 13 px. Datoteke pisama sadrže samo znakove koje aplikacija koristi: kad u sadržaj dođe novi znak,
+pokreni `tools/fontovi.py`. Nakon promjene boja pokreni `tools/kontrast.py`.
 
 Pravila ploha: bez kartica, sjena i zaobljenja (najviše 2 px na kontroli). Blok teksta ima čvrstu crtu gore i nema ispunu.
 Napomene su udubljenje (`--bg2`) s crtom. Oznake su u rečeničnom obliku, bez velikih slova i bez razmaknutih slova.

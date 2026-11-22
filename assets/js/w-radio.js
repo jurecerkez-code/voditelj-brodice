@@ -29,10 +29,10 @@
   // battery
   g+=`<g transform="translate(150,244)"><rect x="-46" y="-16" width="92" height="30" rx="5" fill="#2b4257" stroke="#6b93ae" stroke-width="2"/>
     <rect x="-30" y="-22" width="12" height="7" fill="#6b93ae"/><rect x="16" y="-22" width="12" height="7" fill="#6b93ae"/>
-    <text y="4" text-anchor="middle" font-size="12" fill="#cfe" font-weight="700">12 V DC</text></g>`;
+    <text y="4" text-anchor="middle" font-size="12" fill="#cfe" font-weight="600">12 V DC</text></g>`;
   g+=`<line x1="150" y1="228" x2="150" y2="216" stroke="#6b93ae" stroke-width="3"/>`;
   const lbl=[[196,64,'① PRIMOPREDAJNIK',C.acc],[430,66,'② MIKROTELEFONSKA<tspan x="430" dy="14">KOMBINACIJA</tspan>',C.acc],[580,206,'③ ANTENA (360°)',C.acc],[150,282,'④ IZVOR NAPAJANJA',C.acc]];
-  lbl.forEach(l=> g+=`<text x="${l[0]}" y="${l[1]}" text-anchor="middle" font-size="11.5" font-weight="800" fill="${l[3]}">${l[2]}</text>`);
+  lbl.forEach(l=> g+=`<text x="${l[0]}" y="${l[1]}" text-anchor="middle" font-size="11.5" font-weight="600" fill="${l[3]}">${l[2]}</text>`);
   b.innerHTML=SVG(W,300,g)+`<div class="vhCh" style="font-size:13.5px;color:var(--txt2);margin-top:8px"></div>`;
   const CH=[['16','156.800','Pogibelj, poziv i sigurnost. Neprekidno bdijenje obalnih radijskih postaja.','25W'],['10','156.500','Lučke kapetanije: bdijenje 24 h; ispostave u radno vrijeme.','25W'],
     ['17','156.850','Marine i lučice: izlazna snaga najviše 1 W.','1W'],['09','156.450','Lučke uprave (Lučki operativni centri, LOC).','25W'],['12','156.600','Peljarska društva.','25W'],
@@ -42,7 +42,7 @@
   let ci=0;
   function lcd(){ const c=CH[ci];
     $('.vhTxt',b).innerHTML=`<text x="94" y="112" font-size="9" fill="#8ff0b4" font-family="var(--mono)" opacity=".85">CH</text>
-      <text x="206" y="134" text-anchor="end" font-size="34" font-weight="800" fill="#6dffa8" font-family="var(--mono)" style="letter-spacing:1px">${c[0]}</text>
+      <text x="206" y="134" text-anchor="end" font-size="34" font-weight="600" fill="#6dffa8" font-family="var(--mono)" style="letter-spacing:1px">${c[0]}</text>
       <text x="234" y="112" text-anchor="end" font-size="9" fill="#8ff0b4" font-family="var(--mono)">${c[3]}</text>
       <text x="163" y="148" text-anchor="middle" font-size="10.5" fill="#8ff0b4" font-family="var(--mono)">${c[1]} MHz</text>`;
     $('.vhCh',b).innerHTML=`<b class="c-acc">Kanal ${c[0]}: ${c[1].replace('.',',')} MHz</b>: ${c[2]} <span class="c-txt3">(klikni zaslon za sljedeći kanal)</span>`; }
@@ -111,7 +111,7 @@ const PHON={A:'Alfa',B:'Bravo',C:'Čarli',Č:'Čarli',Ć:'Čarli',D:'Delta',Đ:'
     let h='<div class="chips mt12">';
     for(const ch of w){
       const p=PHON[ch];
-      h+=`<span class="chip on" style="font-family:var(--mono)"><b>${ch}</b>: ${p||'?'}</span>`;
+      h+=`<span class="chip on"><b>${ch}</b>: ${p||'?'}</span>`;
     }
     h+='</div>';
     el('spellOut').innerHTML=h;

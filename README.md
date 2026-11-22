@@ -32,6 +32,7 @@ assets/js/plan.js         plan učenja;  app.js početna, pretraga, donja naviga
 assets/fonts/             Hanken Grotesk, Newsreader, IBM Plex Mono (SIL OFL), učitavaju se lokalno
 sw.js                     rad bez interneta
 tests/                    provjera fizike, dimni test glavnih tokova, pristajanje samo tipkovnicom, provjera pristupačnosti
+tools/                    fontovi.py (datoteke pisama iz izvora), kontrast.py (kontrast tokena)
 docs/KOMPONENTE.md        popis komponenti i pravila za novi kod
 docs/PROMJENE.md          popis svih promjena po verzijama
 ```

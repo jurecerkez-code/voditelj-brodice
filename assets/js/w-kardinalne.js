@@ -60,7 +60,7 @@
   /* ── 1. dnevni prikaz: četiri stupa ── */
   function strip(){ const W=680,H=318,HOR=150; let g=DEFS+daySky(W,H,HOR);
     M.forEach((m,i)=>{ const x=95+i*163; g+=pillar(m,{x,y:236,s:1.12});
-      g+=`<text x="${x}" y="280" text-anchor="middle" font-size="15" font-weight="800" fill="#fff" paint-order="stroke" stroke="#0b2a44" stroke-width="3">${m.k}, ${m.n}</text>
+      g+=`<text x="${x}" y="280" text-anchor="middle" font-size="15" font-weight="600" fill="#fff" paint-order="stroke" stroke="#0b2a44" stroke-width="3">${m.k}, ${m.n}</text>
         <text x="${x}" y="298" text-anchor="middle" font-size="11.5" fill="#dfe9f1" font-family="var(--mono)" paint-order="stroke" stroke="#0b2a44" stroke-width="3">bijelo ${m.ch}</text>`; });
     return SVG(W,H,g,'class="cdSvg" role="img" aria-label="Četiri kardinalne oznake: sjeverna, istočna, južna i zapadna, sa stvarnim oblikom stupa, bojama i vršnim oznakama"'); }
 
@@ -73,10 +73,10 @@
     const wedge=a=>{ const r=c*1.5, p1=(a-45)*Math.PI/180, p2=(a+45)*Math.PI/180; return `M${c},${c} L${c+Math.sin(p1)*r},${c-Math.cos(p1)*r} L${c+Math.sin(a*Math.PI/180)*r*1.2},${c-Math.cos(a*Math.PI/180)*r*1.2} L${c+Math.sin(p2)*r},${c-Math.cos(p2)*r} Z`; };
     g+=`<clipPath id="cdQc"><rect width="${S}" height="${S}" rx="10"/></clipPath><g clip-path="url(#cdQc)"><path d="${wedge(ang)}" fill="#25c26a" opacity=".16"/></g>`;
     g+=`<line x1="0" y1="0" x2="${S}" y2="${S}" stroke="#9fd2f0" stroke-dasharray="5 5" opacity=".6"/><line x1="${S}" y1="0" x2="0" y2="${S}" stroke="#9fd2f0" stroke-dasharray="5 5" opacity=".6"/>`;
-    [['NW',16,20,'start'],['NE',S-16,20,'end'],['SE',S-16,S-10,'end'],['SW',16,S-10,'start']].forEach(([t,x,y,a])=>g+=`<text x="${x}" y="${y}" font-size="11" fill="#9fd2f0" text-anchor="${a}" font-family="var(--mono)" font-weight="700">${t}</text>`);
+    [['NW',16,20,'start'],['NE',S-16,20,'end'],['SE',S-16,S-10,'end'],['SW',16,S-10,'start']].forEach(([t,x,y,a])=>g+=`<text x="${x}" y="${y}" font-size="11" fill="#9fd2f0" text-anchor="${a}" font-family="var(--mono)" font-weight="600">${t}</text>`);
     // opasnost: plićina/hrid
     g+=`<path d="M${c-34},${c+4} C${c-30},${c-24} ${c-6},${c-30} ${c+14},${c-22} C${c+36},${c-14} ${c+34},${c+14} ${c+18},${c+26} C${c},${c+36} ${c-30},${c+28} ${c-34},${c+4} Z" fill="#bfe0f2" stroke="#6fa6c8"/>
-      <path d="M${c-12},${c+6} l6,-12 l5,7 l6,-10 l8,15 Z" fill="#6b5a22"/><text x="${c}" y="${c+22}" text-anchor="middle" font-size="10" fill="#0b2a44" font-weight="800">OPASNOST</text>`;
+      <path d="M${c-12},${c+6} l6,-12 l5,7 l6,-10 l8,15 Z" fill="#6b5a22"/><text x="${c}" y="${c+22}" text-anchor="middle" font-size="10" fill="#0b2a44" font-weight="600">OPASNOST</text>`;
     // ruta broda: prolazi sa sigurne strane oznake
     const off=118, R={N:`M18,${c-off} L${S-18},${c-off}`,S:`M${S-18},${c+off} L18,${c+off}`,E:`M${c+off},${S-18} L${c+off},18`,W:`M${c-off},18 L${c-off},${S-18}`}[qSel];
     g+=`<path class="cdRoute" d="${R}" stroke="#ffd166" stroke-width="2.4" fill="none" stroke-dasharray="8 6" marker-end="url(#cdArr)"/><defs><marker id="cdArr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#ffd166"/></marker></defs>`;
@@ -85,7 +85,7 @@
       g+=`<g class="cdQm" data-k="${m.k}" role="button" tabindex="0" aria-label="${m.n} kardinalna oznaka" style="cursor:pointer">
         <circle cx="${x}" cy="${y}" r="30" fill="${on?'rgba(255,209,102,.16)':'rgba(0,0,0,0)'}" stroke="${on?'#ffd166':'none'}" stroke-width="1.5"/>
         ${pillar(m,{x,y:y+22,s:.3,refl:false,ring:false,bob:false,big:22})}
-        <text x="${x+(m.k==='W'?-22:22)}" y="${y+4}" text-anchor="middle" font-size="14" font-weight="800" fill="${on?'#ffd166':'#e6eef5'}" paint-order="stroke" stroke="#0f3552" stroke-width="3">${m.k}</text></g>`; });
+        <text x="${x+(m.k==='W'?-22:22)}" y="${y+4}" text-anchor="middle" font-size="14" font-weight="600" fill="${on?'#ffd166':'#e6eef5'}" paint-order="stroke" stroke="#0f3552" stroke-width="3">${m.k}</text></g>`; });
     return SVG(S,S,g,'class="cdQuad" role="group" aria-label="Kvadranti kardinalnog sustava oko opasnosti: odaberi oznaku"'); }
   function qInfo(){ const m=M.find(x=>x.k===qSel);
     return `<h4 class="mb6">${m.n} kardinalna (${m.k})</h4>

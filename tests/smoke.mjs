@@ -34,6 +34,16 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
     await page.evaluate(i => go(i), id); await page.waitForTimeout(120);
     ok(await page.$eval('#' + id, e => e.classList.contains('active')), `[${name}] ${id} se ne otvara`);
     ok(await page.$eval('#' + id, e => e.scrollWidth <= document.documentElement.clientWidth + 1), `[${name}] ${id} izlazi iz širine zaslona`);
+    // izgled po pravilima sustava na svakoj stranici: veličina i debljina teksta, pisma, velika slova, imena crteža, razine naslova
+    const tells = await page.$eval('#' + id, pg => { const bad = []; const sig = e => e.tagName.toLowerCase() + (e.className && typeof e.className === 'string' ? '.' + e.className.split(' ')[0] : '');
+      for (const e of pg.querySelectorAll('*')) { if (e.closest('svg') || e.offsetParent === null) continue; if (![...e.childNodes].some(n => n.nodeType === 3 && n.nodeValue.trim().length > 1)) continue; const c = getComputedStyle(e), fs = parseFloat(c.fontSize);
+        if (fs < 13) bad.push('tekst ' + fs + 'px na ' + sig(e)); if (!['400', '500', '600'].includes(c.fontWeight)) bad.push('debljina ' + c.fontWeight + ' na ' + sig(e));
+        if (!/^"?(Hanken Grotesk|Newsreader|IBM Plex Mono)/.test(c.fontFamily)) bad.push('pismo ' + c.fontFamily.split(',')[0] + ' na ' + sig(e));
+        if (c.textTransform === 'uppercase') bad.push('velika slova na ' + sig(e)); }
+      for (const s of pg.querySelectorAll('svg')) if (!s.closest('[aria-hidden="true"]') && !s.getAttribute('role') && !s.getAttribute('aria-label')) bad.push('crtež bez imena u #' + (s.closest('[id]') || pg).id);
+      let prev = 1; for (const h of pg.querySelectorAll('h2,h3,h4,h5,h6')) { if (h.offsetParent === null) continue; const l = +h.tagName[1]; if (l > prev + 1) bad.push('preskočena razina naslova prije "' + h.textContent.trim().slice(0, 24) + '"'); prev = l; }
+      return [...new Set(bad)].slice(0, 4); });
+    ok(tells.length === 0, `[${name}] ${id}: ${tells.join('; ')}`);
   }
   // 2. početna: prizor sa svjetlima ima točan odgovor i objašnjenje
   await page.evaluate(() => go('p-start'));

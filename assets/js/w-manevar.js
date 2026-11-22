@@ -9,15 +9,15 @@
   function panel(x,title,kick,dirTxt,col){
     const rot=-kick*14, q=rot*Math.PI/180, cx=x+130, cy=105, sx=cx-30*Math.sin(q), sy=cy+30*Math.cos(q);
     const bx=kick<0?x+34:x+212;
-    let g=`<text x="${cx}" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${col}">${title}</text>`;
+    let g=`<text x="${cx}" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${col}">${title}</text>`;
     g+=`<rect x="${bx}" y="44" width="14" height="142" fill="#3a4a58"/><rect x="${kick<0?bx+11:bx}" y="44" width="3" height="142" fill="#4a545e"/>`;
-    g+=`<text transform="rotate(-90 ${bx+7} 115)" x="${bx+7}" y="119" text-anchor="middle" font-size="10.5" fill="#dfe6ec" font-weight="700" letter-spacing="1">OBALA</text>`;
+    g+=`<text transform="rotate(-90 ${bx+7} 115)" x="${bx+7}" y="119" text-anchor="middle" font-size="10.5" fill="#dfe6ec" font-weight="600" letter-spacing="1">OBALA</text>`;
     g+=`<g transform="translate(${cx},${cy}) rotate(${rot})">
       <path d="M0,-46 C16,-24 19,4 17,36 L-17,36 C-19,4 -16,-24 0,-46 Z" fill="#1d3a52" stroke="#5b8bab" stroke-width="1.6"/>
       <text y="-20" text-anchor="middle" font-size="9" fill="${C.txt2}">pramac</text>
       <circle cy="30" r="7" fill="${col}" opacity=".8"/></g>`;
     g+=`<path d="M${(sx+kick*16).toFixed(1)},${(sy+4).toFixed(1)} q${kick*30},10 ${kick*50},2" fill="none" stroke="${col}" stroke-width="2.6" marker-end="url(#ahw)"/>`;
-    g+=`<text x="${cx}" y="216" text-anchor="middle" font-size="11.5" fill="${col}" font-weight="700">${dirTxt}</text>`;
+    g+=`<text x="${cx}" y="216" text-anchor="middle" font-size="11.5" fill="${col}" font-weight="600">${dirTxt}</text>`;
     return g;
   }
   const defs=`<defs><marker id="ahw" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><polygon points="0,0 9,4.5 0,9" fill="#39b8e8"/></marker></defs>`;
@@ -40,9 +40,9 @@
   [[130,132,'tvoja brodica'],[430,132,'susjed']].forEach(([cx,cy,n],i)=>{
     g+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="${C.yellow}" fill-opacity=".07" stroke="${C.yellow}" stroke-width="1.6" stroke-dasharray="6 4"/>`;
     g+=boatAt(cx,cy,115,true)+boatAt(cx,cy,235,true)+boatAt(cx,cy,0,false)+anchor(cx,cy);
-    g+=`<text x="${cx}" y="${cy-R-8}" text-anchor="middle" font-size="16" font-weight="800" fill="${C.txt2}">${n}</text>`; });
+    g+=`<text x="${cx}" y="${cy-R-8}" text-anchor="middle" font-size="16" font-weight="600" fill="${C.txt2}">${n}</text>`; });
   g+=`<g transform="translate(280,96)"><path d="M0,-22 V16 M-8,6 L0,18 L8,6" stroke="#e6eef5" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text y="40" text-anchor="middle" font-size="15" fill="#9fb6c9">vjetar</text></g>`;
-  g+=`<path d="M130,132 h${R}" stroke="${C.acc}" stroke-width="2.4"/><text x="${130+R/2+6}" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="${C.acc}">polumjer</text>`;
+  g+=`<path d="M130,132 h${R}" stroke="${C.acc}" stroke-width="2.4"/><text x="${130+R/2+6}" y="124" text-anchor="middle" font-size="15" font-weight="600" fill="${C.acc}">polumjer</text>`;
   b.innerHTML=SVG(W,H,g);
 })();
 
@@ -63,7 +63,7 @@
   g+=`<path d="M${W/2},198 v10 M174,208 h332 M174,208 v12 M506,208 v12" stroke="${C.line}" stroke-width="2" fill="none"/>`;
   boxes.forEach(bx=>{
     g+=`<rect x="${bx.x}" y="${bx.y}" width="${bx.w}" height="${bx.h}" rx="8" fill="#132738" stroke="${bx.c}" stroke-width="1.8"/>`;
-    g+=`<text x="${bx.x+bx.w/2}" y="${bx.y+20}" text-anchor="middle" font-size="12.5" font-weight="800" fill="${bx.c}">${bx.t}</text>`;
+    g+=`<text x="${bx.x+bx.w/2}" y="${bx.y+20}" text-anchor="middle" font-size="12.5" font-weight="600" fill="${bx.c}">${bx.t}</text>`;
     g+=`<text x="${bx.x+bx.w/2}" y="${bx.y+bx.h-10}" text-anchor="middle" font-size="10.5" fill="${C.txt2}">${bx.s}</text>`;
   });
   b.innerHTML=SVG(W,H,g);

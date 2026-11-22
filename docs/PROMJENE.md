@@ -6,8 +6,8 @@ Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama
 
 - **Sustav.** Hladni sivoplavi papir, blijedi list za tablice, crteže i vježbe, plavocrna tinta, crte u dvije debljine,
   kvadratni rubovi i jedna magenta, boja kojom pomorska karta tiska svjetla. Nema kartica, sjena ni zaobljenja.
-- **Pisma.** Hanken Grotesk za naslove i kontrole, Newsreader za tekst, IBM Plex Mono samo za brojke. Učitavaju se
-  lokalno. Atkinson Hyperlegible je uklonjen.
+- **Pisma.** Hanken Grotesk za naslove i kontrole, Newsreader za tekst, IBM Plex Mono za brojke, mjerne oznake i
+  radijski zapis. Učitavaju se lokalno. Atkinson Hyperlegible je uklonjen.
 - **Početna** je radni ekran: lijevo što sada (gumb, datum ispita ili današnje stavke), desno ispitni program kao jedna
   tablica s tri stola. Red sljedećeg poglavlja je u magenti. Vježba je popis na crtama. Noćni prizor je ploča sa
   svjetlima bez zvijezda, valova i animacije.
@@ -19,6 +19,19 @@ Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama
   izračunat za dan i noć.
 - **Što nije dirano:** sadržaj, pitanja, fizika, id-jevi i sve što skripte i testovi čitaju. Boje unutar crteža (SVG)
   ostaju upisane u crtežu, jer su gradivo: svjetla, oznake, karta.
+- **Revizija nakon preoblikovanja** (svaka stranica i vježba, četiri širine, dan i noć) našla je i ispravila:
+  - podebljana riječ usred napomene prelazila je u zaseban redak (staro pravilo `.note b`);
+  - tekst manji od 13 px na 43 mjesta (napredak u gornjoj traci, oznake u vježbama, podnožje poglavlja);
+  - retke od 120 znakova u napomenama; sada su na mjeri teksta (68 znakova);
+  - pisma: hrvatska slova nisu bila u prednaloženoj datoteci, pa bi č, š i ž na tren bili u rezervnom pismu.
+    Sada je jedna datoteka po pismu sa svim znakovima koje aplikacija koristi (`tools/fontovi.py`): 72 kB za prvi
+    prikaz umjesto 149 kB. IBM Plex Mono su IBM-ove izvorne datoteke, jer mu licenca rezervira ime;
+  - 29 crteža bez imena za čitač zaslona: svaki sada nosi ime po naslovu iznad sebe;
+  - prsten fokusa magente na tamnim pločama (kontrast 1,7): ondje je sada bijel;
+  - oznaku iznad naslova stola u uvodu simulacije ispita, crtice kao zamjenu za prazno polje u ispitnom programu,
+    mono na riječima u pokazivačima vježbi, magentu u vrijednostima pokazivača, hover na tablicama koje ne reagiraju,
+    preskočenu razinu naslova kod znački, debljine 700 i 800 u crtežima.
+- Te provjere su sada dio `tests/smoke.mjs` (svaka stranica, oba zaslona), a kontrast tokena računa `tools/kontrast.py`.
 - Hallmarkov alat `sloplint` nije pokrenut; pravila su provjerena ručno i testovima projekta.
 
 ## 5.2.1: pramčani konop u simulatoru

@@ -120,7 +120,7 @@
     <div class="nlScore"></div></div></div>`;
   const svg=$('.nlSvg',b), dyn=$('.nlDyn',b);
   const sp=()=>{ $('.nlScore',b).textContent=score.n?`Točno ${score.ok} od ${score.n} zadataka na radnom stolu`:''; };
-  const mark=(p,lab,col)=>`<g><circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="none" stroke="${col||'#c62828'}" stroke-width="2"/><circle cx="${p[0]}" cy="${p[1]}" r="1.3" fill="${col||'#c62828'}"/>${lab?`<text x="${p[0]+7}" y="${p[1]-7}" font-size="12" font-weight="700" fill="${col||'#c62828'}">${lab}</text>`:''}</g>`;
+  const mark=(p,lab,col)=>`<g><circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="none" stroke="${col||'#c62828'}" stroke-width="2"/><circle cx="${p[0]}" cy="${p[1]}" r="1.3" fill="${col||'#c62828'}"/>${lab?`<text x="${p[0]+7}" y="${p[1]-7}" font-size="12" font-weight="600" fill="${col||'#c62828'}">${lab}</text>`:''}</g>`;
   function tween(dur,fn,done){ if(anim) cancelAnimationFrame(anim);
     if(RM){ fn(1); done&&done(); return; }
     const t0=performance.now(); const f=n=>{ const t=Math.min(1,(n-t0)/dur), e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; fn(e); if(t<1) anim=requestAnimationFrame(f); else { anim=null; done&&done(); } }; anim=requestAnimationFrame(f); }
@@ -153,7 +153,7 @@
       seq([
         {say:'1. Jedan krak šestara na <b>A</b>, drugi na <b>B</b>.',d:1100,f:e=>draw(lerp(closed[0],A,e),lerp(closed[1],B,e))},
         {say:'2. <b>Ne mijenjajući razmak</b>, prenesi šestar na <b>lijevu skalu širine</b>, u visini zadatka. Donji krak stavi na cijelu minutu.',d:1500,wait:500,f:e=>draw(lerp(A,T1,e),lerp(B,T2,e))},
-        {say:`3. Broji: svaka minuta širine je <b>1 milja</b>, crtica je <b>0,2 M</b> (2 kabela). Ovdje: <b>${f1(d)} M</b>.`,d:500,f:e=>draw(T1,T2,`<rect x="${X0-10}" y="${T2[1]}" width="10" height="${T1[1]-T2[1]}" fill="#ffd166" opacity="${.65*e}"/><text x="${X0+8}" y="${(T1[1]+T2[1])/2+4}" font-size="13" font-weight="800" fill="#b3261e" opacity="${e}" paint-order="stroke" stroke="#f7f8f4" stroke-width="4">${f1(d)} M</text>`)}
+        {say:`3. Broji: svaka minuta širine je <b>1 milja</b>, crtica je <b>0,2 M</b> (2 kabela). Ovdje: <b>${f1(d)} M</b>.`,d:500,f:e=>draw(T1,T2,`<rect x="${X0-10}" y="${T2[1]}" width="10" height="${T1[1]-T2[1]}" fill="#ffd166" opacity="${.65*e}"/><text x="${X0+8}" y="${(T1[1]+T2[1])/2+4}" font-size="13" font-weight="600" fill="#b3261e" opacity="${e}" paint-order="stroke" stroke="#f7f8f4" stroke-width="4">${f1(d)} M</text>`)}
       ]); }
   };
 
@@ -212,7 +212,7 @@
         eta:[`Isplovio si iz A u <b>${hhmm(st.dep)}</b>. Put do B je <b>${f1(st.d)} M</b>, brzina <b>${f1(st.v)} čv</b>. U koliko sati stižeš u B?`,`<label>Dolazak <input class="nlI" data-k="eta" placeholder="hh:mm" style="width:84px"></label>`],
         v:[`Put od A do B je <b>${f1(st.d)} M</b> i prešao si ga za <b>${hmTxt(st.t)}</b>. Kolika je bila prosječna brzina?`,`<label>Brzina <input class="nlI" data-k="v" inputmode="decimal"> čv</label>`],
         s:[`Ploviš <b>${hmTxt(st.t)}</b> brzinom <b>${f1(st.v)} čv</b>. Koliki put prijeđeš?`,`<label>Put <input class="nlI" data-k="s" inputmode="decimal"> M</label>`]}[st.type];
-      return {t:T[0]+'<div class="nlTri"><svg viewBox="0 0 150 92"><path d="M75,4 L146,88 L4,88 Z" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="36" y1="50" x2="114" y2="50" stroke="currentColor" stroke-width="1.2"/><line x1="75" y1="50" x2="75" y2="88" stroke="currentColor" stroke-width="1.2"/><text x="75" y="40" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">P</text><text x="46" y="76" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">B</text><text x="104" y="76" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">V</text></svg><span>Pokrij ono što tražiš.<br>P = B × V, B = P ÷ V, V = P ÷ B<br><small>P put (M), B brzina (čv), V vrijeme (h)</small></span></div>',i:T[1]}; },
+      return {t:T[0]+'<div class="nlTri"><svg viewBox="0 0 150 92"><path d="M75,4 L146,88 L4,88 Z" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="36" y1="50" x2="114" y2="50" stroke="currentColor" stroke-width="1.2"/><line x1="75" y1="50" x2="75" y2="88" stroke="currentColor" stroke-width="1.2"/><text x="75" y="40" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">P</text><text x="46" y="76" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">B</text><text x="104" y="76" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">V</text></svg><span>Pokrij ono što tražiš.<br>P = B × V, B = P ÷ V, V = P ÷ B<br><small>P put (M), B brzina (čv), V vrijeme (h)</small></span></div>',i:T[1]}; },
     draw(){ dyn.innerHTML=`<line x1="${st.A[0]}" y1="${st.A[1]}" x2="${st.B[0]}" y2="${st.B[1]}" stroke="#c62828" stroke-width="1.2"/>`+mark(st.A,'A')+mark(st.B,'B'); },
     explain(){ const s=st;
       if(s.type==='t'||s.type==='eta'){ const h=s.d/s.v, {H,m}=hm(h);
@@ -301,13 +301,13 @@
     let p=[mid[0]+nx*70,mid[1]+ny*70]; if(p[0]<X0+60||p[0]>X0+NLON*KX-60||p[1]<Y0+60||p[1]>Y0+NLAT*K-60) p=[mid[0]-nx*70,mid[1]-ny*70];
     hk={p,ang:(c+(Math.random()<.5?-1:1)*(25+Math.random()*30)+360)%360}; }
   function handDraw(){ if(!hand||!(mode in TIPS)){ hl.innerHTML=''; return; }
-    const kr=KR(), knob=(x,y,k,lab,r)=>`<circle class="nlH" data-h="${k}" cx="${x}" cy="${y}" r="${r||kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2"/>${lab?`<text x="${x}" y="${y+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">${lab}</text>`:''}`;
+    const kr=KR(), knob=(x,y,k,lab,r)=>`<circle class="nlH" data-h="${k}" cx="${x}" cy="${y}" r="${r||kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2"/>${lab?`<text x="${x}" y="${y+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="600" pointer-events="none">${lab}</text>`:''}`;
     if(mode==='sestar'){ const {t1,t2}=hs, hg=hinge(t1,t2), r=scaleRead(t1,t2);
       let rd='';
       if(r&&!r.lon){ const y1=Math.min(t1[1],t2[1]), y2=Math.max(t1[1],t2[1]), L=r.side==='L';
         rd=`<rect x="${L?X0-10:XR-5}" y="${y1}" width="10" height="${y2-y1}" fill="#ffd166" opacity=".6" pointer-events="none"/>`
-          +`<text x="${L?X0+8:XR-13}" y="${(y1+y2)/2+5}" text-anchor="${L?'start':'end'}" font-size="14" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)} M</text>`; }
-      else if(r&&r.lon) rd=`<text x="${(t1[0]+t2[0])/2}" y="${t1[1]<YT+4?YT+18:YB-8}" text-anchor="middle" font-size="12" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">✗ skala dužine</text>`;
+          +`<text x="${L?X0+8:XR-13}" y="${(y1+y2)/2+5}" text-anchor="${L?'start':'end'}" font-size="14" font-weight="600" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)} M</text>`; }
+      else if(r&&r.lon) rd=`<text x="${(t1[0]+t2[0])/2}" y="${t1[1]<YT+4?YT+18:YB-8}" text-anchor="middle" font-size="12" font-weight="600" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">✗ skala dužine</text>`;
       // cijeli krak je hvatište za nošenje šestara (nevidljiva debela crta)
       const grip=t=>`<line class="nlH" data-h="hinge" x1="${hg[0]}" y1="${hg[1]}" x2="${t[0]}" y2="${t[1]}" stroke="rgba(0,0,0,0)" stroke-width="${Math.max(12,kr)}" stroke-linecap="round"/>`;
       hl.innerHTML=rd+dividers(t1,t2)+grip(t1)+grip(t2)+knob(t1[0],t1[1],'t1')+knob(t2[0],t2[1],'t2')+knob(hg[0],hg[1],'hinge','✥',Math.max(kr,12)); handStat(); }
@@ -373,7 +373,7 @@
       const a=[p[0]-ux*sz,p[1]-uy*sz], c=[p[0]+ux*sz,p[1]+uy*sz], v=[p[0]-uy*sz,p[1]+ux*sz], rk=[p[0]+ux*(sz+18),p[1]+uy*(sz+18)];
       g.innerHTML=`<g clip-path="url(#${clipId})"><line x1="${p[0]-ux*1400}" y1="${p[1]-uy*1400}" x2="${p[0]+ux*1400}" y2="${p[1]+uy*1400}" stroke="#2a6f9e" stroke-width=".9" stroke-dasharray="6 4" opacity=".75" pointer-events="none"/></g>`
         +tri(p,ang,sz,false)+`<path data-t="body" d="M${a[0]},${a[1]} L${c[0]},${c[1]} L${v[0]},${v[1]} Z" fill="rgba(0,0,0,0)" style="cursor:move"/>`
-        +`<line x1="${c[0]}" y1="${c[1]}" x2="${rk[0]}" y2="${rk[1]}" stroke="#39b8e8" stroke-width="1.2"/><circle data-t="rot" cx="${rk[0]}" cy="${rk[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/><text x="${rk[0]}" y="${rk[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">⟳</text>`; }
+        +`<line x1="${c[0]}" y1="${c[1]}" x2="${rk[0]}" y2="${rk[1]}" stroke="#39b8e8" stroke-width="1.2"/><circle data-t="rot" cx="${rk[0]}" cy="${rk[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/><text x="${rk[0]}" y="${rk[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="600" pointer-events="none">⟳</text>`; }
     svg2.style.touchAction='none';
     svg2.addEventListener('pointerdown',e=>{ const h=e.target.closest('[data-t]'); if(!h||!g.contains(h)) return;
       e.preventDefault(); dr={h:h.dataset.t,p0:pt(e),s:t.p.slice()}; try{ svg2.setPointerCapture(e.pointerId); }catch(_){} });
@@ -413,12 +413,12 @@
       if(((on(t1[1],YTs)&&on(t2[1],YTs))||(on(t1[1],YBs)&&on(t2[1],YBs)))&&Math.abs(t1[0]-t2[0])>1) return {k:'lon',top:on(t1[1],YTs),d:Math.abs(t1[0]-t2[0])/KX};
       return null; }
     function draw(){ const {t1,t2}=t, hg=hinge(t1,t2), kr=KR2(), r=read(); let rd='';
-      if(r&&opts.readout!==false){ const lab=(x,y,a)=>`<text x="${x}" y="${y}" text-anchor="${a}" font-size="14" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)}&#8242;</text>`;
+      if(r&&opts.readout!==false){ const lab=(x,y,a)=>`<text x="${x}" y="${y}" text-anchor="${a}" font-size="14" font-weight="600" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)}&#8242;</text>`;
         if(r.k==='lat'){ const y1=Math.min(t1[1],t2[1]), y2=Math.max(t1[1],t2[1]), L=r.side==='L';
           rd=`<rect x="${L?X0-10:XR-5}" y="${y1}" width="10" height="${y2-y1}" fill="#ffd166" opacity=".6" pointer-events="none"/>`+lab(L?X0+8:XR-13,(y1+y2)/2+5,L?'start':'end'); }
         else { const x1=Math.min(t1[0],t2[0]), x2=Math.max(t1[0],t2[0]);
           rd=`<rect x="${x1}" y="${r.top?Y0-10:YB}" width="${x2-x1}" height="10" fill="#ffd166" opacity=".6" pointer-events="none"/>`+lab((x1+x2)/2,r.top?Y0+18:YB-8,'middle'); } }
-      const knob=(p,k,lab)=>`<circle data-d="${k}" cx="${p[0]}" cy="${p[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/>${lab?`<text x="${p[0]}" y="${p[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">${lab}</text>`:''}`;
+      const knob=(p,k,lab)=>`<circle data-d="${k}" cx="${p[0]}" cy="${p[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/>${lab?`<text x="${p[0]}" y="${p[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="600" pointer-events="none">${lab}</text>`:''}`;
       const grip=p=>`<line data-d="hinge" x1="${hg[0]}" y1="${hg[1]}" x2="${p[0]}" y2="${p[1]}" stroke="rgba(0,0,0,0)" stroke-width="${Math.max(12,kr)}" stroke-linecap="round" style="cursor:move"/>`;
       g.innerHTML=rd+dividers(t1,t2)+grip(t1)+grip(t2)+knob(t1,'t1')+knob(t2,'t2')+knob(hg,'hinge','✥');
       if(opts.onRead) opts.onRead(r); }

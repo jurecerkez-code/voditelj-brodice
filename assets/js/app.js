@@ -164,7 +164,7 @@
       <g class="hsHull"><path d="M${cx+sc.hull[0]},${cy-6} L${cx+sc.hull[1]},${cy-6} L${cx+sc.hull[1]-12},${cy+3} L${cx+sc.hull[0]+12},${cy+3} Z"/>${sc.sail?`<path d="M${cx},${cy-6} L${cx},${cy-74} L${cx+26},${cy-10} Z"/>`:`<path d="M${cx+sc.hull[0]*.5},${cy-6} L${cx+sc.hull[0]*.42},${cy-22} L${cx+sc.hull[1]*.42},${cy-22} L${cx+sc.hull[1]*.5},${cy-6} Z"/>`}</g>`;
     sc.L.forEach(([dx,dy,c])=>{ const x=cx+dx, y=cy+dy, col=LIGHT[c];
       g+=`<path d="M${x-10},${HOR+14} h20 M${x-8},${HOR+30} h16 M${x-12},${HOR+50} h24" stroke="${col}" stroke-width="2" opacity=".3"/><circle cx="${x}" cy="${y}" r="24" fill="url(#${uid}${c})"/><circle cx="${x}" cy="${y}" r="5" fill="${col}"/>`; });
-    return `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true" focusable="false">${g}</svg>`; }
+    return `<svg class="diagram" viewBox="0 0 ${W} ${H}" aria-hidden="true" focusable="false">${g}</svg>`; }
   let scI=(store.get('hmScene',-1)+1)%SCENES.length;
   function renderScene(){ const box=el('hmScene'); if(!box) return; const sc=SCENES[scI]; store.set('hmScene',scI);
     const order=shuffle(sc.o.map((t,i)=>({t,i})));
@@ -218,10 +218,10 @@
 
   /* spremnost po ispitnim stolovima */
   const STOL=[[1,'Stol 1: karta','Eliminacijski. Koordinate, kurs, udaljenost, oznake.'],[2,'Stol 2: motor, svjetla, sudari','Traži se razumijevanje, ne definicije.'],[3,'Stol 3: sigurnost, propisi, radio','Najviše pitanja. MAYDAY i jedan čvor.']];
-  function renderTables(){ const box=el('hmTables'); if(!box) return; const nx=CH.find(c=>!isRead(c.id)), no=t=>`<span aria-hidden="true">–</span><span class="sr">${t}</span>`;
+  function renderTables(){ const box=el('hmTables'); if(!box) return; const nx=CH.find(c=>!isRead(c.id));
     box.innerHTML=`<table class="hmP"><caption class="sr">Ispitni program po stolovima</caption><thead><tr><th scope="col">Poglavlje</th><th scope="col" class="n">Pročitano</th><th scope="col" class="n">Kviz</th></tr></thead>`+STOL.map(([n,name,sub])=>{ const list=CH.filter(c=>c.stol===n); let sum=0;
       const rows=list.map(c=>{ const r=isRead(c.id), m=mastery(c.t); sum+=(r?40:0)+(m===null?0:m*.6);
-        return `<tr${nx&&nx.id===c.id?' class="cur"':''}><td><button type="button" data-next="${c.id}">${title(c.id)}</button></td><td class="n">${r?'<span class="rd">da</span>':no('ne')}</td><td class="n${m===null?'':m>=80?' good':m<60?' low':''}">${m===null?no('nije rješavan'):m+' %'}</td></tr>`; }).join('');
+        return `<tr${nx&&nx.id===c.id?' class="cur"':''}><td><button type="button" data-next="${c.id}">${title(c.id)}</button></td><td class="n">${r?'<span class="rd">da</span>':'ne'}</td><td class="n${m===null?'':m>=80?' good':m<60?' low':''}">${m===null?'<span class="sr">nije rješavan</span>':m+' %'}</td></tr>`; }).join('');
       return `<tbody><tr class="grp"><th scope="rowgroup" colspan="3"><div class="hmG"><b>${name}</b><i>spremnost <span>${Math.round(sum/list.length)} %</span></i><span>${sub}</span></div></th></tr>${rows}</tbody>`; }).join('')+'</table>'; }
 
   function renderNavStats(){ $$('.navlink').forEach(l=>{ const c=chOf(l.dataset.t); if(!c) return; const m=mastery(c.t); let s=$('.pct',l);

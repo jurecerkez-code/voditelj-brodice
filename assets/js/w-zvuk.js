@@ -95,7 +95,7 @@
     let g=`<rect width="${W}" height="${H}" rx="10" fill="#0b2135"/>`;
     for(let m=0;m<=T;m++) g+=`<line x1="${px(m)}" y1="18" x2="${px(m)}" y2="${H-26}" stroke="#22415c" stroke-dasharray="${m%2?'2 4':'0'}"/><text x="${px(m)}" y="${H-10}" text-anchor="middle" font-size="11" fill="#9fb6c9" font-family="var(--mono)">${m} min</text>`;
     rows.forEach(([n,ev,step,p],i)=>{ const y=40+i*40;
-      g+=`<text x="12" y="${y+4}" font-size="12" fill="#e6eef5" font-weight="700">${n}</text><text x="12" y="${y+18}" font-size="10.5" fill="#9fb6c9">${ev}</text>`;
+      g+=`<text x="12" y="${y+4}" font-size="12" fill="#e6eef5" font-weight="600">${n}</text><text x="12" y="${y+18}" font-size="10.5" fill="#9fb6c9">${ev}</text>`;
       for(let m=0;m<T;m+=step){ let x=px(m)+3;
         if(p==='bell') g+=`<rect x="${x}" y="${y-6}" width="${(X1-X0)/T/12}" height="12" rx="2" fill="#ffd166"/><text x="${x+14}" y="${y+4}" font-size="11" fill="#ffd166">zvono</text>`;
         else p.forEach(u=>{ const w=u===1?5:16; g+=`<rect x="${x}" y="${y-5}" width="${w}" height="10" rx="3" fill="#39b8e8"/>`; x+=w+4; }); } });

@@ -34,7 +34,7 @@ window.VBExam=(function(){
     area.innerHTML=`<div class="qcard exIntro"><div class="qmeta"><span>${S.strict?'Režim ispita':'Simulacija ispita'}</span><span>3 stola, 22 zadatka</span></div>
       <p style="margin:6px 0 12px">Kao na pravom ispitu: tri ispitivača, jedan po jedan. Za prolaz simulacije na svakom stolu treba <b>80 % točnih</b> (pravi ispit je usmeni i ocjenjuje ga ispitivač). <b>Stol 1 je eliminacijski</b>: ako na njemu padneš, pao je cijeli ispit.</p>
       ${S.strict?`<div class="exStrict"><b>Strogo kao na ispitu.</b> Nema povratne informacije dok ne završiš stol. Vrijeme po stolu: <b>10, 7 i 6 min</b>. Kad vrijeme istekne, neodgovorena pitanja broje se kao netočna.</div>`:''}
-      <div class="exTables">${TABLES.map(t=>`<div class="exT"><span class="pill ${t.n===1?'r':t.n===2?'y':'b'}">${t.tag}</span><h4>Stol ${t.n}: ${t.name}</h4><p>${t.d}</p><p class="exN">${t.q} pitanja${t.chart?` + ${t.chart} zadatka na karti`:''}${S.strict?`, ${LIMIT[t.n-1]} min`:''}</p></div>`).join('')}</div>
+      <div class="exTables">${TABLES.map(t=>`<div class="exT"><h4>Stol ${t.n}: ${t.name}</h4><p><strong>${t.tag}.</strong> ${t.d}</p><p class="exN">${t.q} pitanja${t.chart?` + ${t.chart} zadatka na karti`:''}${S.strict?`, ${LIMIT[t.n-1]} min`:''}</p></div>`).join('')}</div>
       <div class="btnrow"><button class="btn p" id="exGo" type="button">Sjedni za Stol 1</button></div></div>`;
     el('exGo').addEventListener('click',()=>table(0)); }
   function table(t){ S.t=t; S.i=0; const T=TABLES[t]; S.items=pick(T).concat(T.chart?chartItems():[]); S.t0=Date.now();
@@ -66,7 +66,7 @@ window.VBExam=(function(){
   function chartSvg(extra){ const N=window.__NL;
     const base=N.chartBase().replace(/nlClip/g,'exClip').replace(/nlHatch/g,'exHatch');
     return `<svg class="exChart" viewBox="0 0 ${N.W.toFixed(0)} ${N.H.toFixed(0)}" role="img" aria-label="Vježbovna karta">${base}${extra}</svg>`; }
-  const mark=(p,l,c)=>`<g transform="translate(${p[0].toFixed(1)},${p[1].toFixed(1)})"><circle r="6" fill="none" stroke="${c}" stroke-width="2"/><circle r="1.8" fill="${c}"/><text x="9" y="-8" font-size="12" font-weight="800" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="3">${l}</text></g>`;
+  const mark=(p,l,c)=>`<g transform="translate(${p[0].toFixed(1)},${p[1].toFixed(1)})"><circle r="6" fill="none" stroke="${c}" stroke-width="2"/><circle r="1.8" fill="${c}"/><text x="9" y="-8" font-size="12" font-weight="600" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="3">${l}</text></g>`;
   function showChart(it){ const N=window.__NL; let task,inp,extra;
     if(it.kind==='pos'){ const p=N.px(it.p[0],it.p[1]); extra=mark(p,'P','#c2185b');
       task='Zadatak na karti: <b>očitaj koordinate pozicije P</b> (širina na lijevoj ili desnoj skali, dužina na gornjoj ili donjoj).';
