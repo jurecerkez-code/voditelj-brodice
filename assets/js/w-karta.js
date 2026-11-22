@@ -108,7 +108,7 @@
         if(ok && !target.done && window.VB) VB.widgetOk('chart');
         target.done=true;
         draw({x:target.x,y:target.y}); bind();
-        el('chartOut').innerHTML=`<div style="color:${ok?'var(--green)':'var(--red)'};font-weight:600;margin-top:8px">${ok?'✓ Točno!':'✗ Promašaj'}</div>
+        el('chartOut').innerHTML=`<div style="color:${ok?'var(--green)':'var(--red)'};font-weight:600;margin-top:8px">${ok?'✓ Točno.':'✗ Promašaj'}</div>
         <div style="font-size:13px;color:var(--txt2);font-family:var(--sans)">Tražena točka je bila <b class="c-acc">${target.c.lat}, ${target.c.lon}</b></div>`;
         el('chartScore').textContent=`Rezultat: ${score.c}/${score.t}`;
       }

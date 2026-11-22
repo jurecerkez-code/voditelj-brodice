@@ -29,7 +29,7 @@ const SIM={
   const person=q=>q<FALL?null:P0;
   const STEPS=[
     {s:30,t:'Ploviš prema sjeveru brzinom od 4 čv. Vjetar puše sa sjevera, u pramac.'},
-    {s:FALL,t:'<b>Čovjek u moru, desno!</b> Viči glasno da svi čuju i s koje je strane pao.'},
+    {s:FALL,t:'<b>Čovjek u moru, desno.</b> Viči glasno da svi čuju i s koje je strane pao.'},
     {s:FALL+36,t:'Odmah <b>kormilo sve DESNO</b>, u stranu pada. Pramac ide prema osobi, a <b>krma i vijak bježe od nje</b>.'},
     {s:TR.ev.buoy+30,t:'<b>Baci kolut</b> ili prsluk. Jednoj osobi zadaj samo jedan posao: <b>ne skidati pogled</b> s čovjeka i pokazivati rukom.',buoy:1},
     {s:TR.ev.down,t:'<b>Smanji brzinu</b> i nastavi okret dok ne zaploviš niz vjetar. Osoba ti ostaje s desne strane, daleko od krme.'},
@@ -271,7 +271,7 @@ const SIM={
     $('.phFb',b).innerHTML=good?`<span class="g">✓ ${L}: ${MAIN[L]}</span>`:`<span class="r">✗ ${L}: <b>${MAIN[L]}</b> (${A[L][0].charAt(0)+A[L][0].slice(1).toLowerCase()})</span>`;
     $$('.phBar i',b)[i].classList.add(good?'g':'r'); i++;
     if(i>=N){ const s=((performance.now()-t0)/1000).toFixed(0); inp.disabled=true;
-      $('.phQ',b).innerHTML=`<span class="phBig ${ok>=9?'okc':''}">${ok}/${N}</span><div class="phSum">${s} s. ${ok===N?'Savršeno. Sad naglas, bez gledanja.':ok>=8?'Dobro. Ponovi dok ne bude 10/10.':'Još vježbe: čitaj tablicu ispod naglas pa ponovi.'}</div>`;
+      $('.phQ',b).innerHTML=`<span class="phBig ${ok>=9?'okc':''}">${ok}/${N}</span><div class="phSum">${s} s. ${ok===N?'Sve točno. Sad naglas, bez gledanja.':ok>=8?'Dobro. Ponovi dok ne bude 10/10.':'Još vježbe: čitaj tablicu ispod naglas pa ponovi.'}</div>`;
       if(ok>=9 && window.VB){ VB.add(5); VB.flag('spell'); } }
     else setTimeout(show,450); }
   inp.addEventListener('keydown',e=>{ if(e.key==='Enter') answer(); });
@@ -287,7 +287,7 @@ const SIM={
   const SC=[
     {t:'Gori proliveno gorivo u prostoru motora.',ok:['prah','co2','pjena'],why:{voda:'Voda na gorivu raznosi plamen. Nikad voda na gorivo.',pokrivac:'Pokrivač je za male požare, npr. u kuhinji.'},pre:'Prvo <b>ugasi motor i zatvori dovod goriva i zraka</b>.'},
     {t:'Iskri i gori električna ploča.',ok:['prah','co2'],why:{voda:'Voda vodi struju. Nikad voda na električne uređaje.',pjena:'Pjena je za gorive tekućine, ne za struju.',pokrivac:'Pokrivač nije za električnu ploču.'},pre:'Ako možeš, <b>isključi struju</b>.'},
-    {t:'U kuhinji se zapalilo ulje u tavi.',ok:['pokrivac','prah'],why:{voda:'Voda na vrelom ulju izaziva eksploziju plamena. Nikad!',co2:'CO₂ može raspršiti ulje, bolji je pokrivač.',pjena:'Pokrivač je ovdje brži i sigurniji.'},pre:'Ugasi plamenik i <b>poklopi</b>: bez zraka nema gorenja.'},
+    {t:'U kuhinji se zapalilo ulje u tavi.',ok:['pokrivac','prah'],why:{voda:'Voda na vrelom ulju izaziva eksploziju plamena. Nikad.',co2:'CO₂ može raspršiti ulje, bolji je pokrivač.',pjena:'Pokrivač je ovdje brži i sigurniji.'},pre:'Ugasi plamenik i <b>poklopi</b>: bez zraka nema gorenja.'},
     {t:'Tinja madrac u kabini.',ok:['voda','prah'],why:{co2:'CO₂ ne hladi dovoljno: krute tvari se opet zapale.',pjena:'Pjena je za gorive tekućine.',pokrivac:'Pokrivač je za male požare, madrac treba ohladiti vodom.'},pre:'Krute tvari gase se <b>hlađenjem</b>.'}
   ];
   let si=0, first=true, score=0, done=0;

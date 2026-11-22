@@ -20,6 +20,15 @@ pokreni `tools/fontovi.py`. Nakon promjene boja pokreni `tools/kontrast.py`.
 Pravila ploha: bez kartica, sjena i zaobljenja (najviše 2 px na kontroli). Blok teksta ima čvrstu crtu gore i nema ispunu.
 Napomene su udubljenje (`--bg2`) s crtom. Oznake su u rečeničnom obliku, bez velikih slova i bez razmaknutih slova.
 Nema nadnaslova iznad naslova, točaka-razdjelnika ni strelica zalijepljenih uz tekst gumba.
+Razmaci (padding, margin, gap) su višekratnici od 4 px. Mjera teksta je 62ch. Natpis kontrole stane u jedan red.
+U tekstu: rasponi s „do“, bez crtica kao stanke, navodnici „ “, bez uskličnika.
+
+Provjera izgleda Hallmarkovim alatom (github.com/Nutlope/hallmark), iz mape projekta:
+
+    node PUT/hallmark/skills/hallmark/scripts/sloplint.mjs index.html assets/css/app.css --scope app --genre editorial
+
+Za provjeru u pregledniku pokreni lokalni poslužitelj i dodaj `--url http://localhost:8000/index.html#p-nav`
+(treba `puppeteer-core`). Alat piše snimke u `.hallmark/`, koja je u `.gitignore`.
 
 ## HTML klase
 

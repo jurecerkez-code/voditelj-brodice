@@ -32,7 +32,18 @@ Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama
     mono na riječima u pokazivačima vježbi, magentu u vrijednostima pokazivača, hover na tablicama koje ne reagiraju,
     preskočenu razinu naslova kod znački, debljine 700 i 800 u crtežima.
 - Te provjere su sada dio `tests/smoke.mjs` (svaka stranica, oba zaslona), a kontrast tokena računa `tools/kontrast.py`.
-- Hallmarkov alat `sloplint` nije pokrenut; pravila su provjerena ručno i testovima projekta.
+- **Hallmarkov `sloplint` je pokrenut** (statička provjera i provjera u pregledniku, svih 19 stranica na osam širina).
+  Prvo pokretanje: 6 FAIL, 329 REFLEX, 19 WARN. Nakon ispravaka: 0 FAIL, 0 REFLEX, 0 WARN. Ispravljeno:
+  - onemogućen gumb mijenja ispunu, tintu i pokazivač (prije samo prozirnost);
+  - razmaci su na ljestvici od 4 px (307 vrijednosti);
+  - natpisi kontrola stanu u jedan red na svim širinama; red ispitnog programa na uskom mobitelu postaje blok;
+  - tablica u sklopivom odlomku i dva bloka više ne vire preko ruba mobitela;
+  - kartice vjetrova i zvučnih signala su red s gumbom, a ne gumb visok kao kartica;
+  - mjera retka je 62ch (oko 83 znaka); prsten fokusa na prekidaču Dan/Noć ima kontrast;
+  - tokeni: noć, ispis, pa dan zadnji u izvoru, da alat čita dnevne vrijednosti.
+- **Tekst.** Crtice u rasponima su riječ „do“ (10 do 30 min), odnosi su sa spojnicom (brod-brod), navodnici su „ “,
+  lažne točke su pravi popisi, uskličnici su točke. Naslovi „Dobra vijest“, „Zlatno pravilo“ i „Spreman za učenje?“
+  sada kažu što piše ispod njih.
 
 ## 5.2.1: pramčani konop u simulatoru
 

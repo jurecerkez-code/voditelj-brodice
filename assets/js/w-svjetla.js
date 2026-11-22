@@ -1,5 +1,5 @@
 "use strict";
-/* Svjetla: sektori svjetala, simulator „prepoznaj brod", dnevni znakovi. */
+/* Svjetla: sektori svjetala, simulator „prepoznaj brod“, dnevni znakovi. */
 /* ═══════════════ LIGHT SECTORS ═══════════════ */
 (function(){
   const b=el('sectorWidget'); if(!b) return;
@@ -111,13 +111,13 @@ const VESSELS = [
    note:'Jedno bijelo kružno svjetlo i, ako je izvedivo, bočna svjetla.'},
   {id:'sail20',n:'Jedrenjak > 20 m',cat:'sail',
    L:[{t:'side'},{t:'stern'},{t:'opt2',c:['r','g']}],
-   note:'Bočna + krmeno. NEMA jarbolnog! Može (ne mora) pri vrhu jarbola dva kružna: CRVENO iznad ZELENOG.'},
+   note:'Bočna + krmeno. NEMA jarbolnog. Može (ne mora) pri vrhu jarbola dva kružna: CRVENO iznad ZELENOG.'},
   {id:'sail20m',n:'Jedrilica do 20 m: trobojna svjetiljka',cat:'sail',
    L:[{t:'tricolor'}],
    note:'Kombinirana trobojna svjetiljka pri vrhu jarbola (bočna + krmeno u jednoj). Tada NE SMIJE pokazivati nikakva druga svjetla.'},
   {id:'motsail',n:'Motorni jedrenjak (jedra + motor)',cat:'motor',
    L:[{t:'mast',c:'w'},{t:'side'},{t:'stern'}],day:'cone_down',
-   note:'TRIK: smatra se BRODOM NA MEHANIČKI POGON: pokazuje sva svjetla motornog broda. Danju: CRNI ČUNJ VRHOM DOLJE. NEMA prednost jedrilice!'},
+   note:'TRIK: smatra se BRODOM NA MEHANIČKI POGON: pokazuje sva svjetla motornog broda. Danju: CRNI ČUNJ VRHOM DOLJE. NEMA prednost jedrilice.'},
   {id:'anchor',n:'Usidreni brod',cat:'spec',
    L:[{t:'allround',c:'w'}],day:'ball',
    note:'Jedno bijelo kružno svjetlo na pramčanom dijelu. >50 m: još jedno bijelo na krmi, niže. >100 m: pali i sva palubna svjetla. Danju: JEDNA CRNA KUGLA.'},
@@ -144,7 +144,7 @@ const VESSELS = [
    note:'CRVENO iznad BIJELOG. Danju: dvočunj spojen vrhovima; ako je kraći od 20 m: može znak oblika KOŠARE.'},
   {id:'pilot',n:'Peljarski brod (pilotina) u službi',cat:'spec',
    L:[{t:'vert',c:['w','r']},{t:'side'},{t:'stern'}],day:'flagH',
-   note:'BIJELO iznad CRVENOG. Danju: zastavica „H" (bijelo-crvena). Zapamti obrnuto od ribara!'},
+   note:'BIJELO iznad CRVENOG. Danju: zastavica „H“ (bijelo-crvena). Zapamti obrnuto od ribara.'},
   {id:'tow',n:'Tegljač: tegalj < 200 m',cat:'motor',
    L:[{t:'mast2v'},{t:'side'},{t:'stern'},{t:'towyellow'}],
    note:'Dva jarbolna u okomici na prednjem jarbolu + bočna + krmeno + ŽUTO svjetlo za tegljenje IZNAD krmenog.'},

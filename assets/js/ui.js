@@ -13,7 +13,7 @@ const UI=(function(){
   /* gumb. o.kind: 'p' = glavna radnja (najviše jedna po bloku); o.big; o.icon; o.attrs = data-* i aria-* */
   const btn=(label,o)=>{ o=o||{}; return `<button type="button" class="btn${o.kind?' '+o.kind:''}${o.big?' big':''}${o.cls?' '+o.cls:''}"${attrs(o.attrs)}>${o.icon?icon(o.icon,18):''}<span>${label}</span></button>`; };
 
-  /* mjerač napretka 0–100 */
+  /* mjerač napretka 0 do 100 */
   const meter=(pct,label)=>{ const p=Math.max(0,Math.min(100,Math.round(pct||0))); return `<div class="meter" role="img" aria-label="${esc(label||'Napredak')}: ${p} %"><i style="width:${p}%"></i></div>`; };
 
   /* istaknuti blok: kind = note | warn | danger | ok | mnem */

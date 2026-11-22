@@ -1,7 +1,7 @@
 "use strict";
 /* Znakovi pogibelji: galerija i kviz. */
 /* ═══════════════ ZNAKOVI POGIBELJI (galerija + kviz u oba smjera) ═══════════════
-   Sadržaj je popis iz poglavlja „Zvučni signali → Signali opasnosti (pogibelji)".
+   Sadržaj je popis iz poglavlja „Zvučni signali → Signali opasnosti (pogibelji)“.
    Prizori su inline SVG; zajednički gradijenti su u jednom skrivenom <svg> (dsDefs). */
 (function(){
   const box=el('distressWidget'); if(!box) return;

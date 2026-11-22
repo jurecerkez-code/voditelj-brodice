@@ -1,8 +1,8 @@
 "use strict";
-/* Sažetak „Osnova", karta uma i usmeni odgovori na vrhu svakog poglavlja. */
+/* Sažetak „Osnova“, karta uma i usmeni odgovori na vrhu svakog poglavlja. */
 /* ═══════════════ OSNOVA + KARTA UMA (+ USMENO) NA VRHU SVAKOG POGLAVLJA ═══════════════ */
 /* Rečenice OSNOVE izvučene su iz teksta poglavlja (bez novih činjenica), napisane kao usmeni odgovor.
-   Karta uma: čvor = [natpis, naslov u tekstu do kojeg klik skrola, red, stupac 0–1]; veza = [od, do, 'l' za crtu bez strelice]. */
+   Karta uma: čvor = [natpis, naslov u tekstu do kojeg klik skrola, red, stupac 0 do 1]; veza = [od, do, 'l' za crtu bez strelice]. */
 window.VBOsnova=(function(){
   const D={
   'p-nav':{t:'nav',os:[
@@ -102,7 +102,7 @@ window.VBOsnova=(function(){
     'Mjestu sidrenja prilaziš uz vjetar ili uz struju, oboriš sidro i zavoziš krmom da se ukopa.',
     'Čovjek u moru: odmah kormilo sve u stranu pada osobe, smanji brzinu, dobaci kolut, jedna osoba ga stalno gleda.'],
    map:{n:[['Vanjske sile','Sile koje djeluju na brodicu',0,.17],['Unutarnje sile','Sile koje djeluju na brodicu',0,.5],['Sidrenje','Sidrenje',0,.83],
-     ['Vjetar, struja','Sile koje djeluju na brodicu',1,.17],['Vijak','Vijak i izboj krme',1,.5],['3–4 × dubina','Sidrenje',1,.83],
+     ['Vjetar, struja','Sile koje djeluju na brodicu',1,.17],['Vijak','Vijak i izboj krme',1,.5],['3 do 4 × dubina','Sidrenje',1,.83],
      ['Čovjek u moru','Čovjek u moru',2,.17],['Izboj krme','Vijak i izboj krme',2,.5],['Uz vjetar ili struju','Postupak sidrenja',2,.83],
      ['Pristajanje bokom','Kako to iskoristiti',3,.5]],
     e:[[0,3,'l'],[1,4],[4,7],[7,9],[2,5],[5,8]]}},
@@ -149,7 +149,7 @@ window.VBOsnova=(function(){
     if(!t) return; const blk=t.closest('h3,h4,h5,.card,.note,.warn,.danger,.ok,.mnem,details,table')||t;
     blk.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
     blk.classList.remove('osHit'); void blk.offsetWidth; blk.classList.add('osHit'); setTimeout(()=>blk.classList.remove('osHit'),1800); }
-  /* usmeni dio: 3–5 pitanja iz banke za ovo poglavlje, odgovor skriven dok ga sam ne otvoriš */
+  /* usmeni dio: 3 do 5 pitanja iz banke za ovo poglavlje, odgovor skriven dok ga sam ne otvoriš */
   function oral(bx,t,btn){ const tools=$('.osTools',bx), open=tools.classList.toggle('open');
     btn.setAttribute('aria-expanded',open); if(!open){ tools.innerHTML=''; return; }
     const pool=QB.filter(q=>q.t===t), qs=shuffle(pool.slice()).slice(0,Math.min(pool.length,3+Math.floor(Math.random()*3)));

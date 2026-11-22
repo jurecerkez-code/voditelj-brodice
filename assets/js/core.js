@@ -174,7 +174,7 @@ window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1), p=el(
 /* seaBackground(w,h,opts) vraća SVG: gradijent dubine + 3 sloja valova (daleki, srednji, bliski) + odsjaje svjetala.
    opts.view: 'side' (pogled s broda, obzor na opts.y), 'top' (ptičja perspektiva), 'section' (presjek: površina na opts.y, voda do dna)
    opts.night: noćna paleta, opts.lights: [{x, c}] odsjaji ispod svjetala (samo 'side'), opts.calm: niži valovi.
-   Valovi se sporo pomiču CSS animacijom (.seaL0–2); prefers-reduced-motion ih zaustavlja. Deklaracija funkcije je
+   Valovi se sporo pomiču CSS animacijom (.seaL0 do 2); prefers-reduced-motion ih zaustavlja. Deklaracija funkcije je
    podignuta (hoisting), pa je mogu zvati i widgeti koji su u kodu iznad ovog modula. */
 function seaBackground(w,h,o){
   o=o||{}; seaBackground.n=(seaBackground.n||0)+1;

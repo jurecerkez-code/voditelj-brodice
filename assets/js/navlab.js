@@ -1,7 +1,7 @@
 "use strict";
 /* Radni stol: šestar, trokuti, put-brzina-vrijeme, pozicija iz dva azimuta. */
 /* ═══════════════ NAV LAB (šestar, trokuti, put-brzina-vrijeme, pozicija) ═══════════════ */
-/* Vježbovna Merkatorova karta: 43°20'–43°30' N, 16°20'–16°40' E.
+/* Vježbovna Merkatorova karta: 43°20' do 43°30' N, 16°20' do 16°40' E.
    1' širine = 32 px = 1 M. 1' dužine = 32·cos(43,42°) px. Kursevi i azimuti su pravi (prema sjeveru karte). */
 (function(){
   const b=el('navLab'); if(!b) return;
@@ -161,7 +161,7 @@
   M.kurs={
     task(){ let A,B; do{ A=randWater(); B=randWater(); }while(!(distM(px(...A),px(...B))>2.2 && clearPath(A,B)));
       st={A:px(...A),B:px(...B)}; st.c=brg(st.A,st.B);
-      return {t:'Odredi <b>pravi kurs</b> od <b>A</b> prema <b>B</b> pomoću dva trokuta i ruže na karti. Upiši u stupnjevima (0–359).',
+      return {t:'Odredi <b>pravi kurs</b> od <b>A</b> prema <b>B</b> pomoću dva trokuta i ruže na karti. Upiši u stupnjevima (0 do 359).',
         i:`<label>Kurs <input class="nlI" data-k="c" inputmode="numeric" placeholder="npr. 047"> °</label>`}; },
     draw(){ dyn.innerHTML=`<line x1="${st.A[0]}" y1="${st.A[1]}" x2="${st.B[0]}" y2="${st.B[1]}" stroke="#c62828" stroke-width="1.4"/>`+mark(st.A,'A')+mark(st.B,'B'); },
     check(v){ const c=num(v.c); if(isNaN(c)) return out('Upiši kurs u stupnjevima.');
@@ -169,7 +169,7 @@
       result(ok,`Pravi kurs je <b>${pad3(st.c)}°</b>.${!ok&&Math.abs(e-180)<=3?' Očitao si <b>suprotni smjer</b>: s ruže čitaj od središta <b>u smjeru plovidbe</b>.':''}`); if(!ok) this.show(true); },
     show(keep){ const {A,B,c}=st, base=dyn.innerHTML.split('<g class="tool">')[0];
       const mid=[(A[0]+B[0])/2,(A[1]+B[1])/2], q=c*Math.PI/180, ux=Math.sin(q), uy=-Math.cos(q), nx=-uy, ny=ux;
-      // okomiti pomak od pravca A–B do središta ruže
+      // okomiti pomak od pravca A-B do središta ruže
       const off=(RC[0]-mid[0])*nx+(RC[1]-mid[1])*ny, flip=off<0, sz=62;
       const lerp=(p,r,t)=>[p[0]+(r[0]-p[0])*t,p[1]+(r[1]-p[1])*t];
       const P2=[mid[0]+nx*off,mid[1]+ny*off];
@@ -180,9 +180,9 @@
       const ray=e=>{ const r=ROSE.r*e; return `<line x1="${RC[0]}" y1="${RC[1]}" x2="${RC[0]+ux*r}" y2="${RC[1]+uy*r}" stroke="#c62828" stroke-width="2"/><circle cx="${RC[0]+ux*ROSE.r}" cy="${RC[1]+uy*ROSE.r}" r="${5*e}" fill="none" stroke="#c62828" stroke-width="2"/>`; };
       if(!keep) out('');
       seq([
-        {say:'1. Prvi trokut položi <b>hipotenuzom točno na liniju kursa</b> A–B.',d:700,f:e=>draw(mid,'',false)},
+        {say:'1. Prvi trokut položi <b>hipotenuzom točno na liniju kursa</b> A-B.',d:700,f:e=>draw(mid,'',false)},
         {say:'2. Drugi trokut prisloni uz prvi kao vodilicu i drži ga čvrsto. Prvi trokut <b>kliži</b> uz vodilicu: hipotenuza ostaje usporedna s kursom.',d:1900,wait:400,f:e=>draw(lerp(mid,P2,e),'',true)},
-        {say:'3. Kad hipotenuza prođe <b>središtem ruže</b>, stani. (Ako je ruža daleko, trokute naizmjence „hodaš" jedan uz drugi.)',d:800,f:e=>draw(lerp(P2,RC,e),'',true)},
+        {say:'3. Kad hipotenuza prođe <b>središtem ruže</b>, stani. (Ako je ruža daleko, trokute naizmjence „hodaš“ jedan uz drugi.)',d:800,f:e=>draw(lerp(P2,RC,e),'',true)},
         {say:`4. Očitaj na obodu ruže <b>u smjeru plovidbe</b> (od A prema B): <b>${pad3(c)}°</b>.`,d:700,f:e=>draw(RC,ray(e),false)}
       ]); }
   };
@@ -200,7 +200,7 @@
         const tMin=Math.max(6,Math.round(d/v*60/3)*3); d=Math.round(v*tMin/60*10)/10; st.v=v; st.d=d; st.t=tMin/60; }
       else if(st.type==='v'){ const tMin=rnd([15,20,24,30,36,40,45,48,54,60,75,90]); st.t=tMin/60; st.v=Math.round(d/st.t*10)/10; st.d=d; }
       else { const tMin=rnd([12,18,20,24,30,36,40,45]); st.v=v; st.t=tMin/60; st.d=Math.round(v*st.t*10)/10; }
-      // B postavi točno na izračunati put, u smjeru A–B
+      // B postavi točno na izračunati put, u smjeru A-B
       const u=[(st.B[0]-st.A[0])/Math.hypot(st.B[0]-st.A[0],st.B[1]-st.A[1]),(st.B[1]-st.A[1])/Math.hypot(st.B[0]-st.A[0],st.B[1]-st.A[1])];
       const nb=[st.A[0]+u[0]*st.d*K, st.A[1]+u[1]*st.d*K], nbl=ll(...nb);
       if(!(nbl[0]>.5&&nbl[0]<19.5&&nbl[1]>.4&&nbl[1]<9.6&&wet(...nbl,.3)&&clearPath(ll(...st.A),nbl))) return this.task();
@@ -275,7 +275,7 @@
   const KR=()=>Math.min(22,Math.max(11,17/sc()));            // ručice dovoljno velike i za prst
   const TIPS={
     sestar:'<b>Šestar rukom.</b> ① Povuci <b>vrhove</b> (plavi krugovi) na <b>A</b> i <b>B</b>, sami se prilijepe. ② Uhvati šestar za <b>zglob ✥</b> ili za <b>krak</b> i odnesi ga na <b>skalu širine</b> (lijevo ili desno): sam se uspravi, razmak ostaje isti. ③ Očitaj: 1&#8242; = 1 M, crtica = 0,2 M.',
-    kurs:'<b>Trokut rukom.</b> Okreni trokut ručicom <b>⟳</b> (ili gumbima ispod) dok hipotenuza ne legne na liniju A–B. Zatim ga <b>vuci</b>: kut ostaje isti, kao klizanje uz vodilicu. Kad isprekidani pravac prođe <b>središtem ruže</b>, očitaj kurs na obodu u smjeru plovidbe.'};
+    kurs:'<b>Trokut rukom.</b> Okreni trokut ručicom <b>⟳</b> (ili gumbima ispod) dok hipotenuza ne legne na liniju A-B. Zatim ga <b>vuci</b>: kut ostaje isti, kao klizanje uz vodilicu. Kad isprekidani pravac prođe <b>središtem ruže</b>, očitaj kurs na obodu u smjeru plovidbe.'};
   const hinge=(t1,t2)=>{ const mx=(t1[0]+t2[0])/2, my=(t1[1]+t2[1])/2, d=Math.hypot(t2[0]-t1[0],t2[1]-t1[1]), L=Math.max(d/2+26,96);
     let nx=-(t2[1]-t1[1])/(d||1), ny=(t2[0]-t1[0])/(d||1); if(ny>0.01){nx=-nx;ny=-ny;}
     const h=Math.sqrt(Math.max(0,L*L-d*d/4)); if(mx+nx*h<12||mx+nx*h>W-12||my+ny*h<12){ nx=-nx; ny=-ny; } return [mx+nx*h,my+ny*h]; };

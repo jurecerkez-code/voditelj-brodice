@@ -205,7 +205,9 @@
     var hs=pg.querySelectorAll('h2,h3,h4,.osHead b,.simTitle'), t='';
     for(var i=0;i<hs.length;i++){ if(hs[i].compareDocumentPosition(svg)&Node.DOCUMENT_POSITION_FOLLOWING) t=hs[i].textContent; else if(!hs[i].contains(svg)) break; }
     return t.replace(/\s+/g,' ').trim(); }
-  function label(){ pending=0; content.querySelectorAll(SEL).forEach(function(s){
+  /* svaki crtež u gradivu je shema stvarne stvari (svjetla, oznake, more, motor): tako se i zove u kodu */
+  function kind(){ content.querySelectorAll('svg:not(.ico):not([data-kind])').forEach(function(s){ s.setAttribute('data-kind','diagram'); }); }
+  function label(){ pending=0; kind(); content.querySelectorAll(SEL).forEach(function(s){
       if(s.closest('[aria-hidden="true"],button,a,[role="img"]')){ s.setAttribute('aria-hidden','true'); return; }
       var t=nameFor(s); if(!t){ s.setAttribute('aria-hidden','true'); return; }
       s.setAttribute('role',s.querySelector('[tabindex]:not([tabindex="-1"]),a[href],button,[role="button"]')?'group':'img'); s.setAttribute('aria-label','Crtež: '+t); }); }

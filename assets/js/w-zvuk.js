@@ -1,7 +1,7 @@
 "use strict";
 /* Zvučni signali: čuj i prepoznaj, zatrubi sam, ritam u magli. */
 /* ═══════════════ ZVUČNI SIGNALI: ČUJ I PREPOZNAJ · ZATRUBI SAM · RITAM U MAGLI ═══════════════ */
-/* Signali i značenja iz poglavlja „Zvučni signali" (isti popis kao u kartici za reprodukciju).
+/* Signali i značenja iz poglavlja „Zvučni signali“ (isti popis kao u kartici za reprodukciju).
    Zvuk: vlastiti Web Audio kontekst, isti ton kao postojeći (pila 175 Hz); postojeća logika zvuka se ne dira. */
 (function(){
   const sw=el('soundWidget'); if(!sw) return;
@@ -24,7 +24,7 @@
   ];
   const mark=p=>'<span class="sg" aria-hidden="true">'+p.map(u=>u===1?'<i></i>':'<i class="l"></i>').join('')+'</span>';
   const words=p=>p.map(u=>u===1?'kratki':'dugi').join(', ');
-  let real=false; // stvarno trajanje: kratki 1 s, dugi 4 s (poglavlje: dugi 4–6 s)
+  let real=false; // stvarno trajanje: kratki 1 s, dugi 4 s (poglavlje: dugi 4 do 6 s)
   const DUR=u=>real?(u===1?1:4):(u===1?.28:1.1), GAP=()=>real?1:.22;
   let ctx=null;
   const AC=()=>{ try{ ctx=ctx||new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume(); }catch(e){ ctx=null; } return ctx; };
@@ -75,7 +75,7 @@
   function drawRec(){ const r=$('.sqRec',b); if(r) r.innerHTML=rec.length?mark(rec)+`<span>${words(rec)}</span>`:'<span>Još ništa. Pritisni i drži trubu.</span>'; }
   function blow(){ done=false; rec=[]; cur=rnd(SIG);
     body.innerHTML=`<div class="sqGrid"><div class="sqStage"><button class="sqBtn" type="button" aria-label="Truba: drži za zvuk">${hornSvg}<span>Drži za zvuk</span></button>
-      <p class="sqHint">Kratki: kratko pritisni. Dugi: drži ${real?'barem 2,5 s (na moru 4–6 s)':'barem 0,7 s (skraćeno)'}. Radi i razmaknica.</p></div>
+      <p class="sqHint">Kratki: kratko pritisni. Dugi: drži ${real?'barem 2,5 s (na moru 4 do 6 s)':'barem 0,7 s (skraćeno)'}. Radi i razmaknica.</p></div>
       <div><p class="sqQ">Daj zvučni signal:</p><div class="sqTask">${cur[1]}</div><div class="sqRec"></div>
       <div class="btnrow"><button class="btn sqClr" type="button">Obriši</button><button class="btn p sqDone" type="button">Gotovo</button></div><div class="sqFb"></div></div></div>`;
     drawRec(); const btn=$('.sqBtn',b);
@@ -89,7 +89,7 @@
     const want=cur[2], ok=cur[0]==='Pet kratkih'? rec.length>=5&&rec.every(u=>u===1) : rec.join()===want.join();
     result(ok,`Traženo: <b>${cur[0]}</b> ${mark(want)}${cur[0]==='Pet kratkih'?' (najmanje pet)':''}. Ti si dao: ${mark(rec)} ${words(rec)}.`); }
 
-  /* ── 3. ritam u magli: kad se signal ponavlja (vremenska traka 0–6 min) ── */
+  /* ── 3. ritam u magli: kad se signal ponavlja (vremenska traka 0 do 6 min) ── */
   function fog(){ const W=640, H=210, X0=196, X1=620, T=6, px=m=>X0+(X1-X0)*m/T;
     const rows=[['U plovidbi, kreće se','svake 2 min',2,[4]],['Plovi, ne kreće se','svake 2 min',2,[4,4]],['Jedrilica, tegalj, ribolov…','svake 2 min',2,[4,1,1]],['Usidren (zvono 5 s)','svake 1 min',1,'bell']];
     let g=`<rect width="${W}" height="${H}" rx="10" fill="#0b2135"/>`;

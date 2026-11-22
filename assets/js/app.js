@@ -100,7 +100,7 @@
       if(q.length<2){ hits=[]; res.innerHTML=`<p class="srchEmpty">Upiši pojam, na primjer <b>bura</b>, <b>MAYDAY</b>, <b>kardinalna</b> ili <b>sidrenje</b>.</p>`; return; }
       const words=q.split(/\s+/);
       hits=idx.map(x=>{ if(!words.every(w=>x.f.includes(w))) return null; return {x,s:x.w*10+(x.f.startsWith(q)?8:0)+(x.f.includes(q)?4:0)-x.f.length/40}; }).filter(Boolean).sort((a,b)=>b.s-a.s).slice(0,14).map(h=>h.x);
-      if(!hits.length){ res.innerHTML=`<p class="srchEmpty">Nema naslova s „${UI.esc(inp.value.trim())}". Pokušaj kraći pojam ili drugu riječ.</p>`; return; }
+      if(!hits.length){ res.innerHTML=`<p class="srchEmpty">Nema naslova s „${UI.esc(inp.value.trim())}“. Pokušaj kraći pojam ili drugu riječ.</p>`; return; }
       const mark=t=>{ const f=UI.fold(t), i=f.indexOf(words[0]); return i<0?UI.esc(t):UI.esc(t.slice(0,i))+'<mark>'+UI.esc(t.slice(i,i+words[0].length))+'</mark>'+UI.esc(t.slice(i+words[0].length)); };
       res.innerHTML=hits.map((h,i)=>`<button type="button" role="option" data-i="${i}" aria-selected="${i===0}"${i===0?' class="sel"':''}>${mark(h.t)}<small>${UI.esc(h.sub)}</small></button>`).join(''); }
     function pick(i){ const h=hits[i]; if(!h) return; dlg.close(); go(h.pg);
@@ -221,7 +221,7 @@
   function renderTables(){ const box=el('hmTables'); if(!box) return; const nx=CH.find(c=>!isRead(c.id));
     box.innerHTML=`<table class="hmP"><caption class="sr">Ispitni program po stolovima</caption><thead><tr><th scope="col">Poglavlje</th><th scope="col" class="n">Pročitano</th><th scope="col" class="n">Kviz</th></tr></thead>`+STOL.map(([n,name,sub])=>{ const list=CH.filter(c=>c.stol===n); let sum=0;
       const rows=list.map(c=>{ const r=isRead(c.id), m=mastery(c.t); sum+=(r?40:0)+(m===null?0:m*.6);
-        return `<tr${nx&&nx.id===c.id?' class="cur"':''}><td><button type="button" data-next="${c.id}">${title(c.id)}</button></td><td class="n">${r?'<span class="rd">da</span>':'ne'}</td><td class="n${m===null?'':m>=80?' good':m<60?' low':''}">${m===null?'<span class="sr">nije rješavan</span>':m+' %'}</td></tr>`; }).join('');
+        return `<tr${nx&&nx.id===c.id?' class="cur"':''}><td><button type="button" data-next="${c.id}">${title(c.id)}</button></td><td class="n" data-l="Pročitano">${r?'<span class="rd">da</span>':'ne'}</td><td class="n${m===null?'':m>=80?' good':m<60?' low':''}" data-l="Kviz">${m===null?'<span class="sr">nije rješavan</span>':m+' %'}</td></tr>`; }).join('');
       return `<tbody><tr class="grp"><th scope="rowgroup" colspan="3"><div class="hmG"><b>${name}</b><i>spremnost <span>${Math.round(sum/list.length)} %</span></i><span>${sub}</span></div></th></tr>${rows}</tbody>`; }).join('')+'</table>'; }
 
   function renderNavStats(){ $$('.navlink').forEach(l=>{ const c=chOf(l.dataset.t); if(!c) return; const m=mastery(c.t); let s=$('.pct',l);

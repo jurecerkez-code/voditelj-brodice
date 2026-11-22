@@ -19,7 +19,7 @@
   msvg.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden';
   const mp=document.createElementNS(NS,'path'); msvg.appendChild(mp); document.body.appendChild(msvg);
 
-  // gusto uzorkovanje (svakih ~1,5 px), s granicama dijelova radi „do dijela n"
+  // gusto uzorkovanje (svakih ~1,5 px), s granicama dijelova radi „do dijela n“
   // alt: zategnuti oblik istog užeta; ako mu je neki dio dulji, taj se dio uzorkuje gušće da se pramenovi ne razrijede
   function dense(pieces,alt){
     const X=[],Y=[],Z=[],S=[],CL=[],ends=[],cnt=[]; let s=0;
@@ -38,7 +38,7 @@
     pieces.forEach(([d,z,cl],pi)=>{ mp.setAttribute('d',d); const L=mp.getTotalLength(), c=R.cnt[pi], n=pi?c:c-1;
       for(let i=pi?1:0;i<=n;i++){ const p=mp.getPointAtLength(L*i/n); X.push(p.x); Y.push(p.y); Z.push(z); CL.push(cl||''); } });
     return {...R,X,Y,Z,CL,own:true,_P:null}; }
-  // „upto" 3.5 = do polovice dijela 3; vraća duljinu po užetu
+  // „upto“ 3.5 = do polovice dijela 3; vraća duljinu po užetu
   const lenAt=(R,u)=>{ if(u>=R.ends.length) return R.L; const i=Math.floor(u), f=u-i, a=i?R.ends[i-1]:0; return a+(R.ends[i]-a)*f; };
   function tighten(R,cx,cy,rad,k){ const X=R.X.slice(), Y=R.Y.slice();
     for(let i=0;i<X.length;i++){ const dx=X[i]-cx, dy=Y[i]-cy, d=Math.hypot(dx,dy); if(d<rad){ const f=k*Math.pow(1-d/rad,.9); X[i]-=dx*f; Y[i]-=dy*f; } }
@@ -47,7 +47,7 @@
 
   /* ── crtanje: valjkasto sjenčanje + pramenovi po stvarnoj duljini (bez šavova na spojevima) ── */
   const LX=-.55, LY=-.83; // svjetlo odozgo lijevo
-  // „duljina za pramenove": na oštrom zavoju (npr. konop preko prečke gledan sprijeda) vanjski rub je
+  // „duljina za pramenove“: na oštrom zavoju (npr. konop preko prečke gledan sprijeda) vanjski rub je
   // mnogo dulji od osi, pa se dodaje kut zakreta · pola debljine. Tako zavoj ostaje pun pramenova.
   function plen(R,w){ if(R._P && R._Pw===w) return R._P; const P=[0], X=R.X, Y=R.Y;
     for(let i=1;i<X.length;i++){ const ds=Math.hypot(X[i]-X[i-1],Y[i]-Y[i-1]); let da=0;
@@ -55,7 +55,7 @@
       P.push(P[i-1]+ds+da*w*.5); }
     R._P=P; R._Pw=w; return P; }
   function run(R,i0,i1,col,w,shadow,t0,t1){ t0=t0||5; t1=t1||5;
-    // uže od tri pramena: niz kosih „zrna" (svaki vidljivi dio pramena) preko tamne jezgre
+    // uže od tri pramena: niz kosih „zrna“ (svaki vidljivi dio pramena) preko tamne jezgre
     let pts='', sh='', hl='';
     const T=[];
     for(let i=i0;i<=i1;i++){ const a=Math.max(0,i-2), c=Math.min(R.X.length-1,i+2);
@@ -101,7 +101,7 @@
     MID=(MID+1000)%1e9;
     const layers=[], zmin=Math.min(...geo.map(R=>Math.min(...R.Z)));
     let ground='';
-    // mreža vidljivih točaka svih užeta: za „presjek" (tamni rub oko gornjeg užeta samo gdje leži na donjem)
+    // mreža vidljivih točaka svih užeta: za „presjek“ (tamni rub oko gornjeg užeta samo gdje leži na donjem)
     const GR=12, grid=new Map();
     geo.forEach((R,ri)=>{ const n=idxAt(R,Ls[ri]), w=cur.ropes[ri].w; for(let i=0;i<=n;i+=2){ const k=Math.floor(R.X[i]/GR)+','+Math.floor(R.Y[i]/GR);
       let c=grid.get(k); if(!c) grid.set(k,c=[]); c.push([R.X[i],R.Y[i],R.Z[i],w,ri,R.S[i]]); } });
@@ -222,7 +222,7 @@
     ['M238,258 C220,258 210,251 210,239 C210,227 222,223 238,223',4],['M238,223 L262,223',4],['M262,223 L320,224',4],['M320,224 L352,230',3.2],
     ['M352,230 C364,236 370,250 372,268',4]];
 
-  // bitva, pogled odozgo (središte 280,190; rogovi x 130–430; z bitve=2, ispod roga=1)
+  // bitva, pogled odozgo (središte 280,190; rogovi x 130 do 430; z bitve=2, ispod roga=1)
   const CL={
     s:['M-20,360 C70,322 160,240 240,230 L320,229 C336,229 346,224 350,216',1],
     uR:['M350,216 C360,208 360,172 350,164',1],
@@ -276,10 +276,10 @@
    ropes:[{c:'cream',w:14,g:bowFinal}], lab:[{t:'stojeći dio (prema teretu)',x:222,y:22}],
    steps:[
     {s:'Početak',t:'Lijevom rukom drži <b>stojeći dio</b> (ide gore, prema teretu). Desnom rukom vodiš <b>radni kraj</b>, s bijelim obručem (obrubom) na vrhu.',u:[0.55]},
-    {s:'Mala omča, radni dio preko',t:'Na stojećem dijelu napravi <b>malu omču</b>, tako da radni dio prijeđe <b>PREKO</b> stojećeg. To je „rupa".',u:[2.999],h:[{x:230,y:150,t:'radni dio iznad'}]},
-    {s:'Velika petlja i kroz omču odozdo',t:'Kraj spusti dolje: tu nastaje <b>velika petlja</b> (njenu veličinu biraš sada). Zatim kraj provuci kroz malu omču <b>odozdo prema gore</b> („zec izlazi iz rupe").',u:[5.999],h:[{x:294,y:184,t:'ulazi odozdo'},{x:292,y:98,t:'izlazi gore'}]},
-    {s:'Iza stojećeg dijela',t:'Kraj obiđe <b>iza stojećeg dijela</b> („zec obilazi drvo").',u:[6.999],h:[{x:210,y:36,t:'iza'}]},
-    {s:'Natrag kroz istu omču',t:'Kraj se vrati <b>natrag kroz istu malu omču</b>, odozgo prema dolje („zec se vraća u rupu"). Završi unutar velike petlje, uz njen lijevi krak.',u:[99],h:[{x:268,y:104,t:'ulazi odozgo'},{x:266,y:180,t:'izlazi dolje'}]},
+    {s:'Mala omča, radni dio preko',t:'Na stojećem dijelu napravi <b>malu omču</b>, tako da radni dio prijeđe <b>PREKO</b> stojećeg. To je „rupa“.',u:[2.999],h:[{x:230,y:150,t:'radni dio iznad'}]},
+    {s:'Velika petlja i kroz omču odozdo',t:'Kraj spusti dolje: tu nastaje <b>velika petlja</b> (njenu veličinu biraš sada). Zatim kraj provuci kroz malu omču <b>odozdo prema gore</b> („zec izlazi iz rupe“).',u:[5.999],h:[{x:294,y:184,t:'ulazi odozdo'},{x:292,y:98,t:'izlazi gore'}]},
+    {s:'Iza stojećeg dijela',t:'Kraj obiđe <b>iza stojećeg dijela</b> („zec obilazi drvo“).',u:[6.999],h:[{x:210,y:36,t:'iza'}]},
+    {s:'Natrag kroz istu omču',t:'Kraj se vrati <b>natrag kroz istu malu omču</b>, odozgo prema dolje („zec se vraća u rupu“). Završi unutar velike petlje, uz njen lijevi krak.',u:[99],h:[{x:268,y:104,t:'ulazi odozgo'},{x:266,y:180,t:'izlazi dolje'}]},
     {s:'Zategni',t:'Zategni: kraj i krak petlje uz njega drži zajedno u jednoj ruci, drugom povuci stojeći dio.',u:[99],tight:[252,128,112,.26]}
    ]},
 
@@ -299,7 +299,7 @@
   {id:'muski',n:'Muški uzao',en:'reef knot',tag:'Spajanje iste debljine',
    use:'Spajanje <b>dvaju konopa jednake debljine</b> (ili dvaju krajeva istog konopa, npr. vezanje jedra ili vreće).',
    exam:'Brzo pravilo: <b>lijevi preko desnog i ispod, pa desni preko lijevog i ispod</b>. Ovdje ga vežeš provlačenjem da vidiš kako je građen: rezultat je isti čvor.',
-   check:'Svaki konop stvara „U" koji obuhvaća drugi. Oba kraja istog konopa izlaze <b>s iste strane</b>, uz svoj stojeći dio, i čvor leži ravno.',
+   check:'Svaki konop stvara „U“ koji obuhvaća drugi. Oba kraja istog konopa izlaze <b>s iste strane</b>, uz svoj stojeći dio, i čvor leži ravno.',
    err:'Ako krajevi izađu na suprotne strane ili se čvor iskrivi, dobio si <b>babski čvor</b> (granny). On klizi i nije siguran. Muški nije za teret koji visi ni za konope različite debljine.',
    ropes:[{c:'cream',w:13,g:RA,tip:'kraj A'},{c:'blue',w:13,g:RB,tip:'kraj B',tipDy:-30}],
    steps:[
@@ -308,7 +308,7 @@
     {s:'B preko luka omče A',t:'Kraj B uvedi u omču A <b>preko njenog luka</b>.',u:[99,0.999],h:[{x:372,y:225,t:'B preko luka'}]},
     {s:'B ispod oba kraka A',t:'Kraj B obiđe <b>ispod oba kraka</b> konopa A i okrene se natrag.',u:[99,2.999],h:[{x:178,y:225,t:'ispod'},{x:178,y:263,t:'ispod'}]},
     {s:'B natrag preko luka',t:'Kraj B izađe <b>opet preko luka</b> omče A i legne uz svoj stojeći dio.',u:[99,99],h:[{x:372,y:263,t:'B preko luka'}]},
-    {s:'Zategni',t:'Zategni povlačeći oba stojeća dijela. Dva „U" su se obuhvatila, krajevi leže uz svoje stojeće dijelove.',u:[99,99],tight:[275,244,150,.16]}
+    {s:'Zategni',t:'Zategni povlačeći oba stojeća dijela. Dva „U“ su se obuhvatila, krajevi leže uz svoje stojeće dijelove.',u:[99,99],tight:[275,244,150,.16]}
    ]},
 
   {id:'zastavni',n:'Zastavni uzao',en:'sheet bend',tag:'Različite debljine',
@@ -317,7 +317,7 @@
    err:'Ako tanki kraj provučeš preko sebe umjesto ispod, čvor se raspada pod opterećenjem. Omču uvijek radi od <b>debljeg</b> konopa.',
    ropes:[{c:'orange',w:10,g:SBt,tip:'tanki kraj'},{c:'blue',w:17,g:SBk,tip:null}], lab:[{t:'deblji konop',x:420,y:262},{t:'tanji konop',x:20,y:330}],
    steps:[
-    {s:'Omča od debljeg konopa',t:'Deblji konop (plavi) savij u omču oblika „U". Tanji (narančasti) dolazi odozdo.',u:[0.7,99]},
+    {s:'Omča od debljeg konopa',t:'Deblji konop (plavi) savij u omču oblika „U“. Tanji (narančasti) dolazi odozdo.',u:[0.7,99]},
     {s:'Tanji kroz omču odozdo',t:'Tanji kraj provuci <b>kroz omču debljeg, odozdo prema gore</b>: ispod donjeg kraka, preko gornjeg.',u:[2.999,99],h:[{x:232,y:236,t:'ispod'},{x:232,y:164,t:'preko'}]},
     {s:'Iza oba kraka',t:'Tankim krajem obiđi <b>iza oba kraka</b> debljeg konopa.',u:[5.999,99],h:[{x:330,y:164,t:'iza'},{x:330,y:236,t:'iza'}]},
     {s:'Preko, pa ispod samog sebe',t:'Kraj se vrati <b>sprijeda, preko oba kraka</b>, pa ga provuci <b>ispod samog sebe</b> (ispod svog luka, ne ispod debljeg konopa).',u:[99,99],h:[{x:280,y:200,t:'preko'},{x:280,y:116,t:'ispod sebe'}]},

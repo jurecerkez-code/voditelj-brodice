@@ -14,7 +14,7 @@ const BoatPhys=(function(){
   const KN=0.5144, RHO=1025, RHO_A=1.2, D2R=Math.PI/180;
   // brodica 6 m, oko 1,4 t, ugrađeni motor, desnokretni vijak, kormilo iza vijka
   const B={L:6, m:1400, mx:1550, my:2500, Iz:5200,
-    Xu:90, Xuu:150,               // uzdužni otpor: 2 čv na „polako", 4 čv na „naprijed"
+    Xu:90, Xuu:150,               // uzdužni otpor: 2 čv na „polako“, 4 čv na „naprijed“
     Yv:600, Yuv:900, Yvv:1500, xh:.9,  // bočni otpor: trup se bočno teško gura; pri zanošenju sila djeluje ispred sredine
     Nr:3000, Nur:1500, Nrr:12000, // prigušenje zakreta
     xr:-2.8, Ar:.12, CL:3, kT:1.2,     // kormilo: položaj, površina, uzgon, udio poriva koji mlaz vijka skrene u stranu
@@ -73,7 +73,7 @@ const DockWorld=(function(){
   const HULL=[[0,-30.4],[9.5,-16],[13.5,0],[13.3,14],[12.8,27.2],[-12.8,27.2],[-13.3,14],[-13.5,0],[-9.5,-16]];
   const moorPoly=(cx,cy,flip)=>HULL.map(([x,y])=>[cx+x*1.375*(flip?-1:1), cy+y*1.375*(flip?-1:1)]);
   const MOORC=[[QX+22,107,0],[QX+22,335,180]], MOOR=MOORC.map(([x,y,h])=>moorPoly(x,y,h===180));
-  const LIM={hit:.36, gap:1.25, par:12, slow:.26, hold:1.2};   // udarac (m/s), razmak od obale (m), kut (°), „stoji" (m/s), koliko dugo (s)
+  const LIM={hit:.36, gap:1.25, par:12, slow:.26, hold:1.2};   // udarac (m/s), razmak od obale (m), kut (°), „stoji“ (m/s), koliko dugo (s)
   const KN=BoatPhys.KN;
   // jačine: vjetar u čvorovima, struja u čvorovima
   const STR=[{n:'slab',wind:6,cur:.3},{n:'umjeren',wind:12,cur:.6},{n:'jak',wind:20,cur:1}];

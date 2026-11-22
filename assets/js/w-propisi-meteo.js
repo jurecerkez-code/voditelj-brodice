@@ -76,10 +76,10 @@ const WINDS=[
     {d:225,t:'Jugozapadni, jak, donosi velike valove prema obali. Obično kratkotrajan, ali opasan u lukama otvorenim prema SW.'}
   ];
   // WMO Beaufortova ljestvica: [naziv, brzina u čvorovima, opis mora]
-  const BF=[['tišina','< 1','more kao zrcalo'],['lahor','1–3','sitno mreškanje'],['povjetarac','4–6','mali valići, ne lome se'],['slab vjetar','7–10','valići, ponegdje bijela kapica'],
-    ['umjeren vjetar','11–16','manji valovi, česte bijele kapice'],['umjereno jak','17–21','umjereni valovi, mnogo bijelih kapica'],['jak vjetar','22–27','veći valovi, pjena posvuda'],
-    ['žestok vjetar','28–33','more se gomila, pjena u prugama'],['olujni vjetar','34–40','visoki valovi, pjena u gustim prugama'],['jak olujni','41–47','visoki valovi, rasprskavanje smanjuje vidljivost'],
-    ['orkanski vjetar','48–55','vrlo visoki valovi, more bijelo'],['jak orkanski','56–63','iznimno visoki valovi'],['orkan','≥ 64','zrak pun pjene i rasprskavanja']];
+  const BF=[['tišina','< 1','more kao zrcalo'],['lahor','1 do 3','sitno mreškanje'],['povjetarac','4 do 6','mali valići, ne lome se'],['slab vjetar','7 do 10','valići, ponegdje bijela kapica'],
+    ['umjeren vjetar','11 do 16','manji valovi, česte bijele kapice'],['umjereno jak','17 do 21','umjereni valovi, mnogo bijelih kapica'],['jak vjetar','22 do 27','veći valovi, pjena posvuda'],
+    ['žestok vjetar','28 do 33','more se gomila, pjena u prugama'],['olujni vjetar','34 do 40','visoki valovi, pjena u gustim prugama'],['jak olujni','41 do 47','visoki valovi, rasprskavanje smanjuje vidljivost'],
+    ['orkanski vjetar','48 do 55','vrlo visoki valovi, more bijelo'],['jak orkanski','56 do 63','iznimno visoki valovi'],['orkan','≥ 64','zrak pun pjene i rasprskavanja']];
   function draw(sel){
     let g=`<defs><radialGradient id="wBg"><stop offset="0" stop-color="#12304a"/><stop offset="1" stop-color="#0b1d2e"/></radialGradient></defs>`;
     g+=`<circle cx="${c}" cy="${c}" r="${R+18}" fill="url(#wBg)" stroke="${C.line}"/>`;
@@ -117,8 +117,8 @@ const WINDS=[
     $$('.wdot',b).forEach(d=>d.addEventListener('click',()=>pick(+d.dataset.d)));
   }
   function cards(){ $('.wCards',b).innerHTML=ADR.map(a=>{ const w=WINDS.find(x=>x.d===a.d);
-      return `<button class="wCard${a.d===cur?' on':''}" data-d="${a.d}" type="button" style="--wc:${w.c}"><b>${w.n.split(' ')[0]}</b><span class="mono">${w.dir}, ${w.d}°</span><small>${a.t}</small></button>`; }).join('');
-    $$('.wCard',b).forEach(x=>x.addEventListener('click',()=>pick(+x.dataset.d))); }
+      return `<div class="wCard${a.d===cur?' on':''}" style="--wc:${w.c}"><button type="button" data-d="${a.d}" aria-pressed="${a.d===cur}">${w.n.split(' ')[0]}</button><span>${w.dir}, ${w.d}°</span><small>${a.t}</small></div>`; }).join('');
+    $$('.wCard button',b).forEach(x=>x.addEventListener('click',()=>pick(+x.dataset.d))); }
   function pick(d){
     cur=d; const w=WINDS.find(x=>x.d===d);
     draw(d); cards();
@@ -141,7 +141,7 @@ const WINDS=[
     $('.wBfTxt',b).innerHTML=`<b>${bf} Bf, ${BF[bf][0]}</b>, ${BF[bf][1]} čv, ${BF[bf][2]}`;
     $$('.wBfB',b).forEach(x=>x.classList.toggle('on',+x.dataset.bf===bf));
   }
-  $('.wBfRow',b).innerHTML=BF.map((x,i)=>`<button class="wBfB" data-bf="${i}" type="button" title="${x[0]}" style="--h:${10+i*3}px">${i}</button>`).join('');
+  $('.wBfRow',b).innerHTML=BF.map((x,i)=>`<button class="wBfB" data-bf="${i}" type="button" title="${x[0]}" style="--h:${8+i*3}px">${i}</button>`).join('');
   $$('.wBfB',b).forEach(x=>x.addEventListener('click',()=>{ bf=+x.dataset.bf; sea(); }));
   pick(45); sea();
 })();

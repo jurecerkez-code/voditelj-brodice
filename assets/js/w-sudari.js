@@ -12,7 +12,7 @@ const COLREG=[
   r:'Vidim ga preko svoje <b>lijeve</b> strane → <b>JA IMAM PREDNOST.</b> Zadržavam kurs i brzinu i stalno ga pratim. On mora izbjeći.',
   path:'b_right', signal:'nije potreban'},
  {id:'noreact',t:'Imam prednost, ali on ne reagira',a:{x:340,y:280,h:315,type:'motor'},bo:{x:120,y:150,h:135,type:'motor'},
-  r:'1) <b>Najmanje 5 kratkih zvučnih signala</b>: upozorenje.<br>2) Ako i dalje ništa: <b>izbjegavam iako imam prednost</b>.<br>3) <b>Puni okret UDESNO</b> pa zaobilazak. <span class="c-red"><b>NIKAD ulijevo!</b></span> Razlog: ako se on „probudi" i krene udesno, sudarit ćete se.',
+  r:'1) <b>Najmanje 5 kratkih zvučnih signala</b>: upozorenje.<br>2) Ako i dalje ništa: <b>izbjegavam iako imam prednost</b>.<br>3) <b>Puni okret UDESNO</b> pa zaobilazak. <span class="c-red"><b>NIKAD ulijevo.</b></span> Razlog: ako se on „probudi“ i krene udesno, sudarit ćete se.',
   path:'a_circle', signal:'<span class="sg" role="img" aria-label="kratki, kratki, kratki, kratki, kratki"><i></i><i></i><i></i><i></i><i></i></span> (pet ili više kratkih)'},
  {id:'overtake',t:'Pretjecanje',a:{x:200,y:330,h:0,type:'motor'},bo:{x:200,y:170,h:0,type:'motor'},
   r:'<b>Brod koji pretječe UVIJEK se uklanja</b>: bilo da je motorni, jedrilica ili motorni jedrenjak. Može lijevo ili desno, ali <b>nikad ne smije presjeći kurs</b> brodu kojeg pretječe (ne prolazi mu po pramcu). Pretjecani zadržava kurs i brzinu.',
@@ -20,8 +20,8 @@ const COLREG=[
  {id:'sail_motor',t:'Jedrilica × motorni brod',a:{x:130,y:280,h:40,type:'motor'},bo:{x:330,y:160,h:220,type:'sail'},
   r:'<b>Jedrilica ima prednost.</b> Motorni brod mijenja kurs UDESNO i zaobilazi <b>po krmi</b> jedrilice. Jedrilica zadržava kurs i brzinu.<br><span style="color:var(--yellow)">Iznimke: ako jedrilica pretječe, ako je motorni jedrenjak, ili ako je motorni brod u kategoriji iznad nje.</span>',
   path:'a_right', signal:'· (jedan kratki)'},
- {id:'motsail',t:'TRIK: „jedrilica" s crnim čunjem vrhom dolje',a:{x:130,y:280,h:40,type:'motor'},bo:{x:330,y:160,h:220,type:'motorsail'},
-  r:'Čunj vrhom dolje = <b>MOTORNI JEDRENJAK</b> = brod na mehanički pogon. Nema prednost jedrilice!<br>Dva motorna broda, kursevi se sijeku → <b>pravilo desne strane</b>. Ako mi dolazi <b>zdesna</b>: ja izbjegavam. Ako <b>slijeva</b>: ja imam prednost.',
+ {id:'motsail',t:'TRIK: „jedrilica“ s crnim čunjem vrhom dolje',a:{x:130,y:280,h:40,type:'motor'},bo:{x:330,y:160,h:220,type:'motorsail'},
+  r:'Čunj vrhom dolje = <b>MOTORNI JEDRENJAK</b> = brod na mehanički pogon. Nema prednost jedrilice.<br>Dva motorna broda, kursevi se sijeku → <b>pravilo desne strane</b>. Ako mi dolazi <b>zdesna</b>: ja izbjegavam. Ako <b>slijeva</b>: ja imam prednost.',
   path:'a_right', signal:'· (jedan kratki)'},
  {id:'anchored',t:'TRIK: jedrilica s crnom kuglom',a:{x:150,y:290,h:20,type:'motor'},bo:{x:310,y:160,h:200,type:'anchored'},
   r:'Crna kugla = <b>USIDRENI BROD</b>. Uopće nije u plovidbi: pitanje prednosti se ne postavlja. <b>Ja ga moram zaobići.</b><br>Smjer njegovog pramca je nebitan: usidreni brod se okreće oko sidra.',
@@ -260,11 +260,11 @@ const COLREG=[
     })(performance.now());
   }
   b.innerHTML='<div class="grid g2">'+sigs.map((s,i)=>
-    `<button type="button" class="card tight sndCard" data-i="${i}">
+    `<div class="card tight sndCard" data-i="${i}">
       <span class="sndRow"><span class="sndMark" aria-hidden="true">${mark(s[2])}</span>
-        <span class="sndTxt"><span class="sr">Pusti zvuk: </span><b>${s[0]}</b><span>${s[1]}</span></span>
+        <span class="sndTxt"><button type="button" class="sndBtn"><span class="sr">Pusti zvuk: </span>${s[0]}</button><span>${s[1]}</span></span>
         <span class="sndPlay" aria-hidden="true">${UI.icon('play',20)}</span></span>
-      <span class="sgtrack"></span></button>`).join('')+'</div>'+
+      <span class="sgtrack"></span></div>`).join('')+'</div>'+
     '<p class="small muted">Reprodukcija je skraćena radi slušanja. Na moru kratki traje 1 s, a dugi 4 do 6 s.</p>';
   $$('.sndCard',b).forEach(c=>{
     const go=()=>{ const pat=sigs[+c.dataset.i][2]; play(pat); track(c,pat); };

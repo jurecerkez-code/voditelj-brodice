@@ -57,7 +57,7 @@
     let h=`<div class="qcard scorebox">
       <div class="scorebig" style="color:${good?'var(--green)':mid?'var(--yellow)':'var(--red)'}">${pct}%</div>
       <p style="margin-top:10px;font-size:18px">${correct} / ${deck.length} točnih${best>=2?`, <span class="streak">najduži streak ${best}</span>`:''}</p>
-      <p class="c-txt2">${good?'Odlično, spreman si za ovaj dio.':mid?'Dobro, ali ponovi krivo odgovorena pitanja.':'Treba još učiti. Prođi gradivo pa se vrati.'}</p>
+      <p class="c-txt2">${good?'Spreman si za ovaj dio.':mid?'Dobro, ali ponovi krivo odgovorena pitanja.':'Treba još učiti. Prođi gradivo pa se vrati.'}</p>
       <div class="btnrow jcc"><button class="btn p" id="qAgain">Ponovi</button>${wrong.length?'<button class="btn" id="qWrong">Samo netočna ('+wrong.length+')</button>':''}</div></div>`;
     if(wrong.length){
       h+='<h3>Pitanja koja si promašio</h3>';

@@ -1,5 +1,5 @@
 "use strict";
-/* Probni ispit u tri stola i poveznice vodiča „Kako učiti". */
+/* Probni ispit u tri stola i poveznice vodiča „Kako učiti“. */
 /* ═══════════════ SIMULACIJA ISPITA: TRI STOLA ═══════════════
    Pitanja se vuku iz postojeće banke (QB) po temama. Stol 1 je eliminacijski i ima 2 zadatka na karti
    (karta i alati iz Radnog stola: window.__NL). Prag po stolu 80 %. Rezultat: store 'examsim' (vb_examsim). */
@@ -75,7 +75,7 @@ window.VBExam=(function(){
       task='Zadatak na karti: <b>odredi pravi kurs od A do B</b> (trokutima prenosiš smjer s ruže).';
       inp=`<label>Kurs <input class="nlI exIn" data-k="c" inputmode="numeric" placeholder="npr. 047"> °</label>`; }
     const dtools=it.kind==='pos'&&N.divTool?`<div class="nlHandTip exTools"><b>Šestar.</b> ① Jedan vrh na <b>P</b>, drugi na najbližu <b>paralelu</b> (vodoravna crta mreže). ② Uhvati zglob <b>✥</b> i prenesi šestar na <b>bočnu skalu</b>: to su minute širine koje dodaješ ili oduzimaš od paralele. ③ Isto za dužinu: od P do najbližeg <b>meridijana</b>, pa na <b>gornju ili donju skalu</b>.<div class="nlHandStat exDivStat" aria-live="polite"></div></div>`:'';
-    const tools=it.kind==='course'&&N.triTool?`<div class="nlHandTip exTools"><b>Trokut.</b> Okreni ga ručicom <b>⟳</b> (ili gumbima) dok hipotenuza ne legne na A–B, zatim ga <b>vuci</b> do središta ruže: kut ostaje isti. Očitaj kurs na obodu u smjeru plovidbe.<div class="btnrow"><button class="btn exRot" data-d="-1" type="button">↺ 1°</button><button class="btn exRot" data-d="-0.25" type="button">↺ ¼°</button><button class="btn exRot" data-d="0.25" type="button">↻ ¼°</button><button class="btn exRot" data-d="1" type="button">↻ 1°</button></div></div>`:'';
+    const tools=it.kind==='course'&&N.triTool?`<div class="nlHandTip exTools"><b>Trokut.</b> Okreni ga ručicom <b>⟳</b> (ili gumbima) dok hipotenuza ne legne na A-B, zatim ga <b>vuci</b> do središta ruže: kut ostaje isti. Očitaj kurs na obodu u smjeru plovidbe.<div class="btnrow"><button class="btn exRot" data-d="-1" type="button">↺ 1°</button><button class="btn exRot" data-d="-0.25" type="button">↺ ¼°</button><button class="btn exRot" data-d="0.25" type="button">↻ ¼°</button><button class="btn exRot" data-d="1" type="button">↻ 1°</button></div></div>`:'';
     area.innerHTML=`<div class="qcard">${head()}<div class="qtext">${task}</div><div class="exChartWrap">${chartSvg(extra)}</div>${tools}${dtools}
       <div class="nlIn exInRow">${inp}<button class="btn p" id="exChk" type="button">Provjeri</button></div><div id="exExpl"></div></div>`;
     if(tools){ const a=N.px(it.a[0],it.a[1]), b=N.px(it.b[0],it.b[1]), c=N.brg(a,b), m=[(a[0]+b[0])/2,(a[1]+b[1])/2], q=c*Math.PI/180;

@@ -2,12 +2,12 @@
 /* Sektori svjetionika: vježba na karti. */
 /* ═══════════════ SEKTORI SVJETIONIKA (vježba na karti) ═══════════════
    Kutovi su azimuti od svjetla (0° = sjever karte, u smjeru kazaljke). Brod vidi boju sektora u kojem se nalazi.
-   Ritam: isti zapis kao u „Karakteristici svjetla" ([početak, trajanje] u sekundama unutar perioda). */
+   Ritam: isti zapis kao u „Karakteristici svjetla“ ([početak, trajanje] u sekundama unutar perioda). */
 (function(){
   const b=el('sectorLab'); if(!b) return;
   const RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const W=560,H=380, L=[280,78], RMAX=300;
-  const COLN={B:'bijelo',C:'crveno',Z:'zeleno',P:'ništa (zatamnjeno)'};
+  const COLN={B:'bijelo',C:'crveno',Z:'zeleno',P:'zatamnjeno'};
   const COLF={B:'#fff4c4',C:'var(--sig-red)',Z:'var(--sig-green)',P:'#6b7680'};
   const COLA={B:'#c9a227',C:'#d62828',Z:'#1a9e55',P:'#555'};
   // ritam svjetla prema zapisu

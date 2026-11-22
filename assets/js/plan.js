@@ -1,5 +1,5 @@
 "use strict";
-/* Plan učenja po danima, razmaci u tekstu, poruka „dan gotov". */
+/* Plan učenja po danima, razmaci u tekstu, poruka „dan gotov“. */
 /* ═══════════════ v2 · ANIMACIJE, PLAN UČENJA, TIPOGRAFSKI DETALJI ═══════════════ */
 (function(){
   const RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -168,7 +168,7 @@
     const left=Math.round((parse(P.exam)-today())/864e5);
     const qn=P.h*5+5;
     let h=`<div class="planhead"><div><b style="font-family:var(--display)">Ispit ${parse(P.exam).toLocaleDateString('hr-HR')}</b>
-      <span class="pmeta">&ensp;${left>0?'još '+left+' '+(left===1?'dan':'dana'):left===0?'danas je ispit: sretno!':'ispit je prošao'}, ${P.h}&nbsp;h/dan</span></div>
+      <span class="pmeta">&ensp;${left>0?'još '+left+' '+(left===1?'dan':'dana'):left===0?'danas je ispit: sretno.':'ispit je prošao'}, ${P.h}&nbsp;h/dan</span></div>
       <div class="pmeta">${ok}/${tot} blokova, ${tot?Math.round(ok/tot*100):0}%</div></div>
       <div class="xpbar mb6"><i style="width:${tot?ok/tot*100:0}%"></i></div>`;
     if(P.intensive) h+=`<div class="danger" style="margin:12px 0"><b>Kratko vrijeme: intenzivni mod</b>Manje od 3 dana do ispita. Raspored ide po prioritetu: <strong>karta → svjetla → sudari → MAYDAY → ostalo</strong>. Ostalo samo prolistaj i riješi kviz.</div>`;

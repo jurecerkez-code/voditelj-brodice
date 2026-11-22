@@ -115,7 +115,7 @@
     }
     if(rel>=-6 && rel<45){ const f2=Math.max(0,1-rel/45)*Math.min(1,gs.xb*3+.25); g+=`<ellipse cx="${CX}" cy="${(HEAD+k.top)/2}" rx="${(BX2-BX1)/2-4}" ry="${Math.max(3,(k.top-HEAD)/2)}" fill="url(#eFlame)" opacity="${(f2*.8).toFixed(2)}"/>`; }
     if(four){
-      // idealizirani razvod: usis 0–180°, ispuh 540–720° (bez preklapanja, kao u udžbeniku)
+      // idealizirani razvod: usis 0 do 180°, ispuh 540 do 720° (bez preklapanja, kao u udžbeniku)
       const li=lift(th,0,180)*12, le=lift(th,540,720)*12;
       const valve=(x,lf,col,lab,sub,side)=>{
         const y=HEAD+lf, open=lf>1, px=side<0?BX1-96:BX2+16;
