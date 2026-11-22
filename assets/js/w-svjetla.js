@@ -108,7 +108,7 @@ const VESSELS = [
    note:'Bijelo kružno svjetlo (360°) + bočna svjetla.'},
   {id:'mot7',n:'Motorna brodica < 7 m, brzina < 7 čv',cat:'motor',
    L:[{t:'allround',c:'w'}],
-   note:'Samo jedno bijelo kružno svjetlo. Ako ima kabinu, i bočna, ako je moguće.'},
+   note:'Jedno bijelo kružno svjetlo i, ako je izvedivo, bočna svjetla.'},
   {id:'sail20',n:'Jedrenjak > 20 m',cat:'sail',
    L:[{t:'side'},{t:'stern'},{t:'opt2',c:['r','g']}],
    note:'Bočna + krmeno. NEMA jarbolnog! Može (ne mora) pri vrhu jarbola dva kružna: CRVENO iznad ZELENOG.'},
