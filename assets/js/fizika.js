@@ -1,0 +1,114 @@
+"use strict";
+/* Fizika brodice za simulator pristajanja. Bez crtanja i bez DOM-a, pa se isti kod vrti i u testu (tests/fizika.mjs).
+
+   Model s tri stupnja slobode u stvarnim jedinicama (m, s, N):
+     u  brzina naprijed, v  bočna brzina (+ udesno), r  brzina zakreta (+ u smjeru kazaljke, rad/s)
+     m_x·(u̇ − v·r) = X     m_y·(v̇ + u·r) = Y     I_z·ṙ = N
+   Sile: poriv vijka, otpor trupa (uzdužno mali, bočno velik), kormilo koje radi samo dok preko njega struji voda
+   (brzina brodice + mlaz vijka pri vožnji naprijed), izboj krme pri vožnji krmom (desnokretni vijak: krma ulijevo),
+   vjetar na nadvođe (hvatište ispred sredine, pa pramac pada niz vjetar) i struja koja nosi cijelu vodenu masu.
+
+   Položaj je u metrima u koordinatama zaslona: x prema istoku (desno), y prema jugu (dolje).
+   Kurs psi je u stupnjevima, 0 = sjever (gore), raste u smjeru kazaljke. */
+const BoatPhys=(function(){
+  const KN=0.5144, RHO=1025, RHO_A=1.2, D2R=Math.PI/180;
+  // brodica 6 m, oko 1,4 t, ugrađeni motor, desnokretni vijak, kormilo iza vijka
+  const B={L:6, m:1400, mx:1550, my:2500, Iz:5200,
+    Xu:90, Xuu:150,               // uzdužni otpor: 2 čv na „polako", 4 čv na „naprijed"
+    Yv:600, Yuv:900, Yvv:1500, xh:.9,  // bočni otpor: trup se bočno teško gura; pri zanošenju sila djeluje ispred sredine
+    Nr:3000, Nur:1500, Nrr:12000, // prigušenje zakreta
+    xr:-2.8, Ar:.12, CL:3, kT:1.2,     // kormilo: položaj, površina, uzgon, udio poriva koji mlaz vijka skrene u stranu
+    walk:.25,                     // izboj krme: udio poriva koji pri vožnji krmom gura krmu ulijevo
+    Af:2.5, Al:7, Cx:.8, Cy:.9, xw:.5, // nadvođe: čeona i bočna površina, hvatište vjetra
+    T:{'-2':-420,'-1':-160,'0':0,'1':252,'2':821}, // poriv po položaju ručice (N)
+    rudMax:35, rudRate:25 };      // kormilo: najveći otklon (°) i brzina zakretanja (°/s)
+  const THR=[-2,-1,0,1,2];
+  const clamp=(x,a,b)=>x<a?a:x>b?b:x;
+
+  function create(o){ return Object.assign({x:0,y:0,psi:0,u:0,v:0,r:0,thr:0,rud:0,T:0,del:0},o); }
+  // sile u sustavu brodice; env={cur:[x,y], wind:[x,y]} u m/s, vektor pokazuje KAMO voda ili zrak ide
+  function forces(s,env){
+    const q=s.psi*D2R, sn=Math.sin(q), c=Math.cos(q);
+    const g=ground(s,env), ax=env.wind[0]-g[0], ay=env.wind[1]-g[1];       // prividni vjetar
+    const wa=ax*sn-ay*c, wb=ax*c+ay*sn;                                     // uzduž i poprijeko brodice
+    const Xw=.5*RHO_A*B.Cx*B.Af*wa*Math.abs(wa), Yw=.5*RHO_A*B.Cy*B.Al*wb*Math.abs(wb);
+    // kormilo skreće mlaz vijka (samo pri vožnji naprijed) i vodu koja struji zbog brzine brodice
+    const d=s.del*D2R, Yr=-Math.sin(d)*((s.T>0?B.kT*s.T:0)+.5*RHO*B.Ar*B.CL*s.u*Math.abs(s.u));
+    const Yp=s.T<0?-B.walk*Math.abs(s.T):0;                                 // izboj krme
+    const Yl=-B.Yuv*Math.abs(s.u)*s.v;                                      // uzgon trupa kad brodica klizi bočno
+    const X=s.T-(B.Xu*s.u+B.Xuu*s.u*Math.abs(s.u))-Math.abs(Yr*Math.sin(d))*.5+Xw;
+    const Y=-(B.Yv*s.v+B.Yvv*s.v*Math.abs(s.v))+Yl+Yr+Yp+Yw;
+    const N=-((B.Nr+B.Nur*Math.abs(s.u))*s.r+B.Nrr*s.r*Math.abs(s.r))+Yl*B.xh*Math.sign(s.u)+(Yr+Yp)*B.xr+Yw*B.xw;
+    return {X,Y,N,Yw,Yr,Yp,wa,wb};
+  }
+  // brzina nad dnom (m/s) u koordinatama zaslona
+  function ground(s,env){ const q=s.psi*D2R, sn=Math.sin(q), c=Math.cos(q);
+    return [s.u*sn+s.v*c+env.cur[0], -s.u*c+s.v*sn+env.cur[1]]; }
+  function step(s,env,dt){
+    const n=Math.max(1,Math.ceil(dt/.02)), h=dt/n;
+    for(let i=0;i<n;i++){
+      s.T+=(B.T[s.thr]-s.T)*Math.min(1,h/.6);                               // stroj ne mijenja poriv trenutačno
+      s.del+=clamp(clamp(s.rud,-B.rudMax,B.rudMax)-s.del,-B.rudRate*h,B.rudRate*h);
+      const F=forces(s,env);
+      const du=(F.X+B.m*s.v*s.r)/B.mx, dv=(F.Y-B.m*s.u*s.r)/B.my, dr=F.N/B.Iz;
+      s.u+=du*h; s.v+=dv*h; s.r+=dr*h;
+      const g=ground(s,env); s.x+=g[0]*h; s.y+=g[1]*h; s.psi+=s.r/D2R*h;
+    }
+    return s;
+  }
+  return {B,THR,KN,create,step,forces,ground,clamp};
+})();
+
+/* Lučica za vježbu pristajanja: obala lijevo, dvije privezane brodice i prazan vez između njih.
+   Geometrija je u pikselima crteža (640 × 460), 9,6 px = 1 m: lučica je 67 × 48 m, a brodica duga 6 m. */
+const DockWorld=(function(){
+  const PPM=9.6, W=640, H=460, QX=112, BERTH=[168,252], D2R=Math.PI/180;
+  const HULL=[[0,-30.4],[9.5,-16],[13.5,0],[13.3,14],[12.8,27.2],[-12.8,27.2],[-13.3,14],[-13.5,0],[-9.5,-16]];
+  const moorPoly=(cx,cy,flip)=>HULL.map(([x,y])=>[cx+x*1.375*(flip?-1:1), cy+y*1.375*(flip?-1:1)]);
+  const MOORC=[[QX+22,107,0],[QX+22,335,180]], MOOR=MOORC.map(([x,y,h])=>moorPoly(x,y,h===180));
+  const LIM={hit:.36, gap:1.25, par:12, slow:.26, hold:1.2};   // udarac (m/s), razmak od obale (m), kut (°), „stoji" (m/s), koliko dugo (s)
+  const KN=BoatPhys.KN;
+  // jačine: vjetar u čvorovima, struja u čvorovima
+  const STR=[{n:'slab',wind:6,cur:.3},{n:'umjeren',wind:12,cur:.6},{n:'jak',wind:20,cur:1}];
+  const ENV={
+    calm:{n:'Mirno',cur:[0,0],wind:[0,0],into:null},
+    curS:{n:'Struja prema jugu',cur:[0,1],wind:[0,0],into:0,what:'struju'},
+    curN:{n:'Struja prema sjeveru',cur:[0,-1],wind:[0,0],into:180,what:'struju'},
+    windN:{n:'Vjetar sa sjevera',cur:[0,0],wind:[0,1],into:0,what:'vjetar'},
+    windS:{n:'Vjetar s juga',cur:[0,0],wind:[0,-1],into:180,what:'vjetar'},
+    windOff:{n:'Vjetar s kopna',cur:[0,0],wind:[1,0],into:null,what:'vjetar',cross:'off'},
+    windOn:{n:'Vjetar s mora',cur:[0,0],wind:[-1,0],into:null,what:'vjetar',cross:'on'}
+  };
+  const env=(key,str)=>{ const E=ENV[key], S=STR[str]; return {cur:E.cur.map(c=>c*S.cur*KN), wind:E.wind.map(w=>w*S.wind*KN)}; };
+  const start=()=>BoatPhys.create({x:480/PPM,y:400/PPM,psi:-25});
+  const hull=s=>{ const q=s.psi*D2R, c=Math.cos(q), n=Math.sin(q); return HULL.map(([x,y])=>[s.x*PPM+x*c-y*n, s.y*PPM+x*n+y*c]); };
+  const inside=(p,poly)=>{ let ok=false; for(let i=0,j=poly.length-1;i<poly.length;j=i++){ const a=poly[i], b=poly[j];
+    if((a[1]>p[1])!==(b[1]>p[1]) && p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]) ok=!ok; } return ok; };
+  /* Jedan korak svijeta. w={s,env,hold,chk}; vraća null dok traje, inače {ok, why, ...}. */
+  function tick(w,dt){
+    const s=w.s; BoatPhys.step(s,w.env,dt);
+    let P=hull(s), k=0; for(let i=1;i<P.length;i++) if(P[i][0]<P[k][0]) k=i;
+    w.touch=false;
+    if(P[k][0]<QX){
+      // dodir s obalom: točka trupa koja je prva dotakla obalu
+      const g=BoatPhys.ground(s,w.env), py=(P[k][1]-s.y*PPM)/PPM, vn=g[0]-s.r*py, sp=Math.hypot(g[0],g[1]);
+      if(-vn>LIM.hit||sp>3*LIM.hit) return {ok:false,why:'quay',kn:sp/KN};
+      s.x+=(QX-P[k][0])/PPM; w.touch=true;
+      if(vn<0){ // bokobrani upiju udarac: brzina prema obali u točki dodira nestaje, a brodica se oko te točke zakrene
+        const B=BoatPhys.B, J=-vn/(1/B.m+py*py/B.Iz), q=s.psi*D2R, sn=Math.sin(q), c=Math.cos(q), dvx=J/B.m;
+        s.u+=dvx*sn; s.v+=dvx*c; s.r+=-py*J/B.Iz; s.u*=.985; }
+      P=hull(s);
+    }
+    for(const M of MOOR) if(P.some(p=>inside(p,M))||M.some(p=>inside(p,P))) return {ok:false,why:'boat'};
+    if(s.x*PPM>W+30||s.y*PPM<-40||s.y*PPM>H+40) return {ok:false,why:'out'};
+    const hn=((s.psi%360)+360)%360, par=Math.min(hn,Math.abs(hn-180),360-hn)<LIM.par;
+    const gap=Math.max(0,Math.min(...P.map(p=>p[0]))-QX)/PPM, g=BoatPhys.ground(s,w.env), sp=Math.hypot(w.touch?Math.max(0,g[0]):g[0],g[1]);
+    const cy=s.y*PPM;
+    w.chk={berth:cy>BERTH[0]+6&&cy<BERTH[1]-6&&s.x*PPM<QX+70, par, side:gap<LIM.gap, slow:sp<LIM.slow};
+    w.gap=gap; w.sog=Math.hypot(g[0],g[1]);
+    if(w.chk.berth&&par&&w.chk.side&&w.chk.slow){ w.hold+=dt; if(w.hold>=LIM.hold) return {ok:true,heading:hn}; } else w.hold=0;
+    return null;
+  }
+  const world=(key,str)=>({s:start(),env:env(key,str),hold:0,chk:{},touch:false,gap:99,sog:0});
+  return {PPM,W,H,QX,BERTH,HULL,MOOR,MOORC,LIM,STR,ENV,env,start,hull,tick,world};
+})();

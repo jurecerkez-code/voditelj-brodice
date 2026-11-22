@@ -27,6 +27,7 @@ const FILES=[
  "assets/js/w-kardinalne.js?v=5.0.0",
  "assets/js/srs.js?v=5.0.0",
  "assets/js/w-zvuk.js?v=5.0.0",
+ "assets/js/fizika.js?v=5.0.0",
  "assets/js/w-pristajanje.js?v=5.0.0",
  "assets/js/osnova.js?v=5.0.0",
  "assets/js/w-cvorovi.js?v=5.0.0",
