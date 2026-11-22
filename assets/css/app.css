@@ -832,7 +832,7 @@ hr{border:0; border-top:1px solid var(--line); margin:36px 0}
 
 .note,.warn,.ok,.mnem,.danger{border:0!important; border-radius:var(--r2)!important; box-shadow:none!important; padding:14px 18px 15px!important; margin:18px 0; font-size:16px; line-height:1.55}
 .note{background:var(--sea2)!important} .warn,.mnem{background:var(--land2)!important} .ok{background:var(--green-tint)!important} .danger{background:var(--red-tint)!important}
-.note>b:first-child,.warn>b:first-child,.danger>b:first-child,.ok>b:first-child,.mnem>b:first-child{display:block; font:750 16px/1.35 var(--font)!important; letter-spacing:0!important; text-transform:none!important; margin-bottom:4px}
+.note>b:first-child,.warn>b:first-child,.danger>b:first-child,.ok>b:first-child,.mnem>b:first-child{display:block; font:750 16px/1.35 var(--font)!important; letter-spacing:0!important; text-transform:none; margin-bottom:4px}
 .note>b:first-child{color:#0d4a78!important} .warn>b:first-child,.mnem>b:first-child{color:var(--yellow)!important} .danger>b:first-child{color:var(--red)!important} .ok>b:first-child{color:var(--green)!important}
 :root[data-theme="night"] .note>b:first-child{color:var(--acc)!important}
 .mnem{outline:1.5px dashed color-mix(in srgb,var(--yellow) 45%,transparent); outline-offset:-1.5px}
@@ -910,15 +910,15 @@ kbd{background:none!important; border:1px solid var(--line2)!important; border-b
 .knTab.on small{color:#fff!important; opacity:.75}
 :root[data-theme="night"] .knTab.on,:root[data-theme="night"] .knTab.on small{background:var(--acc)!important; border-color:var(--acc)!important; color:#1a0d0b!important}
 .knStepTxt,.nlTask{background:var(--panel)!important; border:0!important; border-left:4px solid var(--acc)!important; border-radius:0 var(--r1) var(--r1) 0!important; padding:10px 14px!important}
-.knStepTxt span{color:var(--acc)!important; font-family:var(--font)!important; letter-spacing:0!important; text-transform:none!important}
+.knStepTxt span{color:var(--acc)!important; font-family:var(--font)!important; letter-spacing:0!important; text-transform:none}
 .knSteps li{border-radius:var(--r1)!important}
 .knSteps li.on{background:var(--panel2)!important; color:var(--txt)!important}
 .knSteps li.done::before{background:var(--green)!important; border-color:var(--green)!important; color:#fff}
 .knSteps li.on::before{border-color:var(--acc)!important; color:var(--acc)!important}
 .knI{background:none!important; border:0!important; border-top:1px solid var(--line)!important; padding:10px 0!important; border-radius:0!important}
-.knI h5{font:700 14px var(--font)!important; text-transform:none!important; letter-spacing:0!important}
+.knI h5{font:700 14px var(--font)!important; text-transform:none; letter-spacing:0!important}
 .knI.warnI h5{color:var(--yellow)!important}
-.knTag{color:var(--txt)!important; border-color:var(--line2)!important; border-radius:6px!important; text-transform:none!important; letter-spacing:0!important; font-family:var(--font)!important}
+.knTag{color:var(--txt)!important; border-color:var(--line2)!important; border-radius:6px!important; text-transform:none; letter-spacing:0!important; font-family:var(--font)!important}
 .nlHandTip{background:none!important; border:1.5px dashed var(--line2)!important; border-radius:var(--r1)!important}
 .nlHandStat{background:none!important}
 .nlChart,.slWrap{box-shadow:none!important; border-color:var(--line2)!important; border-radius:var(--r2)!important}
@@ -955,7 +955,7 @@ kbd{background:none!important; border:1px solid var(--line2)!important; border-b
 
 /* usmeni ispit, osnova, vodič učenja */
 .osBox{background:var(--bg2)!important; border:0!important; border-radius:var(--r3)!important; padding:18px 20px 14px!important; margin:8px 0 26px}
-.osHead b{font:800 17px var(--font)!important; letter-spacing:0!important; text-transform:none!important; color:var(--txt)!important}
+.osHead b{font:800 17px var(--font)!important; letter-spacing:0!important; text-transform:none; color:var(--txt)!important}
 .osHead span{font-size:14.5px; color:var(--txt3)}
 .osOralBtn{background:var(--panel)!important; border:1.5px solid var(--line2)!important; color:var(--txt)!important; font:650 14.5px var(--font)!important; border-radius:var(--r1)!important; min-height:40px}
 .osOralBtn:hover,.osOralBtn[aria-expanded="true"]{background:var(--navy)!important; color:#fff!important; border-color:var(--navy)!important}
@@ -984,13 +984,13 @@ kbd{background:none!important; border:1px solid var(--line2)!important; border-b
 .badge{border-radius:var(--r2)!important; border:1px solid var(--line)!important; background:var(--panel)!important; box-shadow:none!important; padding:12px 14px!important}
 .badge .bic{display:none!important}
 .badge h5{font:700 15.5px var(--font)!important}
-.badge.locked{filter:none!important; opacity:1!important}
+.badge.locked{filter:none; opacity:1!important}
 .badge.locked h5{color:var(--txt2)}
 .badge.won{background:var(--green-tint)!important; border-color:transparent!important}
 .badge.won h5{color:var(--green)!important}
 .toast{background:var(--navy)!important; color:#fff!important; border:0!important; border-radius:var(--r2)!important; box-shadow:var(--lift)!important; font-family:var(--font)}
 .toast .tic{display:none}
-.toast b{color:#fff!important; opacity:.75; font-family:var(--font)!important; text-transform:none!important; letter-spacing:0!important}
+.toast b{color:#fff!important; opacity:.75; font-family:var(--font)!important; text-transform:none; letter-spacing:0!important}
 .toast span{font-family:var(--font)!important}
 #toast{bottom:calc(18px + var(--tabh))!important}
 .js [data-reveal]{opacity:1!important; transform:none!important; transition:none!important}
@@ -1134,8 +1134,8 @@ kbd{background:none!important; border:1px solid var(--line2)!important; border-b
 .srchHit{outline:3px solid var(--acc); outline-offset:6px; border-radius:6px; transition:outline-color .4s}
 .hmSet{margin-top:44px} .hmSet .badges{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .hmSteps li b .ico{color:#fff} .hmSteps li a{display:block}
-.planform{display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end} .planform label{display:block; font:600 14.5px var(--font)!important; color:var(--txt2); margin-bottom:5px; text-transform:none!important; letter-spacing:0!important}
-.pmeta,.plandays .dh span,.pq{font-family:var(--font)!important; text-transform:none!important; letter-spacing:0!important}
+.planform{display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end} .planform label{display:block; font:600 14.5px var(--font)!important; color:var(--txt2); margin-bottom:5px; text-transform:none; letter-spacing:0!important}
+.pmeta,.plandays .dh span,.pq{font-family:var(--font)!important; text-transform:none; letter-spacing:0!important}
 @keyframes hmDrift{from{transform:translateX(0)}to{transform:translateX(-28px)}}
 @keyframes hmShimmer{0%,100%{opacity:.5; transform:scaleX(1)}50%{opacity:.32; transform:scaleX(1.25)}}
 .hmWave{animation:hmDrift 9s ease-in-out infinite alternate}

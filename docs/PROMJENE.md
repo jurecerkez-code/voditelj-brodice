@@ -9,6 +9,12 @@ Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama
 - Time je rješiv i slučaj koji je bio označen kao najteži: izvanbrodski motor uz jak vjetar s kopna. Vozi se krmom na
   konop, s motorom okrenutim prema obali. Test fizike to provjerava.
 - Savjeti uz vožnju objašnjavaju što raditi s konopom za svaki pogon.
+- Čišćenje CSS-a: preglednik je za svaku od 473 oznake `!important` provjerio mijenja li njezino uklanjanje izračunati
+  stil ijednog elementa (računalo, mobitel, tablet, obje teme, stanja usred vježbi). Potrebne su 73. Uklonjeno je
+  samo 9 za koje nijedno drugo pravilo ne postavlja isto svojstvo. Ostale ostaju jer bi ih moglo nadjačati pravilo
+  koje se javlja tek u stanju koje provjera nije obuhvatila (hover, fokus, rijetka stanja vježbi).
+- Težina prvog učitavanja: 316 kB (HTML, CSS i skripte, komprimirano) i 113 kB fontova. Sljedeća otvaranja idu iz
+  predmemorije i rade bez interneta.
 
 ## 5.2: točnost prema propisima, pokrivenost programa, jedan stylesheet
 
