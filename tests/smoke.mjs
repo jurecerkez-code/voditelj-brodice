@@ -125,6 +125,10 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   const pIn = await bar(90), pCo = await bar(355), pEx = await bar(372);
   ok(pIn < 1 && pCo > 12 && pCo < 25 && pEx > 35 && pEx < 65, `[${name}] motor: tlak ne prati taktove (usis ${pIn}, kompresija ${pCo}, ekspanzija ${pEx})`);
   await page.click('#engFuel'); ok(await bar(355) > 35, `[${name}] motor: dizel mora imati veći tlak kompresije`); await page.click('#engFuel');
+  // 14b. pramčani konop: izdaleka se ne može dati i simulator kaže zašto
+  await page.evaluate(() => go('p-manevar')); await page.locator('#dockWind .dwReset').first().click(); await page.locator('#dockWind .dwLine').click();
+  ok(/bliže od 2 m/.test(await page.textContent('#dockWind .dwMsg')) && await page.getAttribute('#dockWind .dwLine', 'aria-pressed') === 'false', `[${name}] pramčani konop: nema objašnjenja zašto se ne može dati`);
+  await page.evaluate(() => go('p-sigurnost'));
   // 15. čvorovi: klizačem se konop provlači, zadnji korak bitve je zatezanje
   await page.evaluate(() => go('p-sigurnost')); await page.waitForTimeout(200);
   await setR('#knotWidget .knScrub input', 250);

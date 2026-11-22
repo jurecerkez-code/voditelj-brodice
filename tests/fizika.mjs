@@ -51,6 +51,15 @@ check('brzina na „naprijed"',run(P.create({thr:2}),calm,60).u/KN,3.8,4.2,'čv'
   let stern=1e9, powered=0; out.forEach((o,i)=>{ if(i<ev.fall+20) return; stern=Math.min(stern,dist(o,2.9)); if(i>=ev.appr&&o.thr!==0&&dist(o,2.9)<4) powered++; });
   check('... krma nikad nije bliže osobi od',stern,1.5,99,'m'); check('... u prilazu vijak ne radi dok je krma unutar 4 m od osobe (broj uzoraka)',powered,0,0,''); }
 
+// pramčani konop: najteži slučaj (izvanbrodski motor, jak vjetar s kopna) postaje rješiv kako se radi na moru
+{ const w=D.world('windOff',2,true), s=w.s, xq=D.QX/PPM, yb=(D.BERTH[0]+D.BERTH[1])/2/PPM;
+  Object.assign(s,{x:xq+3.2,y:yb+1.2,psi:-45,u:0,v:0,r:0}); D.tick(w,0);
+  check('konop se ne može dati s 5 m',(()=>{ const w2=D.world('calm',1,true); Object.assign(w2.s,{x:xq+8,y:yb,psi:-45}); return D.attach(w2)?1:0; })(),0,0,'');
+  check('konop se može dati kad je pramac uz obalu',D.attach(w)?1:0,1,1,'');
+  // krmom na pramčani konop, motor okrenut prema obali: konop drži pramac, motor privlači krmu
+  let res=null, t=0; while(t<60&&!res){ s.rud=-35; s.thr=-2; res=D.tick(w,1/30); t+=1/30; }
+  check('izvanbrodski, jak vjetar s kopna, s konopom: pristao (1 = da)',res&&res.ok?1:0,1,1,''); check('... za',t,3,60,'s'); }
+
 // ── 2) kormilar iz skripte ──
 function pilot(key,str,o){
   const w=D.world(key,str,o.ob), s=w.s, xq=D.QX/PPM, xb=xq+13.5/PPM+.3, yb=(D.BERTH[0]+D.BERTH[1])/2/PPM;

@@ -2,6 +2,14 @@
 
 Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama.
 
+## 5.2.1: pramčani konop u simulatoru
+
+- Gumb **Pramčani konop** (tipka K): kad je pramac bliže od 2 m obali i brodica ide sporije od 1 čv, konop se daje na
+  obalu. Konop ne gura, samo zateže kad je napet, i drži pramac dok motor privlači krmu.
+- Time je rješiv i slučaj koji je bio označen kao najteži: izvanbrodski motor uz jak vjetar s kopna. Vozi se krmom na
+  konop, s motorom okrenutim prema obali. Test fizike to provjerava.
+- Savjeti uz vožnju objašnjavaju što raditi s konopom za svaki pogon.
+
 ## 5.2: točnost prema propisima, pokrivenost programa, jedan stylesheet
 
 ### Ispravljene pogreške u gradivu

@@ -38,8 +38,8 @@
         <button class="btn" data-rd="5" type="button" aria-label="Kormilo 5 stupnjeva udesno">▶</button></div>
         <b id="dwRudV" class="dwRudV">ravno</b><button class="btn" data-r="0" type="button">Ravno</button></div>
       <div class="dwGrp dwOpt"><button class="btn dwPause" type="button">Pauza</button><button class="btn dwReset" type="button">Ispočetka</button>
-        <button class="btn dwGhost" type="button" aria-pressed="true">Predviđanje 10 s</button><button class="btn dwSpeed" type="button" aria-pressed="false">Vrijeme 2×</button></div></div>
-    <div class="dwKeys">Tipkovnica (klikni na lučicu): <kbd>↑</kbd> <kbd>↓</kbd> stroj · <kbd>←</kbd> <kbd>→</kbd> kormilo · <kbd>razmak</kbd> neutral · <kbd>R</kbd> kormilo ravno · <kbd>P</kbd> pauza</div>
+        <button class="btn dwLine" type="button" aria-pressed="false">Pramčani konop</button><button class="btn dwGhost" type="button" aria-pressed="true">Predviđanje 10 s</button><button class="btn dwSpeed" type="button" aria-pressed="false">Vrijeme 2×</button></div></div>
+    <div class="dwKeys">Tipkovnica (klikni na lučicu): <kbd>↑</kbd> <kbd>↓</kbd> stroj · <kbd>←</kbd> <kbd>→</kbd> kormilo · <kbd>razmak</kbd> neutral · <kbd>R</kbd> kormilo ravno · <kbd>K</kbd> pramčani konop · <kbd>P</kbd> pauza</div>
     <div class="dwMsg" aria-live="polite"></div>`;
   const base=$('.dwBase',b), flow=$('.dwFlow',b), dyn=$('.dwDyn',b), hud=$('.dwHud',b), msg=$('.dwMsg',b), goal=$('.dwGoal',b), rudIn=el('dwRudIn');
   const arrow=(x,y,ux,uy,L,col,sw)=>`<line x1="${(x-ux*L/2).toFixed(1)}" y1="${(y-uy*L/2).toFixed(1)}" x2="${(x+ux*(L/2-7)).toFixed(1)}" y2="${(y+uy*(L/2-7)).toFixed(1)}" stroke="${col}" stroke-width="${sw||3}" stroke-linecap="round"/><polygon points="${(x+ux*L/2).toFixed(1)},${(y+uy*L/2).toFixed(1)} ${(x+ux*(L/2-11)-uy*6).toFixed(1)},${(y+uy*(L/2-11)+ux*6).toFixed(1)} ${(x+ux*(L/2-11)+uy*6).toFixed(1)},${(y+uy*(L/2-11)-ux*6).toFixed(1)}" fill="${col}"/>`;
@@ -78,6 +78,7 @@
     // strelica zanošenja: kamo vjetar i struja nose brodicu
     const F=BoatPhys.forces(s,w.env), cur=w.env.cur, wy=F.Yw/600, dx=cur[0]+c*wy, dy=cur[1]+sn*wy, dm=Math.hypot(dx,dy);
     if(dm>.06){ const ux=dx/dm, uy=dy/dm; g+=arrow(x-ux*52,y-uy*52,ux,uy,18+dm*40,cur[1]?'#7fd8f7':'#f5c542',3); }
+    if(w.line){ const [bx,by]=DockWorld.bowAt(w.s); g+=`<line x1="${(bx*PPM).toFixed(1)}" y1="${(by*PPM).toFixed(1)}" x2="${(w.line.x*PPM).toFixed(1)}" y2="${(w.line.y*PPM).toFixed(1)}" stroke="#f2c14e" stroke-width="${w.line.T>5?2.6:1.6}" stroke-linecap="round"/><circle cx="${(w.line.x*PPM-3).toFixed(1)}" cy="${(w.line.y*PPM).toFixed(1)}" r="3.2" fill="#2a3138"/>`; }
     dyn.innerHTML=g;
     const sg=BoatPhys.ground(s,w.env);
     hud.innerHTML=`Stroj <b>${THR[s.thr]}</b> · Kormilo <b>${rudTxt(s.rud)}</b> · Kroz vodu <b>${num(Math.abs(s.u)/KN)} čv</b> · Nad dnom <b>${num(Math.hypot(sg[0],sg[1])/KN)} čv</b> · Do obale <b>${num(Math.max(0,w.gap))} m</b>`;
@@ -97,6 +98,7 @@
     if(over) tip='';
     else if(!started) tip='<b>Kreni:</b> stroj na <b>Polako</b>. Brodica je teška tonu i pol, pa joj treba desetak sekundi da dobije brzinu. Vez je uz obalu lijevo.';
     else if(paused) tip='<b>Pauza.</b> Pogledaj žutu crtu: tamo će brodica biti za 10 s ako ništa ne promijeniš.';
+    else if(w.line&&!(k.par&&k.side)) tip=ob?`<b>Konop drži pramac.</b> Kormilo ${to} (prema obali) i <b>Krmom</b>: konop se napne, a motor vuče krmu obali.`:`<b>Konop drži pramac.</b> Kormilo ${away} i kratko <b>Polako</b>: mlaz vijka gura krmu obali, a konop ne da brodici naprijed.`;
     else if(s.thr===0&&kn<.25&&dist>9) tip='<b>Stojiš.</b> Dok stojiš, kormilo ne radi. Daj <b>Polako</b>.';
     else if(ob&&s.thr<0&&Math.abs(s.rud)>=10) tip=`<b>Krmom te vodi motor.</b> Krma ide ${s.rud>0?'udesno':'ulijevo'}, na stranu na koju je kormilo. Za ravno krmom vrati kormilo na <b>Ravno</b>.`;
     else if(ob&&s.thr===0&&Math.abs(s.rud)>=15&&kn<1.3&&dist>4) tip='<b>Izvanbrodski bez gasa skreće slabo.</b> Ostavi kormilo zakrenuto i daj kratko <b>Polako</b>: mlaz vijka zakrene krmu.';
@@ -129,17 +131,22 @@
     draw(); drawFlow(); if(!over) raf=requestAnimationFrame(frame); }
   function run(){ last=0; if(started&&!paused&&!over&&!raf) raf=requestAnimationFrame(frame); }
   function restart(){ if(raf){ cancelAnimationFrame(raf); raf=null; } w=DockWorld.world(env,str,ob); DockWorld.tick(w,0); over=false; started=false; paused=false; trail=[]; lastTip=null;
-    $('.dwPause',b).textContent='Pauza'; drawBase(); drawFlow(); draw();
+    $('.dwPause',b).textContent='Pauza'; $('.dwLine',b).setAttribute('aria-pressed','false'); drawBase(); drawFlow(); draw();
     const E=ENV[env], hard=ob&&env==='windOff'&&str===2;
-    msg.innerHTML=(hard?'<div class="dwHint"><b>Najteži slučaj.</b> Izvanbrodski motor nema čime držati brodicu uz obalu protiv jakog vjetra s kopna. Na pravom moru ovdje prilaziš pramcem, daješ pramčani konop na obalu i tek tada motorom privlačiš krmu. U simulatoru nema konopa, pa je uspjeh ovdje stvar sreće.</div>':E.cross?`<div class="dwHint">${HINT[E.cross]}</div>`:'')+'<div class="dwSc">Simulacija kreće kad dirneš stroj ili kormilo.</div>'; }
+    msg.innerHTML=(hard?'<div class="dwHint"><b>Najteži slučaj.</b> Izvanbrodski motor nema čime držati brodicu uz obalu protiv jakog vjetra s kopna. Bez konopa je ne možeš zadržati uz obalu. Priđi pramcem pod kutom, kad je pramac na manje od 2 m daj <b>Pramčani konop</b> (tipka K), zatim kormilo prema obali i <b>Krmom</b>: konop se napne, a motor privuče krmu.</div>':E.cross?`<div class="dwHint">${HINT[E.cross]}</div>`:'')+'<div class="dwSc">Simulacija kreće kad dirneš stroj ili kormilo.</div>'; }
   function act(f){ if(over) return; f(w.s); started=true; vis=true; if(paused) togglePause(); draw(); run(); }
   function togglePause(){ if(over||!started) return; paused=!paused; $('.dwPause',b).textContent=paused?'Nastavi':'Pauza'; draw(); run(); }
   const setRud=v=>act(s=>{ s.rud=BoatPhys.clamp(v,-35,35); });
+  function toggleLine(){ if(over) return; const btn=$('.dwLine',b);
+    if(w.line){ DockWorld.detach(w); } else if(!DockWorld.attach(w)){ msg.innerHTML='<div class="dwHint">Konop možeš dati na obalu kad je <b>pramac bliže od 2 m</b> i ideš <b>sporije od 1 čv</b>.</div>'; return; }
+    else msg.innerHTML='<div class="dwHint">Pramčani konop je na obali. Drži pramac, a krmu primičeš motorom.</div>';
+    btn.setAttribute('aria-pressed',!!w.line); draw(); }
   b.addEventListener('click',e=>{ const x=e.target.closest('button'); if(!x) return;
     if(x.dataset.ob){ ob=x.dataset.ob==='1'; store.set('dockdrive',ob?1:0); $$('.dwDrive button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
     if(x.dataset.e){ env=x.dataset.e; $$('.dwEnv:not(.dwStr):not(.dwDrive) button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
     if(x.dataset.s){ str=+x.dataset.s; $$('.dwStr button',b).forEach(y=>y.classList.toggle('on',y===x)); return restart(); }
     if(x.classList.contains('dwReset')) return restart();
+    if(x.classList.contains('dwLine')) return toggleLine();
     if(x.classList.contains('dwPause')) return togglePause();
     if(x.classList.contains('dwGhost')){ ghost=!ghost; x.setAttribute('aria-pressed',ghost); return draw(); }
     if(x.classList.contains('dwSpeed')){ speed=speed===1?2:1; x.setAttribute('aria-pressed',speed===2); return; }
@@ -152,7 +159,7 @@
   b.addEventListener('keydown',e=>{ if(over||e.target.closest('.dwEnv')||e.target===rudIn||e.altKey||e.ctrlKey||e.metaKey) return; const k=e.key.length===1?e.key.toLowerCase():e.key;
     if(k==='ArrowUp'||k==='w') act(s=>{ s.thr=Math.min(2,s.thr+1); }); else if(k==='ArrowDown'||k==='s') act(s=>{ s.thr=Math.max(-2,s.thr-1); });
     else if(k==='ArrowLeft'||k==='a') setRud(w.s.rud-5); else if(k==='ArrowRight'||k==='d') setRud(w.s.rud+5);
-    else if(k===' '){ if(e.target.closest('button')) return; act(s=>{ s.thr=0; }); } else if(k==='r') setRud(0); else if(k==='p') togglePause(); else return;
+    else if(k===' '){ if(e.target.closest('button')) return; act(s=>{ s.thr=0; }); } else if(k==='k') toggleLine(); else if(k==='r') setRud(0); else if(k==='p') togglePause(); else return;
     e.preventDefault(); e.stopPropagation(); });
   if('IntersectionObserver' in window) new IntersectionObserver(es=>{ vis=es[0].isIntersecting; if(vis) run(); }).observe(b);
   restart(); onWidth(base.ownerSVGElement,()=>{ drawBase(); drawFlow(); });

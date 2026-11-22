@@ -44,6 +44,8 @@ const BoatPhys=(function(){
     const X=(ob?s.T*Math.cos(d):s.T)-(B.Xu*s.u+B.Xuu*s.u*Math.abs(s.u))-(ob?Math.abs(hyd)*sd*sd*.5:Math.abs(Yr*sd)*.5)+Xw;
     const Y=-(B.Yv*s.v+B.Yvv*s.v*Math.abs(s.v))+Yl+Yr+Yp+Yw;
     const N=-((B.Nr+B.Nur*Math.abs(s.u))*s.r+B.Nrr*s.r*Math.abs(s.r))+Yl*B.xh*Math.sign(s.u)+(Yr+Yp)*B.xr+Yw*B.xw;
+    // vanjska sila (npr. privezni konop): s.ext=[Fx,Fy,xf], sila u koordinatama zaslona, hvatište xf metara ispred sredine
+    if(s.ext){ const Xe=s.ext[0]*sn-s.ext[1]*c, Ye=s.ext[0]*c+s.ext[1]*sn; return {X:X+Xe,Y:Y+Ye,N:N+Ye*s.ext[2],Yw,Yr,Yp,wa,wb}; }
     return {X,Y,N,Yw,Yr,Yp,wa,wb};
   }
   // brzina nad dnom (m/s) u koordinatama zaslona
@@ -91,7 +93,12 @@ const DockWorld=(function(){
     if((a[1]>p[1])!==(b[1]>p[1]) && p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]) ok=!ok; } return ok; };
   /* Jedan korak svijeta. w={s,env,hold,chk}; vraća null dok traje, inače {ok, why, ...}. */
   function tick(w,dt){
-    const s=w.s; BoatPhys.step(s,w.env,dt);
+    const s=w.s; s.ext=null;
+    if(w.line){ // pramčani konop: ne gura, samo zateže kad je napet (opruga s prigušenjem)
+      const q=s.psi*D2R, sn=Math.sin(q), c=Math.cos(q), bx=s.x+BOW*sn, by=s.y-BOW*c, dx=w.line.x-bx, dy=w.line.y-by, d=Math.hypot(dx,dy)||1e-6;
+      if(d>w.line.L){ const g=BoatPhys.ground(s,w.env), vx=g[0]+BOW*c*s.r, vy=g[1]+BOW*sn*s.r, ux=dx/d, uy=dy/d, T=Math.max(0,4000*(d-w.line.L)-3000*(vx*ux+vy*uy));
+        s.ext=[T*ux,T*uy,BOW]; w.line.T=T; } else w.line.T=0; }
+    BoatPhys.step(s,w.env,dt);
     let P=hull(s), k=0; for(let i=1;i<P.length;i++) if(P[i][0]<P[k][0]) k=i;
     w.touch=false;
     if(P[k][0]<QX){
@@ -114,8 +121,13 @@ const DockWorld=(function(){
     if(w.chk.berth&&par&&w.chk.side&&w.chk.slow){ w.hold+=dt; if(w.hold>=LIM.hold) return {ok:true,heading:hn}; } else w.hold=0;
     return null;
   }
+  // konop se može dati na obalu kad je pramac bliže od 2 m i brodica ide sporije od 1 čv; veže se za najbližu točku obale
+  const BOW=3, bowAt=s=>{ const q=s.psi*D2R; return [s.x+BOW*Math.sin(q), s.y-BOW*Math.cos(q)]; };
+  function attach(w){ const [bx,by]=bowAt(w.s), d=bx-QX/PPM, g=BoatPhys.ground(w.s,w.env); if(d>2||Math.hypot(g[0],g[1])>1*KN) return false;
+    w.line={x:QX/PPM,y:by,L:Math.max(.5,d+.2),T:0}; return true; }
+  const detach=w=>{ w.line=null; w.s.ext=null; };
   const world=(key,str,ob)=>({s:Object.assign(start(),{ob:!!ob}),env:env(key,str),hold:0,chk:{},touch:false,gap:99,sog:0});
-  return {PPM,W,H,QX,BERTH,HULL,MOOR,MOORC,LIM,STR,ENV,env,start,hull,tick,world};
+  return {PPM,W,H,QX,BERTH,HULL,MOOR,MOORC,LIM,STR,ENV,env,start,hull,tick,world,attach,detach,bowAt};
 })();
 
 /* Sidreni lanac kao lančanica. Brodica na sidru stoji pramcem u vjetar; vjetar je gura vodoravnom silom F,
