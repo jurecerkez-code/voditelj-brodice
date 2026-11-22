@@ -22,7 +22,7 @@ window.VBSrs=(function(){
   function startC(){ const l=dueC(); if(!l.length||!window.VBCards) return; go('p-cards'); VBCards.deck(shuffle(l)); }
   function html(where){ const q=dueQ().length, c=dueC().length, s=soon(), t=total();
     const pips=[0,1,2].map(i=>{ const n=Object.values(S.q).concat(Object.values(S.c)).filter(e=>e.b===i).length; return `<span class="srsPip" title="${GAP[i]} ${GAP[i]===1?'dan':'dana'}">${GAP[i]} d: <b>${n}</b></span>`; }).join('');
-    if(!t && !S.done) return `<div class="srsBox"><span><b>Ponavljanje s razmakom.</b> Krivo odgovorena pitanja iz kviza i kartice označene „Ne znam“ vraćat će se ovdje nakon 1, 3 i 7 dana.</span></div>`;
+    if(!t && !S.done) return `<div class="srsBox"><span><b>Ponavljanje s razmakom.</b> Pitanja iz kviza na koja si pogrešno odgovorio i kartice označene s „Ne znam“ vraćat će se ovamo nakon 1, 3 i 7 dana.</span></div>`;
     const btnQ=where!=='cards'&&q?`<button class="btn p srsGoQ" type="button">Ponovi pitanja (${q})</button>`:'';
     const btnC=where!=='quiz'&&c?`<button class="btn${btnQ?'':' p'} srsGoC" type="button">Ponovi kartice (${c})</button>`:'';
     const now=where==='quiz'?q:where==='cards'?c:q+c;

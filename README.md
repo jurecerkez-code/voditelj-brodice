@@ -21,7 +21,7 @@ Radi i dvoklikom na `index.html`, ali tada nema rada bez interneta (service work
 
 ```
 index.html                sadržaj svih poglavlja i ljuska aplikacije
-assets/css/app.css        jedini stylesheet: stilovi vježbi, pa dizajn-sustav (boje, pismo, ljuska, komponente)
+assets/css/app.css        jedina datoteka stilova: stilovi vježbi, pa dizajn-sustav (boje, pismo, ljuska, komponente)
 assets/js/core.js         pomoćne funkcije, spremanje napretka, navigacija, popis poglavlja
 assets/js/ui.js           zajedničke komponente u JS-u (gumb, ikona, mjerač, dijalog)
 assets/js/data.js         banka pitanja i kartice
@@ -44,14 +44,14 @@ Datoteke u `assets/js` učitavaju se redom navedenim u `index.html`. Greška u j
 **Novo pitanje u kvizu:** dodaj redak u `QB` u `assets/js/data.js`.
 
 ```js
-{t:'colreg', q:'Pitanje?', o:['točan odgovor','krivi','krivi','krivi'], a:0, e:'Objašnjenje.', h:1}
+{t:'colreg', q:'Pitanje?', o:['točan odgovor','pogrešan','pogrešan','pogrešan'], a:0, e:'Objašnjenje.', h:1}
 ```
 
 `t` je tema (popis je u `TOPICS`), točan odgovor je uvijek prvi u `o` (redoslijed se miješa pri prikazu),
-`h:1` označava trik-pitanje.
+`h:1` označava varljivo pitanje.
 
 **Promjena propisa:** ispravi tekst u poglavlju u `index.html`, pitanja u `data.js` i, ako se broj spominje,
-šalabahter u poglavlju „Checklista". Staru vrijednost ostavi uz oznaku `STARO: iz skripti`, jer je ispitivači
+podsjetnik u poglavlju „Kontrolni popis pred ispit“. Staru vrijednost ostavi uz oznaku `Staro: iz skripti` jer je ispitivači
 još znaju pitati.
 
 **Novo poglavlje:** dodaj `<section class="page" id="p-ime" data-title="Naslov">` u `index.html`, pa ga upiši
@@ -66,24 +66,24 @@ npm test
 ```
 
 `tests/fizika.mjs` radi bez preglednika. Provjerava da se brodica u simulatoru ponaša kao prava (brzine,
-klizanje u neutralu, krug okretanja, izboj krme, zanošenje na vjetru), da račun sidrenog lanca daje poznata
-pravila, i da se u svakom zadanom vjetru i struji može pristati: kormilar iz skripte vozi samo ručicom
+klizanje u praznom hodu, krug okretanja, izboj krme, zanošenje na vjetru), da račun sidrenog lanca daje poznata
+pravila te da se u svakom zadanom vjetru i struji može pristati: kormilar iz skripte vozi samo ručicom
 stroja i kormilom, kao korisnik. Ako promijeniš koeficijente u `fizika.js`, ovaj test kaže je li simulator
 ostao realan i rješiv.
 
 `tests/smoke.mjs` otvara svaku stranicu na dva zaslona i prolazi glavne tokove (plan, kviz, probni ispit,
 kartice, pretraga, gumb Natrag, ladica na mobitelu). Provjerava i da simulator svjetala pokazuje zeleno
 slijeva i crveno zdesna kad brod ide prema promatraču. `tests/a11y.mjs` pokreće axe-core na svakoj stranici.
-Isto se vrti na svaki push (`.github/workflows/test.yml`).
+Isto se pokreće pri svakom slanju na GitHub (`.github/workflows/test.yml`). Naredba `BROWSER=webkit node tests/smoke.mjs` vrti isti test u Safarijevu motoru s profilom iPhonea.
 
 ## Objava
 
-Repozitorij je spreman za GitHub Pages iz korijena grane. Kod svake objave povećaj broj verzije na tri mjesta:
+Repozitorij je spreman za GitHub Pages iz korijena grane. Pri svakoj objavi povećaj broj verzije na tri mjesta:
 `VERSION` u `sw.js`, `?v=` u `index.html` i `version` u `package.json`. Tako korisnici dobiju novu verziju,
 a ne onu iz spremišta.
 
 ## Točnost
 
-Vodič je pripremni materijal, ne službeni izvor. Gradivo prati program ispita iz Pravilnika o brodicama i
-jahtama (Dodatak 7) i važeće propise navedene u poglavlju „Checklista", pod „Izvori". Prije svake sezone
+Vodič je pripremni materijal, a ne službeni izvor. Gradivo prati program ispita iz Pravilnika o brodicama i
+jahtama (Dodatak 7) i važeće propise navedene u poglavlju „Kontrolni popis pred ispit“, pod „Izvori“. Prije svake sezone
 provjeri Narodne novine i praksu kapetanije u kojoj se polaže.

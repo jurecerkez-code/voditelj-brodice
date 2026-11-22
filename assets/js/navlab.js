@@ -2,7 +2,7 @@
 /* Radni stol: šestar, trokuti, put-brzina-vrijeme, pozicija iz dva azimuta. */
 /* ═══════════════ NAV LAB (šestar, trokuti, put-brzina-vrijeme, pozicija) ═══════════════ */
 /* Vježbovna Merkatorova karta: 43°20' do 43°30' N, 16°20' do 16°40' E.
-   1' širine = 32 px = 1 M. 1' dužine = 32·cos(43,42°) px. Kursevi i azimuti su pravi (prema sjeveru karte). */
+   1' širine = 32 px = 1 M. 1' dužine = 32·cos(43,42°) px. Kursovi i azimuti su pravi (prema sjeveru karte). */
 (function(){
   const b=el('navLab'); if(!b) return;
   const RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -137,7 +137,7 @@
   M.sestar={
     task(){ let A,B; do{ A=randWater(); B=randWater(); }while(!(distM(px(...A),px(...B))>1.6 && distM(px(...A),px(...B))<7.2 && clearPath(A,B)));
       st={A:px(...A),B:px(...B)}; st.d=distM(st.A,st.B);
-      return {t:'Izmjeri udaljenost od točke <b>A</b> do točke <b>B</b> šestarom i skalom <b>geografske širine</b>. Upiši u miljama s jednom decimalom.',
+      return {t:'Izmjeri udaljenost od točke <b>A</b> do točke <b>B</b> šestarom i skalom <b>zemljopisne širine</b>. Upiši u miljama s jednom decimalom.',
         i:`<label>Udaljenost <input class="nlI" data-k="d" inputmode="decimal" placeholder="npr. 4,6"> M</label>`}; },
     draw(){ dyn.innerHTML=`<line x1="${st.A[0]}" y1="${st.A[1]}" x2="${st.B[0]}" y2="${st.B[1]}" stroke="#c62828" stroke-width="1" stroke-dasharray="4 3"/>`+mark(st.A,'A')+mark(st.B,'B'); },
     check(v){ const d=num(v.d); if(isNaN(d)) return out('Upiši broj milja.');
@@ -161,7 +161,7 @@
   M.kurs={
     task(){ let A,B; do{ A=randWater(); B=randWater(); }while(!(distM(px(...A),px(...B))>2.2 && clearPath(A,B)));
       st={A:px(...A),B:px(...B)}; st.c=brg(st.A,st.B);
-      return {t:'Odredi <b>pravi kurs</b> od <b>A</b> prema <b>B</b> pomoću dva trokuta i ruže na karti. Upiši u stupnjevima (0 do 359).',
+      return {t:'Odredi <b>pravi kurs</b> od <b>A</b> prema <b>B</b> s pomoću dvaju trokuta i ruže na karti. Upiši u stupnjevima (0 do 359).',
         i:`<label>Kurs <input class="nlI" data-k="c" inputmode="numeric" placeholder="npr. 047"> °</label>`}; },
     draw(){ dyn.innerHTML=`<line x1="${st.A[0]}" y1="${st.A[1]}" x2="${st.B[0]}" y2="${st.B[1]}" stroke="#c62828" stroke-width="1.4"/>`+mark(st.A,'A')+mark(st.B,'B'); },
     check(v){ const c=num(v.c); if(isNaN(c)) return out('Upiši kurs u stupnjevima.');
@@ -246,7 +246,7 @@
       const L=pr.map(o=>{ const m=px(...o.m.p), q=(o.b+180)*Math.PI/180; return {m,u:[Math.sin(q),-Math.cos(q)]}; });
       const [a,c]=L, det=a.u[0]*(-c.u[1])-a.u[1]*(-c.u[0]), t=((c.m[0]-a.m[0])*(-c.u[1])-(c.m[1]-a.m[1])*(-c.u[0]))/det;
       st={pr,L,fix:[a.m[0]+a.u[0]*t,a.m[1]+a.u[1]*t],click:null};
-      return {t:`Smjernim kompasom si snimio dva objekta:<br><b>${pr[0].m.n}</b>: azimut <b>${pad3(pr[0].b)}°</b><br><b>${pr[1].m.n}</b>: azimut <b>${pad3(pr[1].b)}°</b><br>Klikni na kartu gdje si. Zatim upiši koordinate.`,
+      return {t:`Smjernim si kompasom snimio dva objekta:<br><b>${pr[0].m.n}</b>: azimut <b>${pad3(pr[0].b)}°</b><br><b>${pr[1].m.n}</b>: azimut <b>${pad3(pr[1].b)}°</b><br>Klikni na karti mjesto na kojem si. Zatim upiši koordinate.`,
         i:`<label>Širina 43° <input class="nlI w64" data-k="la" inputmode="decimal">' N</label><label>Dužina 16° <input class="nlI w64" data-k="lo" inputmode="decimal">' E</label>`}; },
     draw(){ dyn.innerHTML=st.pr.map(o=>{ const p=px(...o.m.p); return `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="none" stroke="#c62828" stroke-width="1.6" stroke-dasharray="3 2"/>`; }).join('')+(st.click?mark(st.click,'?','#0b3954'):''); },
     check(v){ const la=num(v.la)-20, lo=num(v.lo)-20, F=ll(...st.fix);
@@ -260,7 +260,7 @@
       const [a,c]=st.L, [p1,p2]=st.pr;
       seq([
         {say:`1. Azimut je smjer <b>od broda prema objektu</b>. Zato kroz objekt crtaš pravac u <b>suprotnom smjeru</b>: ${pad3(p1.b)}° ± 180° = <b>${pad3((p1.b+180)%360)}°</b>.`,d:1300,f:e=>dyn.innerHTML=base+`<g class="tool">${line(a,e)}</g>`},
-        {say:`2. Isto za drugi objekt: ${pad3(p2.b)}° ± 180° = <b>${pad3((p2.b+180)%360)}°</b>. Kurs pravca prenosiš trokutima s ruže, kao kod kursa.`,d:1300,f:e=>dyn.innerHTML=base+`<g class="tool">${line(a,1)}${line(c,e)}</g>`},
+        {say:`2. Isto za drugi objekt: ${pad3(p2.b)}° ± 180° = <b>${pad3((p2.b+180)%360)}°</b>. Kurs pravca prenosiš trokutima s ruže, kao pri određivanju kursa.`,d:1300,f:e=>dyn.innerHTML=base+`<g class="tool">${line(a,1)}${line(c,e)}</g>`},
         {say:`3. Sjecište je pozicija: <b>${fmtLat(F[1])}, ${fmtLon(F[0])}</b>. Upiši je s vremenom opažanja.`,d:600,f:e=>dyn.innerHTML=base+`<g class="tool">${line(a,1)}${line(c,1)}<circle cx="${st.fix[0]}" cy="${st.fix[1]}" r="${7*e}" fill="none" stroke="#0b7a3e" stroke-width="2.2"/><path d="M${st.fix[0]-11},${st.fix[1]} h22 M${st.fix[0]},${st.fix[1]-11} v22" stroke="#0b7a3e" stroke-width="1" opacity="${e}"/></g>`}
       ]); }
   };
@@ -290,7 +290,7 @@
   function handStat(){ const s=$('.nlHandStat',b); if(!s) return; if(mode!=='sestar'){ s.innerHTML=''; return; }
     const {t1,t2}=hs, r=scaleRead(t1,t2), onAB=(near(t1,st.A)&&near(t2,st.B))||(near(t1,st.B)&&near(t2,st.A));
     s.className='nlHandStat'+(r&&r.lon?' bad':r?' good':'');
-    s.innerHTML=r&&r.lon?'✗ To je skala <b>DUŽINE</b> (gore/dolje). Milje se mjere samo na skali <b>ŠIRINE</b>, lijevo ili desno.'
+    s.innerHTML=r&&r.lon?'✗ To je skala <b>dužine</b> (gore i dolje). Milje se mjere samo na skali <b>širine</b>, lijevo ili desno.'
       :r?`Na skali širine: <b>${f1(r.d)}&#8242; = ${f1(r.d)} M</b> (${Math.round(r.d*10)} kabela). Upiši i klikni <b>Provjeri</b>.`
       :onAB?'✓ Vrhovi su na <b>A</b> i <b>B</b>. Sad uhvati šestar za <b>zglob ✥</b> i odnesi ga na <b>skalu širine</b>.'
       :'Korak 1: povuci vrhove šestara na točke <b>A</b> i <b>B</b>.'; }

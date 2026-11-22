@@ -13,7 +13,7 @@ Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama
   svjetlima bez zvijezda, valova i animacije.
 - **Noćni način** je izveden iz istih tokena (ista nijansa, tamni papir), više nije crvenkast.
 - **Uklonjeno što odaje generirani izgled:** nadnaslovi iznad naslova poglavlja (predmet je sada redak ispod naslova),
-  oznake velikim slovima, 268 točaka-razdjelnika, strelice uz tekst 23 gumba i linka, emoji i znakovi ▶ ⏸ ⏹ kao ikone,
+  oznake velikim slovima, 268 točaka-razdjelnika, strelice uz tekst 23 gumba i poveznice, emoji i znakovi ▶ ⏸ ⏹ kao ikone,
   krugovi s brojevima, obojene trake uz lijevi rub, `transition` na svim svojstvima i animacije širine.
 - **Tokeni.** Sve boje i pisma u CSS-u idu kroz tokene na vrhu datoteke, u OKLCH. Kontrast svakog para tokena je
   izračunat za dan i noć.
@@ -22,7 +22,7 @@ Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama
 - **Revizija nakon preoblikovanja** (svaka stranica i vježba, četiri širine, dan i noć) našla je i ispravila:
   - podebljana riječ usred napomene prelazila je u zaseban redak (staro pravilo `.note b`);
   - tekst manji od 13 px na 43 mjesta (napredak u gornjoj traci, oznake u vježbama, podnožje poglavlja);
-  - retke od 120 znakova u napomenama; sada su na mjeri teksta (68 znakova);
+  - retke od 120 znakova u napomenama; sada su na mjeri teksta;
   - pisma: hrvatska slova nisu bila u prednaloženoj datoteci, pa bi č, š i ž na tren bili u rezervnom pismu.
     Sada je jedna datoteka po pismu sa svim znakovima koje aplikacija koristi (`tools/fontovi.py`): 72 kB za prvi
     prikaz umjesto 149 kB. IBM Plex Mono su IBM-ove izvorne datoteke, jer mu licenca rezervira ime;
@@ -44,6 +44,30 @@ Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama
 - **Tekst.** Crtice u rasponima su riječ „do“ (10 do 30 min), odnosi su sa spojnicom (brod-brod), navodnici su „ “,
   lažne točke su pravi popisi, uskličnici su točke. Naslovi „Dobra vijest“, „Zlatno pravilo“ i „Spreman za učenje?“
   sada kažu što piše ispod njih.
+
+- **Lektura.** Cijeli tekst aplikacije pročitan je i usklađen sa standardnim hrvatskim jezikom: stranica, 312 pitanja,
+  76 kartica, kontrolni popisi i tekst svih vježbi. Ispravljeno:
+  - riječi pisane velikim slovima radi isticanja sada su u običnim slovima (kratice i riječi radijskog postupka
+    ostaju: VHF, MAYDAY, OVDJE, PRIJEM);
+  - strelice, znak jednakosti, plus, kosa crta i znakovi usporedbe koji su stajali umjesto riječi u rečenici;
+  - nestandardne i razgovorne riječi (kursevi, obavezno, dozvoljeno, istovremeno, pravovremeno, koristiti, kod, skoro,
+    puno, uslijed, pored, da li, krivo, prijemnik, brojilac, nivokaz, vanbrodski, povreda, zapremnina, razmjer karte,
+    osmatranje, checklista, trik-pitanje, šalabahter, neutral, max, cca);
+  - red riječi uz zanaglasnice, zarez ispred „jer“ i „te“, „prije nego što“, „s pomoću“, „njezin“, oblici „obaju“ i
+    „dvaju“, složenice s „radio“ (radiodnevnik, radiopromet);
+  - nazivi su ujednačeni: Probni ispit (prije i Simulacija ispita), Kontrolni popis pred ispit (prije Checklista),
+    Varljiva pitanja (prije Trik-pitanja), prazni hod (prije neutral).
+  Stručni nazivi iz ispitnog programa ostaju kakvi jesu (pumpa, tank, osovina, squelch).
+- **Noćni način kroz `sloplint`.** Statička provjera i provjera u pregledniku na svih 19 stranica s noćnom temom:
+  0 FAIL, 0 WARN. Tri plohe dobile su izričitu boju teksta.
+- **Safarijev motor.** Aplikacija je prošla 106 provjera u WebKitu (WebKitGTK 2.52) u prozoru širine mobitela:
+  svih 19 stranica bez JS grešaka i bez vodoravnog pomaka, pisma, kviz, noćni način, simulator pristajanja na dodir
+  gumba, čvorovi, pohrana i rad bez interneta. `BROWSER=webkit node tests/smoke.mjs` vrti dimni test u WebKitu s
+  profilom iPhonea.
+- **Zvuk na iPhoneu.** Zvučni signali se nakon prekida (poziv, zaključan zaslon) opet čuju: zvuk se budi iz svakog
+  stanja, a ne samo iz stanja „suspended“. Uz vježbu piše da treba isključiti tihi način.
+- Dimni test sada provjerava i da svaki čvor karte uma vodi do naslova u poglavlju i da se kućice ne dodiruju.
+- Najmanja inačica: iOS i Safari 16.2 (zbog `color-mix`), ostalo radi od 15.4.
 
 ## 5.2.1: pramčani konop u simulatoru
 

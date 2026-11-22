@@ -93,7 +93,7 @@
     $('.slOut',b).insertAdjacentHTML('beforeend',`<div class="expl ${r.ok?'slG':'slB'}">${r.ok?'✓':'✗'} ${r.t}</div>`); draw(); });
   $('.slNext',b).addEventListener('click',()=>{ k=(k+1)%EX.length; ans={}; $('.slOut',b).innerHTML=''; draw(); });
   draw();
-  // bljeskanje prema karakteristici: svi sektori zasvijetle istovremeno, u svojoj boji
+  // bljeskanje prema karakteristici: svi sektori zasvijetle istodobno, u svojoj boji
   if(!RM){ const t0=performance.now();
     const loop=now=>{ anim=requestAnimationFrame(loop); if(!vis) return; const e=EX[k], t=((now-t0)/1000)%e.P;
       const on=rhythm(e.t,e.n,e.P).some(([s,d])=>t>=s&&t<s+d);

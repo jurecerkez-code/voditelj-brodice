@@ -797,9 +797,9 @@ hr{border:0; border-top:var(--hair) solid var(--line); margin:36px 0}
 .card,.checklist.card,.plancard{background:none!important; border:0; border-top:var(--bar) solid var(--line2); border-radius:0!important; box-shadow:none!important; padding:16px 0 2px!important; margin:20px 0}
 .card h4:first-child{margin-top:0}
 .card .card{border-top-width:var(--hair); margin:12px 0}
-.ialaCard{background:var(--panel)!important; padding:8px 8px!important; border-top:var(--hair) solid var(--line2)}
+.ialaCard{background:var(--panel)!important; color:var(--txt); padding:8px 8px!important; border-top:var(--hair) solid var(--line2)}
 .grid{gap:4px 32px}
-.qcard,.fcside{background:var(--panel)!important; border:0; border-top:var(--bar) solid var(--txt); border-radius:0!important; box-shadow:none!important}
+.qcard,.fcside{background:var(--panel)!important; color:var(--txt); border:0; border-top:var(--bar) solid var(--txt); border-radius:0!important; box-shadow:none!important}
 
 /* napomene: udubljenje (papir-2) s čvrstom crtom; vrstu nose riječ i boja crte */
 .note,.warn,.ok,.mnem,.danger{background:var(--bg2)!important; border:0!important; border-top:var(--bar) solid var(--line2)!important; border-radius:0!important; box-shadow:none!important; outline:0; padding:12px 16px 16px!important; margin:20px 0; font-size:16.5px; line-height:1.55}
@@ -907,7 +907,7 @@ kbd{background:none!important; border:var(--hair) solid var(--txt3)!important; b
 .dwHud{background:color-mix(in srgb,var(--bg) 92%,transparent)!important; color:var(--txt)!important; border:1px solid var(--line)!important; font-family:var(--font)!important}
 .dwHud b{color:var(--txt)!important}
 .dwGoal span{border-radius:var(--r1)!important}
-.dsCard,.wCard{background:var(--panel)!important; border-radius:var(--r2)!important; box-shadow:none!important; border:1px solid var(--line)!important}
+.dsCard,.wCard{background:var(--panel)!important; color:var(--txt); border-radius:var(--r2)!important; box-shadow:none!important; border:1px solid var(--line)!important}
 .wCard{border-top:var(--bar) solid var(--wc)!important}
 .dsCard:hover,.wCard:has(button:hover){transform:none!important; border-color:var(--txt)!important}
 .dsCard.on,.wCard.on{box-shadow:0 0 0 2px var(--txt)!important; border-color:var(--txt)!important}

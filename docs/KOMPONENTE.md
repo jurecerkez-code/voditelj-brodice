@@ -29,6 +29,8 @@ Provjera izgleda Hallmarkovim alatom (github.com/Nutlope/hallmark), iz mape proj
 
 Za provjeru u pregledniku pokreni lokalni poslužitelj i dodaj `--url http://localhost:8000/index.html#p-nav`
 (treba `puppeteer-core`). Alat piše snimke u `.hallmark/`, koja je u `.gitignore`.
+Alat čita stranicu onakvu kakva se otvori, pa za noćni način treba kopija u kojoj je tema zadana u `index.html`,
+a noćni blok tokena dodan na kraj `app.css`.
 
 ## HTML klase
 
@@ -47,7 +49,7 @@ Za provjeru u pregledniku pokreni lokalni poslužitelj i dodaj `--url http://loc
 | Važno | `.danger` | propis, sigurnost |
 | Potvrda | `.ok` | važeće stanje |
 | Za pamćenje | `.mnem` | mnemonik, formula |
-| Oznaka | `.pill.g` `.pill.n` `.pill.r` `.pill.y` `.pill.b` | VAŽEĆE, STARO, TRIK |
+| Oznaka | `.pill.g` `.pill.n` `.pill.r` `.pill.y` `.pill.b` | Važeće, Staro, Zamka |
 | Mjerač | `.meter > i` | širina u postocima |
 | Kraj poglavlja | `.chFoot` | dodaje ga `app.js` |
 | Pod-navigacija | `.subnav` | vježbe |

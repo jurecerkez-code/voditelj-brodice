@@ -11,14 +11,14 @@
   const RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let running=false, four=true, th=0, raf=0, last=0, diesel=false;
   const strokes4=()=>[
-    ['USIS',`Klip se spušta od GMT prema DMT i širi prostor iznad sebe. Usisni ventil je otvoren, pa u cilindar ulazi ${diesel?'<b>čisti zrak</b>':'<b>smjesa zraka i benzina</b>'}. Tlak je malo ispod atmosferskog.`,C.acc],
-    ['KOMPRESIJA',`Oba ventila su zatvorena. Klip se diže i istu količinu plina sabija u ${diesel?'18':'oko 9'} puta manji prostor: čestice su gušće, pa tlak raste na oko ${diesel?'45':'19'} bara, a plin se zagrije na ${diesel?'600 do 700':'oko 450'} °C.${diesel?' Zato se gorivo zapali samo, bez svjećice.':''} Taj rad daje zamašnjak.`,C.yellow],
-    ['EKSPANZIJA',`${diesel?'Brizgaljka ubrizga gorivo u vrući zrak i ono se <b>samo zapali</b>':'Svjećica pali smjesu malo prije GMT i plamen se širi od svjećice'}. Tlak naglo skoči i gura klip prema DMT. Jedini <b>RADNI TAKT</b>: samo ovdje plin predaje rad koljenu.`,'#ff7a45'],
-    ['ISPUH','Ispušni ventil se otvori, tlak padne i klip na putu prema GMT istisne izgorjele plinove. Zamašnjak ga nosi kroz ovaj i sljedeća dva takta.','#8fa6b8']
+    ['Usis',`Klip se spušta od GMT prema DMT i širi prostor iznad sebe. Usisni ventil je otvoren, pa u cilindar ulazi ${diesel?'<b>čisti zrak</b>':'<b>smjesa zraka i benzina</b>'}. Tlak je malo ispod atmosferskog.`,C.acc],
+    ['Kompresija',`Oba ventila su zatvorena. Klip se diže i istu količinu plina sabija u ${diesel?'18':'oko 9'} puta manji prostor: čestice su gušće, pa tlak raste na oko ${diesel?'45':'19'} bara, a plin se zagrije na ${diesel?'600 do 700':'oko 450'} °C.${diesel?' Zato se gorivo zapali samo, bez svjećice.':''} Taj rad daje zamašnjak.`,C.yellow],
+    ['Ekspanzija',`${diesel?'Brizgaljka ubrizga gorivo u vrući zrak i ono se <b>samo zapali</b>':'Svjećica pali smjesu malo prije GMT i plamen se širi od svjećice'}. Tlak naglo skoči i gura klip prema DMT. Jedini <b>radni takt</b>: samo ovdje plin predaje rad koljenu.`,'#ff7a45'],
+    ['Ispuh','Ispušni ventil se otvori, tlak padne i klip na putu prema GMT istisne izgorjele plinove. Zamašnjak ga nosi kroz ovaj i sljedeća dva takta.','#8fa6b8']
   ];
   const strokes2=[
-    ['IZMJENA PLINOVA + KOMPRESIJA','Klip ide od DMT prema GMT. Dok su kanali otvoreni, svježa smjesa iz kartera kroz ispirni kanal istiskuje izgorjele plinove. Zatim klip zatvori kanale i sabija smjesu, a ispod klipa se karter puni novom smjesom. Nema ventila ni uljne kade: ulje za podmazivanje je <b>umiješano u gorivo</b>.',C.acc],
-    ['IZGARANJE + EKSPANZIJA','Paljenje malo prije GMT, tlak gura klip prema DMT. Klip prvo otvori ispušni kanal (tlak padne), zatim ispirni. Ispod klipa se smjesa u karteru sabija. <b>RADNI TAKT pri svakom okretaju</b>, zato dvotaktni za isti obujam daje više snage, ali troši više i više zagađuje.','#ff7a45']
+    ['Izmjena plinova i kompresija','Klip ide od DMT prema GMT. Dok su kanali otvoreni, svježa smjesa iz kartera kroz ispirni kanal istiskuje izgorjele plinove. Zatim klip zatvori kanale i sabija smjesu, a ispod klipa se karter puni novom smjesom. Nema ventila ni uljne kade: ulje za podmazivanje <b>umiješano je u gorivo</b>.',C.acc],
+    ['Izgaranje i ekspanzija','Paljenje malo prije GMT, tlak gura klip prema DMT. Klip prvo otvori ispušni kanal (tlak padne), zatim ispirni. Ispod klipa se smjesa u karteru sabija. <b>Radni takt pri svakom okretaju</b>, zato dvotaktni za isti obujam daje više snage, ali troši više i više zagađuje.','#ff7a45']
   ];
   // geometrija (px): provrt BX1..BX2, glava HEAD, koljeno R, klipnjača L
   const DY=66, W=460, HM=380+DY, H=HM+62, BX1=170, BX2=290, CX=(BX1+BX2)/2, HEAD=74, R=36, L=104, PIN=24, PH=40, NEXP=1.35;
@@ -132,8 +132,8 @@
         }
         return v;
       };
-      g+=valve(CX-34,li,C.green,'USIS',diesel?'samo zrak':'zrak + benzin',-1);
-      g+=valve(CX+34,le,'#ff7a45','ISPUH','izgorjeli plinovi',1);
+      g+=valve(CX-34,li,C.green,'Usis',diesel?'samo zrak':'zrak i benzin',-1);
+      g+=valve(CX+34,le,'#ff7a45','Ispuh','izgorjeli plinovi',1);
       // bregasta osovina: kut = pola kuta koljena (1 okretaj bregaste = 2 okretaja koljena)
       const cam=th/2, CYc=HEAD-50;
       const lobe=(x,peak)=>{ const a=(cam-peak)*Math.PI/180; // brijeg gleda prema dolje kad je cam = peak
@@ -195,7 +195,7 @@
     let pts=''; G.P.forEach((p,i)=>{ pts+=(bx+bw*i*2/span).toFixed(1)+','+(cy0-ch*p/G.pmax).toFixed(1)+' '; });
     g+=`<polyline points="${bx},${cy0} ${pts}${bx+bw},${cy0}" fill="#ff7a45" fill-opacity=".14" stroke="#ff7a45" stroke-width="1.6" stroke-linejoin="round"/>`;
     g+=`<text x="${bx}" y="${cy0-ch-4}" font-size="10.5" fill="${C.txt2}">tlak kroz ciklus (vrh: oko ${Math.round(G.pmax/5)*5} bara)</text>`;
-    const lbl=four?['usis','kompresija','ekspanzija','ispuh']:['ekspanzija','izmjena + kompresija'];
+    const lbl=four?['usis','kompresija','ekspanzija','ispuh']:['ekspanzija','izmjena i kompresija'];
     const cols=four?strokes4().map(x=>x[2]):['#ff7a45',C.acc];
     const cur=four?st:(th<180?0:1);
     for(let i=0;i<N;i++){
@@ -245,19 +245,19 @@
   const W=680,H=230;
   let g=`<rect width="${W}" height="${H}" fill="#0b1a28" rx="10"/>`;
   // direct
-  g+=`<text x="170" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${C.green}">IZRAVNO (direktno)</text>`;
-  g+=`<text x="170" y="44" text-anchor="middle" font-size="11" fill="${C.txt2}">morska voda ULAZI u motor, jeftinije, češće</text>`;
-  g+=`<rect x="110" y="88" width="120" height="70" rx="8" fill="#1d3a52" stroke="#37627f" stroke-width="2"/><text x="170" y="128" text-anchor="middle" font-size="13" fill="#cfe" font-weight="600">MOTOR</text>`;
+  g+=`<text x="170" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${C.green}">Izravno (direktno)</text>`;
+  g+=`<text x="170" y="44" text-anchor="middle" font-size="11" fill="${C.txt2}">morska voda ulazi u motor, jeftinije, češće</text>`;
+  g+=`<rect x="110" y="88" width="120" height="70" rx="8" fill="#1d3a52" stroke="#37627f" stroke-width="2"/><text x="170" y="128" text-anchor="middle" font-size="13" fill="#cfe" font-weight="600">Motor</text>`;
   g+=`<path d="M30,190 L30,123 L108,123" fill="none" stroke="${C.acc}" stroke-width="3" marker-end="url(#ah2)"/>`;
   g+=`<path d="M232,123 L300,123 L300,190" fill="none" stroke="#ff7a45" stroke-width="3" marker-end="url(#ah3)"/>`;
   g+=`<text x="26" y="206" font-size="10.5" fill="${C.acc}">ulaz mora (ventil!)</text>`;
   g+=`<text x="272" y="206" font-size="10.5" fill="#ff7a45">izlaz: mlaz</text>`;
   g+=`<line x1="340" y1="16" x2="340" y2="${H-16}" stroke="${C.line}" stroke-dasharray="6 5"/>`;
   // indirect
-  g+=`<text x="510" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${C.yellow}">NEIZRAVNO (indirektno)</text>`;
-  g+=`<text x="510" y="44" text-anchor="middle" font-size="11" fill="${C.txt2}">motor hladi SLATKA voda iz hladnjaka (kilera)</text>`;
-  g+=`<rect x="390" y="88" width="105" height="70" rx="8" fill="#1d3a52" stroke="#37627f" stroke-width="2"/><text x="442" y="128" text-anchor="middle" font-size="12" fill="#cfe" font-weight="600">MOTOR</text>`;
-  g+=`<rect x="540" y="88" width="105" height="70" rx="8" fill="#153a30" stroke="${C.green}" stroke-width="2"/><text x="592" y="122" text-anchor="middle" font-size="12" fill="#bfe" font-weight="600">HLADNJAK</text><text x="592" y="140" text-anchor="middle" font-size="10" fill="${C.txt2}">(kiler)</text>`;
+  g+=`<text x="510" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${C.yellow}">Neizravno (indirektno)</text>`;
+  g+=`<text x="510" y="44" text-anchor="middle" font-size="11" fill="${C.txt2}">motor hladi slatka voda iz hladnjaka (kilera)</text>`;
+  g+=`<rect x="390" y="88" width="105" height="70" rx="8" fill="#1d3a52" stroke="#37627f" stroke-width="2"/><text x="442" y="128" text-anchor="middle" font-size="12" fill="#cfe" font-weight="600">Motor</text>`;
+  g+=`<rect x="540" y="88" width="105" height="70" rx="8" fill="#153a30" stroke="${C.green}" stroke-width="2"/><text x="592" y="122" text-anchor="middle" font-size="12" fill="#bfe" font-weight="600">Hladnjak</text><text x="592" y="140" text-anchor="middle" font-size="10" fill="${C.txt2}">(kiler)</text>`;
   g+=`<path d="M495,106 L540,106" stroke="#ff7a45" stroke-width="3" marker-end="url(#ah3)"/>`;
   g+=`<path d="M540,142 L495,142" stroke="${C.acc}" stroke-width="3" marker-end="url(#ah2)"/>`;
   g+=`<text x="517" y="84" font-size="9.5" text-anchor="middle" fill="#ff7a45">topla</text>`; // iznad strelice, vrh strelice ga ne prekriva

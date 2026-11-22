@@ -76,7 +76,7 @@
     [['NW',16,20,'start'],['NE',S-16,20,'end'],['SE',S-16,S-10,'end'],['SW',16,S-10,'start']].forEach(([t,x,y,a])=>g+=`<text x="${x}" y="${y}" font-size="11" fill="#9fd2f0" text-anchor="${a}" font-family="var(--mono)" font-weight="600">${t}</text>`);
     // opasnost: plićina/hrid
     g+=`<path d="M${c-34},${c+4} C${c-30},${c-24} ${c-6},${c-30} ${c+14},${c-22} C${c+36},${c-14} ${c+34},${c+14} ${c+18},${c+26} C${c},${c+36} ${c-30},${c+28} ${c-34},${c+4} Z" fill="#bfe0f2" stroke="#6fa6c8"/>
-      <path d="M${c-12},${c+6} l6,-12 l5,7 l6,-10 l8,15 Z" fill="#6b5a22"/><text x="${c}" y="${c+22}" text-anchor="middle" font-size="10" fill="#0b2a44" font-weight="600">OPASNOST</text>`;
+      <path d="M${c-12},${c+6} l6,-12 l5,7 l6,-10 l8,15 Z" fill="#6b5a22"/><text x="${c}" y="${c+22}" text-anchor="middle" font-size="10" fill="#0b2a44" font-weight="600">Opasnost</text>`;
     // ruta broda: prolazi sa sigurne strane oznake
     const off=118, R={N:`M18,${c-off} L${S-18},${c-off}`,S:`M${S-18},${c+off} L18,${c+off}`,E:`M${c+off},${S-18} L${c+off},18`,W:`M${c-off},18 L${c-off},${S-18}`}[qSel];
     g+=`<path class="cdRoute" d="${R}" stroke="#ffd166" stroke-width="2.4" fill="none" stroke-dasharray="8 6" marker-end="url(#cdArr)"/><defs><marker id="cdArr" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#ffd166"/></marker></defs>`;
@@ -123,7 +123,7 @@
     $$('.cdOpt',b).forEach(x=>{ x.disabled=true; if(x.dataset.k===cur.k) x.classList.add('correct'); else if(x===btn) x.classList.add('wrong'); });
     $('.cdFb',b).innerHTML=`<div class="expl"><b>${ok?'✓ Točno.':'✗ Nije.'} ${cur.n} kardinalna (${cur.k})</b><br>
       ${cur.cones}, boje odozgo ${cur.col}, svjetlo <b>bijelo ${cur.ch}</b>. Prolaziš sa <b>${cur.g}</b> strane oznake.
-      ${mode==='night'?'<br><small>Trik: brojčanik sata. N = 12 (neprekidno), E = 3, S = 6 + dugi, W = 9.</small>':''}</div>
+      ${mode==='night'?'<br><small>Pomaže brojčanik sata: N je 12 (neprekidno), E je 3, S je 6 i jedan dugi, W je 9.</small>':''}</div>
       ${mode==='night'?`<div class="cdAns">${dayOne(cur)}</div>`:''}
       <div class="btnrow"><button class="btn p cdNext" type="button">Sljedeća</button><span class="cdSc">Točno ${score.ok} od ${score.n}</span></div>`;
     $('.cdNext',b).addEventListener('click',ask); loop(); }

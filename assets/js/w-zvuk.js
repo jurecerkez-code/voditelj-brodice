@@ -10,16 +10,16 @@
   const b=el('soundQuiz');
   const RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const SIG=[
-    ['Jedan kratki','Mijenjam kurs UDESNO',[1]],
-    ['Dva kratka','Mijenjam kurs ULIJEVO',[1,1]],
-    ['Tri kratka','Vozim KRMOM (stroj radi nazad)',[1,1,1]],
-    ['Pet kratkih','UPOZORENJE: ne razumijem tvoje namjere',[1,1,1,1,1]],
+    ['Jedan kratki','Mijenjam kurs udesno',[1]],
+    ['Dva kratka','Mijenjam kurs ulijevo',[1,1]],
+    ['Tri kratka','Vozim krmom (stroj radi unatrag)',[1,1,1]],
+    ['Pet kratkih','Upozorenje: ne razumijem tvoje namjere',[1,1,1,1,1]],
     ['Jedan dugi','Nailazim iza rta (punte) ili zavoja; u magli: brod na mehanički pogon koji se kreće',[4]],
     ['Dva duga','U magli: plovim, ali se ne krećem kroz vodu',[4,4]],
-    ['Dugi + dva kratka','U magli: jedrilica, tegljenje, ribolov, nesposoban za manevriranje, ograničen',[4,1,1]],
+    ['Dugi i dva kratka','U magli: jedrilica, tegljenje, ribolov, nesposoban za manevriranje, ograničen',[4,1,1]],
     ['Četiri kratka','U magli: peljarski brod u službi',[1,1,1,1]],
-    ['Dva duga + kratki','Želim pretjecati s TVOJE DESNE strane',[4,4,1]],
-    ['Dva duga + dva kratka','Želim pretjecati s TVOJE LIJEVE strane',[4,4,1,1]],
+    ['Dva duga i kratki','Želim pretjecati s tvoje desne strane',[4,4,1]],
+    ['Dva duga i dva kratka','Želim pretjecati s tvoje lijeve strane',[4,4,1,1]],
     ['Dugi, kratki, dugi, kratki','Slažem se (odgovor na pretjecanje)',[4,1,4,1]]
   ];
   const mark=p=>'<span class="sg" aria-hidden="true">'+p.map(u=>u===1?'<i></i>':'<i class="l"></i>').join('')+'</span>';
@@ -27,7 +27,7 @@
   let real=false; // stvarno trajanje: kratki 1 s, dugi 4 s (poglavlje: dugi 4 do 6 s)
   const DUR=u=>real?(u===1?1:4):(u===1?.28:1.1), GAP=()=>real?1:.22;
   let ctx=null;
-  const AC=()=>{ try{ ctx=ctx||new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume(); }catch(e){ ctx=null; } return ctx; };
+  const AC=()=>{ try{ ctx=ctx||new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state!=='running') ctx.resume(); }catch(e){ ctx=null; } return ctx; };
   function tone(t,d){ const c=AC(); if(!c) return; const o=c.createOscillator(), g=c.createGain(); o.type='sawtooth'; o.frequency.value=175;
     g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.19,t+.02); g.gain.setValueAtTime(.19,t+d-.03); g.gain.linearRampToValueAtTime(0,t+d);
     o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+d+.02); }
@@ -99,7 +99,7 @@
       for(let m=0;m<T;m+=step){ let x=px(m)+3;
         if(p==='bell') g+=`<rect x="${x}" y="${y-6}" width="${(X1-X0)/T/12}" height="12" rx="2" fill="#ffd166"/><text x="${x+14}" y="${y+4}" font-size="11" fill="#ffd166">zvono</text>`;
         else p.forEach(u=>{ const w=u===1?5:16; g+=`<rect x="${x}" y="${y-5}" width="${w}" height="10" rx="3" fill="#39b8e8"/>`; x+=w+4; }); } });
-    body.innerHTML=`<div class="sqFog">${SVG(W,H,g,'role="img" aria-label="Vremenska traka: brodovi u plovidbi daju signal svake 2 minute, usidreni svake 1 minute"')}
+    body.innerHTML=`<div class="sqFog">${SVG(W,H,g,'role="img" aria-label="Vremenska traka: brodovi u plovidbi daju signal svake 2 minute, usidreni svake minute"')}
       <p class="sqHint">Iz poglavlja: svi brodovi u plovidbi daju signal <b>svake 2 minute</b>, usidreni i nasukani <b>svake 1 minute</b>. Nasukani uz zvonjavu daje i po tri odvojena udarca zvonom prije i poslije.</p></div>`; }
 
   $('.sqTabs',b).addEventListener('click',e=>{ const t=e.target.closest('[data-m]'); if(!t) return; mode=t.dataset.m; playTimer.forEach(clearTimeout); hornOff();

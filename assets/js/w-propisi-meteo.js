@@ -21,7 +21,7 @@
       g+=`<line x1="${x-5}" y1="${y}" x2="${x+5}" y2="${y}" stroke="#e6eef5" stroke-width="1.4"/><text x="${L?x-9:x+9}" y="${y+4}"${L?' text-anchor="end"':''} font-size="10" fill="#e6eef5" font-family="var(--mono)" paint-order="stroke" stroke="#0e3350" stroke-width="3">${t}</text>`; });
     g+=`<text x="${x+34}" y="${y0+20*scale+18}" font-size="10.5" fill="${C.txt2}">Nm od obale (u mjerilu)</text>`; }
   g+=`<text x="10" y="${H-12}" font-size="11.5" fill="${C.txt2}"><tspan font-weight="600" fill="${C.txt}">I</tspan> = bez ograničenja,  <tspan font-weight="600" fill="${C.txt}">IV</tspan> = luke, zaljevi, ušća rijeka</text>`;
-  g+=`<text x="14" y="30" font-size="12" fill="#5a4508" font-weight="600">KOPNO / OTOK</text>`;
+  g+=`<text x="14" y="30" font-size="12" fill="#5a4508" font-weight="600">Kopno / otok</text>`;
   b.innerHTML=SVG(W,H,g);
 })();
 
@@ -29,12 +29,12 @@
 (function(){
   const b=el('hullWidget'); if(!b) return;
   const types=[
-    ['PASARA','odsječena krma (zrcalo)','M0,0 C24,-16 56,-18 78,-14 L78,14 C56,18 24,16 0,0 Z'],
-    ['GAJETA','oštar pramac i krma, široka','M0,0 C22,-20 56,-20 78,0 C56,20 22,20 0,0 Z'],
-    ['GUC','kao gajeta, ali uži','M0,0 C22,-13 56,-13 78,0 C56,13 22,13 0,0 Z'],
-    ['LEUT','oštri pramac i krma, škaf oba','M0,0 C20,-17 58,-17 78,0 C58,17 20,17 0,0 Z'],
-    ['BATANA','ravno dno i ravna krma','M4,-13 L74,-13 L78,0 L74,13 L4,13 Z'],
-    ['GLISER','široko ravno dno: klizi','M0,-4 L58,-14 L78,-6 L78,6 L58,14 L0,4 Z']
+    ['Pasara','odsječena krma (zrcalo)','M0,0 C24,-16 56,-18 78,-14 L78,14 C56,18 24,16 0,0 Z'],
+    ['Gajeta','oštar pramac i krma, široka','M0,0 C22,-20 56,-20 78,0 C56,20 22,20 0,0 Z'],
+    ['Guc','kao gajeta, ali uži','M0,0 C22,-13 56,-13 78,0 C56,13 22,13 0,0 Z'],
+    ['Leut','oštar pramac i krma, škaf na oba kraja','M0,0 C20,-17 58,-17 78,0 C58,17 20,17 0,0 Z'],
+    ['Batana','ravno dno i ravna krma','M4,-13 L74,-13 L78,0 L74,13 L4,13 Z'],
+    ['Gliser','široko ravno dno: klizi','M0,-4 L58,-14 L78,-6 L78,6 L58,14 L0,4 Z']
   ];
   let g='';
   types.forEach((t,i)=>{
@@ -48,14 +48,14 @@
 
 /* ═══════════════ WIND ROSE ═══════════════ */
 const WINDS=[
-  {n:'TRAMONTANA',d:0,dir:'N',it:'Nord',c:'#7fd8f7',t:'Hladan i suh sjeverni vjetar. Puše iz sjevera, često nakon prolaska hladne fronte. Donosi vedro ali hladno vrijeme.'},
-  {n:'BURA',d:45,dir:'NE',it:'Nordist / Grego',c:'#ef4a5a',t:'<b>NAJOPASNIJI VJETAR NA JADRANU.</b> Hladan, puše <b>na refule</b> (u naglim udarima) <b>s kopna prema moru</b>. U vrlo kratkom vremenu dosiže <b>orkansku snagu</b>. Stvara morsku prašinu koja smanjuje vidljivost.<br><b>Predznaci:</b> kapa od bijelih oblaka iznad primorskih planina (kapa raste → bura jača), suhi zrak, <b>oseka</b>, <b>porast tlaka</b>.<br><b>Postupak:</b> čim uočiš znakove: odmah u najbližu uvalu ili luku.'},
-  {n:'LEVANAT',d:90,dir:'E',it:'Ist / Levante',c:'#8fa6b8',t:'Istočni vjetar, ujednačen, donosi oblake i pogoršanje vremena. Često prethodi jugu.'},
-  {n:'JUGO (ŠILOKO)',d:135,dir:'SE',it:'Saudist / Scirocco',c:'#f08a3c',t:'Topao i vlažan, puše <b>ujednačeno s mora prema obali</b>, donosi kišu i visoke valove. <b>Jača postupno</b>, imaš dovoljno vremena da se sigurno zakloniš.<br><b>Predznaci:</b> sumaglica na <b>jugoistočnom</b> dijelu obzora, povećana vlažnost, <b>plima</b>, <b>pad tlaka</b>, povećana oblačnost.'},
-  {n:'OŠTRO',d:180,dir:'S',it:'Saud / Ostro',c:'#f5c542',t:'Južni vjetar, topao i vlažan. Rjeđi na Jadranu, obično prelazi u jugo ili lebić.'},
-  {n:'LEBIĆ',d:225,dir:'SW',it:'Saudvest / Libeccio',c:'#c07ae8',t:'Jugozapadni. Jak, donosi velike valove prema obali. Obično kratkotrajan, ali može biti opasan u lukama otvorenim prema SW.'},
-  {n:'PONENTE (PULENAT)',d:270,dir:'W',it:'Vest / Ponente',c:'#25c26a',t:'Zapadni vjetar. Umjeren, često popodnevni. Može donijeti nagle promjene vremena.'},
-  {n:'MAESTRAL',d:315,dir:'NW',it:'Nordvest / Maestrale',c:'#39b8e8',t:'Ugodan ljetni vjetar. <b>Puše isključivo danju</b>: jača oko podneva, slabi predvečer. Osvježava. U uskim kanalima (Hvarski, Pelješki) zna biti dosta jak: omiljen kod jedriličara i jedrenja na dasci.'}
+  {n:'Tramontana',d:0,dir:'N',it:'Nord',c:'#7fd8f7',t:'Hladan i suh sjeverni vjetar. Puše sa sjevera, često nakon prolaska hladne fronte. Donosi vedro, ali hladno vrijeme.'},
+  {n:'Bura',d:45,dir:'NE',it:'Nordist / Grego',c:'#ef4a5a',t:'<b>Najopasniji vjetar na Jadranu.</b> Hladan, puše <b>na refule</b> (u naglim udarima) <b>s kopna prema moru</b>. U vrlo kratkom vremenu dosiže <b>orkansku snagu</b>. Stvara morsku prašinu koja smanjuje vidljivost.<br><b>Predznaci:</b> kapa od bijelih oblaka iznad primorskih planina (što je kapa veća, bura je jača), suhi zrak, <b>oseka</b>, <b>porast tlaka</b>.<br><b>Postupak:</b> čim uočiš znakove: odmah u najbližu uvalu ili luku.'},
+  {n:'Levanat',d:90,dir:'E',it:'Ist / Levante',c:'#8fa6b8',t:'Istočni vjetar, ujednačen, donosi oblake i pogoršanje vremena. Često prethodi jugu.'},
+  {n:'Jugo (šiloko)',d:135,dir:'SE',it:'Saudist / Scirocco',c:'#f08a3c',t:'Topao i vlažan, puše <b>ujednačeno s mora prema obali</b>, donosi kišu i visoke valove. <b>Jača postupno</b>, pa imaš dovoljno vremena da se sigurno zakloniš.<br><b>Predznaci:</b> sumaglica na <b>jugoistočnom</b> dijelu obzora, povećana vlažnost, <b>plima</b>, <b>pad tlaka</b>, povećana oblačnost.'},
+  {n:'Oštro',d:180,dir:'S',it:'Saud / Ostro',c:'#f5c542',t:'Južni vjetar, topao i vlažan. Rjeđi na Jadranu, obično prelazi u jugo ili lebić.'},
+  {n:'Lebić',d:225,dir:'SW',it:'Saudvest / Libeccio',c:'#c07ae8',t:'Jugozapadni. Jak, donosi velike valove prema obali. Obično kratkotrajan, ali može biti opasan u lukama otvorenim prema SW.'},
+  {n:'Ponente (pulenat)',d:270,dir:'W',it:'Vest / Ponente',c:'#25c26a',t:'Zapadni vjetar. Umjeren, često popodnevni. Može donijeti nagle promjene vremena.'},
+  {n:'Maestral',d:315,dir:'NW',it:'Nordvest / Maestrale',c:'#39b8e8',t:'Ugodan ljetni vjetar. <b>Puše isključivo danju</b>: jača oko podneva, slabi predvečer. Osvježava. U uskim kanalima (Hvarski, Pelješki) zna biti dosta jak: omiljen među jedriličarima i jedriličarima na dasci.'}
 ];
 
 (function(){
@@ -79,7 +79,7 @@ const WINDS=[
   const BF=[['tišina','< 1','more kao zrcalo'],['lahor','1 do 3','sitno mreškanje'],['povjetarac','4 do 6','mali valići, ne lome se'],['slab vjetar','7 do 10','valići, ponegdje bijela kapica'],
     ['umjeren vjetar','11 do 16','manji valovi, česte bijele kapice'],['umjereno jak','17 do 21','umjereni valovi, mnogo bijelih kapica'],['jak vjetar','22 do 27','veći valovi, pjena posvuda'],
     ['žestok vjetar','28 do 33','more se gomila, pjena u prugama'],['olujni vjetar','34 do 40','visoki valovi, pjena u gustim prugama'],['jak olujni','41 do 47','visoki valovi, rasprskavanje smanjuje vidljivost'],
-    ['orkanski vjetar','48 do 55','vrlo visoki valovi, more bijelo'],['jak orkanski','56 do 63','iznimno visoki valovi'],['orkan','≥ 64','zrak pun pjene i rasprskavanja']];
+    ['orkanski vjetar','48 do 55','vrlo visoki valovi, more bijelo'],['jak orkanski','56 do 63','iznimno visoki valovi'],['orkan','64 i više','zrak pun pjene i rasprskavanja']];
   function draw(sel){
     let g=`<defs><radialGradient id="wBg"><stop offset="0" stop-color="#12304a"/><stop offset="1" stop-color="#0b1d2e"/></radialGradient></defs>`;
     g+=`<circle cx="${c}" cy="${c}" r="${R+18}" fill="url(#wBg)" stroke="${C.line}"/>`;

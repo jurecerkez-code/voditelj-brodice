@@ -11,7 +11,7 @@
     const bx=kick<0?x+34:x+212;
     let g=`<text x="${cx}" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${col}">${title}</text>`;
     g+=`<rect x="${bx}" y="44" width="14" height="142" fill="#3a4a58"/><rect x="${kick<0?bx+11:bx}" y="44" width="3" height="142" fill="#4a545e"/>`;
-    g+=`<text transform="rotate(-90 ${bx+7} 115)" x="${bx+7}" y="119" text-anchor="middle" font-size="10.5" fill="#dfe6ec" font-weight="600" letter-spacing="1">OBALA</text>`;
+    g+=`<text transform="rotate(-90 ${bx+7} 115)" x="${bx+7}" y="119" text-anchor="middle" font-size="10.5" fill="#dfe6ec" font-weight="600" letter-spacing="1">Obala</text>`;
     g+=`<g transform="translate(${cx},${cy}) rotate(${rot})">
       <path d="M0,-46 C16,-24 19,4 17,36 L-17,36 C-19,4 -16,-24 0,-46 Z" fill="#1d3a52" stroke="#5b8bab" stroke-width="1.6"/>
       <text y="-20" text-anchor="middle" font-size="9" fill="${C.txt2}">pramac</text>
@@ -22,9 +22,9 @@
   }
   const defs=`<defs><marker id="ahw" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><polygon points="0,0 9,4.5 0,9" fill="#39b8e8"/></marker></defs>`;
   let g=`<clipPath id="seaClip${W}x${H}"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#seaClip${W}x${H})">${seaBackground(W,H,{view:'top'})}</g>`;
-  g+=panel(20,'DESNOKRETNI vijak: vožnja KRMOM',-1,'krma izbija ULIJEVO → pristani LIJEVIM bokom',C.acc);
+  g+=panel(20,'Desnokretni vijak: vožnja krmom',-1,'krma izbija ulijevo, pristani lijevim bokom',C.acc);
   g+=`<line x1="${W/2}" y1="14" x2="${W/2}" y2="${H-14}" stroke="${C.line}" stroke-dasharray="6 5"/>`;
-  g+=panel(340,'LIJEVOKRETNI vijak: vožnja KRMOM',1,'krma izbija UDESNO → pristani DESNIM bokom',C.acc);
+  g+=panel(340,'Lijevokretni vijak: vožnja krmom',1,'krma izbija udesno, pristani desnim bokom',C.acc);
   b.innerHTML=SVG(W,H,defs+g);
 })();
 
@@ -51,11 +51,11 @@
   const b=el('sarWidget'); if(!b) return;
   const W=680,H=280;
   const boxes=[
-    {x:W/2-115,y:14,w:230,h:46,t:'STOŽER: ZAGREB',s:'Ministarstvo mora + zamjenik + 5 članova',c:C.txt2},
-    {x:W/2-140,y:80,w:280,h:52,t:'MRCC RIJEKA: tel. 195',s:'Nacionalna središnjica za traganje i spašavanje',c:C.red},
-    {x:W/2-190,y:152,w:380,h:46,t:'POD-SREDIŠNJICE (MRSC)',s:'8 lučkih kapetanija: PU, RI, SE, ZD, ŠI, ST, PL, DU',c:C.acc},
-    {x:24,y:220,w:300,h:46,t:'OBALNE PROMATRAČKE JEDINICE',s:'sve ispostave lučkih kapetanija',c:C.green},
-    {x:356,y:220,w:300,h:46,t:'JEDINICE TRAGANJA I SPAŠAVANJA',s:'pomorske, zračne, kopnene',c:C.yellow}
+    {x:W/2-115,y:14,w:230,h:46,t:'Stožer: Zagreb',s:'Ministarstvo mora, zamjenik i pet članova',c:C.txt2},
+    {x:W/2-140,y:80,w:280,h:52,t:'MRCC Rijeka: tel. 195',s:'Nacionalna središnjica za traganje i spašavanje',c:C.red},
+    {x:W/2-190,y:152,w:380,h:46,t:'Podsredišnjice (MRSC)',s:'Osam lučkih kapetanija: PU, RI, SE, ZD, ŠI, ST, PL, DU',c:C.acc},
+    {x:24,y:220,w:300,h:46,t:'Obalne promatračke jedinice',s:'sve ispostave lučkih kapetanija',c:C.green},
+    {x:356,y:220,w:300,h:46,t:'Jedinice traganja I spašavanja',s:'pomorske, zračne, kopnene',c:C.yellow}
   ];
   let g=`<rect width="${W}" height="${H}" fill="#0b1a28" rx="10"/>`;
   g+=`<line x1="${W/2}" y1="60" x2="${W/2}" y2="80" stroke="${C.line}" stroke-width="2"/>`;

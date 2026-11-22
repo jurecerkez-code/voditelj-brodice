@@ -1,6 +1,7 @@
 // Dimni test: otvara svaku stranicu i prolazi glavne tokove. Pada na svaku JS grešku.
 // Pokretanje:  npx playwright install chromium && node tests/smoke.mjs   (poslužitelj se diže sam)
-import { chromium } from 'playwright';
+// Safarijev motor s profilom iPhonea:  npx playwright install webkit && BROWSER=webkit node tests/smoke.mjs
+import { chromium, webkit, devices } from 'playwright';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,12 +16,13 @@ const server = http.createServer((req, res) => {
 }).listen(0);
 const URL0 = `http://localhost:${server.address().port}/index.html`;
 
-const browser = await chromium.launch(process.env.CHROME ? { executablePath: process.env.CHROME, args: ['--no-sandbox'] } : {});
+const WK = process.env.BROWSER === 'webkit';
+const browser = WK ? await webkit.launch() : await chromium.launch(process.env.CHROME ? { executablePath: process.env.CHROME, args: ['--no-sandbox'] } : {});
 const fails = []; let checks = 0;
 const ok = (cond, msg) => { checks++; if (!cond) fails.push(msg); };
 
 for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, false], ['mobitel', { width: 390, height: 844 }, true]]) {
-  const ctx = await browser.newContext({ viewport: vp, isMobile: mobile, hasTouch: mobile, serviceWorkers: 'block' });
+  const ctx = await browser.newContext(WK && mobile ? { ...devices['iPhone 14'], serviceWorkers: 'block' } : { viewport: vp, ...(WK ? {} : { isMobile: mobile }), hasTouch: mobile, serviceWorkers: 'block' });
   const page = await ctx.newPage();
   page.on('pageerror', e => fails.push(`[${name}] JS greška: ${e.message}`));
   page.on('console', m => { if (m.type() === 'error') fails.push(`[${name}] konzola: ${m.text()}`); });
@@ -43,6 +45,7 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
       for (const s of pg.querySelectorAll('svg')) if (!s.closest('[aria-hidden="true"]') && !s.getAttribute('role') && !s.getAttribute('aria-label')) bad.push('crtež bez imena u #' + (s.closest('[id]') || pg).id);
       let prev = 1; for (const h of pg.querySelectorAll('h2,h3,h4,h5,h6')) { if (h.offsetParent === null) continue; const l = +h.tagName[1]; if (l > prev + 1) bad.push('preskočena razina naslova prije "' + h.textContent.trim().slice(0, 24) + '"'); prev = l; }
       for (const s of pg.querySelectorAll('.osMapSvg')) { const r = [...s.querySelectorAll('.osNode rect')].map(e => ({ x: +e.getAttribute('x'), y: +e.getAttribute('y'), w: +e.getAttribute('width') })); if (r.some(A => r.some(B => B.y === A.y && B.x > A.x && B.x - (A.x + A.w) < 8))) bad.push('kućice u karti uma se dodiruju'); }
+      { const c = [...pg.querySelectorAll('h3,h4,h5,summary,b,strong')].filter(e => !e.closest('.osBox')).map(e => e.textContent.trim().toLowerCase()); for (const g of pg.querySelectorAll('.osNode')) { const w = (g.dataset.h || '').toLowerCase(); if (w && !c.some(x => x.startsWith(w) || x.includes(w))) bad.push('čvor karte uma bez cilja: ' + g.dataset.h); } }
       return [...new Set(bad)].slice(0, 4); });
     ok(tells.length === 0, `[${name}] ${id}: ${tells.join('; ')}`);
   }
@@ -125,7 +128,7 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   await page.evaluate(() => go('p-manevar')); await page.waitForTimeout(200);
   await page.locator('#dockWind [data-t="2"]').click(); await page.waitForTimeout(2600);
   const hud1 = await page.$eval('#dockWind .dwHud', e => e.textContent), kn = t => parseFloat((t.match(/Kroz vodu ([\d,]+)/) || [])[1]?.replace(',', '.'));
-  ok(/NAPRIJED/.test(hud1) && kn(hud1) > 0.3 && kn(hud1) < 4.2, `[${name}] simulator pristajanja: brodica ne kreće (${hud1})`);
+  ok(/Naprijed/.test(hud1) && kn(hud1) > 0.3 && kn(hud1) < 4.2, `[${name}] simulator pristajanja: brodica ne kreće (${hud1})`);
   await page.locator('#dockWind [data-t="0"]').click(); await page.waitForTimeout(600);
   ok(kn(await page.$eval('#dockWind .dwHud', e => e.textContent)) > 0.2, `[${name}] simulator pristajanja: brodica u neutralu mora klizati, ne stati odmah`);
   await page.locator('#dockWind .dwPause').click(); const h2 = await page.$eval('#dockWind .dwHud', e => e.textContent); await page.waitForTimeout(400);

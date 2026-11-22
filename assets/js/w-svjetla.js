@@ -40,8 +40,8 @@
     [112.5,247.5].forEach(a=>{ const x=c+Math.sin(a*Math.PI/180)*(OR+10), y=c-Math.cos(a*Math.PI/180)*(OR+10);
       g+=`<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="#5b8bab" stroke-opacity=".35" stroke-dasharray="3 4"/>`;
       g+=`<text x="${c+Math.sin(a*Math.PI/180)*(OR+22)}" y="${c-Math.cos(a*Math.PI/180)*(OR+22)+4}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="var(--mono)">${String(a).replace('.',',')}°</text>`; });
-    g+=`<text x="${c}" y="${c-R+2}" text-anchor="middle" font-size="12" fill="#fff" font-weight="600" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.mast?1:.6}">JARBOLNO 225°</text>`;
-    g+=`<text x="${c}" y="${c+R*0.72+16}" text-anchor="middle" font-size="12" fill="#cfd9e2" font-weight="600" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.stern?1:.6}">KRMENO 135°</text>`;
+    g+=`<text x="${c}" y="${c-R+2}" text-anchor="middle" font-size="12" fill="#fff" font-weight="600" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.mast?1:.6}">Jarbolno 225°</text>`;
+    g+=`<text x="${c}" y="${c+R*0.72+16}" text-anchor="middle" font-size="12" fill="#cfd9e2" font-weight="600" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.stern?1:.6}">Krmeno 135°</text>`;
     g+=`<text x="${c+R*0.62}" y="${c-30}" text-anchor="middle" font-size="12" fill="${SIG.g}" font-weight="600" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.stbd?1:.6}">112,5°</text>`;
     g+=`<text x="${c-R*0.62}" y="${c-30}" text-anchor="middle" font-size="12" fill="${SIG.r}" font-weight="600" paint-order="stroke" stroke="#071320" stroke-width="3" opacity="${v.port?1:.6}">112,5°</text>`;
     // linija pogleda
@@ -52,8 +52,8 @@
       <path d="M0,-46 C14,-26 17,0 15,32 L-15,32 C-17,0 -14,-26 0,-46 Z" fill="#1d3a52" stroke="#5b8bab" stroke-width="1.5"/>
       <circle cx="-15" cy="-6" r="5" fill="${SIG.r}" opacity="${v.port?1:.3}"/><circle cx="15" cy="-6" r="5" fill="${SIG.g}" opacity="${v.stbd?1:.3}"/>
       <circle cx="0" cy="-16" r="5" fill="${SIG.w}" opacity="${v.mast?1:.3}"/><circle cx="0" cy="30" r="5" fill="${SIG.w}" opacity="${v.stern?1:.3}"/>
-      <text y="-54" text-anchor="middle" font-size="11" fill="${C.acc}" font-weight="600">PRAMAC</text>
-      <text y="50" text-anchor="middle" font-size="11" fill="${C.acc}" font-weight="600">KRMA</text></g>`;
+      <text y="-54" text-anchor="middle" font-size="11" fill="${C.acc}" font-weight="600">Pramac</text>
+      <text y="50" text-anchor="middle" font-size="11" fill="${C.acc}" font-weight="600">Krma</text></g>`;
     // promatrač (tvoja brodica), pramcem prema brodu
     g+=`<g transform="translate(${ox},${oy}) rotate(${brg+180})">
       <path d="M0,-11 L6,2 L6,9 L-6,9 L-6,2 Z" fill="${C.acc}" stroke="#0a1420"/></g>
@@ -64,9 +64,9 @@
     if(v.stbd) L.push('<b class="c-green">zeleno bočno</b>'); if(v.stern) L.push('<b class="c-txt2">krmeno</b>');
     let m;
     if(v.stern && !v.mast) m='Gledaš mu krmu. Ako ga sustižeš, ti si brod koji pretječe i <b>ti se uklanjaš</b>.';
-    else if(v.port && v.stbd) m='Gledaš ga ravno u pramac. Nasuprotni kursevi: <b>oba skreću udesno</b>.';
-    else if(v.port) m='Vidiš njegov lijevi bok, on ti je s desne strane. Ako vam se kursevi sijeku, <b>ti izbjegavaš</b>.';
-    else m='Vidiš njegov desni bok, on ti je s lijeve strane. Ako vam se kursevi sijeku, <b>on izbjegava</b>, ti zadržavaš kurs i brzinu.';
+    else if(v.port && v.stbd) m='Gledaš ga ravno u pramac. Nasuprotni kursovi: <b>oba skreću udesno</b>.';
+    else if(v.port) m='Vidiš njegov lijevi bok, on ti je s desne strane. Ako vam se kursovi sijeku, <b>ti izbjegavaš</b>.';
+    else m='Vidiš njegov desni bok, on ti je s lijeve strane. Ako vam se kursovi sijeku, <b>on izbjegava</b>, ti zadržavaš kurs i brzinu.';
     if((v.mast&&v.stern)) m='Na samoj granici sektora (112,5° ili 247,5°) svjetla se smjenjuju; u praksi vidiš jedno ili drugo.';
     b.querySelector('.secinfo').innerHTML=`<div class="cap">položaj promatrača: ${Math.round(brg)}° od pramca</div>
       <div class="mt4">Vidiš: ${L.join(' + ')}</div><div class="mt4 c-txt2">${m}</div>`;
@@ -97,60 +97,60 @@
 
 /* ═══════════════ LIGHT SIMULATOR ═══════════════ */
 const VESSELS = [
-  {id:'mot50',n:'Motorni brod < 50 m (u plovidbi)',cat:'motor',
+  {id:'mot50',n:'Motorni brod kraći od 50 m',cat:'motor',
    L:[{t:'mast',c:'w'},{t:'side'},{t:'stern'}],
-   note:'Jedno jarbolno + bočna + krmeno. Brod kraći od 50 m nije obvezan isticati drugo jarbolno svjetlo, ali smije.'},
-  {id:'mot50p',n:'Motorni brod > 50 m (u plovidbi)',cat:'motor',
+   note:'Jedno jarbolno, bočna i krmeno. Brod kraći od 50 m nije obvezan isticati drugo jarbolno svjetlo, ali smije.'},
+  {id:'mot50p',n:'Motorni brod dulji od 50 m',cat:'motor',
    L:[{t:'mast2'},{t:'side'},{t:'stern'}],
-   note:'Dva jarbolna svjetla: prednje je NIŽE, stražnje VIŠE. Plus bočna i krmeno.'},
+   note:'Dva jarbolna svjetla: prednje je niže, stražnje više. Uz njih bočna i krmeno.'},
   {id:'mot12',n:'Motorna brodica do 12 m',cat:'motor',
    L:[{t:'allround',c:'w'},{t:'side'}],
-   note:'Bijelo kružno svjetlo (360°) + bočna svjetla.'},
-  {id:'mot7',n:'Motorna brodica < 7 m, brzina < 7 čv',cat:'motor',
+   note:'Bijelo kružno svjetlo (360°) i bočna svjetla.'},
+  {id:'mot7',n:'Brodica kraća od 7 m, do 7 čv',cat:'motor',
    L:[{t:'allround',c:'w'}],
    note:'Jedno bijelo kružno svjetlo i, ako je izvedivo, bočna svjetla.'},
-  {id:'sail20',n:'Jedrenjak > 20 m',cat:'sail',
+  {id:'sail20',n:'Jedrenjak dulji od 20 m',cat:'sail',
    L:[{t:'side'},{t:'stern'},{t:'opt2',c:['r','g']}],
-   note:'Bočna + krmeno. NEMA jarbolnog. Može (ne mora) pri vrhu jarbola dva kružna: CRVENO iznad ZELENOG.'},
+   note:'Bočna i krmeno. Nema jarbolnog. Može (ne mora) pri vrhu jarbola dva kružna: crveno iznad zelenog.'},
   {id:'sail20m',n:'Jedrilica do 20 m: trobojna svjetiljka',cat:'sail',
    L:[{t:'tricolor'}],
-   note:'Kombinirana trobojna svjetiljka pri vrhu jarbola (bočna + krmeno u jednoj). Tada NE SMIJE pokazivati nikakva druga svjetla.'},
-  {id:'motsail',n:'Motorni jedrenjak (jedra + motor)',cat:'motor',
+   note:'Kombinirana trobojna svjetiljka pri vrhu jarbola (bočna i krmeno u jednoj). Tada ne smije pokazivati nikakva druga svjetla.'},
+  {id:'motsail',n:'Motorni jedrenjak (jedra i motor)',cat:'motor',
    L:[{t:'mast',c:'w'},{t:'side'},{t:'stern'}],day:'cone_down',
-   note:'TRIK: smatra se BRODOM NA MEHANIČKI POGON: pokazuje sva svjetla motornog broda. Danju: CRNI ČUNJ VRHOM DOLJE. NEMA prednost jedrilice.'},
+   note:'Zamka: smatra se brodom na mehanički pogon i pokazuje sva svjetla motornog broda. Danju: crni čunj vrhom dolje. Nema prednost jedrilice.'},
   {id:'anchor',n:'Usidreni brod',cat:'spec',
    L:[{t:'allround',c:'w'}],day:'ball',
-   note:'Jedno bijelo kružno svjetlo na pramčanom dijelu. >50 m: još jedno bijelo na krmi, niže. >100 m: pali i sva palubna svjetla. Danju: JEDNA CRNA KUGLA.'},
+   note:'Jedno bijelo kružno svjetlo na pramčanom dijelu. Brod dulji od 50 m: još jedno bijelo na krmi, niže. Brod dulji od 100 m pali i sva palubna svjetla. Danju: jedna crna kugla.'},
   {id:'nuc',n:'Brod nesposoban za manevriranje',cat:'spec',
    L:[{t:'vert',c:['r','r']}],day:'2ball',
-   note:'Dva CRVENA kružna svjetla u okomici. Danju: DVIJE CRNE KUGLE. Svi ga izbjegavaju.'},
+   note:'Dva crvena kružna svjetla u okomici. Danju: dvije crne kugle. Svi ga izbjegavaju.'},
   {id:'aground',n:'Nasukani brod',cat:'spec',
    L:[{t:'vert',c:['r','r']},{t:'allround',c:'w'}],day:'3ball',
-   note:'Dva crvena u okomici + svjetla usidrenog broda (prema duljini). Danju: TRI CRNE KUGLE.'},
+   note:'Dva crvena u okomici i svjetla usidrenog broda (prema duljini). Danju: tri crne kugle.'},
   {id:'ram',n:'Ograničene sposobnosti manevriranja',cat:'spec',
    L:[{t:'vert',c:['r','w','r']}],day:'ball_dbl_ball',
-   note:'CRVENO, BIJELO, CRVENO u okomici. Kad se kreće kroz vodu, uz to nosi i jarbolno, bočna i krmeno svjetlo. Danju: kugla, dvočunj spojen bazama, kugla.'},
+   note:'Crveno, bijelo, crveno u okomici. Kad se kreće kroz vodu, uz to nosi i jarbolno, bočna i krmeno svjetlo. Danju: kugla, dvočunj spojen bazama, kugla.'},
   {id:'cbd',n:'Brod ograničen svojim gazom',cat:'spec',
    L:[{t:'vert',c:['r','r','r']}],day:'cylinder',
-   note:'TRI CRVENA kružna svjetla u okomici, uz svjetla motornog broda u plovidbi (jarbolno, bočna, krmeno). Danju: CRNI VALJAK (cilindar).'},
-  {id:'mine',n:'Brod vrši razminiranje',cat:'spec',
+   note:'Tri crvena kružna svjetla u okomici, uz svjetla motornog broda u plovidbi (jarbolno, bočna, krmeno). Danju: crni valjak (cilindar).'},
+  {id:'mine',n:'Brod čisti mine',cat:'spec',
    L:[{t:'cross',c:'g'}],day:'3ball_cross',
-   note:'TRI ZELENA kružna svjetla u KRIŽ pri vrhu jarbola, uz svjetla motornog broda (ili usidrenog). Ne prilazi bliže od 1000 m, s bilo koje strane (stare skripte: 1000 m po krmi, 500 m po bokovima).'},
+   note:'Tri zelena kružna svjetla u križ pri vrhu jarbola, uz svjetla motornog broda (ili usidrenog). Ne prilazi bliže od 1000 m, s bilo koje strane (stare skripte: 1000 m po krmi, 500 m po bokovima).'},
   {id:'trawl',n:'Brod zauzet koćarenjem',cat:'fish',
    L:[{t:'vert',c:['g','w']},{t:'side'},{t:'stern'}],day:'2cone_point',
-   note:'ZELENO iznad BIJELOG. Danju: dvočunj spojen vrhovima. (Kad se kreće kroz vodu, i bočna i krmeno.)'},
+   note:'Zeleno iznad bijelog. Danju: dvočunj spojen vrhovima. (Kad se kreće kroz vodu, i bočna i krmeno.)'},
   {id:'fish',n:'Brod zauzet ribolovom (osim koćarenja)',cat:'fish',
    L:[{t:'vert',c:['r','w']},{t:'side'},{t:'stern'}],day:'2cone_point',
-   note:'CRVENO iznad BIJELOG. Danju: dvočunj spojen vrhovima; ako je kraći od 20 m: može znak oblika KOŠARE.'},
+   note:'Crveno iznad bijelog. Danju: dvočunj spojen vrhovima; prema starim skriptama, brod kraći od 20 m smije istaknuti košaru.'},
   {id:'pilot',n:'Peljarski brod (pilotina) u službi',cat:'spec',
    L:[{t:'vert',c:['w','r']},{t:'side'},{t:'stern'}],day:'flagH',
-   note:'BIJELO iznad CRVENOG. Danju: zastavica „H“ (bijelo-crvena). Zapamti obrnuto od ribara.'},
-  {id:'tow',n:'Tegljač: tegalj < 200 m',cat:'motor',
+   note:'Bijelo iznad crvenog. Danju: zastavica „H“ (bijelo-crvena). Zapamti obrnuto od ribara.'},
+  {id:'tow',n:'Tegljač: tegalj kraći od 200 m',cat:'motor',
    L:[{t:'mast2v'},{t:'side'},{t:'stern'},{t:'towyellow'}],
-   note:'Dva jarbolna u okomici na prednjem jarbolu + bočna + krmeno + ŽUTO svjetlo za tegljenje IZNAD krmenog.'},
-  {id:'tow200',n:'Tegljač: tegalj > 200 m',cat:'motor',
+   note:'Dva jarbolna u okomici na prednjem jarbolu, bočna, krmeno i žuto svjetlo za tegljenje iznad krmenog.'},
+  {id:'tow200',n:'Tegljač: tegalj dulji od 200 m',cat:'motor',
    L:[{t:'mast3'},{t:'side'},{t:'stern'},{t:'towyellow'}],day:'2cone_base',
-   note:'TRI jarbolna u okomici (jer je tegalj > 200 m) + bočna + krmeno + žuto. Danju: dvočunj spojen bazama na tegljaču I na tegljenom.'}
+   note:'Tri jarbolna u okomici (jer je tegalj dulji od 200 m), bočna, krmeno i žuto. Danju: dvočunj spojen bazama na tegljaču i na tegljenom.'}
 ];
 
 (function(){
@@ -168,8 +168,8 @@ const VESSELS = [
     v.L.forEach(l=>{
       if(l.t==='mast' && vw!=='astern'){ out.push({x:ax,y:36,c:SIG.w,l:'jarbolno (bijelo, 225°)'}); }
       if(l.t==='mast2' && vw!=='astern'){
-        if(side){ out.push({x:-side*40,y:20,c:SIG.w,l:'stražnje jarbolno: VIŠE'}); out.push({x:side*52,y:56,c:SIG.w,l:'prednje jarbolno: NIŽE'}); }
-        else { out.push({x:0,y:20,c:SIG.w,l:'stražnje jarbolno: VIŠE'}); out.push({x:0,y:56,c:SIG.w,l:'prednje jarbolno: NIŽE'}); } }
+        if(side){ out.push({x:-side*40,y:20,c:SIG.w,l:'stražnje jarbolno: više'}); out.push({x:side*52,y:56,c:SIG.w,l:'prednje jarbolno: niže'}); }
+        else { out.push({x:0,y:20,c:SIG.w,l:'stražnje jarbolno: više'}); out.push({x:0,y:56,c:SIG.w,l:'prednje jarbolno: niže'}); } }
       // v3: tegljač nosi dva jarbolna u okomici na istom (prednjem) jarbolu
       if(l.t==='mast2v' && vw!=='astern'){ out.push({x:ax,y:20,c:SIG.w,l:'jarbolno (gornje)'}); out.push({x:ax,y:48,c:SIG.w,l:'jarbolno (donje)'}); }
       if(l.t==='mast3' && vw!=='astern'){ out.push({x:ax,y:8,c:SIG.w,l:'jarbolno 3'}); out.push({x:ax,y:36,c:SIG.w,l:'jarbolno 2'}); out.push({x:ax,y:64,c:SIG.w,l:'jarbolno 1'}); }
@@ -295,7 +295,7 @@ const VESSELS = [
       if(l.t==='allround') add(0,360,WH,'bijelo kružno 360°',.08);
       if(l.t==='vert') l.c.forEach(cc=>add(0,360,cc==='r'?SIG.r:cc==='g'?SIG.g:WH,'kružno '+(cc==='r'?'crveno':cc==='g'?'zeleno':'bijelo')+' 360°',.06));
       if(l.t==='cross') add(0,360,SIG.g,'3 zelena kružna 360°',.08);
-      if(l.t==='opt2'){ add(0,360,SIG.r,'opcijsko kružno crveno',.05); add(0,360,SIG.g,'opcijsko kružno zeleno',.05); }
+      if(l.t==='opt2'){ add(0,360,SIG.r,'neobvezno kružno crveno',.05); add(0,360,SIG.g,'neobvezno kružno zeleno',.05); }
       if(l.t==='tricolor'){ add(0,112.5,SIG.g,'trobojna: zeleno 112,5°',.22); r+=12; add(247.5,360,SIG.r,'trobojna: crveno 112,5°',.22); r+=12; add(112.5,247.5,'#dfe8ef','trobojna: bijelo 135°'); }
     });
     { const has=f=>v.L.some(f), sect=has(l=>['mast','mast2','mast2v','mast3','side','stern','tricolor'].includes(l.t)), tow=has(l=>l.t==='towyellow');
@@ -380,13 +380,13 @@ const VESSELS = [
 (function(){
   const b=el('dayShapesWidget'); if(!b) return;
   const items=[
-    ['KUGLA','<circle r="20" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Usidreni brod'],
-    ['ČUNJ ▲ gore','<polygon points="0,-22 -20,18 20,18" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Ribolovni alat > 150 m'],
-    ['ČUNJ ▼ dolje','<polygon points="0,22 -20,-18 20,-18" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','MOTORNI JEDRENJAK'],
-    ['DVOČUNJ: baze','<polygon points="0,-32 -18,0 18,0" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/><polygon points="0,32 -18,0 18,0" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Tegalj > 200 m'],
-    ['DVOČUNJ: vrhovi','<polygon points="0,0 -18,-32 18,-32" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/><polygon points="0,0 -18,32 18,32" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','RIBOLOV'],
-    ['VALJAK','<rect x="-15" y="-24" width="30" height="48" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Ograničen gazom'],
-    ['KOŠARA','<path d="M-16,-16 L16,-16 L11,18 L-11,18 Z" fill="none" stroke="#11161c" stroke-width="3"/><path d="M-14,-6 h28 M-12,4 h24" stroke="#11161c" stroke-width="2.5"/><path d="M-16,-16 h32" stroke="#11161c" stroke-width="4"/>','Ribar < 20 m']
+    ['Kugla','<circle r="20" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Usidreni brod'],
+    ['Čunj ▲ gore','<polygon points="0,-22 -20,18 20,18" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Ribolovni alat dulji od 150 m'],
+    ['Čunj ▼ dolje','<polygon points="0,22 -20,-18 20,-18" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Motorni jedrenjak'],
+    ['Dvočunj: baze','<polygon points="0,-32 -18,0 18,0" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/><polygon points="0,32 -18,0 18,0" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Tegalj > 200 m'],
+    ['Dvočunj: vrhovi','<polygon points="0,0 -18,-32 18,-32" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/><polygon points="0,0 -18,32 18,32" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Ribolov'],
+    ['Valjak','<rect x="-15" y="-24" width="30" height="48" fill="#11161c" stroke="#5b8bab" stroke-width="1.5"/>','Ograničen gazom'],
+    ['Košara','<path d="M-16,-16 L16,-16 L11,18 L-11,18 Z" fill="none" stroke="#11161c" stroke-width="3"/><path d="M-14,-6 h28 M-12,4 h24" stroke="#11161c" stroke-width="2.5"/><path d="M-16,-16 h32" stroke="#11161c" stroke-width="4"/>','Ribar < 20 m']
   ];
   // dnevni znakovi su crni i vide se danju: svaki stoji na svijetlom komadu neba, kao što ga vidiš s mora
   let g='<defs><linearGradient id="dsSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bcd9ee"/><stop offset="1" stop-color="#e3eff7"/></linearGradient></defs>';

@@ -48,7 +48,7 @@
     // V4-C3: imena obale u hrvatskom stilu i upozorenje kao na pravim kartama
     g+=`<text x="${M+30}" y="${M+50}" font-size="10" fill="#6b5a22" font-style="italic" font-weight="600">rt Zub</text>
       <text x="${W-M-196}" y="${H-M-22}" font-size="9.5" fill="#2f5f86" font-style="italic">uvala Vela luka</text>
-      <text x="300" y="${H-M-26}" font-size="8.6" fill="#c2185b" font-style="italic" font-weight="600">OPREZ / CAUTION</text>
+      <text x="300" y="${H-M-26}" font-size="8.6" fill="#c2185b" font-style="italic" font-weight="600">Oprez / caution</text>
       <text x="300" y="${H-M-15}" font-size="8" fill="#c2185b" font-style="italic">Uz obalu plićaci i ribarski alati.</text>`;
     // mjerilo: 1 M = 1' širine
     const sx=M+14, sy=H-M-16;
@@ -69,8 +69,8 @@
       g+=`<text x="${x}" y="${H-M+bw+13}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="var(--mono)">${dd}°${String(mm).padStart(2,'0')}'</text>`;
     }
     g+=`<text x="${M+IW/2}" y="${M-bw-5}" text-anchor="middle" font-size="9" fill="${C.txt2}">Vježbovna karta, dubine u metrima, nije za navigaciju</text>`;
-    g+=`<text x="${-PADL+14}" y="${H/2}" font-size="10" fill="${C.acc}" text-anchor="middle" transform="rotate(-90 ${-PADL+14} ${H/2})" font-weight="600">ŠIRINA (N), ovdje mjeriš milje</text>`;
-    g+=`<text x="${W/2}" y="${H-8}" font-size="10" fill="${C.txt2}" text-anchor="middle" font-weight="600">DUŽINA (E)</text>`;
+    g+=`<text x="${-PADL+14}" y="${H/2}" font-size="10" fill="${C.acc}" text-anchor="middle" transform="rotate(-90 ${-PADL+14} ${H/2})" font-weight="600">Širina (N), ovdje mjeriš milje</text>`;
+    g+=`<text x="${W/2}" y="${H-8}" font-size="10" fill="${C.txt2}" text-anchor="middle" font-weight="600">Dužina (E)</text>`;
     
     if(marker){
       g+=`<g transform="translate(${marker.x},${marker.y})">
@@ -136,9 +136,9 @@
   const b=el('chartLegend'); if(!b) return;
   const items=[
     ['Kopno','<rect x="0" y="0" width="46" height="30" rx="4" fill="#f2dc8c" stroke="#8a7432"/>'],
-    ['&lt; 10 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#bfe0f2"/>'],
-    ['&gt; 10 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#f7f8f4"/>'],
-    ['&lt; 2 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#bfe0f2"/><circle cx="23" cy="15" r="10" fill="none" stroke="#0a2438" stroke-dasharray="2 2"/><path d="M20,12 l6,6 M26,12 l-6,6" stroke="#0a2438" stroke-width="1.4"/>'],
+    ['manje od 10 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#bfe0f2"/>'],
+    ['više od 10 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#f7f8f4"/>'],
+    ['manje od 2 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#bfe0f2"/><circle cx="23" cy="15" r="10" fill="none" stroke="#0a2438" stroke-dasharray="2 2"/><path d="M20,12 l6,6 M26,12 l-6,6" stroke="#0a2438" stroke-width="1.4"/>'],
     ['Kabel','<path d="M2,15 q9,-9 18,0 q9,9 18,0 q5,-5 8,-2" fill="none" stroke="#ef4a5a" stroke-width="2"/>'],
     ['Cjevovod','<path d="M2,15 h42" stroke="#ef4a5a" stroke-width="2" stroke-dasharray="6 4"/><path d="M2,20 h42" stroke="#11161c" stroke-width="2" stroke-dasharray="6 4"/>'],
     ['Sidrište','<g transform="translate(23,7)"><path d="M0,0 v16 M-9,10 q9,12 18,0 M-6,0 h12" stroke="#11161c" stroke-width="2" fill="none"/><circle cy="-3" r="3" fill="none" stroke="#11161c" stroke-width="2"/></g>'],
@@ -156,10 +156,10 @@
 (function(){
   const b=el('lightCharWidget'); if(!b) return;
   const rows=[
-    ['Bl (Fl)','Bljeskavo','svjetlo &lt; tama',[[0,.4]]],
+    ['Bl (Fl)','Bljeskavo','svjetlo kraće od tame',[[0,.4]]],
     ['Bl(3)','Grupno bljeskavo','3 bljeska u grupi',[[0,.18],[.28,.18],[.56,.18]]],
-    ['Izo','Izofazno','svjetlo = tama',[[0,2]]],
-    ['Pr (Oc)','Prekidno','tama &lt; svjetlo',[[0,3.2]]],
+    ['Izo','Izofazno','svjetlo i tama jednako',[[0,2]]],
+    ['Pr (Oc)','Prekidno','tama kraća od svjetla',[[0,3.2]]],
     ['Tr (Q)','Treptavo','brzo, neprekidno',[[0,.22],[1,.22],[2,.22],[3,.22]]]
   ];
   let g='';
@@ -176,7 +176,7 @@
     g+=`<text x="${x0+len+6}" y="${y+10}" font-size="10" fill="${C.txt2}">${r[2]}</text>`;
   });
   g+=`<line x1="${x0}" y1="248" x2="${x0+len}" y2="248" stroke="${C.txt2}" stroke-width="1"/>`;
-  g+=`<text x="${x0+len/2}" y="264" font-size="11" fill="${C.txt2}" text-anchor="middle">← jedan PERIOD (npr. 4 s) →</text>`;
+  g+=`<text x="${x0+len/2}" y="264" font-size="11" fill="${C.txt2}" text-anchor="middle">← jedan period (npr. 4 s) →</text>`;
   b.innerHTML=SVG(820,275,g);
 })();
 

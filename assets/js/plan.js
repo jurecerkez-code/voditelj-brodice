@@ -82,7 +82,7 @@
   (function(){
     const bt=el('xpReset'), msg=el('xpResetMsg'); if(!bt||!window.VB) return;
     let armed=0, tm=0;
-    const idle='Briše značke, pročitana poglavlja, checkliste, plan učenja i rezultate vježbi.';
+    const idle='Briše značke, pročitana poglavlja, kontrolne popise, plan učenja i rezultate vježbi.';
     bt.addEventListener('click',()=>{
       if(!armed){
         armed=1; bt.classList.add('p'); bt.textContent='Klikni ponovno za potvrdu';
@@ -104,20 +104,20 @@
     {id:'nav2',n:'Karta II: udaljenost, pozicija, simboli, karakteristike svjetala',pg:['p-nav'],qt:'nav',pr:1},
     {id:'iala',n:'IALA oznake',pg:['p-iala'],qt:'iala',pr:5},
     {id:'lig1',n:'Svjetla I: sektori, motorni brodovi, jedrenjaci',pg:['p-svjetla'],qt:'lights',pr:2},
-    {id:'lig2',n:'Svjetla II: posebni brodovi + dnevni znakovi',pg:['p-svjetla','p-znakovi'],qt:'shapes',pr:2},
-    {id:'col',n:'Izbjegavanje sudara + zvučni signali',pg:['p-sudari','p-signali'],qt:'colreg',pr:3},
-    {id:'eng',n:'Motoristika (+ manevriranje)',pg:['p-motor','p-manevar'],qt:'engine',pr:6},
-    {id:'rul',n:'Propisi + područja plovidbe',pg:['p-propisi'],qt:'rules',pr:6},
+    {id:'lig2',n:'Svjetla II: posebni brodovi i dnevni znakovi',pg:['p-svjetla','p-znakovi'],qt:'shapes',pr:2},
+    {id:'col',n:'Izbjegavanje sudara i zvučni signali',pg:['p-sudari','p-signali'],qt:'colreg',pr:3},
+    {id:'eng',n:'Motoristika (i manevriranje)',pg:['p-motor','p-manevar'],qt:'engine',pr:6},
+    {id:'rul',n:'Propisi i područja plovidbe',pg:['p-propisi'],qt:'rules',pr:6},
     {id:'met',n:'Meteorologija',pg:['p-meteo'],qt:'meteo',pr:7},
-    {id:'rad',n:'VHF + MAYDAY (+ sigurnost i čvorovi)',pg:['p-radio','p-sigurnost'],qt:'radio',pr:4},
-    {id:'rev',n:'Ponavljanje kvizom: simulacija ispita',pg:['p-kviz','p-pitanja'],qt:null,pr:8},
+    {id:'rad',n:'VHF i MAYDAY (uz sigurnost i čvorove)',pg:['p-radio','p-sigurnost'],qt:'radio',pr:4},
+    {id:'rev',n:'Ponavljanje kvizom: probni ispit',pg:['p-kviz','p-pitanja'],qt:null,pr:8},
     {id:'chk',n:'Checklista dan prije',pg:['p-check'],qt:null,pr:9}
   ];
   const REP=[
-    {id:'rep_lig',n:'Ponavljanje: svjetla: simulator + kviz svjetala',pg:['p-svjetla'],qt:'lights'},
-    {id:'rep_nav',n:'Ponavljanje: karta: vježba koordinata',pg:['p-nav'],qt:'nav'},
-    {id:'rep_col',n:'Ponavljanje: sudari: svih 12 COLREG scenarija',pg:['p-sudari'],qt:'colreg'},
-    {id:'rep_iala',n:'Ponavljanje: IALA kviz + stvarna pitanja',pg:['p-iala','p-pitanja'],qt:'iala'}
+    {id:'rep_lig',n:'Ponavljanje svjetala: simulator i kviz',pg:['p-svjetla'],qt:'lights'},
+    {id:'rep_nav',n:'Ponavljanje karte: vježba koordinata',pg:['p-nav'],qt:'nav'},
+    {id:'rep_col',n:'Ponavljanje sudara: svih 12 situacija',pg:['p-sudari'],qt:'colreg'},
+    {id:'rep_iala',n:'Ponavljanje: IALA kviz i stvarna pitanja',pg:['p-iala','p-pitanja'],qt:'iala'}
   ];
   const DAYN=['ned','pon','uto','sri','čet','pet','sub'];
   const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -138,9 +138,9 @@
       const merge=(a,b,n)=>{ const i=L.findIndex(x=>x.id===a), j=L.findIndex(x=>x.id===b); if(i<0||j<0) return;
         L[i]={id:a+'+'+b,n,pg:[...new Set(L[i].pg.concat(L[j].pg))],qt:L[i].qt,pr:L[i].pr}; L.splice(j,1); };
       merge('nav1','nav2','Karta i navigacija: sve (sažeto)');
-      if(L.length>2*D) merge('lig1','lig2','Svjetla + dnevni znakovi (sažeto)');
-      if(L.length>2*D) merge('rul','met','Propisi + meteorologija');
-      if(L.length>2*D) merge('eng','iala','Motoristika + IALA oznake');
+      if(L.length>2*D) merge('lig1','lig2','Svjetla i dnevni znakovi (sažeto)');
+      if(L.length>2*D) merge('rul','met','Propisi i meteorologija');
+      if(L.length>2*D) merge('eng','iala','Motoristika i IALA oznake');
     } else if(D>L.length){
       const extra=D-L.length, reps=[];
       for(let k=0;k<extra;k++){ const r=Object.assign({},REP[k%REP.length]); r.id+='_'+k; reps.push(r); }
@@ -171,7 +171,7 @@
       <span class="pmeta">&ensp;${left>0?'još '+left+' '+(left===1?'dan':'dana'):left===0?'danas je ispit: sretno.':'ispit je prošao'}, ${P.h}&nbsp;h/dan</span></div>
       <div class="pmeta">${ok}/${tot} blokova, ${tot?Math.round(ok/tot*100):0}%</div></div>
       <div class="xpbar mb6"><i style="width:${tot?ok/tot*100:0}%"></i></div>`;
-    if(P.intensive) h+=`<div class="danger" style="margin:12px 0"><b>Kratko vrijeme: intenzivni mod</b>Manje od 3 dana do ispita. Raspored ide po prioritetu: <strong>karta → svjetla → sudari → MAYDAY → ostalo</strong>. Ostalo samo prolistaj i riješi kviz.</div>`;
+    if(P.intensive) h+=`<div class="danger" style="margin:12px 0"><b>Malo vremena: sažeti raspored</b>Do ispita je manje od tri dana. Raspored ide po važnosti: <strong>karta, svjetla, sudari, MAYDAY, pa ostalo</strong>. Ostalo samo prolistaj i riješi kviz.</div>`;
     h+='<div class="plandays">';
     P.days.forEach((d,di)=>{
       const dt=parse(d.date), all=d.items.every((_,ii)=>done[di+'_'+ii]);
@@ -183,7 +183,7 @@
       });
       const qts=d.items.map(x=>x.qt).filter(Boolean);
       if(qts.length) h+=`<div class="pq">Odradi <b>${qn} pitanja</b> iz: ${[...new Set(qts)].map(q=>TOPICS[q]).join(', ')}</div>`;
-      else if(d.items.some(x=>x.id==='rev')) h+=`<div class="pq"><b>Simulacija ispita</b> (20 pitanja) + <b>samo trik-pitanja</b></div>`;
+      else if(d.items.some(x=>x.id==='rev')) h+=`<div class="pq"><b>Probni ispit</b> (20 pitanja) i <b>samo varljiva pitanja</b></div>`;
       h+='</div>';
     });
     h+='</div>';
@@ -226,6 +226,6 @@
     const seen=store.get('daydone',{}), k=P.created+'_'+P.exam+'_'+di; if(seen[k]) return;
     seen[k]=1; store.set('daydone',seen);
     setTimeout(()=>{ const n=tomorrowSrs(), xp=store.get('xp',0); // nakon plana, pa XP već uključuje ovu kvačicu
-    if(window.VB) VB.toast('',`Dan ${di+1} gotov`,`SRS ima ${n} ${n%10===1&&n%100!==11?'pitanje':'pitanja'} za sutra. Ukupno: ${xp} XP.`); },0);
+    if(window.VB) VB.toast('',`Dan ${di+1} gotov`,`Za sutra ${n%10===1&&n%100!==11?'čeka':'čekaju'} ${n} ${n%10===1&&n%100!==11?'pitanje':'pitanja'} za ponavljanje. Ukupno: ${xp} XP.`); },0);
   },true);
 })();

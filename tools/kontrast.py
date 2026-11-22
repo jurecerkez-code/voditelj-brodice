@@ -23,9 +23,10 @@ def cr(a,b):
 def gamut(c):
     r=oklch(*c); return all(-0.002<=x<=1.002 for x in r)
 s=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','assets','css','app.css'),encoding='utf-8').read()
-def block(start):
-    i=s.index(start); j=s.index('}',i); return dict(re.findall(r'(--[\w-]+):\s*([^;]+);',s[i:j]))
-day=block(':root{'); night=dict(day); night.update(block(':root[data-theme="night"]{'))
+def block(pattern):
+    # zadnji blok koji počinje na početku retka: dnevni tokeni su zadnji u izvoru, a blok za ispis je uvučen u @media
+    i=[m.start() for m in re.finditer(pattern,s,flags=re.M)][-1]; j=s.index('}',i); return dict(re.findall(r'(--[\w-]+):\s*([^;]+);',s[i:j]))
+day=block(r'^:root\{'); night=dict(day); night.update(block(r'^:root\[data-theme="night"\]\{'))
 def val(t,k,d=0):
     v=t[k].strip()
     m=re.fullmatch(r'var\((--[\w-]+)\)',v)

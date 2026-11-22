@@ -14,8 +14,8 @@ window.VB=(function(){
     {id:'svjetlar',n:'Svjetlar',d:'10 točnih u kvizu svjetala',need:10,cnt:'lights'},
     {id:'iala',n:'IALA majstor',d:'10 točnih u kvizu IALA oznaka',need:10,cnt:'iala'},
     {id:'radio',n:'Radiooperater',d:'Sastavi MAYDAY poziv i sricaj riječ fonetskom abecedom'},
-    {id:'trik',n:'Trikovi savladani',d:'Završi kviz „Samo trik-pitanja“ s više od 80 %'},
-    {id:'ispit',n:'Ispit dan',d:'Checklista pred ispit: sve kvačice'}
+    {id:'trik',n:'Zamke svladane',d:'Završi kviz „Samo varljiva pitanja“ s više od 80 %'},
+    {id:'ispit',n:'Ispit dan',d:'Kontrolni popis pred ispit: sve kvačice'}
   ];
   let xp=S.get('xp',0), badges=S.get('badges',[]), once=S.get('xp_once',{}), cnt=S.get('cnt',{});
   function level(x){ let i=0; for(let k=0;k<LEVELS.length;k++) if(x>=LEVELS[k][0]) i=k; return i; }
@@ -25,7 +25,7 @@ window.VB=(function(){
     const q=id=>document.getElementById(id);
     if(q('xpLvl')){
       q('xpLvl').innerHTML='<b>'+i+'</b>'; q('xpName').textContent=LEVELS[i][1];
-      q('xpSub').textContent=nxt? xp+' / '+nxt+' XP → '+LEVELS[i+1][1] : xp+' XP, maksimalni level';
+      q('xpSub').textContent=nxt? xp+' / '+nxt+' XP, sljedeća razina: '+LEVELS[i+1][1] : xp+' XP, najviša razina';
       q('xpBar').style.width=pct+'%';
     }
     if(q('topXp')){
@@ -44,7 +44,7 @@ window.VB=(function(){
     const after=level(xp);
     return true;
   }
-  /* toast: max 1 istovremeno, ostali čekaju u redu */
+  /* toast: max 1 istodobno, ostali čekaju u redu */
   const queue=[]; let busy=false;
   function toast(ic,label,title){ queue.push([ic,label,title]); if(!busy) nextToast(); }
   function nextToast(){
