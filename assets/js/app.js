@@ -20,6 +20,30 @@
     go('p-kviz'); VBQuiz.start(list,TOPICS[t]); const a=el('quizArea'); if(a) a.scrollIntoView({block:'start'}); }
   function quizWeak(){ const weak=CH.map(c=>[c.t,mastery(c.t)]).filter(x=>x[1]!==null).sort((a,b)=>a[1]-b[1])[0]; if(weak) quizTopic(weak[0],10); }
 
+  /* ---------- prijenos napretka: datoteka za drugi uređaj i sažetak za instruktora ---------- */
+  (function(){ const msg=t=>{ const m=el('progMsg'); if(m) m.textContent=t; }, save=el('progSave'), load=el('progLoad'), sum=el('progSum'); if(!save||!load||!sum) return;
+    const dump=()=>{ const d={}; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&k.startsWith('vb_')) d[k]=localStorage.getItem(k); } return d; };
+    const today=()=>new Date().toISOString().slice(0,10);
+    save.addEventListener('click',()=>{ const blob=new Blob([JSON.stringify({app:'voditelj-brodice',spremljeno:today(),podaci:dump()})],{type:'application/json'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='voditelj-brodice-napredak-'+today()+'.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+      msg('Napredak je spremljen u datoteku. Na drugom uređaju otvori ovu stranicu i odaberi Učitaj napredak.'); });
+    el('progLoadBtn').addEventListener('click',()=>load.click());
+    load.addEventListener('change',()=>{ const f=load.files[0]; if(!f) return; const r=new FileReader();
+      r.onload=()=>{ try{ const j=JSON.parse(r.result); if(!j||j.app!=='voditelj-brodice'||typeof j.podaci!=='object') throw 0;
+          const keys=Object.keys(j.podaci).filter(k=>k.startsWith('vb_')&&typeof j.podaci[k]==='string'); if(!keys.length) throw 0;
+          if(!confirm('Učitati napredak spremljen '+(j.spremljeno||'ranije')+'? Zamijenit će napredak na ovom uređaju.')){ load.value=''; return; }
+          Object.keys(dump()).forEach(k=>localStorage.removeItem(k)); keys.forEach(k=>localStorage.setItem(k,j.podaci[k])); location.reload();
+        }catch(e){ msg('Ta datoteka nije napredak iz ove aplikacije. Odaberi datoteku koju si spremio gumbom Spremi napredak u datoteku.'); load.value=''; } };
+      r.readAsText(f); });
+    sum.addEventListener('click',()=>{ const read=CH.filter(c=>(store.get('visited',[])||[]).includes(c.id)).length, ex=store.get('examsim',{}), dk=store.get('dockwind',{ok:0,n:0});
+      const rows=CH.map(c=>{ const m=mastery(c.t); return '- '+title(c.id)+': '+(m===null?'još nema dovoljno odgovora':m+' % točnih'); });
+      const txt=['Voditelj brodice B: sažetak napretka ('+new Date().toLocaleDateString('hr-HR')+')','Pročitano poglavlja: '+read+' od '+CH.length,
+        'Probni ispit: '+(ex.best?'najbolji rezultat '+ex.best.ok+' od '+ex.best.n+', pokušaja '+(ex.runs||1):'još nije rješavan'),
+        'Simulator pristajanja: '+dk.ok+' uspješnih od '+dk.n,'Kviz po temama:',...rows].join('\n');
+      const done=()=>msg('Sažetak je kopiran. Zalijepi ga u poruku instruktoru.');
+      if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done,()=>{ window.prompt('Kopiraj sažetak:',txt); }); else window.prompt('Kopiraj sažetak:',txt); });
+  })();
+
   /* Prijava greške: otvara obrazac s upisanim poglavljem i verzijom. Za prijave e-poštom zamijeni adresu s 'mailto:...'
      (tada ?title= treba promijeniti u ?subject=). */
   const REPORT='https://github.com/jurecerkez-code/voditelj-brodice/issues/new', VER=(document.querySelector('link[href*="app.css?v="]')||{href:''}).href.split('v=')[1]||'';

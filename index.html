@@ -126,6 +126,11 @@ U gradivu su takve stavke označene s <span class="pill g">VAŽEĆE 2026</span> 
 <details class="hmSet"><summary>Značke i postavke</summary>
 <p class="small muted">Napredak se bilježi sam i ostaje na ovom uređaju, u pregledniku. Ništa se ne šalje na poslužitelj.</p>
 <div class="badges" id="badgeGrid"></div>
+<h4>Prijenos napretka</h4>
+<p class="small muted">Mijenjaš mobitel ili želiš nastaviti na računalu? Spremi napredak u datoteku i učitaj je na drugom uređaju. Sažetak je kratki tekst koji možeš poslati instruktoru.</p>
+<div class="btnrow"><button class="btn" id="progSave" type="button">Spremi napredak u datoteku</button><button class="btn" id="progLoadBtn" type="button">Učitaj napredak</button><button class="btn" id="progSum" type="button">Kopiraj sažetak za instruktora</button>
+<input type="file" id="progLoad" accept="application/json,.json" hidden aria-label="Datoteka s napretkom"></div>
+<p id="progMsg" class="small muted" role="status"></p>
 <div class="btnrow"><button class="btn" id="xpReset" type="button">↺ Resetiraj sav napredak</button>
 <span id="xpResetMsg" class="small muted">Briše značke, pročitana poglavlja, checkliste, plan učenja i rezultate vježbi.</span></div>
 </details>

@@ -60,6 +60,11 @@ Svaka stavka ima svoj odlomak u gradivu.
   ne radi dok je krma unutar 4 m od osobe.
 - Shema izboja krme označena je kao shema: nije u stvarnom vremenu i izboj je namjerno naglašen.
 
+### Prijenos napretka
+- Početna, „Značke i postavke": napredak se sprema u datoteku i učitava na drugom uređaju. Kriva datoteka se odbija s
+  porukom, a učitavanje traži potvrdu jer zamjenjuje napredak na uređaju.
+- „Kopiraj sažetak za instruktora": pročitana poglavlja, rezultat po temama, probni ispit i simulator, kao običan tekst.
+
 ### Prijava greške
 - Na dnu svakog poglavlja je poveznica „Našao si grešku? Prijavi je." Otvara obrazac s upisanim poglavljem i verzijom.
   Odredište je jedna konstanta (`REPORT` u `app.js`), trenutačno GitHub Issues.

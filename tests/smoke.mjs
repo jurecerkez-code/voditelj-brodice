@@ -39,6 +39,18 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   await page.evaluate(() => go('p-start'));
   await page.locator('#hmScene .hmOpts button[data-i="0"]').click();
   ok(await page.locator('#hmScene .hmWhy').count() === 1, `[${name}] prizor na početnoj ne pokazuje objašnjenje`);
+  // 2b. prijenos napretka: spremanje daje datoteku s podacima aplikacije, kriva datoteka se odbija s porukom
+  await page.evaluate(() => { document.querySelector('.hmSet').open = true; });
+  const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#progSave')]);
+  const saved = JSON.parse(fs.readFileSync(await dl.path(), 'utf8'));
+  ok(saved.app === 'voditelj-brodice' && Object.keys(saved.podaci).every(k => k.startsWith('vb_')), `[${name}] spremljeni napredak nema očekivani oblik`);
+  await page.setInputFiles('#progLoad', { name: 'krivo.json', mimeType: 'application/json', buffer: Buffer.from('{"nesto":1}') });
+  await page.waitForTimeout(150);
+  ok(/nije napredak/.test(await page.textContent('#progMsg')), `[${name}] kriva datoteka s napretkom nije odbijena`);
+  const sumTxt = await page.evaluate(() => new Promise(res => { window.prompt = (_, t) => { res(t); return null; };
+    try { Object.defineProperty(navigator, 'clipboard', { value: { writeText: t => { res(t); return Promise.resolve(); } }, configurable: true }); } catch (e) { }
+    document.getElementById('progSum').click(); setTimeout(() => res(''), 1500); }));
+  ok(/Pročitano poglavlja: \d+ od \d+/.test(sumTxt) && /Kviz po temama/.test(sumTxt), `[${name}] sažetak za instruktora je prazan ili nepotpun`);
   // 3. plan učenja iz kartice "Kad polažeš?"
   const d = new Date(Date.now() + 12 * 864e5).toISOString().slice(0, 10);
   await page.fill('#hmDate', d); await page.locator('#hmPlan button[type=submit]').click();
