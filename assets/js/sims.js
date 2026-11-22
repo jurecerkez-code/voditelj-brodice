@@ -160,10 +160,10 @@ const SIM={
   const Lf=()=>K*D, ppm=()=>Math.min(7,(W-190)/(Lf()+A.B.len+4));
   /* st: {X: vodoravna udaljenost pramca od sidra (m), g: rješenje lančanice ili null, drop: visina sidra iznad dna dok pada (m) ili null,
           dig: 0..1 koliko je sidro ukopano, final: prikaži ocjenu} */
-  function scene(st){ const s=ppm(), bed=SEA+D*s, bowX=XA-st.X*s, bowY=SEA-A.B.bow*s, len=A.B.len*s, wb=A.beaufort(WK);
+  function scene(st){ const s=ppm(), bed=SEA+D*s, bowX=XA-st.X*s, bowY=SEA-A.B.bow*s, len=A.B.len*s, wb=A.beaufort(WK), fk=fitText(dyn.ownerSVGElement,W), sm=fk>1.3, fs=x=>(x*fk).toFixed(1);
     let g=`<rect width="${W}" height="${SEA}" fill="#0b1e30"/>`+seaBackground(W,H,{y:SEA,view:'section'});
     g+=`<rect data-keep-dark="1" x="0" y="${bed.toFixed(1)}" width="${W}" height="${(H-bed).toFixed(1)}" fill="#d9c48a"/>`;
-    { const L=26+WK*1.4; g+=`<g transform="translate(${30+L},34)"><path d="M0,0 H${-L} M${-L+9},-6 L${-L},0 L${-L+9},6" stroke="#e6eef5" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="${-L}" y="22" font-size="11.5" fill="#9fb6c9">vjetar ${WK} čv (${wb} Bf)</text></g>`; }
+    { const L=26+WK*1.4; g+=`<g transform="translate(${30+L},34)"><path d="M0,0 H${-L} M${-L+9},-6 L${-L},0 L${-L+9},6" stroke="#e6eef5" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="${-L}" y="${12+10*fk}" font-size="${fs(11.5)}" fill="#9fb6c9">vjetar ${WK} čv${sm?'':` (${wb} Bf)`}</text></g>`; }
     // brodica u mjerilu: pramac desno, u vjetar; gaz ispod vodene linije
     const dk=A.B.bow*s, dr=.45*s;
     g+=`<g transform="translate(${bowX.toFixed(1)},${SEA})"><path d="M0,${-dk} L${(-len).toFixed(1)},${(-dk*.85).toFixed(1)} L${(-len).toFixed(1)},${(dr*.7).toFixed(1)} L${(-len*.2).toFixed(1)},${dr.toFixed(1)} Q${(-len*.05).toFixed(1)},${(dr*.4).toFixed(1)} 0,${-dk} Z" fill="#e6eef5" stroke="#1d2b36" stroke-width="1.2"/>
@@ -175,13 +175,13 @@ const SIM={
       g+=`</g>`;
     } else if(st.drop!=null) g+=`<line data-keep-dark="1" x1="${bowX.toFixed(1)}" y1="${bowY.toFixed(1)}" x2="${ax}" y2="${ay.toFixed(1)}" stroke="#1d2b36" stroke-width="2.4" stroke-dasharray="5 3"/>`;
     if(st.drop!=null||st.g){ const th=st.g&&st.final?Math.min(40,st.g.theta):0, rot=(st.drop!=null&&!st.g)?0:-78+st.dig*62+th;
-      g+=`<g data-keep-dark="1" transform="translate(${ax},${(ay-2+st.dig*3).toFixed(1)}) rotate(${rot.toFixed(1)})"><path d="M0,-16 v22 M-12,2 q12,14 24,0 M-7,-14 h14" stroke="#1d2b36" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cy="-19" r="3.5" fill="none" stroke="#1d2b36" stroke-width="2.6"/></g>`; }
+      g+=`<g data-keep-dark="1" transform="translate(${ax},${(ay-2+st.dig*3).toFixed(1)}) rotate(${rot.toFixed(1)})"><path d="M0,-16 v22 M-12,2 q12,14 24,0 M-7,-14 h14" stroke="#1d2b36" stroke-width="5.4" fill="none" stroke-linecap="round"/><circle cy="-19" r="3.5" fill="none" stroke="#1d2b36" stroke-width="4.8"/><path d="M0,-16 v22 M-12,2 q12,14 24,0 M-7,-14 h14" stroke="#e6eef5" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cy="-19" r="3.5" fill="none" stroke="#e6eef5" stroke-width="2"/></g>`; }
     // dubina
-    g+=`<path d="M${W-26},${SEA} h12 M${W-20},${SEA} V${bed.toFixed(1)} M${W-26},${bed.toFixed(1)} h12" stroke="#39b8e8" stroke-width="1.4" fill="none"/><text transform="translate(${W-6},${((SEA+bed)/2).toFixed(1)}) rotate(-90)" font-size="12" font-weight="800" fill="#39b8e8" text-anchor="middle">dubina ${D} m</text>`;
+    g+=`<path d="M${W-26},${SEA} h12 M${W-20},${SEA} V${bed.toFixed(1)} M${W-26},${bed.toFixed(1)} h12" stroke="#39b8e8" stroke-width="1.4" fill="none"/><text transform="translate(${W-6},${((SEA+bed)/2).toFixed(1)}) rotate(-90)" font-size="${fs(12)}" font-weight="800" fill="#39b8e8" text-anchor="middle">${sm?'':'dubina '}${D} m</text>`;
     if(st.final&&st.g){ const q=st.g, ok=q.theta<=1, mid=q.theta<8, col=ok?'#14532d':mid?'#7a4a00':'#8a1c1c', my=Math.min(H-10,bed+30);
-      g+=`<g data-keep-dark="1"><text x="${XA+6}" y="${my}" font-size="13" font-weight="800" fill="${col}" text-anchor="end">${ok?`drži · na dnu leži ${num(q.lie)} m lanca`:mid?`na granici · lanac vuče pod ${num(q.theta,0)}°`:`ore · lanac vuče prema gore pod ${num(q.theta,0)}°`}</text>
-        <path d="M${(bowX-len).toFixed(1)},${SEA-dk-16} v-7 M${(bowX-len).toFixed(1)},${SEA-dk-19.5} H${XA} M${XA},${SEA-dk-16} v-7" stroke="#3a5266" stroke-width="1.3" fill="none"/></g>
-        <text x="${Math.max(300,Math.min(W-150,(bowX-len+XA)/2)).toFixed(1)}" y="${SEA-dk-25}" text-anchor="middle" font-size="11.5" fill="#9fb6c9">krug zakretanja: polumjer ${Math.round(st.X+A.B.len)} m oko sidra</text>`; }
+      g+=`<g data-keep-dark="1"><text x="${XA+6}" y="${Math.min(H-8,bed+16+14*fk)}" font-size="${fs(13)}" font-weight="800" fill="${col}" text-anchor="end">${ok?`drži · na dnu leži ${num(q.lie)} m${sm?'':' lanca'}`:mid?`na granici · ${sm?'':'lanac vuče '}pod ${num(q.theta,0)}°`:`ore · ${sm?'vuče gore':'lanac vuče prema gore'} pod ${num(q.theta,0)}°`}</text>
+</g><path d="M${(bowX-len).toFixed(1)},${SEA-dk-16} v-7 M${(bowX-len).toFixed(1)},${SEA-dk-19.5} H${XA} M${XA},${SEA-dk-16} v-7" stroke="#9fb6c9" stroke-width="1.5" fill="none"/>
+        <text x="${XA}" y="${SEA-dk-25}" text-anchor="end" font-size="${fs(11.5)}" fill="#9fb6c9">${sm?'krug':'krug zakretanja: polumjer'} ${Math.round(st.X+A.B.len)} m${sm?'':' oko sidra'}</text>`; }
     dyn.innerHTML=g; }
   const dist=q=>q.lie+q.span;
   function verdict(){ const F=A.windForce(WK), q=A.solve(D,Lf(),F), nd=A.need(D,WK), ok=q.theta<=1;
@@ -214,7 +214,7 @@ const SIM={
   $('.aK',b).addEventListener('input',e=>{ stop(); K=+e.target.value; labels(); show(); });
   $('.aW',b).addEventListener('input',e=>{ stop(); WK=+e.target.value; labels(); show(); });
   $('.aGo',b).addEventListener('click',go);
-  labels(); show();
+  labels(); show(); onWidth(dyn.ownerSVGElement,()=>{ if(!anim) show(); });
 })();
 
 /* ── MAYDAY: SLOŽI REDOSLIJED ── */

@@ -89,6 +89,18 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   await page.locator('#dockWind .dwPause').click(); const h2 = await page.$eval('#dockWind .dwHud', e => e.textContent); await page.waitForTimeout(400);
   ok(h2 === await page.$eval('#dockWind .dwHud', e => e.textContent), `[${name}] simulator pristajanja: pauza ne zaustavlja vrijeme`);
   await page.locator('#dockWind .dwReset').first().click();
+  // brodica postavljena na vez, usporedno i mirna: nakon kratkog držanja simulator javlja uspjeh
+  await page.locator('#dockWind [data-t="0"]').click();
+  await page.evaluate(() => { const s = __DOCK.world().s, D = DockWorld; Object.assign(s, { x: (D.QX + 16) / D.PPM, y: (D.BERTH[0] + D.BERTH[1]) / 2 / D.PPM, psi: 0, u: 0, v: 0, r: 0 }); });
+  await page.waitForTimeout(2200);
+  ok(/Pristao si/.test(await page.$eval('#dockWind .dwMsg', e => e.textContent)), `[${name}] simulator pristajanja: brodica na vezu ne javlja uspjeh`);
+  await page.locator('#dockWind .dwReset').first().click();
+  // udarac u obalu punom brzinom mora završiti vožnju
+  await page.locator('#dockWind [data-t="2"]').click();
+  await page.evaluate(() => { const s = __DOCK.world().s, D = DockWorld; Object.assign(s, { x: (D.QX + 60) / D.PPM, y: (D.BERTH[0] + D.BERTH[1]) / 2 / D.PPM, psi: -90, u: 2, v: 0, r: 0 }); });
+  await page.waitForTimeout(3500);
+  ok(/Udarac u obalu/.test(await page.$eval('#dockWind .dwMsg', e => e.textContent)), `[${name}] simulator pristajanja: udarac u obalu nije prepoznat`);
+  await page.locator('#dockWind .dwReset').first().click();
   // 13. sidrenje: premalo lanca na jakom vjetru ore, dovoljno lanca drži
   const setR = (sel, v) => page.$eval(sel, (e, v) => { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); }, v);
   await setR('#anchorSim .aW', 30); await setR('#anchorSim .aK', 3);

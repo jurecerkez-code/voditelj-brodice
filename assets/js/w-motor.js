@@ -72,7 +72,7 @@
     g+=`<rect width="${W}" height="${H}" fill="#0b1a28" rx="10"/><g transform="translate(0,${DY})">`;
     // karter; četverotaktni ima uljnu kadu, dvotaktni u karteru ima smjesu
     g+=`<path d="M${BX1-30},${CY-R-30} L${BX1-30},${CY+R+14} Q${CX},${CY+R+44} ${BX2+30},${CY+R+14} L${BX2+30},${CY-R-30} Z" fill="#102233" stroke="#2d5578"/>`;
-    if(four) g+=`<path d="M${BX1-29},${CY+R+2} L${BX1-29},${CY+R+14} Q${CX},${CY+R+43} ${BX2+29},${CY+R+14} L${BX2+29},${CY+R+2} Z" fill="#c9a24a" opacity=".55"/><text x="${BX1-36}" y="${CY+R+18}" text-anchor="end" font-size="9.5" fill="#c9a24a">ulje u karteru</text><text x="${BX1-36}" y="${CY+R+30}" text-anchor="end" font-size="9.5" fill="#c9a24a">(podmazivanje)</text>`;
+    if(four) g+=`<path d="M${BX1-29},${CY+R+2} L${BX1-29},${CY+R+14} Q${CX},${CY+R+43} ${BX2+29},${CY+R+14} L${BX2+29},${CY+R+2} Z" fill="#c9a24a" opacity=".55"/><text x="${BX1-36}" y="${CY+R+18}" text-anchor="end" font-size="10.5" fill="#c9a24a">ulje u karteru</text><text x="${BX1-36}" y="${CY+R+30}" text-anchor="end" font-size="10.5" fill="#c9a24a">(podmazivanje)</text>`;
     const exOpen=!four && k.top>EX.y1, trOpen=!four && k.top>TR.y1;
     // plin u cilindru: boja po stanju, gustoća čestica po obujmu
     const hot=Math.min(1,Math.max(0,(gs.T-600)/1500)), burnt=gs.xb>0;
@@ -99,18 +99,18 @@
     const jBot=four?wallBot-8:EX.y1-6, flow=RM?0:(performance.now()/60)%16;
     [[BX1-15,-1],[BX2+4,1]].forEach(([jx,sd])=>{ g+=`<rect x="${jx}" y="${HEAD-14}" width="11" height="${jBot-HEAD+14}" rx="3" fill="#0f4f78" stroke="#2f7fb0" stroke-width=".8"/>`;
       g+=`<line x1="${jx+5.5}" y1="${sd<0?jBot:HEAD-12}" x2="${jx+5.5}" y2="${sd<0?HEAD-12:jBot}" stroke="#7fd8f7" stroke-width="2" stroke-dasharray="3 13" stroke-dashoffset="${-flow}" stroke-linecap="round"/>`; });
-    g+=`<text x="${BX2+20}" y="${HEAD+26}" font-size="9.5" fill="#7fd8f7">hlađenje vodom</text>`;
+    g+=`<text x="${BX2+20}" y="${HEAD+26}" font-size="10.5" fill="#7fd8f7">hlađenje vodom</text>`;
     g+=`<line x1="${BX1}" y1="${HEAD}" x2="${BX1}" y2="${wallBot}" stroke="#5b8bab" stroke-width="3"/><line x1="${BX2}" y1="${HEAD}" x2="${BX2}" y2="${wallBot}" stroke="#5b8bab" stroke-width="3"/>`;
     // paljenje (4T: oko 360°, 2T: oko 0°): kut prije (−) ili poslije (+) GMT
     const sp=four?360:0, cyc=G.span, rel=((th-sp)%cyc+cyc*1.5)%cyc-cyc/2;
     if(!diesel){ // benzin: svjećica, iskra malo PRIJE GMT (pretpaljenje)
       g+=`<rect x="${CX-6}" y="${HEAD-46}" width="12" height="10" rx="2" fill="#39434c"/><rect x="${CX-5}" y="${HEAD-36}" width="10" height="16" rx="2" fill="#eef3f6" stroke="#8fa6b8" stroke-width=".8"/><rect x="${CX-2}" y="${HEAD-20}" width="4" height="20" fill="#8fa6b8"/>`;
-      g+=`<text x="${CX}" y="${four?HEAD-60:HEAD-50}" text-anchor="middle" font-size="10" fill="${C.txt2}">svjećica</text>`;
+      g+=`<text x="${CX}" y="${four?HEAD-60:HEAD-50}" text-anchor="middle" font-size="11" fill="${C.txt2}">svjećica</text>`;
       if(rel>-16 && rel<-1){ const k2=1-Math.abs(rel+8)/8;
         g+=`<path d="M${CX},${HEAD+1} l-4,5 l5,1 l-3,6" stroke="#fff6b0" stroke-width="1.6" fill="none"/><circle cx="${CX}" cy="${HEAD+5}" r="${(5+k2*6).toFixed(1)}" fill="#ffe27a" opacity="${(.35+k2*.5).toFixed(2)}"/>`; }
     } else { // dizel: brizgaljka; gorivo se ubrizga u vrući zrak i samo zapali
       g+=`<rect x="${CX-7}" y="${HEAD-48}" width="14" height="28" rx="3" fill="#39434c" stroke="#8fa6b8" stroke-width=".8"/><rect x="${CX-3}" y="${HEAD-20}" width="6" height="20" fill="#8fa6b8"/>`;
-      g+=`<text x="${CX}" y="${HEAD-60}" text-anchor="middle" font-size="10" fill="${C.txt2}">brizgaljka</text>`;
+      g+=`<text x="${CX}" y="${HEAD-60}" text-anchor="middle" font-size="11" fill="${C.txt2}">brizgaljka</text>`;
       if(rel>-9 && rel<14){ const d=Math.min(15,k.top-HEAD+8); g+=`<path d="M${CX},${HEAD+1} L${CX-20},${HEAD+d} M${CX},${HEAD+1} L${CX},${HEAD+d+2} M${CX},${HEAD+1} L${CX+20},${HEAD+d}" stroke="#ffe8a0" stroke-width="2" stroke-dasharray="2 2" opacity=".95"/>`; }
     }
     if(rel>=-6 && rel<45){ const f2=Math.max(0,1-rel/45)*Math.min(1,gs.xb*3+.25); g+=`<ellipse cx="${CX}" cy="${(HEAD+k.top)/2}" rx="${(BX2-BX1)/2-4}" ry="${Math.max(3,(k.top-HEAD)/2)}" fill="url(#eFlame)" opacity="${(f2*.8).toFixed(2)}"/>`; }
@@ -120,7 +120,7 @@
       const valve=(x,lf,col,lab,sub,side)=>{
         const y=HEAD+lf, open=lf>1, px=side<0?BX1-96:BX2+16;
         let v=`<rect x="${px}" y="${HEAD-34}" width="80" height="26" rx="3" fill="${open?col:'#1d3a52'}" opacity="${open?.55:1}"/>`;
-        v+=`<text x="${px+40}" y="${HEAD-23}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${open?'#fff':C.txt2}">${lab}</text><text x="${px+40}" y="${HEAD-12}" text-anchor="middle" font-size="8.5" fill="${open?'#fff':C.txt2}">${sub}</text>`;
+        v+=`<text x="${px+40}" y="${HEAD-23}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${open?'#fff':C.txt2}">${lab}</text><text x="${px+40}" y="${HEAD-12}" text-anchor="middle" font-size="9.5" fill="${open?'#fff':C.txt2}">${sub}</text>`;
         const top=HEAD-41+lf; // vrh čašice: brijeg ga gura dolje
         let spr='M'+(x-8)+','+(HEAD-20); const n=7; for(let q=1;q<=n;q++){ const yy=HEAD-20-(HEAD-20-(top+6))*q/n; spr+=' L'+(x+(q%2?8:-8))+','+yy.toFixed(1); }
         v+=`<path d="${spr}" stroke="#c9a24a" stroke-width="1.6" fill="none"/>`;
@@ -143,22 +143,22 @@
       g+=`<rect x="${CX-64}" y="${CYc-3}" width="128" height="6" rx="3" fill="#58728a"/>`;
       g+=lobe(CX-34,45)+lobe(CX+34,315);
       const mark=(cx,cy,r,ang,col)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${col}" stroke-width="2"/><line x1="${cx}" y1="${cy}" x2="${(cx+Math.sin(ang*Math.PI/180)*r).toFixed(1)}" y2="${(cy-Math.cos(ang*Math.PI/180)*r).toFixed(1)}" stroke="${col}" stroke-width="2.4" stroke-linecap="round"/>`;
-      g+=mark(CX+86,CYc,11,cam,'#ffd166')+`<text x="${CX+102}" y="${CYc-2}" font-size="9.5" fill="#ffd166">bregasta</text><text x="${CX+102}" y="${CYc+9}" font-size="9.5" fill="#ffd166">${Math.round(cam)%360}°</text>`;
-      g+=`<text x="${CX}" y="${CYc-28}" text-anchor="middle" font-size="9.5" fill="${C.txt2}">bregasta osovina: 1 okretaj na 2 okretaja koljena</text>`;
+      g+=mark(CX+86,CYc,11,cam,'#ffd166')+`<text x="${CX+102}" y="${CYc-2}" font-size="10.5" fill="#ffd166">bregasta</text><text x="${CX+102}" y="${CYc+9}" font-size="10.5" fill="#ffd166">${Math.round(cam)%360}°</text>`;
+      g+=`<text x="${CX}" y="${CYc-28}" text-anchor="middle" font-size="10.5" fill="${C.txt2}">bregasta osovina: 1 okretaj na 2 okretaja koljena</text>`;
     } else {
       const skirt=k.top+PH, inOpen=skirt<IN.y1;
       g+=`<rect x="${BX2-2}" y="${EX.y1}" width="40" height="${EX.y2-EX.y1}" fill="${exOpen?'#8fa6b8':'#1d3a52'}" opacity="${exOpen?.7:1}"/>`;
-      g+=`<text x="${BX2+42}" y="${EX.y1+14}" font-size="9.5" font-weight="700" fill="${exOpen?'#cfd9e2':C.txt2}">ispušni</text>`;
+      g+=`<text x="${BX2+42}" y="${EX.y1+14}" font-size="10.5" font-weight="700" fill="${exOpen?'#cfd9e2':C.txt2}">ispušni</text>`;
       // ispirni kanal (lijevo): vodi iz kartera do stijenke cilindra
       g+=`<path d="M${BX1-30},${CY-R-26} L${BX1-30},${TR.y1} L${BX1+2},${TR.y1} L${BX1+2},${TR.y2} L${BX1-16},${TR.y2} L${BX1-16},${CY-R-26} Z" fill="${trOpen?'#39b8e8':'#1d3a52'}" opacity="${trOpen?.6:1}" stroke="#2d5578"/>`;
-      g+=`<text x="${BX1-34}" y="${TR.y1-8}" text-anchor="end" font-size="9.5" font-weight="700" fill="${trOpen?'#7fd8f7':C.txt2}">ispirni</text>`;
+      g+=`<text x="${BX1-34}" y="${TR.y1-8}" text-anchor="end" font-size="10.5" font-weight="700" fill="${trOpen?'#7fd8f7':C.txt2}">ispirni</text>`;
       // usisni kanal u karter (desno, nisko): otvara ga suknja klipa kad se klip digne
       g+=`<rect x="${BX2-2}" y="${IN.y1}" width="40" height="${IN.y2-IN.y1}" fill="${inOpen?C.green:'#1d3a52'}" opacity="${inOpen?.6:1}"/>`;
-      g+=`<text x="${BX2+42}" y="${IN.y1+12}" font-size="9.5" font-weight="700" fill="${inOpen?'#5fe39b':C.txt2}">usisni</text>`;
+      g+=`<text x="${BX2+42}" y="${IN.y1+12}" font-size="10.5" font-weight="700" fill="${inOpen?'#5fe39b':C.txt2}">usisni</text>`;
       // smjesa u karteru: puni se dok klip ide gore, sabija dok ide dolje
       const cc = th>=180 ? .15+.35*((th-180)/180) : .5-.3*(th/180);
       g+=`<ellipse cx="${CX}" cy="${CY+8}" rx="${R+40}" ry="${R+6}" fill="#39b8e8" opacity="${cc.toFixed(2)}"/>`;
-      g+=`<text x="${CX}" y="${CY+R+34}" text-anchor="middle" font-size="9.5" fill="${C.txt2}">karter: smjesa zraka, benzina i ulja</text>`;
+      g+=`<text x="${CX}" y="${CY+R+34}" text-anchor="middle" font-size="10.5" fill="${C.txt2}">karter: smjesa zraka, benzina i ulja</text>`;
       if(exOpen) g+=`<path d="M${BX2-26},${EX.y1+11} L${BX2+34},${EX.y1+11}" stroke="#fff" stroke-width="1.5" marker-end="url(#eArr)"/>`;
       if(trOpen) g+=`<path d="M${BX1+4},${TR.y1+8} Q${BX1+20},${HEAD+10} ${CX},${HEAD+10}" fill="none" stroke="#fff" stroke-width="1.5" marker-end="url(#eArr)"/>`;
       if(inOpen) g+=`<path d="M${BX2+34},${IN.y1+8} L${BX2-8},${IN.y1+8}" stroke="#fff" stroke-width="1.5" marker-end="url(#eArr)"/>`;
@@ -178,11 +178,11 @@
     g+=`<circle cx="${CX}" cy="${k.pinY}" r="5" fill="#0b1a28" stroke="#c8d6e2" stroke-width="2"/>`;
     g+=`<circle cx="${k.cpx}" cy="${k.cpy}" r="5" fill="#0b1a28" stroke="#c8d6e2" stroke-width="2"/><circle cx="${CX}" cy="${CY}" r="6" fill="#c8d6e2"/>`;
     { const rr=R+20, p=(d)=>[(CX+Math.sin(d*Math.PI/180)*rr).toFixed(1),(CY-Math.cos(d*Math.PI/180)*rr).toFixed(1)], a1=p(40), a2=p(120);
-      g+=`<path d="M${a1[0]},${a1[1]} A${rr},${rr} 0 0 1 ${a2[0]},${a2[1]}" fill="none" stroke="#ffd166" stroke-width="2" marker-end="url(#eRot)"/><text x="${(CX+rr+6).toFixed(1)}" y="${CY+20}" font-size="9.5" fill="#ffd166">zamašnjak i koljeno</text><text x="${(CX+rr+6).toFixed(1)}" y="${CY+32}" font-size="9.5" fill="#ffd166">${Math.round(th%360)}°</text>`; }
+      g+=`<path d="M${a1[0]},${a1[1]} A${rr},${rr} 0 0 1 ${a2[0]},${a2[1]}" fill="none" stroke="#ffd166" stroke-width="2" marker-end="url(#eRot)"/><text x="${(CX+rr+6).toFixed(1)}" y="${CY+20}" font-size="10.5" fill="#ffd166">zamašnjak i koljeno</text><text x="${(CX+rr+6).toFixed(1)}" y="${CY+32}" font-size="10.5" fill="#ffd166">${Math.round(th%360)}°</text>`; }
     // GMT / DMT: kod dvotaktnog lijevo od ispirnog kanala
     const tk=(y,t)=> four
-      ? `<line x1="${BX1-12}" y1="${y}" x2="${BX1-2}" y2="${y}" stroke="${C.txt2}"/><text x="${BX1-20}" y="${y+4}" text-anchor="end" font-size="9.5" fill="${C.txt2}">${t}</text>`
-      : `<line x1="${BX1-44}" y1="${y}" x2="${BX1-34}" y2="${y}" stroke="${C.txt2}"/><text x="${BX1-48}" y="${y+4}" text-anchor="end" font-size="9.5" fill="${C.txt2}">${t}</text>`;
+      ? `<line x1="${BX1-12}" y1="${y}" x2="${BX1-2}" y2="${y}" stroke="${C.txt2}"/><text x="${BX1-20}" y="${y+4}" text-anchor="end" font-size="10.5" fill="${C.txt2}">${t}</text>`
+      : `<line x1="${BX1-44}" y1="${y}" x2="${BX1-34}" y2="${y}" stroke="${C.txt2}"/><text x="${BX1-48}" y="${y+4}" text-anchor="end" font-size="10.5" fill="${C.txt2}">${t}</text>`;
     [TDC,BDC].forEach(y=>{ g+=`<line x1="${BX1-(four?12:44)}" y1="${y}" x2="${BX2+10}" y2="${y}" stroke="#e6eef5" stroke-width="1" stroke-dasharray="5 4" opacity=".55"/>`; });
     g+=tk(TDC,'GMT')+tk(BDC,'DMT');
     g+=`</g>`;
@@ -194,14 +194,14 @@
     // krivulja tlaka kroz ciklus: površina ispod vrha u radnom taktu je rad koji motor daje
     let pts=''; G.P.forEach((p,i)=>{ pts+=(bx+bw*i*2/span).toFixed(1)+','+(cy0-ch*p/G.pmax).toFixed(1)+' '; });
     g+=`<polyline points="${bx},${cy0} ${pts}${bx+bw},${cy0}" fill="#ff7a45" fill-opacity=".14" stroke="#ff7a45" stroke-width="1.6" stroke-linejoin="round"/>`;
-    g+=`<text x="${bx}" y="${cy0-ch-4}" font-size="9.5" fill="${C.txt2}">tlak kroz ciklus (vrh: oko ${Math.round(G.pmax/5)*5} bara)</text>`;
+    g+=`<text x="${bx}" y="${cy0-ch-4}" font-size="10.5" fill="${C.txt2}">tlak kroz ciklus (vrh: oko ${Math.round(G.pmax/5)*5} bara)</text>`;
     const lbl=four?['usis','kompresija','ekspanzija','ispuh']:['ekspanzija','izmjena + kompresija'];
     const cols=four?strokes4().map(x=>x[2]):['#ff7a45',C.acc];
     const cur=four?st:(th<180?0:1);
     for(let i=0;i<N;i++){
       const x=bx+bw*i/N, on=cur===i;
       g+=`<rect x="${x+1}" y="${by}" width="${bw/N-2}" height="8" rx="3" fill="${cols[i]}" opacity="${on?1:.25}"/>`;
-      g+=`<text x="${x+bw/N/2}" y="${by-4}" text-anchor="middle" font-size="9.5" fill="${on?cols[i]:C.txt2}">${lbl[i]}</text>`;
+      g+=`<text x="${x+bw/N/2}" y="${by-4}" text-anchor="middle" font-size="10.5" fill="${on?cols[i]:C.txt2}">${lbl[i]}</text>`;
     }
     const mx=bx+bw*th/span;
     g+=`<line x1="${mx.toFixed(1)}" y1="${cy0-ch}" x2="${mx.toFixed(1)}" y2="${by+10}" stroke="#fff" stroke-width="1.5"/><circle cx="${mx.toFixed(1)}" cy="${(cy0-ch*gs.p/G.pmax).toFixed(1)}" r="3.5" fill="#ff7a45" stroke="#fff" stroke-width="1.2"/>`;

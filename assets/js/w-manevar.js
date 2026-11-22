@@ -31,20 +31,18 @@
 /* ═══════════════ KRUG ZAKRETANJA NA SIDRU (pogled odozgo) ═══════════════ */
 (function(){
   const b=el('anchorWidget'); if(!b) return;
-  const W=660,H=274, R=84;
+  const W=560,H=236, R=84;
   const anchor=(x,y)=>`<g transform="translate(${x},${y}) scale(.7)"><path d="M0,-14 v20 M-13,2 q13,16 26,0 M-8,-14 h16" stroke="#c8d6e2" stroke-width="3" fill="none"/><circle cy="-18" r="4" fill="none" stroke="#c8d6e2" stroke-width="3"/></g>`;
   // brodica na sidru uvijek gleda pramcem prema sidru (u vjetar); kut a = smjer iz kojeg puše
   const boatAt=(cx,cy,a,ghost)=>{ const q=a*Math.PI/180, x=cx-Math.sin(q)*(R-18), y=cy+Math.cos(q)*(R-18);
     return `<line x1="${cx}" y1="${cy}" x2="${(cx-Math.sin(q)*(R-36)).toFixed(1)}" y2="${(cy+Math.cos(q)*(R-36)).toFixed(1)}" stroke="#c8d6e2" stroke-width="1.6" stroke-dasharray="5 3" opacity="${ghost?.45:1}"/><g opacity="${ghost?.4:1}" transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${a})"><path d="M0,-19 C8,-10 9,6 8,17 L-8,17 C-9,6 -8,-10 0,-19 Z" fill="#e8eef3" stroke="#1d2b36" stroke-width="1.3"/><path d="M-5,-2 h10 v9 h-10 Z" fill="#9fb6c9" stroke="#1d2b36" stroke-width=".8"/></g>`; };
   let g=`<clipPath id="swClip"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#swClip)">${seaBackground(W,H,{view:'top'})}</g>`;
-  [[170,128,'tvoja brodica'],[490,128,'susjed']].forEach(([cx,cy,n],i)=>{
+  [[130,132,'tvoja brodica'],[430,132,'susjed']].forEach(([cx,cy,n],i)=>{
     g+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="${C.yellow}" fill-opacity=".07" stroke="${C.yellow}" stroke-width="1.6" stroke-dasharray="6 4"/>`;
     g+=boatAt(cx,cy,115,true)+boatAt(cx,cy,235,true)+boatAt(cx,cy,0,false)+anchor(cx,cy);
-    g+=`<text x="${cx}" y="${cy-R-8}" text-anchor="middle" font-size="12" font-weight="800" fill="${C.txt2}">${n}</text>`; });
-  g+=`<g transform="translate(330,34)"><path d="M0,-14 V12 M-6,5 L0,13 L6,5" stroke="#e6eef5" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text y="28" text-anchor="middle" font-size="11" fill="#9fb6c9">vjetar</text></g>`;
-  g+=`<path d="M170,128 h${R}" stroke="${C.acc}" stroke-width="2"/><text x="${170+R/2}" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="${C.acc}">polumjer</text>`;
-  g+=`<text x="330" y="${H-34}" text-anchor="middle" font-size="12.5" font-weight="700" fill="${C.txt2}">polumjer kruga = ispušteni lanac + duljina brodice</text>`;
-  g+=`<text x="330" y="${H-16}" text-anchor="middle" font-size="11.5" fill="${C.txt2}">Kad vjetar okrene, brodica obiđe sidro. Krugovi dviju brodica ne smiju se sjeći.</text>`;
+    g+=`<text x="${cx}" y="${cy-R-8}" text-anchor="middle" font-size="16" font-weight="800" fill="${C.txt2}">${n}</text>`; });
+  g+=`<g transform="translate(280,96)"><path d="M0,-22 V16 M-8,6 L0,18 L8,6" stroke="#e6eef5" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text y="40" text-anchor="middle" font-size="15" fill="#9fb6c9">vjetar</text></g>`;
+  g+=`<path d="M130,132 h${R}" stroke="${C.acc}" stroke-width="2.4"/><text x="${130+R/2+6}" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="${C.acc}">polumjer</text>`;
   b.innerHTML=SVG(W,H,g);
 })();
 

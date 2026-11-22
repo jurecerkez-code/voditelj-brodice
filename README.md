@@ -27,12 +27,14 @@ assets/js/core.js         pomoćne funkcije, spremanje napretka, navigacija, pop
 assets/js/ui.js           zajedničke komponente u JS-u (gumb, ikona, mjerač, dijalog)
 assets/js/data.js         banka pitanja i kartice
 assets/js/w-*.js          vježbe, jedna datoteka po području (karta, svjetla, sudari, čvorovi ...)
+assets/js/fizika.js       fizika simulatora (brodica, lučica, sidreni lanac), bez crtanja, pa se testira bez preglednika
 assets/js/practice.js     kviz i kartice;  exam.js probni ispit;  srs.js ponavljanje s razmakom
 assets/js/plan.js         plan učenja;  app.js početna, pretraga, donja navigacija
 assets/fonts/             Atkinson Hyperlegible Next (SIL OFL), učitava se lokalno
 sw.js                     rad bez interneta
-tests/                    dimni test glavnih tokova i provjera pristupačnosti
+tests/                    provjera fizike, dimni test glavnih tokova i provjera pristupačnosti
 docs/KOMPONENTE.md        popis komponenti i pravila za novi kod
+docs/PROMJENE.md          popis svih promjena po verzijama
 ```
 
 Datoteke u `assets/js` učitavaju se redom navedenim u `index.html`. Greška u jednoj vježbi ne ruši ostale.
@@ -62,6 +64,12 @@ npm install
 npx playwright install chromium
 npm test
 ```
+
+`tests/fizika.mjs` radi bez preglednika. Provjerava da se brodica u simulatoru ponaša kao prava (brzine,
+klizanje u neutralu, krug okretanja, izboj krme, zanošenje na vjetru), da račun sidrenog lanca daje poznata
+pravila, i da se u svakom zadanom vjetru i struji može pristati: kormilar iz skripte vozi samo ručicom
+stroja i kormilom, kao korisnik. Ako promijeniš koeficijente u `fizika.js`, ovaj test kaže je li simulator
+ostao realan i rješiv.
 
 `tests/smoke.mjs` otvara svaku stranicu na dva zaslona i prolazi glavne tokove (plan, kviz, probni ispit,
 kartice, pretraga, gumb Natrag, ladica na mobitelu). Provjerava i da simulator svjetala pokazuje zeleno

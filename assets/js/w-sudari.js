@@ -138,24 +138,47 @@ const COLREG=[
   show();
 })();
 
-/* ═══════════════ RISK / BEARING ═══════════════ */
+/* ═══════════════ RIZIK SUDARA: AZIMUT ═══════════════
+   Oba broda plove stalnim kursom i brzinom. Azimut se računa iz njihovih stvarnih položaja:
+   ako se ne mijenja dok se udaljenost smanjuje, brodovi stižu u istu točku u isto vrijeme. */
 (function(){
   const b=el('riskWidget'); if(!b) return;
-  const W=340,H=300;
-  let g=`<clipPath id="seaClip${W}x${H}"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#seaClip${W}x${H})">${seaBackground(W,H,{view:'top'})}</g>`;
-  g+=`<g transform="translate(${W/2},${H-50})"><path d="M0,-20 L10,-4 L10,14 L-10,14 L-10,-4 Z" fill="${C.acc}"/></g>`;
-  g+=`<text x="${W/2}" y="${H-16}" text-anchor="middle" font-size="12" fill="${C.acc}" font-weight="700">TI</text>`;
-  const other=[[250,60],[228,105],[206,150]];
-  other.forEach((p,i)=>{
-    g+=`<g transform="translate(${p[0]},${p[1]}) rotate(215)"><path d="M0,-14 L7,-3 L7,10 L-7,10 L-7,-3 Z" fill="#e6eef5" stroke="#1c2430" stroke-width="1.4" opacity="${.4+i*.3}"/></g>`;
-    if(i===2) g+=`<text x="${p[0]+14}" y="${p[1]+4}" font-size="12" font-weight="700" fill="${C.txt2}">ON</text>`;
-    g+=`<line x1="${W/2}" y1="${H-50}" x2="${p[0]}" y2="${p[1]}" stroke="${C.red}" stroke-width="1.6" stroke-dasharray="4 3" opacity="${.45+i*.25}"/>`;
-  });
-  g+=`<text x="140" y="40" font-size="12.5" fill="${C.red}" font-weight="800">AZIMUT SE NE MIJENJA</text>`;
-  g+=`<text x="150" y="58" font-size="11.5" fill="${C.txt2}">→ rizik od sudara</text>`;
-  g+=`<text x="16" y="${H-90}" font-size="11" fill="${C.txt2}">Kut ↓ → prolazi po pramcu</text>`;
-  g+=`<text x="16" y="${H-74}" font-size="11" fill="${C.txt2}">Kut ↑ → prolazi po krmi</text>`;
-  b.innerHTML=SVG(W,H,g);
+  const W=520,H=330, RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const A0=[150,296], X=[150,96], B0=[470,160], PX=120; // 120 px = 1 M
+  const CASES={same:{n:'Ne mijenja se',k:1,end:.93,txt:'<b>Azimut ostaje isti, a udaljenost pada: sudar.</b> Oba broda stižu u istu točku u isto vrijeme. Ovo je znak da moraš djelovati po pravilima, na vrijeme.'},
+    ahead:{n:'Smanjuje se',k:1.4,end:.86,txt:'<b>Azimut se smanjuje:</b> drugi brod izmiče prema tvom pramcu i <b>prolazi ispred tebe</b>. Što se azimut brže mijenja, to je prolaz sigurniji.'},
+    astern:{n:'Povećava se',k:.66,end:1.12,txt:'<b>Azimut se povećava:</b> drugi brod zaostaje prema tvojoj krmi i <b>prolazi iza tebe</b>.'}};
+  let key='same', t=0, raf=0, last=0, playing=false, fk=1;
+  b.innerHTML=`<div class="seg" role="group" aria-label="Kako se mijenja azimut na drugi brod"><span>Azimut</span>${Object.keys(CASES).map(k=>`<button type="button" data-k="${k}"${k===key?' class="on"':''}>${CASES[k].n}</button>`).join('')}</div>
+    <div class="rkStage"></div><div class="knStepTxt rkTxt" aria-live="polite"></div>`;
+  const stage=$('.rkStage',b);
+  const at=u=>{ const c=CASES[key]; return {a:[A0[0]+(X[0]-A0[0])*u, A0[1]+(X[1]-A0[1])*u], o:[B0[0]+(X[0]-B0[0])*u*c.k, B0[1]+(X[1]-B0[1])*u*c.k]}; };
+  const brg=p=>(Math.atan2(p.o[0]-p.a[0],-(p.o[1]-p.a[1]))*180/Math.PI+360)%360, rng=p=>Math.hypot(p.o[0]-p.a[0],p.o[1]-p.a[1])/PX;
+  const f3=x=>String(Math.round(x)%360).padStart(3,'0')+'°', hB=Math.atan2(X[0]-B0[0],-(X[1]-B0[1]))*180/Math.PI;
+  const hull=(p,h,col,op)=>`<g transform="translate(${p[0].toFixed(1)},${p[1].toFixed(1)}) rotate(${h.toFixed(1)})" opacity="${op}"><path d="M0,-15 L8,-3 L8,11 L-8,11 L-8,-3 Z" fill="${col}" stroke="#1c2430" stroke-width="1.3"/></g>`;
+  function draw(){ const c=CASES[key];
+    let g=`<clipPath id="rkClip"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#rkClip)">${seaBackground(W,H,{view:'top'})}`;
+    const e=at(c.end);
+    g+=`<line x1="${A0[0]}" y1="${A0[1]}" x2="${e.a[0]}" y2="${e.a[1].toFixed(1)}" stroke="#9fb6c9" stroke-width="1.2" stroke-dasharray="2 5"/><line x1="${B0[0]}" y1="${B0[1]}" x2="${e.o[0].toFixed(1)}" y2="${e.o[1].toFixed(1)}" stroke="#9fb6c9" stroke-width="1.2" stroke-dasharray="2 5"/>`;
+    // tri ranija mjerenja: crta azimuta i očitanje
+    [0,.3,.6].forEach((u,i)=>{ if(u>t+.001) return; const p=at(u), mx=(p.a[0]+p.o[0])/2, my=(p.a[1]+p.o[1])/2;
+      g+=hull(p.a,0,C.acc,.3)+hull(p.o,hB,'#e6eef5',.3)+`<line x1="${p.a[0].toFixed(1)}" y1="${p.a[1].toFixed(1)}" x2="${p.o[0].toFixed(1)}" y2="${p.o[1].toFixed(1)}" stroke="${C.red}" stroke-width="1.4" stroke-dasharray="4 4" opacity=".55"/>
+        <text x="${(mx+6).toFixed(1)}" y="${(my+16).toFixed(1)}" font-size="${(11.5*fk).toFixed(1)}" font-weight="700" fill="${C.red}" paint-order="stroke" stroke="#0b2135" stroke-width="3">${i+1}. ${f3(brg(p))}</text>`; });
+    const p=at(t), hit=key==='same'&&t>=c.end-.001;
+    g+=`<line x1="${p.a[0].toFixed(1)}" y1="${p.a[1].toFixed(1)}" x2="${p.o[0].toFixed(1)}" y2="${p.o[1].toFixed(1)}" stroke="${C.red}" stroke-width="2.2"/>`;
+    g+=hull(p.a,0,C.acc,1)+hull(p.o,hB,'#e6eef5',1);
+    if(!hit) g+=`<text x="${(p.a[0]-16).toFixed(1)}" y="${(p.a[1]+5).toFixed(1)}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" font-weight="800" fill="${C.acc}">TI</text><text x="${(p.o[0]+14).toFixed(1)}" y="${(p.o[1]-10).toFixed(1)}" font-size="${(12*fk).toFixed(1)}" font-weight="800" fill="${C.txt2}">ON</text>`;
+    if(hit) g+=`<circle cx="${X[0]}" cy="${X[1]+10}" r="26" fill="none" stroke="${C.red}" stroke-width="3"/><text x="${X[0]+36}" y="${X[1]+14}" font-size="${(14*fk).toFixed(1)}" font-weight="800" fill="${C.red}">SUDAR</text>`;
+    g+=`</g><text x="${W-14}" y="${8+16*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">azimut <tspan font-weight="800" font-size="${(15*fk).toFixed(1)}" fill="#fff">${f3(brg(p))}</tspan></text>
+      <text x="${W-14}" y="${8+34*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">udaljenost <tspan font-weight="800" fill="#fff">${rng(p).toFixed(1).replace('.',',')} M</tspan></text>`;
+    stage.innerHTML=SVG(W,H,g); }
+  function loop(ts){ if(!playing) return; if(!last) last=ts; const c=CASES[key]; t=Math.min(c.end,t+(ts-last)/1000/6); last=ts; draw();
+    if(t>=c.end){ playing=false; setTimeout(()=>{ if(!playing){ t=0; start(); } },2600); return; } raf=requestAnimationFrame(loop); }
+  function start(){ cancelAnimationFrame(raf); $('.rkTxt',b).innerHTML=CASES[key].txt; if(RM){ t=CASES[key].end; draw(); return; } playing=true; last=0; raf=requestAnimationFrame(loop); }
+  $('.seg',b).addEventListener('click',e=>{ const x=e.target.closest('button'); if(!x) return; key=x.dataset.k; $$('.seg button',b).forEach(y=>y.classList.toggle('on',y===x)); t=0; start(); });
+  // vrti se samo dok je na ekranu
+  if('IntersectionObserver' in window && !RM) new IntersectionObserver(es=>{ if(es[0].isIntersecting){ if(!playing){ t=0; start(); } } else { playing=false; cancelAnimationFrame(raf); } }).observe(b);
+  $('.rkTxt',b).innerHTML=CASES[key].txt; t=RM?CASES[key].end:0; draw(); onWidth(stage,()=>{ fk=fitText(stage,W); draw(); });
 })();
 
 /* ═══════════════ SAIL RIGHT OF WAY ═══════════════ */

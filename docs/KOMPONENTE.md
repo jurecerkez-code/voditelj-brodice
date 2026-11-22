@@ -79,3 +79,11 @@ Radnje se vežu atributima, a ne zasebnim slušačima po gumbu:
 - Crni znakovi (čunjevi, kugle) i sve što mora zadržati boju u dnevnom načinu dobiva `data-keep-dark="1"`.
 - Animacije poštuju `prefers-reduced-motion`.
 - Tekst u crtežu najmanje 10 px na mobitelu; inače crtež dobiva vodoravni pomak.
+
+## Simulacije
+
+- Fizika ide u `assets/js/fizika.js`, crtanje u datoteku vježbe. Fizika ne dira DOM i radi u stvarnim
+  jedinicama (m, s, N, čvorovi), pa je `tests/fizika.mjs` može provjeriti bez preglednika.
+- Uključeno stanje gumba koji se pali i gasi označi s `aria-pressed="true"`: stil dolazi iz `ui.css`.
+- Klizač uz vježbu: `<label class="simRange">Naziv <input type="range"> <b>vrijednost</b></label>`.
+- Crtež koji tvrdi mjerilo mora ga i držati: isto mjerilo vodoravno i okomito, uz oznaku duljine.

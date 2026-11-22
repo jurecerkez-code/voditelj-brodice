@@ -108,6 +108,10 @@ window.VB=(function(){
 const $ = (s,r)=> (r||document).querySelector(s);
 const $$ = (s,r)=> Array.from((r||document).querySelectorAll(s));
 const el = id => document.getElementById(id);
+// Crtež koji mora stati cijeli i na mobitel: fitText vraća koliko treba povećati natpise da ostanu čitljivi
+// (1 na širokom zaslonu, do 1,9 na uskom), a onWidth zove fn kad se širina crteža promijeni.
+const fitText=(node,W)=>{ const w=node.getBoundingClientRect().width; return w?Math.max(1,Math.min(1.9,.78*W/w)):1; };
+const onWidth=(node,fn)=>{ if(!('ResizeObserver' in window)) return; let w0=0; new ResizeObserver(es=>{ const w=Math.round(es[0].contentRect.width); if(w&&Math.abs(w-w0)>8){ w0=w; fn(); } }).observe(node); };
 const SVG=(w,h,inner,extra)=>`<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" ${extra||''}>${inner}</svg>`;
 const rnd = a => a[Math.floor(Math.random()*a.length)];
 const shuffle = a => { const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
