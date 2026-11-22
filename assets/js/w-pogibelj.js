@@ -118,7 +118,7 @@
     area.innerHTML=grp('vizualni')+grp('zvučni')+'<div class="dsDet"></div>'; return;
     $$('.dsCard',area).forEach(c=>c.addEventListener('click',()=>{ const s=SIG.find(x=>x.id===c.dataset.id);
       $$('.dsCard',area).forEach(x=>x.classList.toggle('on',x===c));
-      $('.dsDet',area).innerHTML=`<div class="note" style="margin-top:12px"><b>${s.n}</b>${s.d}</div>`; }));
+      $('.dsDet',area).innerHTML=`<div class="note mt12"><b>${s.n}</b>${s.d}</div>`; }));
   }
   function done(ok,s){ score.t++; if(ok){ score.c++; if(window.VB) VB.widgetOk('distress'); }
     if(scoreEl) scoreEl.textContent=`Rezultat: ${score.c}/${score.t}`;
@@ -134,7 +134,7 @@
         $$('.dsOpt',area).forEach(x=>{ x.disabled=true; if(x.dataset.id===s.id) x.classList.add('correct'); else if(x===b) x.classList.add('wrong'); });
         done(ok,s); }));
     } else { // b) značenje → prizor
-      area.innerHTML=`<p class="dsQ">Koji prizor prikazuje: <span style="color:var(--acc)">${s.n}</span>?</p>
+      area.innerHTML=`<p class="dsQ">Koji prizor prikazuje: <span class="c-acc">${s.n}</span>?</p>
         <div class="dsPick">${opts.map(o=>`<button class="dsCard dsOpt" data-id="${o.id}" type="button" aria-label="prizor">${scene(o)}</button>`).join('')}</div><div class="dsDet"></div>`;
       $$('.dsOpt',area).forEach(b=>b.addEventListener('click',()=>{ const ok=b.dataset.id===s.id;
         $$('.dsOpt',area).forEach(x=>{ x.disabled=true; if(x.dataset.id===s.id) x.classList.add('correct'); else if(x===b) x.classList.add('wrong');

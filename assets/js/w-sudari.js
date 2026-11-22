@@ -12,7 +12,7 @@ const COLREG=[
   r:'Vidim ga preko svoje <b>lijeve</b> strane → <b>JA IMAM PREDNOST.</b> Zadržavam kurs i brzinu i stalno ga pratim. On mora izbjeći.',
   path:'b_right', signal:'nije potreban'},
  {id:'noreact',t:'Imam prednost, ali on ne reagira',a:{x:340,y:280,h:315,type:'motor'},bo:{x:120,y:150,h:135,type:'motor'},
-  r:'1) <b>Najmanje 5 kratkih zvučnih signala</b>: upozorenje.<br>2) Ako i dalje ništa: <b>izbjegavam iako imam prednost</b>.<br>3) <b>Puni okret UDESNO</b> pa zaobilazak. <span style="color:var(--red)"><b>NIKAD ulijevo!</b></span> Razlog: ako se on „probudi" i krene udesno, sudarit ćete se.',
+  r:'1) <b>Najmanje 5 kratkih zvučnih signala</b>: upozorenje.<br>2) Ako i dalje ništa: <b>izbjegavam iako imam prednost</b>.<br>3) <b>Puni okret UDESNO</b> pa zaobilazak. <span class="c-red"><b>NIKAD ulijevo!</b></span> Razlog: ako se on „probudi" i krene udesno, sudarit ćete se.',
   path:'a_circle', signal:'<span class="sg" role="img" aria-label="kratki, kratki, kratki, kratki, kratki"><i></i><i></i><i></i><i></i><i></i></span> (pet ili više kratkih)'},
  {id:'overtake',t:'Pretjecanje',a:{x:200,y:330,h:0,type:'motor'},bo:{x:200,y:170,h:0,type:'motor'},
   r:'<b>Brod koji pretječe UVIJEK se uklanja</b>: bilo da je motorni, jedrilica ili motorni jedrenjak. Može lijevo ili desno, ali <b>nikad ne smije presjeći kurs</b> brodu kojeg pretječe (ne prolazi mu po pramcu). Pretjecani zadržava kurs i brzinu.',
@@ -123,9 +123,9 @@ const COLREG=[
   function show(){
     const sc=COLREG[idx];
     draw(sc,solved);
-    el('colregInfo').innerHTML=`<h4 style="margin-top:14px">${idx+1}/${COLREG.length} · ${sc.t}</h4>`+
+    el('colregInfo').innerHTML=`<h4 class="mt14">${idx+1}/${COLREG.length} · ${sc.t}</h4>`+
       (solved?`<div class="expl"><b>Rješenje</b><br>${sc.r}<div style="margin-top:8px;font-size:13.5px;color:var(--txt2)"><b>Zvučni signal:</b> <code>${sc.signal}</code></div></div>`
-       :`<p style="color:var(--txt2)">Tko ima prednost i kojim putem prolaziš? Razmisli, pa otkrij rješenje.</p>`)+
+       :`<p class="c-txt2">Tko ima prednost i kojim putem prolaziš? Razmisli, pa otkrij rješenje.</p>`)+
       (myView?`<div class="note"><b>Moj pramac gore</b>${(((sc.a.h%360)+360)%360)===0?'Tvoj brod (TI) ovdje već plovi prema sjeveru, pa je slika ista kao prije. Razlika se vidi u situacijama gdje TI plovi u drugom smjeru (npr. 3, 4, 5).':'Slika je zakrenuta tako da TI plovi prema gore, kao da stojiš na svom brodu i gledaš naprijed. Sad odmah vidiš je li drugi brod s tvoje <b>desne</b> ili <b>lijeve</b> strane.'}</div>`:`<p style="font-size:13.5px;color:var(--txt3)">Savjet: gumb <b>Okreni: moj pramac gore</b> zakrene sliku kao da gledaš sa svog broda, pa lakše vidiš dolazi li drugi brod zdesna ili slijeva.</p>`);
     $$('.crchip').forEach(c=>c.classList.toggle('on',+c.dataset.i===idx));
   }

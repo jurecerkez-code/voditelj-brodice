@@ -208,7 +208,7 @@
       st.dep=8*60+rnd([0,10,15,20,30,40,45,50]);
       const hhmm=m=>`${String(Math.floor(m/60)%24).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
       st.hhmm=hhmm;
-      const T={t:[`Put od A do B je <b>${f1(st.d)} M</b>. Plovimo brzinom <b>${f1(st.v)} čv</b>. Koliko traje plovidba?`,`<label>Vrijeme <input class="nlI" data-k="h" inputmode="numeric" style="width:54px"> h <input class="nlI" data-k="m" inputmode="numeric" style="width:54px"> min</label>`],
+      const T={t:[`Put od A do B je <b>${f1(st.d)} M</b>. Plovimo brzinom <b>${f1(st.v)} čv</b>. Koliko traje plovidba?`,`<label>Vrijeme <input class="nlI w54" data-k="h" inputmode="numeric"> h <input class="nlI w54" data-k="m" inputmode="numeric"> min</label>`],
         eta:[`Isplovio si iz A u <b>${hhmm(st.dep)}</b>. Put do B je <b>${f1(st.d)} M</b>, brzina <b>${f1(st.v)} čv</b>. U koliko sati stižeš u B?`,`<label>Dolazak <input class="nlI" data-k="eta" placeholder="hh:mm" style="width:84px"></label>`],
         v:[`Put od A do B je <b>${f1(st.d)} M</b> i prešao si ga za <b>${hmTxt(st.t)}</b>. Kolika je bila prosječna brzina?`,`<label>Brzina <input class="nlI" data-k="v" inputmode="decimal"> čv</label>`],
         s:[`Ploviš <b>${hmTxt(st.t)}</b> brzinom <b>${f1(st.v)} čv</b>. Koliki put prijeđeš?`,`<label>Put <input class="nlI" data-k="s" inputmode="decimal"> M</label>`]}[st.type];
@@ -247,7 +247,7 @@
       const [a,c]=L, det=a.u[0]*(-c.u[1])-a.u[1]*(-c.u[0]), t=((c.m[0]-a.m[0])*(-c.u[1])-(c.m[1]-a.m[1])*(-c.u[0]))/det;
       st={pr,L,fix:[a.m[0]+a.u[0]*t,a.m[1]+a.u[1]*t],click:null};
       return {t:`Smjernim kompasom si snimio dva objekta:<br><b>${pr[0].m.n}</b>: azimut <b>${pad3(pr[0].b)}°</b><br><b>${pr[1].m.n}</b>: azimut <b>${pad3(pr[1].b)}°</b><br>Klikni na kartu gdje si. Zatim upiši koordinate.`,
-        i:`<label>Širina 43° <input class="nlI" data-k="la" inputmode="decimal" style="width:64px">' N</label><label>Dužina 16° <input class="nlI" data-k="lo" inputmode="decimal" style="width:64px">' E</label>`}; },
+        i:`<label>Širina 43° <input class="nlI w64" data-k="la" inputmode="decimal">' N</label><label>Dužina 16° <input class="nlI w64" data-k="lo" inputmode="decimal">' E</label>`}; },
     draw(){ dyn.innerHTML=st.pr.map(o=>{ const p=px(...o.m.p); return `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="none" stroke="#c62828" stroke-width="1.6" stroke-dasharray="3 2"/>`; }).join('')+(st.click?mark(st.click,'?','#0b3954'):''); },
     check(v){ const la=num(v.la)-20, lo=num(v.lo)-20, F=ll(...st.fix);
       if(isNaN(la)||isNaN(lo)){ if(!st.click) return out('Klikni na kartu ili upiši koordinate.'); }

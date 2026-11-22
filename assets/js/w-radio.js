@@ -10,7 +10,7 @@
   // V3-VHF: LCD zaslon (klik mijenja kanal); kanali i namjena iz poglavlja
   g+=`<defs><linearGradient id="vhLcd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f4a2c"/><stop offset="1" stop-color="#0c2616"/></linearGradient>
     <linearGradient id="vhBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24394d"/><stop offset="1" stop-color="#14232f"/></linearGradient></defs>`;
-  g+=`<g class="vhLcd" style="cursor:pointer"><rect x="84" y="92" width="158" height="62" rx="6" fill="url(#vhLcd)" stroke="#2b6b45" stroke-width="1.5"/>
+  g+=`<g class="vhLcd cur-ptr"><rect x="84" y="92" width="158" height="62" rx="6" fill="url(#vhLcd)" stroke="#2b6b45" stroke-width="1.5"/>
     <rect x="86" y="94" width="154" height="10" rx="4" fill="#fff" opacity=".05"/><g class="vhTxt"></g></g>`;
   g+=`<circle cx="268" cy="120" r="18" fill="#2b4257" stroke="#6b93ae" stroke-width="2"/><text x="268" y="150" text-anchor="middle" font-size="9" fill="${C.txt2}">VOL</text>`;
   g+=`<circle cx="268" cy="178" r="14" fill="#2b4257" stroke="#6b93ae" stroke-width="2"/><text x="268" y="203" text-anchor="middle" font-size="9" fill="${C.txt2}">SQL</text>`;
@@ -45,7 +45,7 @@
       <text x="206" y="134" text-anchor="end" font-size="34" font-weight="800" fill="#6dffa8" font-family="JetBrains Mono,monospace" style="letter-spacing:1px">${c[0]}</text>
       <text x="234" y="112" text-anchor="end" font-size="9" fill="#8ff0b4" font-family="JetBrains Mono,monospace">${c[3]}</text>
       <text x="163" y="148" text-anchor="middle" font-size="10.5" fill="#8ff0b4" font-family="JetBrains Mono,monospace">${c[1]} MHz</text>`;
-    $('.vhCh',b).innerHTML=`<b style="color:var(--acc)">Kanal ${c[0]} · ${c[1].replace('.',',')} MHz</b>: ${c[2]} <span style="color:var(--txt3)">(klikni zaslon za sljedeći kanal)</span>`; }
+    $('.vhCh',b).innerHTML=`<b class="c-acc">Kanal ${c[0]} · ${c[1].replace('.',',')} MHz</b>: ${c[2]} <span class="c-txt3">(klikni zaslon za sljedeći kanal)</span>`; }
   $('.vhLcd',b).addEventListener('click',()=>{ ci=(ci+1)%CH.length; lcd(); });
   lcd();
 })();
@@ -54,14 +54,14 @@
 (function(){
   const b=el('maydayWidget'); if(!b) return;
   b.innerHTML=`<div class="grid g2">
-    <div><label class="fld" for="mdName">Ime / oznaka brodice</label><input type="text" id="mdName" value="ST 123456" style="width:100%"></div>
-    <div><label class="fld" for="mdPos">Pozicija</label><input type="text" id="mdPos" value="43° 25,6' N   16° 38,7' E" style="width:100%"></div>
+    <div><label class="fld" for="mdName">Ime / oznaka brodice</label><input class="w100" type="text" id="mdName" value="ST 123456"></div>
+    <div><label class="fld" for="mdPos">Pozicija</label><input class="w100" type="text" id="mdPos" value="43° 25,6' N   16° 38,7' E"></div>
     <div><label class="fld" for="mdDanger">Vrsta opasnosti</label>
-      <select id="mdDanger" style="width:100%">
+      <select class="w100" id="mdDanger">
         <option>prodor mora, tonemo</option><option>požar na brodici</option><option>nasukali smo se</option>
         <option>sudar s drugim plovilom</option><option>osoba pala u more</option><option>eksplozija na brodici</option>
       </select></div>
-    <div><label class="fld" for="mdHelp">Broj osoba / tražena pomoć</label><input type="text" id="mdHelp" value="4 osobe na brodici, tražimo hitno spašavanje" style="width:100%"></div>
+    <div><label class="fld" for="mdHelp">Broj osoba / tražena pomoć</label><input class="w100" type="text" id="mdHelp" value="4 osobe na brodici, tražimo hitno spašavanje"></div>
   </div>
   <div class="btnrow"><button class="btn p" id="mdGo">Sastavi poziv</button><button class="btn" id="mdTimer" type="button">Izgovori naglas (7 s po retku)</button></div><div id="mdTime"></div>
   <div id="mdOut"></div>`;
@@ -69,16 +69,16 @@
     const n=el('mdName').value.trim()||'(ime)', p=el('mdPos').value.trim()||'(pozicija)',
           d=el('mdDanger').value, h=el('mdHelp').value.trim()||'(tražena pomoć)';
     el('mdOut').innerHTML=`<div class="mdRadio" role="img" aria-label="Radio: kanal 16, 156,800 MHz, odašiljanje"><span class="mdTx" aria-hidden="true"></span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div style="font-family:var(--mono);font-size:14.5px;line-height:1.95;background:var(--panel2);border-left:3px solid var(--red);padding:16px;margin-top:6px">
-      <span style="color:var(--red);font-weight:800">MAYDAY, MAYDAY, MAYDAY</span><br>
+      <span class="c-red fw8">MAYDAY, MAYDAY, MAYDAY</span><br>
       OVDJE<br>
-      <span style="color:var(--acc)">${n}, ${n}, ${n}</span><br><br>
-      <span style="color:var(--red);font-weight:800">MAYDAY</span> <span style="color:var(--acc)">${n}</span><br>
-      POZICIJA: <span style="color:var(--acc)">${p}</span><br>
+      <span class="c-acc">${n}, ${n}, ${n}</span><br><br>
+      <span class="c-red fw8">MAYDAY</span> <span class="c-acc">${n}</span><br>
+      POZICIJA: <span class="c-acc">${p}</span><br>
       ${d.toUpperCase()}<br>
       ${h.toUpperCase()}<br>
       PRIJEM (OVER)
     </div>
-    <div class="note" style="margin-top:10px"><b>Redoslijed koji ispitivač traži</b>1) MAYDAY ×3 &nbsp; 2) OVDJE &nbsp; 3) ime/oznaka ×3 &nbsp; → zatim poruka: <b>ime · pozicija · vrsta opasnosti · vrsta tražene pomoći</b>.</div>`;
+    <div class="note mt10"><b>Redoslijed koji ispitivač traži</b>1) MAYDAY ×3 &nbsp; 2) OVDJE &nbsp; 3) ime/oznaka ×3 &nbsp; → zatim poruka: <b>ime · pozicija · vrsta opasnosti · vrsta tražene pomoći</b>.</div>`;
   }
   el('mdGo').addEventListener('click',()=>{ build();
     if(window.VB && el('mdName').value.trim() && el('mdPos').value.trim() && el('mdHelp').value.trim()) VB.flag('md'); });
@@ -108,7 +108,7 @@ const PHON={A:'Alfa',B:'Bravo',C:'Čarli',Č:'Čarli',Ć:'Čarli',D:'Delta',Đ:'
   function spell(){
     const w=(el('spellIn').value||'').toUpperCase().replace(/\s+/g,'');
     if(!w){ el('spellOut').innerHTML=''; return; }
-    let h='<div class="chips" style="margin-top:12px">';
+    let h='<div class="chips mt12">';
     for(const ch of w){
       const p=PHON[ch];
       h+=`<span class="chip on" style="font-family:var(--mono)"><b>${ch}</b>: ${p||'?'}</span>`;

@@ -1,7 +1,7 @@
 "use strict";
 /* ═══════════════ UI: zajedničke komponente ═══════════════
    Svaki gumb, ikona, mjerač i dijalog gradi se ovdje, jednom. Izgled je definiran jednom,
-   u assets/css/ui.css. Novi kod ne piše vlastiti <button> ni vlastite boje: zove UI.*.
+   u assets/css/app.css. Novi kod ne piše vlastiti <button> ni vlastite boje: zove UI.*.
    Popis komponenti i primjeri: docs/KOMPONENTE.md */
 const UI=(function(){
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

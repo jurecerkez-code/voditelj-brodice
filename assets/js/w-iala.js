@@ -95,7 +95,7 @@ const IALA_DEFS = (function(){
     box.innerHTML=h;
     $$('.ialaCard',box).forEach(c=>c.addEventListener('click',()=>{
       const m=IALA_DEFS.find(x=>x.id===c.dataset.id);
-      el('ialaDet').innerHTML=`<div class="note" style="margin-top:14px"><b>${m.name}</b>${m.desc}</div>`;
+      el('ialaDet').innerHTML=`<div class="note mt14"><b>${m.name}</b>${m.desc}</div>`;
       el('ialaDet').scrollIntoView({behavior:'smooth',block:'nearest'});
     }));
   }

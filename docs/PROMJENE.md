@@ -2,6 +2,71 @@
 
 Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama.
 
+## 5.2: točnost prema propisima, pokrivenost programa, jedan stylesheet
+
+### Ispravljene pogreške u gradivu
+- **Što smiješ s B kategorijom** (Prijava i tijek ispita): tablica je složena iznova prema čl. 69. do 82. Pravilnika o
+  brodicama i jahtama. Retci o članu posade bili su zamijenjeni. Sada piše gdje upravljaš sam, gdje uz člana posade
+  s kategorijom A, a gdje smiješ biti samo član posade.
+- **Kratice svjetala**: „Pr (prekidno)" zamijenjeno službenom kraticom **Pk** (na prekide). Dodane DBl, K i VK, ispravljen
+  naziv „sektor potamnjenja" (Pot). Izvor: Popis svjetala HHI-a 2026.
+- **VHF na brodici za osobne potrebe**: nije točno da nikad nije obvezan. Tablica opreme traži ga u području III.
+- **Prijava događaja na moru**: nesreća se prijavljuje odmah, nezgoda u roku 12 sati. Prije je pisao samo rok od 12 sati.
+- **Svjetla brodice kraće od 7 m**: bočna svjetla „ako je izvedivo", bez uvjeta da brodica ima kabinu.
+- **Hidroavion**: iznimka je 150 do 300 m uz odobrenje kapetanije, a ogradi kupališta ne prilazi bliže od 100 m.
+- Dubinomjer pokazuje dubinu ispod sonde. Košara kao znak ribarice kraće od 20 m više ne vrijedi.
+- Prolazi s ograničenjem brzine navedeni su prema važećem pravilniku: Mala Proversa 5 čv, Pašmanski tjesnac,
+  Mali Ždrelac, ušće Krke i Zrmanja 8 čv, Neretva 5 i 7 čv.
+
+### Novo gradivo
+- **Obvezna oprema brodice za osobne potrebe** po područjima plovidbe (Sigurnost), prema tablici iz Pravilnika o
+  brodicama, čamcima i jahtama, s rečenicom kojom se odgovor počinje na ispitu.
+- **Pravila ispita**: povjerenstvo, obavijest o terminu, pisani dio, prigovor, prva pomoć.
+- Isprave na brodici: polica osiguranja i ovjerena punomoć. Oznaka brodice: gdje se ispisuje i koliko je visoka.
+- CE projektne kategorije s granicama vjetra i vala.
+- Varijacija sa starije karte (godišnja promjena), s primjerom. Što radiš kad svjetionik ne svijetli.
+- Lučka kapetanija: nadležnosti. Stabilnost: poprečna i uzdužna, statička i dinamička.
+- Plitka voda i valovi, morska doba, vrste oblaka i što najavljuju.
+- Radio: red prvenstva, provjera postaje prije isplovljenja, EPIRB, SART, NAVTEX. Održavanje kompasa.
+- Brod ograničen gazom i pravilo uskog kanala uz ljestvicu prednosti.
+
+### Pokrivenost službenog programa
+Svih 57 stavki programa ispita za kategoriju B (Dodatak 7 Pravilnika o brodicama i jahtama) upareno je s poglavljima.
+Svaka stavka ima svoj odlomak u gradivu.
+
+### Pitanja i kartice
+- Pitanja: 282 → **312**. Nova pokrivaju ono što kandidati navode da su dobili na ispitu i novo gradivo: varijacija s
+  godišnjom promjenom, ugašen svjetionik, kvadrant kursa, oprema po područjima, broj prsluka, ovlasti B kategorije,
+  punomoć, nesreća i nezgoda, uski kanal, nasukanje, točenje goriva.
+- Popunjena prazna objašnjenja, ispravljena pitanja koja su nosila gore navedene pogreške.
+- Kartice: 70 → **76**.
+
+### Čvorovi
+- Dva nova čvora s animacijom: **sidreni uzao** i **trubni uzao** (margarita). Ukupno devet.
+- Zategnuti oblik koji je dulji od labavog sada se crta s punim pramenovima.
+
+### Simulator pristajanja
+- Izbor pogona: **ugrađeni motor s kormilom** ili **izvanbrodski motor**. Izvanbrodski zakreće cijeli poriv, i naprijed
+  i krmom, bez gasa skreće slabije, a izboj krme mu je slab. Savjeti uz vožnju prate odabrani pogon.
+- Kormilar iz skripte pristaje s oba pogona u svim uvjetima osim jednog: izvanbrodski motor i jak vjetar s kopna.
+  Taj je slučaj u simulatoru označen kao najteži, s objašnjenjem što se na pravom moru tada radi.
+- Novi test `tests/pristajanje.mjs`: u pregledniku pristaje s oba pogona isključivo pritiscima tipki.
+
+### Kod
+- `base.css` i `ui.css` spojeni su u jedan `assets/css/app.css`. Uklonjeno je 548 deklaracija koje je kasnije pravilo
+  s istim selektorom ionako nadjačavalo: 104,6 kB → 91,6 kB, jedan zahtjev manje pri učitavanju.
+- Stilovi upisani u HTML: 40 → 3 (dva stanja koja mijenja skripta i poruka za preglednik bez JavaScripta).
+  U predlošcima vježbi 54 upisana stila zamijenjena su pomoćnim klasama.
+- Provjera: snimke svih 19 stranica na računalu i mobitelu, u dnevnoj i noćnoj temi, prije i poslije spajanja
+  jednake su piksel po piksel. Namjerna je jedina razlika ujednačen prored u tri popisa koraka.
+
+### Što i dalje vrijedi kao ograničenje
+- U `app.css` ostaju oznake `!important` kojima dizajn-sustav nadjačava starije stilove vježbi. Uklanjanje traži
+  prolaz kroz svako stanje svake vježbe i nije rađeno naslijepo.
+- U predlošcima vježbi ostaje 47 jednokratnih upisanih stilova (širine i razmaci pojedinih crteža).
+- Najavljeni novi pravilnik o osposobljavanju (ispit na računalu, obvezna praksa) do 22. 11. 2026. nije objavljen.
+  Do objave vrijedi usmeni ispit opisan u aplikaciji.
+
 ## 5.1: simulacije i fizika
 
 ### Nova datoteka `assets/js/fizika.js`

@@ -28,7 +28,7 @@
     const q=deck[i];
     const order=shuffle(q.o.map((t,idx)=>({t,idx})));
     let h=`<div class="qcard"><div class="qmeta"><span>${label||TOPICS[q.t]} · ${i+1} / ${deck.length}</span><span id="qScore">${correct} točnih${stk()}</span></div>
-      <div class="qtext">${q.q} ${q.h?'<span class="pill r" style="vertical-align:middle">TRIK</span>':''}</div>`;
+      <div class="qtext">${q.q} ${q.h?'<span class="pill r vam">TRIK</span>':''}</div>`;
     order.forEach(o=> h+=`<button class="opt qopt" data-i="${o.idx}">${o.t}</button>`);
     h+='<div id="qExpl"></div></div>';
     area.innerHTML=h;
@@ -57,11 +57,11 @@
     let h=`<div class="qcard scorebox">
       <div class="scorebig" style="color:${good?'var(--green)':mid?'var(--yellow)':'var(--red)'}">${pct}%</div>
       <p style="margin-top:10px;font-size:18px">${correct} / ${deck.length} točnih${best>=2?` · <span class="streak">najduži streak ${best}</span>`:''}</p>
-      <p style="color:var(--txt2)">${good?'Odlično, spreman si za ovaj dio.':mid?'Dobro, ali ponovi krivo odgovorena pitanja.':'Treba još učiti. Prođi gradivo pa se vrati.'}</p>
-      <div class="btnrow" style="justify-content:center"><button class="btn p" id="qAgain">Ponovi</button>${wrong.length?'<button class="btn" id="qWrong">Samo netočna ('+wrong.length+')</button>':''}</div></div>`;
+      <p class="c-txt2">${good?'Odlično, spreman si za ovaj dio.':mid?'Dobro, ali ponovi krivo odgovorena pitanja.':'Treba još učiti. Prođi gradivo pa se vrati.'}</p>
+      <div class="btnrow jcc"><button class="btn p" id="qAgain">Ponovi</button>${wrong.length?'<button class="btn" id="qWrong">Samo netočna ('+wrong.length+')</button>':''}</div></div>`;
     if(wrong.length){
       h+='<h3>Pitanja koja si promašio</h3>';
-      wrong.forEach(a=> h+=`<details><summary>${a.q.q}</summary><p><b style="color:var(--green)">${a.q.o[a.q.a]}</b><br>${a.q.e||''}</p></details>`);
+      wrong.forEach(a=> h+=`<details><summary>${a.q.q}</summary><p><b class="c-green">${a.q.o[a.q.a]}</b><br>${a.q.e||''}</p></details>`);
     }
     area.innerHTML=h;
     if(label==='TRIK-PITANJA' && pct>80 && window.VB) VB.award('trik');
@@ -97,9 +97,9 @@
   }
   function show(){
     if(i>=deck.length){
-      area.innerHTML=`<div class="qcard scorebox"><div class="scorebig" style="color:var(--green)">${known}/${deck.length}</div>
-        <p style="margin-top:10px">Znao si ${known} od ${deck.length} kartica.</p>
-        <div class="btnrow" style="justify-content:center"><button class="btn p" id="cAgain">Ponovi špil</button></div></div>`;
+      area.innerHTML=`<div class="qcard scorebox"><div class="scorebig c-green">${known}/${deck.length}</div>
+        <p class="mt10">Znao si ${known} od ${deck.length} kartica.</p>
+        <div class="btnrow jcc"><button class="btn p" id="cAgain">Ponovi špil</button></div></div>`;
       el('cAgain').addEventListener('click',start); return;
     }
     const c=deck[i];

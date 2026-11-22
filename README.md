@@ -1,7 +1,7 @@
 # Voditelj brodice B: priprema za ispit
 
 Interaktivni vodič za ispit voditelja brodice kategorije B u Hrvatskoj. Cijelo gradivo po pet ispitnih
-predmeta, vježbe za kartu, svjetla i izbjegavanje sudara, više od 280 pitanja s objašnjenjima, probni
+predmeta, vježbe za kartu, svjetla i izbjegavanje sudara, više od 300 pitanja s objašnjenjima, probni
 ispit u tri stola i plan učenja po danima. Radi u pregledniku, bez prijave i bez poslužitelja; napredak
 ostaje na uređaju korisnika.
 
@@ -21,8 +21,7 @@ Radi i dvoklikom na `index.html`, ali tada nema rada bez interneta (service work
 
 ```
 index.html                sadržaj svih poglavlja i ljuska aplikacije
-assets/css/ui.css         dizajn-sustav: boje, pismo, ljuska, zajedničke komponente, početna
-assets/css/base.css       raspored i stilovi pojedinih vježbi (stariji sloj, postupno se seli u ui.css)
+assets/css/app.css        jedini stylesheet: stilovi vježbi, pa dizajn-sustav (boje, pismo, ljuska, komponente)
 assets/js/core.js         pomoćne funkcije, spremanje napretka, navigacija, popis poglavlja
 assets/js/ui.js           zajedničke komponente u JS-u (gumb, ikona, mjerač, dijalog)
 assets/js/data.js         banka pitanja i kartice
@@ -32,7 +31,7 @@ assets/js/practice.js     kviz i kartice;  exam.js probni ispit;  srs.js ponavlj
 assets/js/plan.js         plan učenja;  app.js početna, pretraga, donja navigacija
 assets/fonts/             Atkinson Hyperlegible Next (SIL OFL), učitava se lokalno
 sw.js                     rad bez interneta
-tests/                    provjera fizike, dimni test glavnih tokova i provjera pristupačnosti
+tests/                    provjera fizike, dimni test glavnih tokova, pristajanje samo tipkovnicom, provjera pristupačnosti
 docs/KOMPONENTE.md        popis komponenti i pravila za novi kod
 docs/PROMJENE.md          popis svih promjena po verzijama
 ```

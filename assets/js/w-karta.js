@@ -109,7 +109,7 @@
         target.done=true;
         draw({x:target.x,y:target.y}); bind();
         el('chartOut').innerHTML=`<div style="color:${ok?'var(--green)':'var(--red)'};font-weight:700;margin-top:8px">${ok?'✓ Točno!':'✗ Promašaj'}</div>
-        <div style="font-size:13px;color:var(--txt2);font-family:var(--sans)">Tražena točka je bila <b style="color:var(--acc)">${target.c.lat}&ensp;·&ensp;${target.c.lon}</b></div>`;
+        <div style="font-size:13px;color:var(--txt2);font-family:var(--sans)">Tražena točka je bila <b class="c-acc">${target.c.lat}&ensp;·&ensp;${target.c.lon}</b></div>`;
         el('chartScore').textContent=`Rezultat: ${score.c}/${score.t}`;
       }
     });
@@ -119,7 +119,7 @@
     const x=M+30+Math.random()*(W-2*M-60), y=M+30+Math.random()*(H-2*M-60);
     target={x,y,c:coords(x,y)};
     draw(null); bind();
-    el('chartOut').innerHTML=`<div style="margin-top:8px;font-family:var(--sans)">Klikni na točku: <b style="color:var(--acc)">${target.c.lat} &nbsp; ${target.c.lon}</b></div>`;
+    el('chartOut').innerHTML=`<div style="margin-top:8px;font-family:var(--sans)">Klikni na točku: <b class="c-acc">${target.c.lat} &nbsp; ${target.c.lon}</b></div>`;
   }
   el('chartModeBtn').addEventListener('click',function(){
     mode=mode?0:1;

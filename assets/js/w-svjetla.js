@@ -60,8 +60,8 @@
       <text x="${ox}" y="${oy+(oy>c?24:-16)}" text-anchor="middle" font-size="11" font-weight="800" fill="${C.acc}">TI</text>`;
     b.querySelector('.secsvg').innerHTML=SVG(S,S,g).replace(`viewBox="0 0 ${S} ${S}"`,`viewBox="-40 -28 ${S+80} ${S+56}"`); // v3: mjesta za vanjsku skalu
     // tumačenje
-    const L=[]; if(v.mast) L.push('<b style="color:var(--txt)">jarbolno</b>'); if(v.port) L.push('<b style="color:var(--red)">crveno bočno</b>');
-    if(v.stbd) L.push('<b style="color:var(--green)">zeleno bočno</b>'); if(v.stern) L.push('<b style="color:var(--txt2)">krmeno</b>');
+    const L=[]; if(v.mast) L.push('<b style="color:var(--txt)">jarbolno</b>'); if(v.port) L.push('<b class="c-red">crveno bočno</b>');
+    if(v.stbd) L.push('<b class="c-green">zeleno bočno</b>'); if(v.stern) L.push('<b class="c-txt2">krmeno</b>');
     let m;
     if(v.stern && !v.mast) m='Gledaš mu krmu. Ako ga sustižeš, ti si brod koji pretječe i <b>ti se uklanjaš</b>.';
     else if(v.port && v.stbd) m='Gledaš ga ravno u pramac. Nasuprotni kursevi: <b>oba skreću udesno</b>.';
@@ -69,7 +69,7 @@
     else m='Vidiš njegov desni bok, on ti je s lijeve strane. Ako vam se kursevi sijeku, <b>on izbjegava</b>, ti zadržavaš kurs i brzinu.';
     if((v.mast&&v.stern)) m='Na samoj granici sektora (112,5° ili 247,5°) svjetla se smjenjuju; u praksi vidiš jedno ili drugo.';
     b.querySelector('.secinfo').innerHTML=`<div class="mono" style="font-size:12px;color:var(--txt3)">položaj promatrača: ${Math.round(brg)}° od pramca</div>
-      <div style="margin-top:4px">Vidiš: ${L.join(' + ')}</div><div style="margin-top:4px;color:var(--txt2)">${m}</div>`;
+      <div class="mt4">Vidiš: ${L.join(' + ')}</div><div class="mt4 c-txt2">${m}</div>`;
     const r=b.querySelector('input[type=range]'); if(r && document.activeElement!==r) r.value=Math.round(brg)%360;
   }
   function loop(t){
@@ -321,10 +321,10 @@ const VESSELS = [
     let h='<div class="lightlegend">';
     L.forEach(p=> h+=`<span><i class="swatch" style="background:${p.c}"></i>${p.l}</span>`);
     h+='</div>';
-    h+=`<div class="note" style="margin-top:12px"><b>${v.n}</b>${v.note}</div>`;
-    if(DAY&&view!=='top') h+=`<div class="mono" style="font-size:12px;color:var(--txt3);margin-top:6px">Dan: svjetla su ugašena. ${v.day?'Brod nosi crni dnevni znak na najvidljivijem mjestu.':'Ovaj brod danju nema dnevni znak, prepoznaješ ga po obliku.'}</div>`;
-    if(view==='top') h+=`<div class="mono" style="font-size:12px;color:var(--txt3);margin-top:6px">Pogled odozgo: lukovi pokazuju odakle se koje svjetlo vidi. Granice bočnih i krmenog svjetla su 22,5° iza poprečnice (112,5° i 247,5° od pramca).</div>`;
-    else if(view!=='ahead') h+=`<div class="mono" style="font-size:12px;color:var(--txt3);margin-top:6px">Prikaz: ${VIEWS[view].toLowerCase()}. Bočna svjetla vidiš samo sa svoje strane, jarbolno ne vidiš s krme, krmeno samo s krme.</div>`;
+    h+=`<div class="note mt12"><b>${v.n}</b>${v.note}</div>`;
+    if(DAY&&view!=='top') h+=`<div class="mono hint12">Dan: svjetla su ugašena. ${v.day?'Brod nosi crni dnevni znak na najvidljivijem mjestu.':'Ovaj brod danju nema dnevni znak, prepoznaješ ga po obliku.'}</div>`;
+    if(view==='top') h+=`<div class="mono hint12">Pogled odozgo: lukovi pokazuju odakle se koje svjetlo vidi. Granice bočnih i krmenog svjetla su 22,5° iza poprečnice (112,5° i 247,5° od pramca).</div>`;
+    else if(view!=='ahead') h+=`<div class="mono hint12">Prikaz: ${VIEWS[view].toLowerCase()}. Bočna svjetla vidiš samo sa svoje strane, jarbolno ne vidiš s krme, krmeno samo s krme.</div>`;
     el('lightInfo').innerHTML=h;
   }
   function controls(){

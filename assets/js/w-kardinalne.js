@@ -88,8 +88,8 @@
         <text x="${x+(m.k==='W'?-22:22)}" y="${y+4}" text-anchor="middle" font-size="14" font-weight="800" fill="${on?'#ffd166':'#e6eef5'}" paint-order="stroke" stroke="#0f3552" stroke-width="3">${m.k}</text></g>`; });
     return SVG(S,S,g,'class="cdQuad" role="group" aria-label="Kvadranti kardinalnog sustava oko opasnosti: odaberi oznaku"'); }
   function qInfo(){ const m=M.find(x=>x.k===qSel);
-    return `<h4 style="margin:0 0 6px">${m.n} kardinalna (${m.k})</h4>
-      <p style="margin:0 0 6px">Stoji u <b>${m.k}</b> kvadrantu opasnosti. Prolaziš sa <b>${m.g}</b> strane oznake: ondje je sigurna, najdublja voda.</p>
+    return `<h4 class="mb6">${m.n} kardinalna (${m.k})</h4>
+      <p class="mb6">Stoji u <b>${m.k}</b> kvadrantu opasnosti. Prolaziš sa <b>${m.g}</b> strane oznake: ondje je sigurna, najdublja voda.</p>
       <ul class="cdList"><li>${m.cones}: ${m.mn}.</li><li>Boje odozgo: <b>${m.col}</b>.</li><li>Svjetlo: <b>bijelo ${m.ch}</b>.</li></ul>${tl(m)}`; }
   // vremenska traka ritma (jedan period)
   function tl(m){ const T=period(m), Wd=300; let x=0, g=`<rect width="${Wd}" height="26" rx="5" fill="#050d18"/>`;

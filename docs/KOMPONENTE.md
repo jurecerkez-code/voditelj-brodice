@@ -1,7 +1,7 @@
 # Komponente
 
-Izgled svake komponente definiran je jednom, u `assets/css/ui.css`. Novi kod ne uvodi vlastite boje,
-veličine ni gumbe: koristi klase i funkcije s ovog popisa. Ako nešto nedostaje, dodaje se ovdje i u `ui.css`,
+Izgled svake komponente definiran je jednom, u `assets/css/app.css` (dio „DIZAJN-SUSTAV"). Novi kod ne uvodi vlastite boje,
+veličine ni gumbe: koristi klase i funkcije s ovog popisa. Ako nešto nedostaje, dodaje se ovdje i u `app.css`,
 a ne u pojedinu vježbu.
 
 ## Boje i pismo
@@ -84,6 +84,17 @@ Radnje se vežu atributima, a ne zasebnim slušačima po gumbu:
 
 - Fizika ide u `assets/js/fizika.js`, crtanje u datoteku vježbe. Fizika ne dira DOM i radi u stvarnim
   jedinicama (m, s, N, čvorovi), pa je `tests/fizika.mjs` može provjeriti bez preglednika.
-- Uključeno stanje gumba koji se pali i gasi označi s `aria-pressed="true"`: stil dolazi iz `ui.css`.
+- Uključeno stanje gumba koji se pali i gasi označi s `aria-pressed="true"`: stil dolazi iz `app.css`.
 - Klizač uz vježbu: `<label class="simRange">Naziv <input type="range"> <b>vrijednost</b></label>`.
 - Crtež koji tvrdi mjerilo mora ga i držati: isto mjerilo vodoravno i okomito, uz oznaku duljine.
+- Brodica ima dva pogona: `BoatPhys.create({ob:true})` je izvanbrodski motor, bez toga ugrađeni s kormilom.
+  Svaka promjena vladanja brodice mora proći `tests/fizika.mjs` (kormilar iz skripte pristaje u svim uvjetima)
+  i `tests/pristajanje.mjs` (pristajanje u pregledniku samo tipkovnicom).
+- Novi čvor dodaješ u `KNOTS` u `w-cvorovi.js`: putanja u dijelovima, uz svaki dio visina `z` (veći je bliže
+  gledatelju). Ako se zategnuti oblik razlikuje od labavog, zadaj ga u `gt` s istim brojem dijelova.
+
+## Pomoćne klase
+
+Umjesto stila upisanog u element koristi klasu: razmaci `mt4 mt6 mt8 mt10 mt12 mt14 mb6 m0`, boje teksta
+`c-acc c-txt2 c-txt3 c-green c-red`, popis koraka `steps` (veći: `steps lg`), sitni tekst `cap` i `fine`,
+`w100`, `jcc`, `tl`. Stil u elementu ostaje samo za vrijednosti koje skripta računa (položaj, širina trake).
