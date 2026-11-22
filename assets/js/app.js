@@ -211,6 +211,14 @@
   function refreshHome(){ renderNext(); renderTables(); renderNavStats(); }
   window.VB5={refresh:refreshHome,mastery,quizTopic};
 
+  /* ---------- vodoravno pomične tablice i crteži: dostupni i tipkovnicom ---------- */
+  function markScrollable(){ const p=$('section.page.active'); if(!p) return;
+    $$('table,.lgScroll,.osMap',p).forEach(n=>{ const sc=n.scrollWidth>n.clientWidth+2 && !n.querySelector('a[href],button,input,select,[tabindex]');
+      if(sc&&!n.dataset.sc){ n.dataset.sc='1'; n.setAttribute('tabindex','0'); if(n.tagName!=='TABLE'&&!n.getAttribute('role')&&!n.getAttribute('aria-label')){ n.dataset.scr='1'; n.setAttribute('role','group'); n.setAttribute('aria-label','Crtež se pomiče vodoravno'); } }
+      else if(!sc&&n.dataset.sc){ n.removeAttribute('tabindex'); delete n.dataset.sc; if(n.dataset.scr){ n.removeAttribute('role'); n.removeAttribute('aria-label'); delete n.dataset.scr; } } }); }
+  let scT=0; const scLater=()=>{ clearTimeout(scT); scT=setTimeout(markScrollable,250); };
+  window.addEventListener('resize',scLater);
+
   /* ---------- reakcija na promjenu stranice ---------- */
   let userNav=false; document.addEventListener('click',()=>{ userNav=true; },true); document.addEventListener('keydown',()=>{ userNav=true; },true);
   const prevOnGo=window.VBOnGo;
@@ -219,6 +227,7 @@
     if(chOf(id)) store.set('last',id);
     if(tabs) $$('button',tabs).forEach(b=>{ const on=(TAB[b.dataset.tab]||[]).includes(id); if(on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
     if(id==='p-start') refreshHome();
+    scLater();
     if(userNav&&p){ const h=$('h2',p); if(h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } } };
 
   renderScene(); refreshHome();

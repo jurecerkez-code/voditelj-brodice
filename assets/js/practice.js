@@ -7,7 +7,7 @@
   const stk=()=> streak>=2?` · <span class="streak${streak>=5?' hot':''}" title="uzastopno točnih">streak ${streak}</span>`:'';
   function renderTopics(){
     el('quizTopics').innerHTML=Object.keys(TOPICS).map(k=>
-      `<span class="chip qtc${sel.has(k)?' on':''}" data-k="${k}">${TOPICS[k]} <b style="opacity:.6">${QB.filter(q=>q.t===k).length}</b></span>`).join('')
+      `<span class="chip qtc${sel.has(k)?' on':''}" data-k="${k}">${TOPICS[k]} <span class="cnt">${QB.filter(q=>q.t===k).length}</span></span>`).join('')
       +`<span class="chip" id="qtAll" style="border-style:dashed">Sve / ništa</span>`;
     $$('.qtc').forEach(c=>c.addEventListener('click',()=>{
       const k=c.dataset.k; sel.has(k)?sel.delete(k):sel.add(k); renderTopics();

@@ -237,16 +237,14 @@ const COLREG=[
     })(performance.now());
   }
   b.innerHTML='<div class="grid g2">'+sigs.map((s,i)=>
-    `<div class="card tight sndCard" data-i="${i}" role="button" tabindex="0" aria-label="${s[0]}: ${s[1]}. Klikni za reprodukciju." style="cursor:pointer">
-      <div style="display:flex;gap:12px;align-items:center">
-        <div style="min-width:86px;color:var(--acc)">${mark(s[2])}</div>
-        <div><div style="font-weight:700;font-size:14px">${s[0]}</div><div style="font-size:12.5px;color:var(--txt2)">${s[1]}</div></div>
-        <div style="margin-left:auto;font-size:18px" aria-hidden="true">🔊</div></div>
-      <div class="sgtrack"></div></div>`).join('')+'</div>'+
-    '<p class="mono" style="font-size:11.5px;color:var(--txt3);margin-top:8px">Reprodukcija je skraćena radi slušanja. Na moru kratki traje 1 s, a dugi 4–6 s.</p>';
+    `<button type="button" class="card tight sndCard" data-i="${i}">
+      <span class="sndRow"><span class="sndMark" aria-hidden="true">${mark(s[2])}</span>
+        <span class="sndTxt"><span class="sr">Pusti zvuk: </span><b>${s[0]}</b><span>${s[1]}</span></span>
+        <span class="sndPlay" aria-hidden="true">${UI.icon('play',20)}</span></span>
+      <span class="sgtrack"></span></button>`).join('')+'</div>'+
+    '<p class="small muted">Reprodukcija je skraćena radi slušanja. Na moru kratki traje 1 s, a dugi 4 do 6 s.</p>';
   $$('.sndCard',b).forEach(c=>{
     const go=()=>{ const pat=sigs[+c.dataset.i][2]; play(pat); track(c,pat); };
     c.addEventListener('click',go);
-    c.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
   });
 })();

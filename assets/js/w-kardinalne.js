@@ -86,7 +86,7 @@
         <circle cx="${x}" cy="${y}" r="30" fill="${on?'rgba(255,209,102,.16)':'rgba(0,0,0,0)'}" stroke="${on?'#ffd166':'none'}" stroke-width="1.5"/>
         ${pillar(m,{x,y:y+22,s:.3,refl:false,ring:false,bob:false,big:22})}
         <text x="${x+(m.k==='W'?-22:22)}" y="${y+4}" text-anchor="middle" font-size="14" font-weight="800" fill="${on?'#ffd166':'#e6eef5'}" paint-order="stroke" stroke="#0f3552" stroke-width="3">${m.k}</text></g>`; });
-    return SVG(S,S,g,'class="cdQuad" role="img" aria-label="Kvadranti kardinalnog sustava oko opasnosti"'); }
+    return SVG(S,S,g,'class="cdQuad" role="group" aria-label="Kvadranti kardinalnog sustava oko opasnosti: odaberi oznaku"'); }
   function qInfo(){ const m=M.find(x=>x.k===qSel);
     return `<h4 style="margin:0 0 6px">${m.n} kardinalna (${m.k})</h4>
       <p style="margin:0 0 6px">Stoji u <b>${m.k}</b> kvadrantu opasnosti. Prolaziš sa <b>${m.g}</b> strane oznake: ondje je sigurna, najdublja voda.</p>
@@ -139,12 +139,12 @@
   if('IntersectionObserver' in window) new IntersectionObserver(es=>{ vis=es[0].isIntersecting; if(vis) loop(); }).observe(b);
 
   b.innerHTML=`<div class="cdStrip">${strip()}</div>
-    <div class="cdTabs" role="tablist"><button class="knTab on" data-m="quad" type="button">Kvadranti</button><button class="knTab" data-m="night" type="button">Noćni kviz: po ritmu</button><button class="knTab" data-m="day" type="button">☀ Dnevni kviz: po izgledu</button></div>
+    <div class="cdTabs" role="group" aria-label="Način vježbe"><button class="knTab on" data-m="quad" type="button" aria-pressed="true">Kvadranti</button><button class="knTab" data-m="night" type="button" aria-pressed="false">Noćni kviz: po ritmu</button><button class="knTab" data-m="day" type="button" aria-pressed="false">Dnevni kviz: po izgledu</button></div>
     <div class="cdQ"></div>`;
   function showQuad(){ $('.cdQ',b).innerHTML=`<div class="cdQuadWrap">${quad()}<div class="cdInfo">${qInfo()}<p class="cdHint">Klikni oznaku na shemi.</p></div></div>`;
     $$('.cdQm',b).forEach(x=>{ const f=()=>{ qSel=x.dataset.k; showQuad(); }; x.addEventListener('click',f); x.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); f(); } }); });
     loop(); }
   $('.cdTabs',b).addEventListener('click',e=>{ const t=e.target.closest('[data-m]'); if(!t) return; mode=t.dataset.m;
-    $$('.knTab',$('.cdTabs',b)).forEach(x=>x.classList.toggle('on',x===t)); cur=null; if(mode==='quad') showQuad(); else ask(); });
+    $$('.knTab',$('.cdTabs',b)).forEach(x=>{ x.classList.toggle('on',x===t); x.setAttribute('aria-pressed',x===t?'true':'false'); }); cur=null; if(mode==='quad') showQuad(); else ask(); });
   showQuad();
 })();

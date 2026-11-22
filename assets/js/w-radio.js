@@ -54,21 +54,21 @@
 (function(){
   const b=el('maydayWidget'); if(!b) return;
   b.innerHTML=`<div class="grid g2">
-    <div><label style="font-size:12px;color:var(--txt2)">Ime / oznaka brodice</label><br><input type="text" id="mdName" value="ST 123456" style="width:100%"></div>
-    <div><label style="font-size:12px;color:var(--txt2)">Pozicija</label><br><input type="text" id="mdPos" value="43° 25,6' N   16° 38,7' E" style="width:100%"></div>
-    <div><label style="font-size:12px;color:var(--txt2)">Vrsta opasnosti</label><br>
+    <div><label class="fld" for="mdName">Ime / oznaka brodice</label><input type="text" id="mdName" value="ST 123456" style="width:100%"></div>
+    <div><label class="fld" for="mdPos">Pozicija</label><input type="text" id="mdPos" value="43° 25,6' N   16° 38,7' E" style="width:100%"></div>
+    <div><label class="fld" for="mdDanger">Vrsta opasnosti</label>
       <select id="mdDanger" style="width:100%">
         <option>prodor mora, tonemo</option><option>požar na brodici</option><option>nasukali smo se</option>
         <option>sudar s drugim plovilom</option><option>osoba pala u more</option><option>eksplozija na brodici</option>
       </select></div>
-    <div><label style="font-size:12px;color:var(--txt2)">Broj osoba / tražena pomoć</label><br><input type="text" id="mdHelp" value="4 osobe na brodici, tražimo hitno spašavanje" style="width:100%"></div>
+    <div><label class="fld" for="mdHelp">Broj osoba / tražena pomoć</label><input type="text" id="mdHelp" value="4 osobe na brodici, tražimo hitno spašavanje" style="width:100%"></div>
   </div>
   <div class="btnrow"><button class="btn p" id="mdGo">Sastavi poziv</button><button class="btn" id="mdTimer" type="button">Izgovori naglas (7 s po retku)</button></div><div id="mdTime"></div>
   <div id="mdOut"></div>`;
   function build(){
     const n=el('mdName').value.trim()||'(ime)', p=el('mdPos').value.trim()||'(pozicija)',
           d=el('mdDanger').value, h=el('mdHelp').value.trim()||'(tražena pomoć)';
-    el('mdOut').innerHTML=`<div class="mdRadio" aria-label="Radio: kanal 16, 156.800 MHz, odašiljanje"><span class="mdTx">TX</span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div style="font-family:var(--mono);font-size:14.5px;line-height:1.95;background:var(--panel2);border-left:3px solid var(--red);padding:16px;margin-top:6px">
+    el('mdOut').innerHTML=`<div class="mdRadio" role="img" aria-label="Radio: kanal 16, 156,800 MHz, odašiljanje"><span class="mdTx" aria-hidden="true"></span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div style="font-family:var(--mono);font-size:14.5px;line-height:1.95;background:var(--panel2);border-left:3px solid var(--red);padding:16px;margin-top:6px">
       <span style="color:var(--red);font-weight:800">MAYDAY, MAYDAY, MAYDAY</span><br>
       OVDJE<br>
       <span style="color:var(--acc)">${n}, ${n}, ${n}</span><br><br>
@@ -90,7 +90,7 @@
     const L=['MAYDAY, MAYDAY, MAYDAY','OVDJE',`${n}, ${n}, ${n}`,`MAYDAY ${n}`,'POZICIJA','VRSTA OPASNOSTI','TRAŽENA POMOĆ','PRIJEM'];
     let i=0, t=7; el('mdOut').style.display='none';
     const RMd=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const show=()=>{ box.innerHTML=`<div class="mdTbox"><div class="mdRadio on"><span class="mdTx">TX</span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div class="mdTstep">Redak ${i+1} / ${L.length} · izgovori naglas:</div><div class="mdTline">${i===0?L[0]:'?'}</div>
+    const show=()=>{ box.innerHTML=`<div class="mdTbox"><div class="mdRadio on"><span class="mdTx" aria-hidden="true"></span><b>CH 16</b><span>156.800 MHz</span><small>25 W</small></div><div class="mdTstep">Redak ${i+1} / ${L.length} · izgovori naglas:</div><div class="mdTline">${i===0?L[0]:'?'}</div>
       <div class="mdTbar"><i style="width:${t/7*100}%;${RMd?'transition:none':''}"></i></div><div class="mdTsec mono">${t} s</div>
       <div class="mdTprev">${L.slice(0,i).map(x=>'<span>'+x+'</span>').join('')}</div></div>`; };
     show();

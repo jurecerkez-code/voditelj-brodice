@@ -51,7 +51,7 @@
 <nav id="sidebar" aria-label="Poglavlja">
   <a class="brand" href="#p-start">
     <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#0b2a44"/><path d="M17 5.5c4.2 4.6 5.6 9.6 5.2 16.6l-.4 5.4H12.200l-.4-5.400C11.4 15.1 12.8 10.1 17 5.500Z" fill="#eaf3f9"/><circle cx="10.3" cy="17.5" r="2.4" fill="#ff4d5e"/><circle cx="23.7" cy="17.5" r="2.4" fill="#35e08a"/><circle cx="17" cy="12.5" r="1.7" fill="#0b2a44"/></svg>
-    <div><h1>Voditelj brodice B</h1><span>Priprema za ispit</span></div>
+    <div><b>Voditelj brodice B</b><span>Priprema za ispit</span></div>
   </a>
   <button class="sideSearch" type="button" data-search><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-search"/></svg>Traži u gradivu<kbd aria-hidden="true">/</kbd></button>
   <div id="navlist"></div>
@@ -61,7 +61,7 @@
 <div id="main">
   <header id="topbar">
     <button id="burger" type="button" aria-label="Poglavlja" hidden></button>
-    <span class="crumb" id="crumb">Početna</span>
+    <h1 class="crumb" id="crumb">Početna</h1>
     <span class="spacer"></span>
     <div class="progwrap"><span id="progtxt" aria-label="Pročitana poglavlja">0 / 12</span><div class="progbar" aria-hidden="true"><i id="progbar"></i></div></div>
     <button class="tbBtn" type="button" data-search aria-label="Traži u gradivu"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="#i-search"/></svg></button>
@@ -266,7 +266,7 @@ U gradivu su takve stavke označene s <span class="pill g">VAŽEĆE 2026</span> 
 
 <div class="kuSteps">
 <div class="kuStep"><div class="kuN">1</div><div class="kuB">
-<h4>Priprema <span>jednom, na startu</span></h4>
+<h3 class="h4">Priprema <span>jednom, na startu</span></h3>
 <ul>
 <li><b>Upotrijebi plan:</b> na Početnoj unesi datum ispita i klikni „Generiraj plan". Prati dnevne liste.</li>
 <li>Ako imaš vremena, kupi <b>dva navigacijska trokuta i šestar</b> (~15 €) i jednu <b>HHI kartu Jadrana</b>. Na ispitu se radi na pravoj karti (Stol 1, eliminacijski).</li>
@@ -276,7 +276,7 @@ U gradivu su takve stavke označene s <span class="pill g">VAŽEĆE 2026</span> 
 </div></div>
 
 <div class="kuStep"><div class="kuN">2</div><div class="kuB">
-<h4>Pravila učenja <span>svaki dan</span></h4>
+<h3 class="h4">Pravila učenja <span>svaki dan</span></h3>
 <ol>
 <li>Otvori današnji dan iz plana i napravi <b>samo to</b>.</li>
 <li>Poglavlje pročitaj jednom pažljivo, pa <b>odmah</b> odradi kviz te teme.</li>
@@ -286,7 +286,7 @@ U gradivu su takve stavke označene s <span class="pill g">VAŽEĆE 2026</span> 
 </div></div>
 
 <div class="kuStep"><div class="kuN">3</div><div class="kuB">
-<h4>Redoslijed učenja <span>ako ne koristiš plan</span></h4>
+<h3 class="h4">Redoslijed učenja <span>ako ne koristiš plan</span></h3>
 <ol class="kuOrder">
 <li><a href="#p-nav">Karta i navigacija</a></li><li><a href="#p-svjetla">Svjetla na brodovima</a></li><li><a href="#p-znakovi">Dnevni znakovi</a></li>
 <li><a href="#p-sudari">Izbjegavanje sudara</a></li><li><a href="#p-signali">Zvučni signali</a></li><li><a href="#p-iala">IALA oznake</a></li>
@@ -297,7 +297,7 @@ U gradivu su takve stavke označene s <span class="pill g">VAŽEĆE 2026</span> 
 </div></div>
 
 <div class="kuStep"><div class="kuN">4</div><div class="kuB">
-<h4>Napamet <span>4 stavke koje se traže usmeno</span></h4>
+<h3 class="h4">Napamet <span>4 stavke koje se traže usmeno</span></h3>
 <ul class="kuMem">
 <li><b>MAYDAY poruka:</b> MAYDAY ×3 · OVDJE · ime/pozivni znak ×3, pa ime · pozicija · vrsta opasnosti · vrsta tražene pomoći. <a href="#p-radio" data-to="maydayWidget">Vježbaj u MAYDAY treneru ›</a></li>
 <li><b>Sricanje fonetskom abecedom:</b> sricaj svoje ime i ulicu. <a href="#p-radio" data-to="phonDrill">Vježba sricanja ›</a></li>
@@ -307,7 +307,7 @@ U gradivu su takve stavke označene s <span class="pill g">VAŽEĆE 2026</span> 
 </div></div>
 
 <div class="kuStep"><div class="kuN">5</div><div class="kuB">
-<h4>Kontrola spremnosti</h4>
+<h3 class="h4">Kontrola spremnosti</h3>
 <ul>
 <li><b>Značke</b> na Početnoj su kontrolna lista. Kad su sve osvojene, imaš ispitno znanje.</li>
 <li><b>2 do 3 dana prije ispita:</b> svaki dan Simulacija ispita (3 stola). Cilj: <b>PROLAZ dva puta zaredom</b>.</li>
@@ -853,7 +853,7 @@ Mnemonik: „<em>onaj gore mora popustiti onome dolje</em>".</div>
 <p class="lede">Kratki signal traje <strong>1 sekundu</strong>. Dugi signal (zvukom ili svjetlom) traje <strong>4–6 sekundi</strong>.</p>
 
 <div class="card">
-<h4>Klikni za reprodukciju</h4>
+<h3 class="h4">Klikni za reprodukciju</h3>
 <div id="soundWidget"></div>
 <p style="font-size:12.5px;color:var(--txt3);margin:8px 0 0">Zvuk se generira u pregledniku (Web Audio). Ako ne čuješ ništa, klikni bilo gdje na stranicu pa pokušaj ponovno.</p>
 </div>
@@ -1364,7 +1364,7 @@ Kriterij je sada <strong>DULJINA plovnog objekta</strong>, ne tip:
 <li>Stvara neugodnu <strong>morsku prašinu</strong>: drastično pada vidljivost</li>
 </ul></div>
 <table>
-<thead><tr><th></th><th>BURA</th><th>JUGO</th></tr></thead>
+<thead><tr><th><span class="sr">Obilježje</span></th><th>Bura</th><th>Jugo</th></tr></thead>
 <tbody>
 <tr><td><strong>Smjer</strong></td><td>NE: s kopna prema moru</td><td>SE: s mora prema obali</td></tr>
 <tr><td><strong>Predznaci</strong></td><td><strong>Kapa od bijelih oblaka</strong> iznad primorskih planina (kapa raste → bura jača), suhi zrak, <strong>oseka</strong> (niska voda), <strong>porast tlaka</strong></td><td>Sumaglica na <strong>jugoistočnom</strong> dijelu obzora, povećana vlažnost, <strong>plima</strong> (visoka voda), <strong>pad tlaka</strong>, povećana oblačnost</td></tr>
@@ -1919,7 +1919,7 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
 <p class="lede">Više od 280 pitanja iz svih pet ispitnih predmeta, uključujući pitanja koja su kandidati dobili u Zagrebu, Sisku i Splitu. Odaberi teme ili odradi cijeli ispit.</p>
 
 <div class="card">
-<h4>Odaberi teme</h4>
+<h3 class="h4">Odaberi teme</h3>
 <div class="chips" id="quizTopics"></div>
 <div class="btnrow">
   <button class="btn p" id="quizStart">Pokreni kviz</button>
@@ -2136,7 +2136,7 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
 <div class="srch" id="srch" role="dialog" aria-modal="true" aria-label="Pretraga gradiva" hidden>
   <div class="srchBox">
     <div class="srchTop"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="#i-search"/></svg>
-      <input type="search" id="srchIn" placeholder="Traži u gradivu" aria-label="Traži u gradivu" autocomplete="off" spellcheck="false" aria-controls="srchRes">
+      <input type="text" id="srchIn" inputmode="search" enterkeyhint="search" placeholder="Traži u gradivu" aria-label="Traži u gradivu" autocomplete="off" spellcheck="false" aria-controls="srchRes">
       <button type="button" class="tbBtn" id="srchClose" aria-label="Zatvori pretragu"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="#i-close"/></svg></button></div>
     <div class="srchRes" id="srchRes" role="listbox" aria-label="Rezultati"></div>
   </div>
@@ -2154,6 +2154,7 @@ Osoba koja rukuje VHF postajom na brodici mora imati barem <strong>Uvjerenje za 
     <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 14.500A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.500Z"/></symbol>
     <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.500v2M12 19.500v2M2.5 12h2M19.5 12h2M5.3 5.300l1.4 1.400M17.3 17.300l1.4 1.400M5.3 18.700l1.4-1.400M17.3 6.700l1.4-1.4"/></g></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></symbol>
     <symbol id="i-next" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-5-5 5 5-5 5"/></symbol>
     <symbol id="i-repeat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 11a7 7 0 0 1 12-4.500L19 9m0-5v5h-5M20 13a7 7 0 0 1-12 4.500L5 15m0 5v-5h5"/></symbol>
   </defs>

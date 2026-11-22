@@ -67,7 +67,7 @@ hr{border:0; border-top:1px solid var(--line); margin:36px 0}
 .wrap{max-width:980px; padding:0 44px}
 .brand{display:flex; align-items:center; gap:12px; padding:22px 20px 16px; text-decoration:none; color:var(--txt)}
 .brand svg{flex:0 0 auto}
-.brand h1{font-size:17px!important; font-weight:800!important; line-height:1.15; letter-spacing:-.01em!important; text-transform:none!important; padding:0!important; margin:0; color:var(--txt)!important}
+.brand b{display:block; font-size:17px; font-weight:800; line-height:1.15; letter-spacing:-.01em; color:var(--txt)}
 .brand div span{display:block; font-size:13.5px; color:var(--txt3); line-height:1.3}
 .xpbox,.topxp{display:none!important}
 .sideSearch{margin:0 14px 8px; display:flex; align-items:center; gap:10px; width:calc(100% - 28px); background:var(--panel); border:1.5px solid var(--line2); border-radius:var(--r1); padding:9px 12px; color:var(--txt3); font:500 15px var(--font); cursor:pointer; text-align:left; min-height:44px}
@@ -89,7 +89,7 @@ hr{border:0; border-top:1px solid var(--line); margin:36px 0}
 .sideFoot button{flex:1 1 auto}
 
 #topbar{position:sticky; top:0; z-index:40; background:color-mix(in srgb,var(--bg) 92%,transparent)!important; backdrop-filter:saturate(1.4) blur(10px); box-shadow:none!important; border-bottom:1px solid var(--line)!important; padding:10px 44px; display:flex; align-items:center; gap:10px; min-height:60px}
-#topbar .crumb{font:700 16px/1.2 var(--font); color:var(--txt); letter-spacing:0; text-transform:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+#topbar .crumb{margin:0; font:700 16px/1.2 var(--font)!important; color:var(--txt); letter-spacing:0; text-transform:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
 #topbar .spacer{flex:1}
 #burger{display:none}
 .tbBtn,#themeBtn{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-width:44px; min-height:44px; padding:0 12px; background:none; border:1.5px solid transparent; border-radius:var(--r1); color:var(--txt2); font:600 14.5px var(--font); cursor:pointer; margin:0}
@@ -441,3 +441,17 @@ kbd{background:none!important; border:1px solid var(--line2)!important; border-b
 .hmWave{animation:hmDrift 9s ease-in-out infinite alternate}
 .hmRef{animation:hmShimmer 3.4s ease-in-out infinite; transform-box:fill-box; transform-origin:50% 0}
 @media (prefers-reduced-motion:reduce){.hmWave,.hmRef,.meter i{animation:none!important; transition:none!important}}
+
+/* zvučni signali: kartica je tipka */
+.sndCard{display:block; width:100%; text-align:left; font-family:var(--font); color:var(--txt); cursor:pointer; margin:0}
+.sndCard:hover{border-color:var(--txt)!important}
+.sndRow{display:flex; gap:14px; align-items:center}
+.sndMark{min-width:86px; color:var(--acc)}
+.sndTxt b{display:block; font-size:16px} .sndTxt>span:last-child{display:block; font-size:14.5px; color:var(--txt2)}
+.sndPlay{margin-left:auto; color:var(--txt3)}
+.sndCard .sgtrack{display:block}
+.h4{font-size:18px!important; line-height:1.3!important; font-weight:700!important; margin:22px 0 6px!important; letter-spacing:0!important}
+.kuB .h4{margin-top:0!important}
+label.fld{display:block; font:600 14.5px var(--font); color:var(--txt2); margin-bottom:5px}
+.mdTx::after{content:"TX"}
+.chip .cnt{font-weight:500; font-size:13.5px}

@@ -36,7 +36,7 @@
     return [[-12,-28],[12,-28],[13,20],[-13,20],[0,-31]].map(([x,y])=>[s.x+x*c-y*n, s.y+x*n+y*c]); };
 
   b.innerHTML=`<h4>Pristani sam: vjetar i struja</h4>
-    <p class="dwIntro"><b>Zadatak:</b> dovezi brodicu u <b>žuti okvir VEZ</b> između dviju privezanih brodica i zaustavi je <b>bokom uz obalu</b>, na mjestu prozirne brodice. Pravilo iz poglavlja: prilazi <b>pramcem u vjetar ili struju</b>. Tada te struja koči, kormilo bolje sluša i lakše staneš. Vijak je desnokretni: kad voziš krmom, krma izbija <b>ulijevo</b>.</p>
+    <p class="dwIntro"><b>Zadatak:</b> dovezi brodicu u <b>žuti okvir VEZ</b> između dviju privezanih brodica i zaustavi je <b>bokom uz obalu</b>, na mjestu prozirne brodice. Pravilo iz poglavlja: prilazi <b>pramcem u vjetar ili struju</b>. Tada te struja koči, kormilo bolje sluša i lakše staneš. Vijak je desnokretni: kad voziš krmom, krma izbija <b>ulijevo</b>. Kad usporiš, vjetar okreće pramac niz vjetar, pa ga drži kratkim dodavanjem gasa.</p>
     <div class="dwCoach knStepTxt" aria-live="polite"></div>
     <div class="dwEnv seg"><span>Uvjeti</span>${Object.keys(ENV).map(k=>`<button type="button" data-e="${k}"${k===env?' class="on"':''}>${ENV[k].n}</button>`).join('')}</div>
     <div class="dwEnv seg dwStr"><span>Jačina</span>${STR.map((x,i)=>`<button type="button" data-s="${i}"${i===str?' class="on"':''}>${x[0]}</button>`).join('')}</div>
@@ -104,7 +104,10 @@
     // kormilo se okreće postupno (~60°/s), a brod ima tromost pri okretanju: bez trzaja
     s.rudA+=Math.max(-60*dt,Math.min(60*dt,s.rud-s.rudA));
     let yaw=0; if(s.v>=0) yaw=s.rudA/30*(20*s.v/10+(s.thr>0?10:0)); else yaw=s.rudA/30*(5*s.v/10);
-    if(s.thr<0) yaw+=6; // desnokretni vijak, krmom: krma ulijevo, pramac udesno
+    // desnokretni vijak, krmom: krma ulijevo, pramac udesno. Izboj je najjači dok brodica još stoji, a slabi kad krmom dobije brzinu.
+    if(s.thr<0) yaw+=6*(1-Math.min(.5,Math.abs(Math.min(0,s.v))/12));
+    // vjetar pri maloj brzini okreće pramac niz vjetar (pramac je lakši i viši od krme); s brzinom taj učinak nestaje
+    { const F=force(), q=s.h*Math.PI/180, wb=F.wind[0]*Math.cos(q)+F.wind[1]*Math.sin(q); yaw+=wb*.25*(1-Math.min(1,Math.abs(s.v)/12)); }
     s.yr+=(yaw-s.yr)*Math.min(1,dt*2.2);
     s.h+=s.yr*dt; const g=sog(); s.x+=g[0]*dt; s.y+=g[1]*dt;
     s.tt+=dt; if(s.tt>.2){ s.tt=0; s.trail.push([s.x.toFixed(1),s.y.toFixed(1)]); if(s.trail.length>40) s.trail.shift(); }
