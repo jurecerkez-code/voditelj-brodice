@@ -119,6 +119,11 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   ok(/Korak 3/.test(await page.$eval('#knotWidget .knStepTxt', e => e.textContent)), `[${name}] čvorovi: klizač ne vodi kroz korake`);
   await page.locator('#knotWidget [data-id="bitva"]').click(); await setR('#knotWidget .knScrub input', 500);
   ok(/Zategni|Povuci kraj/.test(await page.$eval('#knotWidget .knStepTxt', e => e.textContent)), `[${name}] čvorovi: bitva nema korak zatezanja`);
+  // svi čvorovi se iscrtaju do zadnjeg koraka, uključujući sidreni i trubni uzao
+  const knAll = await page.evaluate(() => __KN.KNOTS.map(k => { __KN.select(k.id); __KN.go(k.steps.length - 1, true);
+    return [k.id, document.querySelector('#knotWidget .knSvg').innerHTML.length, /NaN/.test(document.querySelector('#knotWidget .knSvg').innerHTML)]; }));
+  ok(knAll.length === 9 && knAll.every(([, n, bad]) => n > 3000 && !bad), `[${name}] čvorovi: neki se čvor ne iscrta do kraja: ${JSON.stringify(knAll)}`);
+  ok(['sidreni', 'trubni'].every(id => knAll.some(k => k[0] === id)), `[${name}] čvorovi: nedostaju sidreni ili trubni uzao`);
   // 16. noćni način se pali i pamti
   await page.click('#themeBtn'); ok(await page.evaluate(() => document.documentElement.dataset.theme === 'night' && localStorage.getItem('vbTheme') === 'night'), `[${name}] noćni način se ne pamti`);
   await ctx.close();

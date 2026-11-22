@@ -20,10 +20,12 @@
   const mp=document.createElementNS(NS,'path'); msvg.appendChild(mp); document.body.appendChild(msvg);
 
   // gusto uzorkovanje (svakih ~1,5 px), s granicama dijelova radi „do dijela n"
-  function dense(pieces){
+  // alt: zategnuti oblik istog užeta; ako mu je neki dio dulji, taj se dio uzorkuje gušće da se pramenovi ne razrijede
+  function dense(pieces,alt){
     const X=[],Y=[],Z=[],S=[],CL=[],ends=[],cnt=[]; let s=0;
+    const altL=alt?alt.map(([d])=>{ mp.setAttribute('d',d); return mp.getTotalLength(); }):null;
     pieces.forEach(([d,z,cl],pi)=>{
-      mp.setAttribute('d',d); const L=mp.getTotalLength(), n=Math.max(2,Math.ceil(L/1.5)), n0=X.length;
+      mp.setAttribute('d',d); const L=mp.getTotalLength(), n=Math.max(2,Math.ceil(Math.max(L,altL?altL[pi]:0)/1.5)), n0=X.length;
       for(let i=X.length?1:0;i<=n;i++){ const p=mp.getPointAtLength(L*i/n);
         if(X.length){ s+=Math.hypot(p.x-X[X.length-1],p.y-Y[Y.length-1]); }
         X.push(p.x); Y.push(p.y); Z.push(z); CL.push(cl||''); S.push(s); }
@@ -35,13 +37,13 @@
   function denseLike(pieces,R){ const X=[],Y=[],Z=[],CL=[];
     pieces.forEach(([d,z,cl],pi)=>{ mp.setAttribute('d',d); const L=mp.getTotalLength(), c=R.cnt[pi], n=pi?c:c-1;
       for(let i=pi?1:0;i<=n;i++){ const p=mp.getPointAtLength(L*i/n); X.push(p.x); Y.push(p.y); Z.push(z); CL.push(cl||''); } });
-    return {...R,X,Y,Z,CL,own:true}; }
+    return {...R,X,Y,Z,CL,own:true,_P:null}; }
   // „upto" 3.5 = do polovice dijela 3; vraća duljinu po užetu
   const lenAt=(R,u)=>{ if(u>=R.ends.length) return R.L; const i=Math.floor(u), f=u-i, a=i?R.ends[i-1]:0; return a+(R.ends[i]-a)*f; };
   function tighten(R,cx,cy,rad,k){ const X=R.X.slice(), Y=R.Y.slice();
     for(let i=0;i<X.length;i++){ const dx=X[i]-cx, dy=Y[i]-cy, d=Math.hypot(dx,dy); if(d<rad){ const f=k*Math.pow(1-d/rad,.9); X[i]-=dx*f; Y[i]-=dy*f; } }
     return {...R,X,Y}; }
-  const mix=(A,B,t)=>({...A,X:A.X.map((x,i)=>x+(B.X[i]-x)*t),Y:A.Y.map((y,i)=>y+(B.Y[i]-y)*t),Z:B.own&&t>.5?B.Z:A.Z});
+  const mix=(A,B,t)=>({...A,X:A.X.map((x,i)=>x+(B.X[i]-x)*t),Y:A.Y.map((y,i)=>y+(B.Y[i]-y)*t),Z:B.own&&t>.5?B.Z:A.Z,_P:null});
 
   /* ── crtanje: valjkasto sjenčanje + pramenovi po stvarnoj duljini (bez šavova na spojevima) ── */
   const LX=-.55, LY=-.83; // svjetlo odozgo lijevo
@@ -249,6 +251,21 @@
   const _sy=(p,k)=>p.map(([s,z])=>[s.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g,(m,x,y)=>`${x},${(244+(y-244)*k).toFixed(1)}`),z]);
   const RA=_sy([['M-20,256 L240,256 C265,256 280,282 305,282',2],['M305,282 C345,282 372,270 372,244 C372,218 345,206 305,206',0],['M305,206 C280,206 265,232 240,232 L150,232 C125,232 108,224 96,212',2]],1.6);
   const RB=_sy([['M580,232 L350,232',1],['M350,232 L310,232 C285,232 270,206 245,206',1],['M245,206 C205,206 178,218 178,244 C178,270 205,282 245,282',1],['M245,282 C270,282 285,256 310,256 L350,256',1],['M350,256 L420,256 C444,256 460,264 472,276',1]],1.6);
+  // sidreni uzao: puni okret (RT), kraj iza stojećeg dijela, pa ISPOD oba namotaja (iznad prečke), i poluuzao za osiguranje
+  const AB1=[['M312,150 C313,168 304,180 292,185 C284,188 274,189 262,189',3.5],['M262,189 L238,189',1],
+    ['M238,189 C218,189 204,174 204,152 C204,130 214,114 230,111',3.5],['M230,111 L326,111',2.5],['M326,111 C344,111 354,120 356,136',3.5]];
+  const AB2=[['M356,136 C360,172 350,206 332,226 C318,241 290,250 262,250',3.5],['M262,250 L238,250',1],
+    ['M238,250 C220,250 210,243 210,231 C210,219 222,215 238,215',4],['M238,215 L262,215',4],['M262,215 L312,216',4],['M312,216 L352,223',3.2],
+    ['M352,223 C366,228 374,242 376,262',4]];
+  // trubni uzao (margarita): tri usporedna dijela; labavo = ravni krajevi, zategnuto = petlja (poluuzao) preko svakog pregiba
+  const SHmid=[['M230,176 L414,176 C432,176 438,182 438,188 C438,194 432,200 414,200',2],['M414,200 L146,200',2],
+    ['M146,200 C128,200 122,206 122,212 C122,218 128,224 146,224',2],['M146,224 L330,224',2]];
+  const SH0=[['M-20,176 L150,176',2],['M150,176 L170,176',2],['M170,176 L190,176',2],['M190,176 L210,176',2],['M210,176 L230,176',2],...SHmid,
+    ['M330,224 L350,224',2],['M350,224 L370,224',2],['M370,224 L390,224',2],['M390,224 L410,224',2],['M410,224 L580,224',2]];
+  const SH1=[['M-20,160 L140,160 C165,160 182,172 182,194',4],['M182,194 L182,228',4],['M182,228 C182,246 158,246 158,228',4],['M158,228 L158,194',0],
+    ['M158,194 C158,180 168,176 184,176 L230,176',2],...SHmid,
+    ['M330,224 L376,224 C392,224 402,220 402,206',2],['M402,206 L402,172',0],['M402,172 C402,154 378,154 378,172',4],['M378,172 L378,206',4],
+    ['M378,206 C378,228 395,240 420,240 L580,240',4]];
   /* u: dokle je svako uže položeno (3.5 = do pola 4. dijela putanje; 99 = cijelo) */
   const KNOTS=[
   {id:'pasnjak',n:'Pašnjak',en:'bowline',tag:'NAJČEŠĆE NA ISPITU',
@@ -347,6 +364,32 @@
     {s:'Ispod samog sebe',t:'... pa ga provuci <b>ispod samog sebe</b>. Prvi poluuzao je gotov.',u:[12.999],h:[{x:309,y:172,t:'ispod sebe'}]},
     {s:'Drugi poluuzao',t:'Drugi poluuzao <b>u istom smjeru</b>: iza stojećeg, preko njega, ispod sebe.',u:[99],h:[{x:337,y:227,t:'ispod sebe'}]},
     {s:'Zategni',t:'Zategni i pogurni poluuzle do okreta.',u:[99],tight:[262,200,80,.12]}
+   ]},
+
+  {id:'sidreni',n:'Sidreni uzao',en:'anchor bend',tag:'KONOP NA SIDRO',
+   use:'Vezanje sidrenog konopa za <b>prsten sidra</b> ili za plutaču, kad veza ostaje dugo pod teretom i u moru. Sigurniji je od okreta s dva poluuzla jer namotaji sami stežu kraj.',
+   check:'Oko prstena su <b>dva namotaja</b>, a kraj prolazi <b>ispod oba</b>, između konopa i prstena. Na stojećem dijelu je još jedan poluuzao.',
+   err:'Ako kraj provučeš samo ispod jednog namotaja ili ga uopće ne provučeš, dobio si običan okret s poluuzlom, koji se na sidru s vremenom razlabavi. Na sidru kraj još osiguraj tankim konopom.',
+   ropes:[{c:'cream',w:12,g:[...RT,...AB1,...AB2]}], objs:[BAR(110,40,520,13,2)], lab:[{t:'stojeći dio (prema brodici)',x:258,y:370},{t:'prsten sidra (ovdje prečka)',x:384,y:92}],
+   steps:[
+    {s:'Početak',t:'Stojeći dio ide dolje prema brodici. Kraj dovedeš do prstena sidra, koji je ovdje nacrtan kao prečka.',u:[0.8]},
+    {s:'Puni okret',t:'Kraj <b>dvaput obiđe prsten</b>. Namotaje ostavi labave, trebat će ti prostor ispod njih.',u:[6.999],h:[{x:278,y:110,t:'2 namotaja'}]},
+    {s:'Iza stojećeg dijela',t:'Kraj vodi <b>iza stojećeg dijela</b> i podigni ga do prstena, lijevo od namotaja.',u:[9.999],h:[{x:250,y:189,t:'iza'}]},
+    {s:'Ispod oba namotaja',t:'Provuci kraj <b>ispod oba namotaja</b>, između konopa i prstena. Po ovome se sidreni uzao razlikuje od okreta s poluuzlima.',u:[11.999],h:[{x:273,y:111,t:'ispod oba namotaja'}]},
+    {s:'Poluuzao za osiguranje',t:'Na stojećem dijelu veži <b>jedan poluuzao</b>: iza stojećeg dijela, preko njega, pa ispod samog sebe.',u:[99],h:[{x:333,y:219,t:'ispod sebe'}]},
+    {s:'Zategni',t:'Zategni namotaje i pogurni poluuzao do njih. Što jače sidro vuče, namotaji jače drže kraj.',u:[99],tight:[262,205,80,.12]}
+   ]},
+
+  {id:'trubni',n:'Trubni uzao',en:'sheepshank',tag:'SKRAĆIVANJE KONOPA',
+   use:'Zove se i <b>margarita</b>. Skraćuje predug konop bez rezanja. Njime se može i premostiti oštećeno mjesto na konopu: ono mora doći u <b>srednji</b> od tri dijela.',
+   check:'Tri usporedna dijela, a na svakom kraju <b>petlja koja steže pregib</b>. Vrh svakog pregiba viri kroz svoju petlju.',
+   err:'Drži samo dok je konop <b>napet</b>. Kad teret popusti, petlje skliznu s pregiba i uzao se raspadne. Nije za trajan privez.',
+   ropes:[{c:'cream',w:11,g:SH0,gt:SH1,tip:null}], lab:[{t:'prema teretu',x:16,y:150},{t:'prema teretu',x:470,y:270}],
+   steps:[
+    {s:'Predug konop',t:'Konop je napet između dvije točke, a predug je. Uhvati ga na mjestu koje želiš skratiti.',u:[4.6]},
+    {s:'Prvi pregib',t:'Presavij konop natrag: nastaje <b>desni pregib</b>.',u:[6.999],h:[{x:436,y:188,t:'pregib',side:'r'}]},
+    {s:'Drugi pregib: slovo S',t:'Presavij ga još jednom, u suprotnom smjeru. Imaš <b>tri usporedna dijela</b> i po jedan pregib na svakoj strani.',u:[99],h:[{x:124,y:212,t:'pregib',side:'l'}]},
+    {s:'Petlja na svaki pregib',t:'Na konopu koji ulazi u čvor napravi <b>malu petlju</b> (poluuzao) i natakni je na pregib. Isto ponovi na drugoj strani. Zategni povlačeći oba kraja: petlje stegnu pregibe.',u:[99],tight:true,h:[{x:170,y:240,t:'petlja oko pregiba'},{x:390,y:160,t:'petlja oko pregiba'}]}
    ]}
   ];
   KNOTS.forEach(k=>{ if(!k.flip) return;
@@ -383,7 +426,7 @@
   const svg=$('.knSvg',b), gR=$('.knRope',b), gH=$('.knHint',b), gG=$('.knGh',b), gW=$('.knGlow',b), scrub=$('.knScrub input',b);
   $('.knTabs',b).innerHTML=KNOTS.map(k=>`<button class="knTab" role="tab" data-id="${k.id}">${k.n}<small>${k.en}</small></button>`).join('');
 
-  function prep(k){ if(k._R) return; k._R=k.ropes.map(r=>dense(r.g));
+  function prep(k){ if(k._R) return; k._R=k.ropes.map(r=>dense(r.g,r.gt));
     const tf=k.steps.find(s=>s.tight); if(tf) k._T=k._R.map((R,i)=>k.ropes[i].gt?denseLike(k.ropes[i].gt,R):Array.isArray(tf.tight)?tighten(R,...tf.tight):R); }
   const target=i=>cur.steps[i].u.map((u,ri)=>lenAt(cur._R[ri],u));
   const tkOf=i=>cur.steps[i].tight?1:0;
