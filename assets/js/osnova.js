@@ -132,6 +132,8 @@ window.VBOsnova=(function(){
   // karta uma: SVG, čvorovi su gumbi (tab + enter), klik skrola do naslova u tekstu
   function mapSvg(m,uid){ const W=560, RH=64, rows=Math.max(...m.n.map(n=>n[2]))+1, H=rows*RH+8;
     const pos=m.n.map(n=>{ const c=(m.col||{})[m.n.indexOf(n)], w=Math.min(190,Math.max(60,[...n[0]].length*8.1+26))+(c?12:0); return {x:Math.max(w/2+3,Math.min(W-w/2-3,n[3]*W)), y:8+n[2]*RH+RH/2-8, w}; });
+    // susjedi u istom redu ne smiju se dodirivati: oba se suze dok razmak nije 10
+    pos.forEach(A=>pos.forEach(B=>{ if(A.y!==B.y||B.x<=A.x) return; const g=(B.x-B.w/2)-(A.x+A.w/2); if(g<10){ A.w-=10-g; B.w-=10-g; } }));
     let g=`<defs><marker id="osArr-${uid}" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#8fb4cf"/></marker></defs>`;
     m.e.forEach(([a,b,st])=>{ const A=pos[a], B=pos[b]; let x1,y1,x2,y2;
       if(m.n[a][2]===m.n[b][2]){ const s=Math.sign(B.x-A.x); x1=A.x+s*A.w/2; y1=A.y; x2=B.x-s*(B.w/2+(st?0:3)); y2=B.y; }

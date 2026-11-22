@@ -42,6 +42,7 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
         if (c.textTransform === 'uppercase') bad.push('velika slova na ' + sig(e)); }
       for (const s of pg.querySelectorAll('svg')) if (!s.closest('[aria-hidden="true"]') && !s.getAttribute('role') && !s.getAttribute('aria-label')) bad.push('crtež bez imena u #' + (s.closest('[id]') || pg).id);
       let prev = 1; for (const h of pg.querySelectorAll('h2,h3,h4,h5,h6')) { if (h.offsetParent === null) continue; const l = +h.tagName[1]; if (l > prev + 1) bad.push('preskočena razina naslova prije "' + h.textContent.trim().slice(0, 24) + '"'); prev = l; }
+      for (const s of pg.querySelectorAll('.osMapSvg')) { const r = [...s.querySelectorAll('.osNode rect')].map(e => ({ x: +e.getAttribute('x'), y: +e.getAttribute('y'), w: +e.getAttribute('width') })); if (r.some(A => r.some(B => B.y === A.y && B.x > A.x && B.x - (A.x + A.w) < 8))) bad.push('kućice u karti uma se dodiruju'); }
       return [...new Set(bad)].slice(0, 4); });
     ok(tells.length === 0, `[${name}] ${id}: ${tells.join('; ')}`);
   }
