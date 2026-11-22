@@ -3699,7 +3699,7 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
       g+=`<line x1="${c}" y1="${c}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}" stroke="#ffd166" stroke-width="1" stroke-dasharray="1.5 3" opacity=".7"/>
         <path d="M${s1[0].toFixed(1)},${s1[1].toFixed(1)} A${R+18},${R+18} 0 0 ${sg>0?1:0} ${s2[0].toFixed(1)},${s2[1].toFixed(1)}" fill="none" stroke="#ffd166" stroke-width="2"/>
         <text x="${m[0].toFixed(1)}" y="${(m[1]+4).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="#ffd166" paint-order="stroke" stroke="#071320" stroke-width="3">22,5°</text>`; });
-    g+=`<text x="${c}" y="${c+R+36}" text-anchor="middle" font-size="10" fill="#ffd166" opacity=".85">točkasto: poprečnica · granica sektora je 22,5° iza nje</text>`;
+
     // granice sektora
     [112.5,247.5].forEach(a=>{ const x=c+Math.sin(a*Math.PI/180)*(OR+10), y=c-Math.cos(a*Math.PI/180)*(OR+10);
       g+=`<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="#5b8bab" stroke-opacity=".35" stroke-dasharray="3 4"/>`;
@@ -3823,7 +3823,7 @@ const VESSELS = [
   const cats={motor:'Mehanički pogon',sail:'Jedra',fish:'Ribolov',spec:'Posebni'};
 
   let view='ahead';
-  const VIEWS={ahead:'S pramca',stbd:'S desnog boka',port:'S lijevog boka',astern:'S krme',top:'Pogled odozgo (sektori)'};
+  const VIEWS={ahead:'S pramca (ide prema tebi)',stbd:'S desnog boka',port:'S lijevog boka',astern:'S krme (udaljava se)',top:'Pogled odozgo (sektori)'};
   function lightsFor(v,vw){
     // shematski noćni prikaz; vw = odakle gledaš (pramac, desni bok, lijevi bok, krma)
     vw=vw||'ahead';
@@ -3838,13 +3838,14 @@ const VESSELS = [
       if(l.t==='mast2v' && vw!=='astern'){ out.push({x:ax,y:20,c:SIG.w,l:'jarbolno (gornje)'}); out.push({x:ax,y:48,c:SIG.w,l:'jarbolno (donje)'}); }
       if(l.t==='mast3' && vw!=='astern'){ out.push({x:ax,y:8,c:SIG.w,l:'jarbolno 3'}); out.push({x:ax,y:36,c:SIG.w,l:'jarbolno 2'}); out.push({x:ax,y:64,c:SIG.w,l:'jarbolno 1'}); }
       if(l.t==='side'){
-        if(vw==='ahead'){ out.push({x:-74,y:104,c:SIG.r,l:'bočno lijevo (crveno)'}); out.push({x:74,y:104,c:SIG.g,l:'bočno desno (zeleno)'}); }
+        // brod ide PREMA tebi: njegov desni bok (zeleno) tebi je slijeva, lijevi bok (crveno) zdesna
+        if(vw==='ahead'){ out.push({x:-74,y:104,c:SIG.g,l:'bočno desno (zeleno): tebi slijeva'}); out.push({x:74,y:104,c:SIG.r,l:'bočno lijevo (crveno): tebi zdesna'}); }
         if(vw==='stbd') out.push({x:40,y:104,c:SIG.g,l:'bočno desno (zeleno)'});
         if(vw==='port') out.push({x:-40,y:104,c:SIG.r,l:'bočno lijevo (crveno)'}); }
       if(l.t==='stern' && vw==='astern'){ out.push({x:0,y:132,c:'#dfe8ef',l:'krmeno (bijelo, 135°)'}); }
       if(l.t==='allround'){ const ag=v.id==='aground'; out.push({x:ag?ax+(side?side*90:60):ax,y:ag?70:44,c:SIG.w,l:ag?'sidreno bijelo kružno (pramac)':'bijelo kružno (360°)'}); }
       if(l.t==='tricolor'){
-        if(vw==='ahead'){ out.push({x:-8,y:26,c:SIG.r,l:'trobojna: crveno'}); out.push({x:8,y:26,c:SIG.g,l:'trobojna: zeleno'}); }
+        if(vw==='ahead'){ out.push({x:-8,y:26,c:SIG.g,l:'trobojna: zeleno (tebi slijeva)'}); out.push({x:8,y:26,c:SIG.r,l:'trobojna: crveno (tebi zdesna)'}); }
         if(vw==='stbd') out.push({x:ax,y:26,c:SIG.g,l:'trobojna: zeleno'});
         if(vw==='port') out.push({x:ax,y:26,c:SIG.r,l:'trobojna: crveno'});
         if(vw==='astern') out.push({x:0,y:26,c:'#dfe8ef',l:'trobojna: bijelo prema krmi'}); }
@@ -4566,9 +4567,9 @@ const COLREG=[
   // V3-AREA: mjerilo udaljenosti od obale u istom mjerilu kao pojasevi (7,5 px = 1 Nm)
   { const x=96, y0=41; // obala kod x≈96
     g+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+20*scale}" stroke="#e6eef5" stroke-width="1.4" opacity=".8"/>`;
-    [[0,'0'],[1,'1'],[3,'3'],[6,'6'],[12,'12'],[20,'20 Nm']].forEach(([n,t])=>{ const y=y0+n*scale, L=n===0; // 0 lijevo od crte, da se ne preklopi s 1
+    [[0,'0'],[1,'1'],[3,'3'],[6,'6'],[12,'12'],[20,'20']].forEach(([n,t])=>{ const y=y0+n*scale, L=n===0; // 0 lijevo od crte, da se ne preklopi s 1
       g+=`<line x1="${x-5}" y1="${y}" x2="${x+5}" y2="${y}" stroke="#e6eef5" stroke-width="1.4"/><text x="${L?x-9:x+9}" y="${y+4}"${L?' text-anchor="end"':''} font-size="10" fill="#e6eef5" font-family="JetBrains Mono,monospace" paint-order="stroke" stroke="#0e3350" stroke-width="3">${t}</text>`; });
-    g+=`<text x="${x-8}" y="${y0+20*scale+16}" font-size="10" fill="${C.txt2}">udaljenost od obale, u mjerilu</text>`; }
+    g+=`<text x="${x+34}" y="${y0+20*scale+18}" font-size="10.5" fill="${C.txt2}">Nm od obale (u mjerilu)</text>`; }
   g+=`<text x="10" y="${H-12}" font-size="11.5" fill="${C.txt2}"><tspan font-weight="800" fill="${C.txt}">I</tspan> = bez ograničenja &nbsp;·&nbsp; <tspan font-weight="800" fill="${C.txt}">IV</tspan> = luke, zaljevi, ušća rijeka</text>`;
   g+=`<text x="14" y="30" font-size="12" fill="#5a4508" font-weight="800">KOPNO / OTOK</text>`;
   b.innerHTML=SVG(W,H,g);
@@ -4729,8 +4730,8 @@ const WINDS=[
   const b=el('anchorWidget'); if(!b) return;
   const W=660,H=280;
   let g=`<rect width="${W}" height="60" fill="#0b1e30"/>`+seaBackground(W,H,{y:60,view:'section'});
-  g+=`<path d="M0,238 q120,-14 260,4 t400,-8 L${W},${H} L0,${H} Z" fill="#7a6a2e"/>`;
-  g+=`<text x="16" y="${H-10}" font-size="11" fill="#d9cf9a">morsko dno: mulj / pijesak = najbolje</text>`;
+  g+=`<path data-keep-dark="1" d="M0,238 q120,-14 260,4 t400,-8 L${W},${H} L0,${H} Z" fill="#d9c48a"/>`;
+  g+=`<text data-keep-dark="1" x="${W-14}" y="${H-10}" text-anchor="end" font-size="11.5" font-weight="700" fill="#4d3d0c">dno: mulj ili pijesak drže najbolje</text>`;
   // boat
   g+=`<g transform="translate(480,44)"><path d="M-44,0 q44,-20 88,0 l-12,16 q-32,7 -64,0 Z" fill="#e6eef5"/><rect x="-8" y="-22" width="16" height="22" fill="#9fb6c9"/></g>`;
   // chain
@@ -4740,11 +4741,10 @@ const WINDS=[
   // depth
   g+=`<line x1="560" y1="60" x2="560" y2="234" stroke="${C.acc}" stroke-width="1.6" stroke-dasharray="4 3"/>`;
   g+=`<text x="568" y="150" font-size="13" fill="${C.acc}" font-weight="800">dubina D</text>`;
-  g+=`<line x1="126" y1="256" x2="470" y2="256" stroke="${C.green}" stroke-width="1.6" stroke-dasharray="4 3"/>`;
-  g+=`<text x="290" y="272" font-size="13" fill="${C.green}" font-weight="800" text-anchor="middle">duljina lanca = 3–4 × D</text>`;
+  g+=`<text data-keep-dark="1" x="300" y="128" font-size="13" fill="#14532d" font-weight="800" text-anchor="middle" transform="rotate(-31 300 128)">lanac = 3 do 4 × D</text>`;
   // swing circle
   g+=`<circle cx="126" cy="232" r="60" fill="none" stroke="${C.yellow}" stroke-dasharray="5 4" opacity=".6"/>`;
-  g+=`<text x="126" y="188" font-size="10.5" fill="${C.yellow}" text-anchor="middle">lazni prostor 360°</text>`;
+  g+=`<text data-keep-dark="1" x="126" y="164" font-size="11.5" font-weight="700" fill="#7a4a00" text-anchor="middle">lazni prostor: puni krug</text>`;
   b.innerHTML=SVG(W,H,g);
 })();
 
@@ -5366,7 +5366,7 @@ const SIM={
   const fac=()=>bad?6:4;
   function scene(bx,chain,anc,dig,msg){ const bed=SEA+D*KM;
     let g=`<rect width="${W}" height="${SEA}" fill="#0b1e30"/>`+seaBackground(W,H,{y:SEA,view:'section'}); // v4
-    g+=`<path d="M0,${bed} q160,-6 340,2 t340,-3 L${W},${H} L0,${H} Z" fill="#7a6a2e"/>`;
+    g+=`<path data-keep-dark="1" d="M0,${bed} q160,-6 340,2 t340,-3 L${W},${H} L0,${H} Z" fill="#d9c48a"/>`;
     g+=`<g transform="translate(44,30)"><path d="M16,0 H-16 M-10,-6 L-16,0 L-10,6" stroke="#e6eef5" stroke-width="2" fill="none"/><text y="22" text-anchor="middle" font-size="10.5" fill="#9fb6c9">vjetar</text></g>`;
     // brodica bočno, pramac desno (u vjetar)
     g+=`<g transform="translate(${bx},${SEA})"><path d="M-40,-2 L34,-2 L44,-14 L-44,-14 Z" fill="#e6eef5" stroke="#1d2b36"/><rect x="-18" y="-26" width="22" height="12" fill="#9fb6c9" stroke="#1d2b36"/></g>`;
@@ -5378,13 +5378,13 @@ const SIM={
         const tx=ax+dir*lie;
         g+=`<path d="M${ax},${ay} L${tx},${ay} Q${tx+(bow[0]-tx)*.55},${ay} ${bow[0]},${bow[1]}" fill="none" stroke="#c8d6e2" stroke-width="2.4" stroke-dasharray="5 2.5"/>`;
         // v3: duljina lanca u istom mjerilu kao dubina (7 px = 1 m) i omjer prema dubini
-        if(chain>D+.5){ const my=Math.min(H-6,ay+16), x0=Math.min(ax,bow[0]), x1=x0+L;
-          g+=`<path d="M${x0},${my-4} v8 M${x0},${my} H${x1} M${x1},${my-4} v8" stroke="#ffd166" stroke-width="1.4"/>`;
-          g+=`<text x="${(x0+x1)/2}" y="${my-6}" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffd166" paint-order="stroke" stroke="#0e3350" stroke-width="3">lanac ${Math.round(chain)} m = ${(chain/D).toFixed(1).replace('.',',')} × dubina</text>`; } }
+        if(chain>D+.5){ const my=Math.min(H-8,ay+22), x1=Math.max(ax,bow[0]), x0=x1-L, tx2=Math.max(150,Math.min(W-150,(x0+x1)/2));
+          g+=`<path data-keep-dark="1" d="M${x0},${my-4} v8 M${x0},${my} H${x1} M${x1},${my-4} v8" stroke="#5c4708" stroke-width="1.4"/>`;
+          g+=`<text data-keep-dark="1" x="${tx2}" y="${my+15>H-4?my-7:my+15}" text-anchor="middle" font-size="12" font-weight="800" fill="#3d2f05">lanac ${Math.round(chain)} m = ${(chain/D).toFixed(1).replace('.',',')} × dubina</text>`; } }
       g+=`<g transform="translate(${ax},${ay-2+dig*3}) rotate(${-70+dig*55})"><path d="M0,-16 v22 M-12,2 q12,14 24,0 M-7,-14 h14" stroke="#c8d6e2" stroke-width="3" fill="none"/><circle cy="-19" r="3.5" fill="none" stroke="#c8d6e2" stroke-width="2.5"/></g>`; }
     // dubina i duljina
-    g+=`<line x1="${W-18}" y1="${SEA}" x2="${W-18}" y2="${bed}" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="4 3"/><text x="${W-24}" y="${(SEA+bed)/2+4}" font-size="12" font-weight="800" fill="#39b8e8" text-anchor="end">${D} m</text>`;
-    if(msg) g+=`<text x="16" y="${H-14}" font-size="13" font-weight="800" fill="#b8f0cf">${msg}</text>`;
+    g+=`<line x1="${W-18}" y1="${SEA}" x2="${W-18}" y2="${bed}" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="4 3"/><text x="${W-24}" y="${SEA+13}" font-size="12" font-weight="800" fill="#39b8e8" text-anchor="end">dubina ${D} m</text>`;
+    if(msg) g+=`<text data-keep-dark="1" x="16" y="${H-12}" font-size="13" font-weight="800" fill="#14532d">${msg}</text>`;
     dyn.innerHTML=g; }
   const txt=h=>$('.aTxt',b).innerHTML=h;
   let runGen=0; // novi klik prekida staru animaciju, i u pauzi između koraka
@@ -5959,13 +5959,13 @@ window.VBExam=(function(){
   let uid=0;
   const DEFS=`<defs>
     <linearGradient id="cdShade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".3" stop-color="#fff" stop-opacity=".06"/><stop offset=".7" stop-color="#000" stop-opacity=".12"/><stop offset="1" stop-color="#000" stop-opacity=".5"/></linearGradient>
-    <linearGradient id="cdCone" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5a6570"/><stop offset=".35" stop-color="#1c232a"/><stop offset="1" stop-color="#050709"/></linearGradient>
+    <linearGradient id="cdCone" data-keep-dark="1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a424a"/><stop offset=".35" stop-color="#1c232a"/><stop offset="1" stop-color="#050709"/></linearGradient>
     <linearGradient id="cdMetal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c9d3db"/><stop offset=".5" stop-color="#8795a1"/><stop offset="1" stop-color="#3c4852"/></linearGradient>
     <radialGradient id="cdGlow"><stop offset="0" stop-color="#fffbe6" stop-opacity="1"/><stop offset=".3" stop-color="#fff2c0" stop-opacity=".45"/><stop offset="1" stop-color="#fff2c0" stop-opacity="0"/></radialGradient>
     <filter id="cdBlur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter></defs>`;
   // čunj: up = vrh gore; y0 gornji rub, y1 donji rub
-  const cone=(y0,y1,up)=>up?`<path d="M0,${y0} L8,${y1} L-8,${y1} Z" fill="url(#cdCone)" stroke="#dfe7ee" stroke-opacity=".35" stroke-width=".7"/>`
-                           :`<path d="M-8,${y0} L8,${y0} L0,${y1} Z" fill="url(#cdCone)" stroke="#dfe7ee" stroke-opacity=".35" stroke-width=".7"/>`;
+  const cone=(y0,y1,up)=>up?`<path data-keep-dark="1" d="M0,${y0} L8,${y1} L-8,${y1} Z" fill="url(#cdCone)" stroke="#050709" stroke-width=".7"/>`
+                           :`<path data-keep-dark="1" d="M-8,${y0} L8,${y0} L0,${y1} Z" fill="url(#cdCone)" stroke="#050709" stroke-width=".7"/>`;
   const TOPS={N:cone(-154,-141,1)+cone(-137,-124,1), S:cone(-154,-141,0)+cone(-137,-124,0),
               E:cone(-153,-140,1)+cone(-138,-125,0), W:cone(-154,-141,0)+cone(-139,-126,1)};
   // stup (pillar) s plovkom; ishodište = vodena linija. glow: id grupe svjetla za treptanje
