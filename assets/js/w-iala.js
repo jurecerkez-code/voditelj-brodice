@@ -51,30 +51,30 @@ const IALA_DEFS = (function(){
     return `<g>${light}${t}<line x1="0" y1="${T-4}" x2="0" y2="${T}" stroke="#8795a1" stroke-width="3"/>${body}<path d="M-13,60 h26 l-6,10 h-14 Z" fill="#3a4a58"/></g>`;
   }
   return [
-    {id:'lat_l',name:'Lateralna: LIJEVA strana',short:'Lateralna lijeva',
+    {id:'lat_l',name:'Lateralna: lijeva strana',short:'Lateralna lijeva',
      svg:buoy(['#ef4a5a','#ef4a5a'],'can',SIG.r,'fl4'),
      desc:'<b>Crvena</b>, vršna oznaka <b>valjak (cilindar)</b>, crveno svjetlo. Označava <b>lijevu stranu</b> plovnog puta gledano u smjeru uplovljavanja. Ostavljam je s <b>lijeve strane</b>.'},
-    {id:'lat_r',name:'Lateralna: DESNA strana',short:'Lateralna desna',
+    {id:'lat_r',name:'Lateralna: desna strana',short:'Lateralna desna',
      svg:buoy(['#25c26a','#25c26a'],'cone_up',SIG.g,'fl4'),
      desc:'<b>Zelena</b>, vršna oznaka <b>čunj vrhom gore</b>, zeleno svjetlo. Označava <b>desnu stranu</b> plovnog puta pri uplovljavanju. Ostavljam je s <b>desne strane</b>.'},
-    {id:'card_n',name:'Kardinalna SJEVERNA (N)',short:'Kardinalna N',
+    {id:'card_n',name:'Kardinalna sjeverna (N)',short:'Kardinalna N',
      svg:buoy(['#11161c','#f5c542'],'2cone_up',SIG.w,'q'),
-     desc:'Čunjevi <b>oba vrhom GORE</b> ↑↑. Boje: <b>crno gore / žuto dolje</b>. Svjetlo: <b>bijelo, Q ili VQ: neprekidno treperi</b>. Prolazim <b>sa sjeverne strane</b> oznake.'},
-    {id:'card_e',name:'Kardinalna ISTOČNA (E)',short:'Kardinalna E',
+     desc:'Čunjevi <b>oba vrhom gore</b> ↑↑. Boje: <b>crno gore / žuto dolje</b>. Svjetlo: <b>bijelo, Q ili VQ: neprekidno treperi</b>. Prolazim <b>sa sjeverne strane</b> oznake.'},
+    {id:'card_e',name:'Kardinalna istočna (E)',short:'Kardinalna E',
      svg:buoy(['#11161c','#f5c542','#11161c'],'2cone_base',SIG.w,'q3'),
-     desc:'Čunjevi spojeni <b>BAZAMA</b> (oblik jajeta ◇, „<b>E</b>gg = <b>E</b>ast"). Boje: <b>crno / žuto / crno</b>. Svjetlo: <b>bijelo Q(3) 10s</b>. Prolazim <b>s istočne strane</b>.'},
-    {id:'card_s',name:'Kardinalna JUŽNA (S)',short:'Kardinalna S',
+     desc:'Čunjevi spojeni <b>bazama</b> (oblik jajeta ◇, „<b>E</b>gg = <b>E</b>ast“). Boje: <b>crno / žuto / crno</b>. Svjetlo: <b>bijelo Q(3) 10s</b>. Prolazim <b>s istočne strane</b>.'},
+    {id:'card_s',name:'Kardinalna južna (S)',short:'Kardinalna S',
      svg:buoy(['#f5c542','#11161c'],'2cone_down',SIG.w,'q6l'),
-     desc:'Čunjevi <b>oba vrhom DOLJE</b> ↓↓. Boje: <b>žuto gore / crno dolje</b>. Svjetlo: <b>bijelo Q(6) + dugi bljesak, 15s</b>. Prolazim <b>s južne strane</b>.'},
-    {id:'card_w',name:'Kardinalna ZAPADNA (W)',short:'Kardinalna W',
+     desc:'Čunjevi <b>oba vrhom dolje</b> ↓↓. Boje: <b>žuto gore / crno dolje</b>. Svjetlo: <b>bijelo Q(6) i dugi bljesak, 15s</b>. Prolazim <b>s južne strane</b>.'},
+    {id:'card_w',name:'Kardinalna zapadna (W)',short:'Kardinalna W',
      svg:buoy(['#f5c542','#11161c','#f5c542'],'2cone_point',SIG.w,'q9'),
-     desc:'Čunjevi spojeni <b>VRHOVIMA</b> (oblik čaše za vino ⧗, „<b>W</b>ine glass = <b>W</b>est"). Boje: <b>žuto / crno / žuto</b>. Svjetlo: <b>bijelo Q(9) 15s</b>. Prolazim <b>sa zapadne strane</b>.'},
+     desc:'Čunjevi spojeni <b>vrhovima</b> (oblik čaše za vino ⧗, „<b>W</b>ine glass = <b>W</b>est“). Boje: <b>žuto / crno / žuto</b>. Svjetlo: <b>bijelo Q(9) 15s</b>. Prolazim <b>sa zapadne strane</b>.'},
     {id:'iso',name:'Usamljena opasnost',short:'Usamljena opasnost',
      svg:buoy(['#11161c','#ef4a5a','#11161c'],'2ball',SIG.w,'fl2'),
-     desc:'<b>Crno, crveno, crno</b>, vršna oznaka <b>dvije crne kugle</b>. Svjetlo: <b>bijelo Bl(2)</b>. Postavljena <b>NA</b> opasnost oko koje je duboka voda. <b>Izbjegni je promjenom kursa</b>, ne prolazi blizu.'},
+     desc:'<b>Crno, crveno, crno</b>, vršna oznaka <b>dvije crne kugle</b>. Svjetlo: <b>bijelo Bl(2)</b>. Postavljena <b>na samoj</b> opasnosti oko koje je duboka voda. <b>Zaobiđi je promjenom kursa</b> i ne prolazi blizu.'},
     {id:'safe',name:'Sigurna voda',short:'Sigurna voda',
      svg:buoy(['#ef4a5a','#ffffff','#ef4a5a','#ffffff','#ef4a5a'],'ball',SIG.w,'lfl10',true),
-     desc:'<b>Crveno-bijele okomite pruge</b>, vršna oznaka <b>jedna crvena kugla</b>. Svjetlo: <b>bijelo</b>: Izo, Pr, LFl 10s ili Mo(A). Sa svih strana je <b>sigurna plovidba</b>: sredina plovnog puta, prilaz obali, landfall.'},
+     desc:'<b>Crveno-bijele okomite pruge</b>, vršna oznaka <b>jedna crvena kugla</b>. Svjetlo: <b>bijelo</b>: Izo, Pr, LFl 10s ili Mo(A). Sa svih je strana <b>plovidba sigurna</b>: sredina plovnog puta, prilaz obali, landfall.'},
     {id:'spec',name:'Posebna oznaka',short:'Posebna oznaka',
      svg:buoy(['#f5c542','#f5c542'],'x',SIG.y,'fly5'),
      desc:'<b>Žuta</b>, vršna oznaka <b>žuti X</b>, žuto svjetlo. Označava posebno područje: kupalište, ispust, sidrište, vojnu zonu, mjerni uređaj, kabel. <b>Nije navigacijska opasnost.</b>'}
@@ -89,7 +89,7 @@ const IALA_DEFS = (function(){
     IALA_DEFS.forEach(m=>{
       h+=`<div class="card tight ialaCard" data-id="${m.id}" style="cursor:pointer;text-align:center">
         ${SVG(70,160,`<g transform="translate(35,88)">${m.svg}</g>`,'style="height:150px"')}
-        <div style="font-size:12px;font-weight:700;margin-top:4px">${m.short}</div></div>`;
+        <div style="font-size:13px;font-weight:600;margin-top:4px">${m.short}</div></div>`;
     });
     h+='</div><div id="ialaDet"></div>';
     box.innerHTML=h;
@@ -102,7 +102,7 @@ const IALA_DEFS = (function(){
   function ask(){
     cur=rnd(IALA_DEFS);
     const opts=shuffle([cur].concat(shuffle(IALA_DEFS.filter(x=>x.id!==cur.id)).slice(0,3)));
-    let h=`<div class="split"><div class="svgbox">${SVG(120,220,`<g transform="translate(60,120)">${cur.svg}</g>`,'style="height:220px"')}</div><div><p style="font-weight:700;font-size:17px">Koja je ovo oznaka?</p>`;
+    let h=`<div class="split"><div class="svgbox">${SVG(120,220,`<g transform="translate(60,120)">${cur.svg}</g>`,'style="height:220px"')}</div><div><p style="font-weight:600;font-size:17px">Koja je ovo oznaka?</p>`;
     opts.forEach(o=> h+=`<button class="opt ialaOpt" data-id="${o.id}">${o.name}</button>`);
     h+='</div></div><div id="ialaDet"></div>';
     box.innerHTML=h;
@@ -115,14 +115,14 @@ const IALA_DEFS = (function(){
         else if(x===b) x.classList.add('wrong'); });
       el('ialaScore').textContent=`Rezultat: ${score.c}/${score.t}`;
       el('ialaDet').innerHTML=`<div class="expl"><b>${cur.name}</b><br>${cur.desc}</div>
-        <div class="btnrow"><button class="btn p" id="ialaNext">Sljedeća ›</button></div>`;
+        <div class="btnrow"><button class="btn p" id="ialaNext">Sljedeća</button></div>`;
       el('ialaNext').addEventListener('click',ask);
     }));
   }
   gallery();
   el('ialaQuizBtn').addEventListener('click',function(){
     quiz=!quiz;
-    this.textContent=quiz?'⏹ Natrag na pregled':'▶ Kviz oznaka';
+    this.textContent=quiz?'Natrag na pregled':'Kviz oznaka';
     this.classList.toggle('p',!quiz);
     if(quiz){score={c:0,t:0};el('ialaScore').textContent='';ask();} else {el('ialaScore').textContent='';gallery();}
   });
@@ -135,7 +135,7 @@ function markStrip(target, ids, extra){
   ids.forEach((id,i)=>{
     const m=IALA_DEFS.find(x=>x.id===id);
     g+=`<g transform="translate(${65+i*130},130)">${m.svg}</g>`;
-    g+=`<text x="${65+i*130}" y="215" text-anchor="middle" font-size="12" fill="${C.txt}" font-weight="700">${m.short}</text>`;
+    g+=`<text x="${65+i*130}" y="215" text-anchor="middle" font-size="12" fill="${C.txt}" font-weight="600">${m.short}</text>`;
   });
   b.innerHTML=SVG(W,228,(extra||'')+g);
 }
@@ -185,16 +185,16 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
   // obala s ulazom u luku (lukobrani) na obzoru
   g+=`<path d="M0,${HOR} L0,58 C60,52 120,56 170,50 C220,44 250,52 290,60 L300,${HOR} Z M${W},${HOR} L${W},54 C620,48 560,54 500,50 C460,47 420,54 390,60 L380,${HOR} Z" fill="#20364a"/>
     <path d="M290,${HOR-2} L318,${HOR-6} M362,${HOR-6} L390,${HOR-2}" stroke="#6a8397" stroke-width="3" stroke-linecap="round"/>
-    <text x="${W/2}" y="30" text-anchor="middle" font-size="12" fill="${C.txt2}" letter-spacing=".08em">ULAZ U LUKU ▲</text>`;
+    <text x="${W/2}" y="30" text-anchor="middle" font-size="12" fill="${C.txt2}" letter-spacing=".08em">Ulaz U luku ▲</text>`;
   g+=seaBackground(W,H,{y:HOR}); // v4: zajedničko more
   g+=`<path d="M${W/2-30},${HOR} L${W/2+30},${HOR} L${W-120},${H} L120,${H} Z" fill="#6fb6e0" opacity=".07"/>`;
   // udaljeni par (manji), bliži par (veći)
   g+=mark(262,128,.42,true,.6)+mark(418,128,.42,false,.6);
   g+=mark(150,212,.95,true,0)+mark(530,212,.95,false,0);
-  g+=`<text x="150" y="258" text-anchor="middle" font-size="13" fill="${C.red}" font-weight="800" paint-order="stroke" stroke="#0b2a44" stroke-width="3">CRVENA, lijevo · valjak</text>
-      <text x="150" y="274" text-anchor="middle" font-size="11" fill="#ffb4b0" font-family="JetBrains Mono,monospace">C Bl 4s</text>
-      <text x="530" y="258" text-anchor="middle" font-size="13" fill="${C.green}" font-weight="800" paint-order="stroke" stroke="#0b2a44" stroke-width="3">ZELENA, desno · čunj</text>
-      <text x="530" y="274" text-anchor="middle" font-size="11" fill="#b4f5cf" font-family="JetBrains Mono,monospace">Z Bl 4s</text>`;
+  g+=`<text x="150" y="258" text-anchor="middle" font-size="13" fill="${C.red}" font-weight="600" paint-order="stroke" stroke="#0b2a44" stroke-width="3">Crvena, lijevo, valjak</text>
+      <text x="150" y="274" text-anchor="middle" font-size="11" fill="#ffb4b0" font-family="var(--mono)">C Bl 4s</text>
+      <text x="530" y="258" text-anchor="middle" font-size="13" fill="${C.green}" font-weight="600" paint-order="stroke" stroke="#0b2a44" stroke-width="3">Zelena, desno, čunj</text>
+      <text x="530" y="274" text-anchor="middle" font-size="11" fill="#b4f5cf" font-family="var(--mono)">Z Bl 4s</text>`;
   // brodica (<12 m) odozgo-straga: trag pjene, sveokružno bijelo + crveno lijevo + zeleno desno
   g+=`<g transform="translate(340,226)">
       <path class="lwWake" d="M-10,22 L-58,80 L-40,80 L-4,30 Z M10,22 L58,80 L40,80 L4,30 Z" fill="#e8f6ff" opacity=".35" filter="url(#lwSoft)"/>
@@ -205,6 +205,6 @@ markStrip('otherMarksWidget',['iso','safe','spec']);
       <circle cx="-11.5" cy="-8" r="7" fill="url(#lwHR)"/><circle cx="-11.5" cy="-8" r="2" fill="#ffd2cf"/>
       <circle cx="11.5" cy="-8" r="7" fill="url(#lwHG)"/><circle cx="11.5" cy="-8" r="2" fill="#d4ffe6"/>
       <circle cx="0" cy="-16" r="8" fill="url(#lwHW)"/><circle cx="0" cy="-16" r="2.2" fill="#fff"/></g>`;
-  g+=`<text x="${W/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="${C.acc}" font-weight="700" paint-order="stroke" stroke="#0b2a44" stroke-width="3">▲ SMJER UPLOVLJAVANJA (s mora prema luci)</text>`;
+  g+=`<text x="${W/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="${C.acc}" font-weight="600" paint-order="stroke" stroke="#0b2a44" stroke-width="3">▲ smjer uplovljavanja (s mora prema luci)</text>`;
   b.innerHTML=SVG(W,H,g,'class="lwSvg" role="img" aria-label="Lateralne oznake pri uplovljavanju: crvena lijevo, zelena desno"');
 })();

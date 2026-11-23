@@ -2,41 +2,41 @@
 /* Izbjegavanje sudara: situacije, rizik sudara, jedrilice, zvučni signali. */
 /* ═══════════════ COLREG SCENARIOS ═══════════════ */
 const COLREG=[
- {id:'head',t:'Nasuprotni kursevi: glava u glavu',a:{x:200,y:300,h:0,type:'motor'},bo:{x:200,y:100,h:180,type:'motor'},
-  r:'Nijedan nema prednost. <b>OBA mijenjaju kurs UDESNO</b> i prolaze lijevi bok uz lijevi bok. Radnja mora biti pravovremena i odlučna.',
+ {id:'head',t:'Nasuprotni kursovi: pramcem u pramac',a:{x:200,y:300,h:0,type:'motor'},bo:{x:200,y:100,h:180,type:'motor'},
+  r:'Nijedan nema prednost. <b>Oba mijenjaju kurs udesno</b> i prolaze lijevi bok uz lijevi bok. Radnja mora biti pravodobna i odlučna.',
   path:'both_right', signal:'· (jedan kratki), mijenjam kurs udesno'},
- {id:'cross_r',t:'Kursevi se sijeku: drugi mi dolazi ZDESNA',a:{x:120,y:280,h:45,type:'motor'},bo:{x:340,y:150,h:225,type:'motor'},
-  r:'Vidim ga preko <b>svoje desne strane</b> → <b>JA IZBJEGAVAM</b>. Mijenjam kurs UDESNO i prolazim <b>iza njegove krme</b>. On zadržava kurs i brzinu.',
+ {id:'cross_r',t:'Kursovi se sijeku: drugi mi dolazi zdesna',a:{x:120,y:280,h:45,type:'motor'},bo:{x:340,y:150,h:225,type:'motor'},
+  r:'Vidim ga preko <b>svoje desne strane</b>, pa <b>ja izbjegavam</b>. Mijenjam kurs udesno i prolazim <b>iza njegove krme</b>. On zadržava kurs i brzinu.',
   path:'a_right', signal:'· (jedan kratki)'},
- {id:'cross_l',t:'Kursevi se sijeku: drugi mi dolazi SLIJEVA',a:{x:340,y:280,h:315,type:'motor'},bo:{x:120,y:150,h:135,type:'motor'},
-  r:'Vidim ga preko svoje <b>lijeve</b> strane → <b>JA IMAM PREDNOST.</b> Zadržavam kurs i brzinu i stalno ga pratim. On mora izbjeći.',
+ {id:'cross_l',t:'Kursovi se sijeku: drugi mi dolazi slijeva',a:{x:340,y:280,h:315,type:'motor'},bo:{x:120,y:150,h:135,type:'motor'},
+  r:'Vidim ga preko svoje <b>lijeve</b> strane, pa <b>ja imam prednost</b>. Zadržavam kurs i brzinu i stalno ga pratim. On mora izbjeći.',
   path:'b_right', signal:'nije potreban'},
  {id:'noreact',t:'Imam prednost, ali on ne reagira',a:{x:340,y:280,h:315,type:'motor'},bo:{x:120,y:150,h:135,type:'motor'},
-  r:'1) <b>Najmanje 5 kratkih zvučnih signala</b>: upozorenje.<br>2) Ako i dalje ništa: <b>izbjegavam iako imam prednost</b>.<br>3) <b>Puni okret UDESNO</b> pa zaobilazak. <span class="c-red"><b>NIKAD ulijevo!</b></span> Razlog: ako se on „probudi" i krene udesno, sudarit ćete se.',
+  r:'1) <b>Najmanje 5 kratkih zvučnih signala</b>: upozorenje.<br>2) Ako i dalje ništa: <b>izbjegavam iako imam prednost</b>.<br>3) <b>Puni okret udesno</b> pa zaobilazak. <span class="c-red"><b>Nikad ulijevo.</b></span> Razlog: ako se on „probudi“ i krene udesno, sudarit ćete se.',
   path:'a_circle', signal:'<span class="sg" role="img" aria-label="kratki, kratki, kratki, kratki, kratki"><i></i><i></i><i></i><i></i><i></i></span> (pet ili više kratkih)'},
  {id:'overtake',t:'Pretjecanje',a:{x:200,y:330,h:0,type:'motor'},bo:{x:200,y:170,h:0,type:'motor'},
-  r:'<b>Brod koji pretječe UVIJEK se uklanja</b>: bilo da je motorni, jedrilica ili motorni jedrenjak. Može lijevo ili desno, ali <b>nikad ne smije presjeći kurs</b> brodu kojeg pretječe (ne prolazi mu po pramcu). Pretjecani zadržava kurs i brzinu.',
+  r:'<b>Brod koji pretječe uvijek se uklanja</b>: bilo da je motorni, jedrilica ili motorni jedrenjak. Može lijevo ili desno, ali <b>nikad ne smije presjeći kurs</b> brodu kojeg pretječe (ne prolazi mu po pramcu). Pretjecani zadržava kurs i brzinu.',
   path:'a_pass', signal:'<span class="sg" role="img" aria-label="dugi, dugi, kratki"><i class="l"></i><i class="l"></i><i></i></span> s njegove desne, <span class="sg" role="img" aria-label="dugi, dugi, kratki, kratki"><i class="l"></i><i class="l"></i><i></i><i></i></span> s njegove lijeve; pristanak: <span class="sg" role="img" aria-label="dugi, kratki, dugi, kratki"><i class="l"></i><i></i><i class="l"></i><i></i></span>'},
  {id:'sail_motor',t:'Jedrilica × motorni brod',a:{x:130,y:280,h:40,type:'motor'},bo:{x:330,y:160,h:220,type:'sail'},
-  r:'<b>Jedrilica ima prednost.</b> Motorni brod mijenja kurs UDESNO i zaobilazi <b>po krmi</b> jedrilice. Jedrilica zadržava kurs i brzinu.<br><span style="color:var(--yellow)">Iznimke: ako jedrilica pretječe, ako je motorni jedrenjak, ili ako je motorni brod u kategoriji iznad nje.</span>',
+  r:'<b>Jedrilica ima prednost.</b> Motorni brod mijenja kurs udesno i zaobilazi <b>po krmi</b> jedrilice. Jedrilica zadržava kurs i brzinu.<br><span style="color:var(--yellow)">Iznimke: ako jedrilica pretječe, ako je motorni jedrenjak, ili ako je motorni brod u kategoriji iznad nje.</span>',
   path:'a_right', signal:'· (jedan kratki)'},
- {id:'motsail',t:'TRIK: „jedrilica" s crnim čunjem vrhom dolje',a:{x:130,y:280,h:40,type:'motor'},bo:{x:330,y:160,h:220,type:'motorsail'},
-  r:'Čunj vrhom dolje = <b>MOTORNI JEDRENJAK</b> = brod na mehanički pogon. Nema prednost jedrilice!<br>Dva motorna broda, kursevi se sijeku → <b>pravilo desne strane</b>. Ako mi dolazi <b>zdesna</b>: ja izbjegavam. Ako <b>slijeva</b>: ja imam prednost.',
+ {id:'motsail',t:'Zamka: „jedrilica“ s crnim čunjem vrhom dolje',a:{x:130,y:280,h:40,type:'motor'},bo:{x:330,y:160,h:220,type:'motorsail'},
+  r:'Čunj vrhom dolje znači <b>motorni jedrenjak</b>, dakle brod na mehanički pogon. Nema prednost jedrilice.<br>Kad se sijeku kursovi dvaju motornih brodova, vrijedi <b>pravilo desne strane</b>. Ako mi dolazi <b>zdesna</b>: ja izbjegavam. Ako <b>slijeva</b>: ja imam prednost.',
   path:'a_right', signal:'· (jedan kratki)'},
- {id:'anchored',t:'TRIK: jedrilica s crnom kuglom',a:{x:150,y:290,h:20,type:'motor'},bo:{x:310,y:160,h:200,type:'anchored'},
-  r:'Crna kugla = <b>USIDRENI BROD</b>. Uopće nije u plovidbi: pitanje prednosti se ne postavlja. <b>Ja ga moram zaobići.</b><br>Smjer njegovog pramca je nebitan: usidreni brod se okreće oko sidra.',
+ {id:'anchored',t:'Zamka: jedrilica s crnom kuglom',a:{x:150,y:290,h:20,type:'motor'},bo:{x:310,y:160,h:200,type:'anchored'},
+  r:'Crna kugla znači <b>usidreni brod</b>. Uopće nije u plovidbi, pa se pitanje prednosti ne postavlja. <b>Moram ga zaobići.</b><br>Smjer njegova pramca nije bitan: usidreni brod okreće se oko sidra.',
   path:'a_avoid', signal:'nije potreban'},
- {id:'sail_diff',t:'Dvije jedrilice: vjetar u RAZLIČITI bok',a:{x:140,y:270,h:35,type:'sail',tack:'port'},bo:{x:330,y:170,h:215,type:'sail',tack:'stbd'},
-  r:'<b>Izbjegava ona koja prima vjetar u LIJEVI bok</b> (port tack). Ona s vjetrom u desni bok (starboard tack) ima prednost i zadržava kurs.',
+ {id:'sail_diff',t:'Dvije jedrilice: vjetar u različite bokove',a:{x:140,y:270,h:35,type:'sail',tack:'port'},bo:{x:330,y:170,h:215,type:'sail',tack:'stbd'},
+  r:'<b>Izbjegava ona koja prima vjetar u lijevi bok</b> (port tack). Ona s vjetrom u desni bok (starboard tack) ima prednost i zadržava kurs.',
   path:'a_right', signal:'nije potreban', wind:true},
- {id:'sail_same',t:'Dvije jedrilice: vjetar u ISTI bok',a:{x:150,y:150,h:150,type:'sail'},bo:{x:290,y:270,h:150,type:'sail'},
-  r:'<b>Izbjegava ona koja je U PRIVJETRINI</b> (bliže vjetru, ima jači vjetar). Ona u <b>zavjetrini</b> ima prednost. Privjetrinska skreće niz vjetar ili prolazi po krmi druge.',
+ {id:'sail_same',t:'Dvije jedrilice: vjetar u isti bok',a:{x:150,y:150,h:150,type:'sail'},bo:{x:290,y:270,h:150,type:'sail'},
+  r:'<b>Izbjegava ona koja je U privjetrini</b> (bliže vjetru, ima jači vjetar). Ona u <b>zavjetrini</b> ima prednost. Privjetrinska skreće niz vjetar ili prolazi po krmi druge.',
   path:'a_right', signal:'nije potreban', wind:true},
  {id:'harbour',t:'Ulaz i izlaz iz luke',a:{x:200,y:320,h:0,type:'motor'},bo:{x:200,y:150,h:180,type:'motor'},
-  r:'<b>Brod koji IZLAZI iz luke ima prednost</b> pred brodom koji ulazi. Onaj koji ulazi čeka.',
+  r:'<b>Brod koji izlazi iz luke ima prednost</b> pred brodom koji ulazi. Onaj koji ulazi čeka.',
   path:'none', signal:'nije potreban', harbour:true},
  {id:'narrow',t:'Uski kanal: mali i veliki brod',a:{x:150,y:290,h:0,type:'motor'},bo:{x:250,y:150,h:180,type:'big'},
-  r:'Plovni objekti <b>duljine 20 m i manji</b> dužni su <b>sklanjati se s puta većim plovnim objektima</b> u uskim kanalima, pri uplovljenju/isplovljenju i u <b>polukrugu od 1 Nm</b> od ulaza u luku. Ako želiš prijeći kanal: <b>okomito, najkraćim putem</b>. Pretjecanje u pravilu nije dopušteno.',
+  r:'Plovni objekti <b>duljine do 20 m</b> dužni su <b>sklanjati se s puta većim plovnim objektima</b> u uskim kanalima, pri uplovljenju i isplovljenju te u <b>polukrugu od 1 Nm</b> od ulaza u luku. Ako želiš prijeći kanal: <b>okomito, najkraćim putem</b>. Pretjecanje u pravilu nije dopušteno.',
   path:'a_right', signal:'nije potreban', narrow:true}
 ];
 
@@ -63,7 +63,7 @@ const COLREG=[
       ${extra}
       <circle cx="-10.5" cy="-4" r="5" fill="url(#crGR)"/><circle cx="-10.5" cy="-4" r="1.8" fill="var(--sig-red)"/>
       <circle cx="10.5" cy="-4" r="5" fill="url(#crGG)"/><circle cx="10.5" cy="-4" r="1.8" fill="var(--sig-green)"/></g></g>
-      <text x="${x}" y="${y+(type==='big'?42:34)}" text-anchor="middle" font-size="12" font-weight="800" fill="${c}" paint-order="stroke" stroke="#0b2135" stroke-width="3"${lab}>${label}</text>`;
+      <text x="${x}" y="${y+(type==='big'?42:34)}" text-anchor="middle" font-size="12" font-weight="600" fill="${c}" paint-order="stroke" stroke="#0b2135" stroke-width="3"${lab}>${label}</text>`;
   }
   function arrow(x1,y1,x2,y2,col,dash){
     return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="2" stroke-dasharray="${dash||'0'}" marker-end="url(#ah)"/>`;
@@ -86,10 +86,10 @@ const COLREG=[
     { const rr=Math.min(W,H)/2-8, cx=W/2, cy=H/2; g+=`<circle cx="${cx}" cy="${cy}" r="${rr}" fill="none" stroke="#2d5578" stroke-width="1" opacity=".8"/>`;
       for(let d=0;d<360;d+=10){ const q=d*Math.PI/180, r1=rr-(d%90?5:11); g+=`<line x1="${(cx+Math.sin(q)*r1).toFixed(1)}" y1="${(cy-Math.cos(q)*r1).toFixed(1)}" x2="${(cx+Math.sin(q)*rr).toFixed(1)}" y2="${(cy-Math.cos(q)*rr).toFixed(1)}" stroke="#4d7a9c" stroke-width="${d%90?.7:1.6}"/>`; }
       [['N',0],['E',90],['S',180],['W',270]].forEach(([t,d])=>{ const q=d*Math.PI/180, x=cx+Math.sin(q)*(rr-20), y=cy-Math.cos(q)*(rr-20)+4;
-        g+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="${t==='N'?C.red:'#7fa8c8'}" transform="rotate(${-ROT} ${x.toFixed(1)} ${(y-4).toFixed(1)})">${t}</text>`; }); }
-    if(sc.harbour){ g+=`<rect x="120" y="0" width="230" height="70" fill="#2a3d4d"/><text x="235" y="42" text-anchor="middle" font-size="13" fill="${C.txt2}" font-weight="700" transform="rotate(${-ROT} 235 38)">LUKA</text>`; }
-    if(sc.narrow){ g+=`<rect x="0" y="0" width="90" height="${H}" fill="#2a3d4d"/><rect x="${W-90}" y="0" width="90" height="${H}" fill="#2a3d4d"/><text x="45" y="200" text-anchor="middle" font-size="12" fill="${C.txt2}" transform="rotate(-90 45 200)">USKI KANAL</text>`; }
-    if(sc.wind){ g+=`<g opacity=".8">${arrow(40,40,40,110,C.yellow)}<text x="52" y="80" font-size="12" fill="${C.yellow}" font-weight="700">VJETAR</text></g>`; }
+        g+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="11" font-weight="600" fill="${t==='N'?C.red:'#7fa8c8'}" transform="rotate(${-ROT} ${x.toFixed(1)} ${(y-4).toFixed(1)})">${t}</text>`; }); }
+    if(sc.harbour){ g+=`<rect x="120" y="0" width="230" height="70" fill="#2a3d4d"/><text x="235" y="42" text-anchor="middle" font-size="13" fill="${C.txt2}" font-weight="600" transform="rotate(${-ROT} 235 38)">Luka</text>`; }
+    if(sc.narrow){ g+=`<rect x="0" y="0" width="90" height="${H}" fill="#2a3d4d"/><rect x="${W-90}" y="0" width="90" height="${H}" fill="#2a3d4d"/><text x="45" y="200" text-anchor="middle" font-size="12" fill="${C.txt2}" transform="rotate(-90 45 200)">Uski kanal</text>`; }
+    if(sc.wind){ g+=`<g opacity=".8">${arrow(40,40,40,110,C.yellow)}<text x="52" y="80" font-size="12" fill="${C.yellow}" font-weight="600">Vjetar</text></g>`; }
     // putanje se računaju iz stvarnog kursa: "udesno" = kurs + 40°
     const V=(h,len)=>[Math.sin(h*Math.PI/180)*len,-Math.cos(h*Math.PI/180)*len];
     const TURN={both_right:40,a_right:40,a_pass:20,a_avoid:50};
@@ -101,7 +101,7 @@ const COLREG=[
     g+=gl(onV,boat(B.x,B.y,B.h,B.type,'ON'));
     if(show){
       const bow=(o)=>{ const v=V(o.h,24); return [o.x+v[0],o.y+v[1]]; };
-      const lab=(x,y,t,col)=>{ const X=Math.max(60,Math.min(W-60,x)), Y=Math.max(14,Math.min(H-8,y)); return `<text x="${X}" y="${Y}" text-anchor="middle" font-size="11" fill="${col}" font-weight="700" paint-order="stroke" stroke="#0b2135" stroke-width="3" transform="rotate(${-ROT} ${X} ${Y})">${t}</text>`; };
+      const lab=(x,y,t,col)=>{ const X=Math.max(60,Math.min(W-60,x)), Y=Math.max(14,Math.min(H-8,y)); return `<text x="${X}" y="${Y}" text-anchor="middle" font-size="11" fill="${col}" font-weight="600" paint-order="stroke" stroke="#0b2135" stroke-width="3" transform="rotate(${-ROT} ${X} ${Y})">${t}</text>`; };
       const [ax,ay]=bow(A), [bx,by]=bow(B);
       if(p==='both_right'){ g+=arrow(ax,ay,ax+tiV[0],ay+tiV[1],C.green); g+=arrow(bx,by,bx+onV[0],by+onV[1],C.green); }
       if(p==='a_right'){ g+=arrow(ax,ay,ax+tiV[0],ay+tiV[1],C.green); g+=lab(ax+tiV[0]*1.15,ay+tiV[1]*1.15-6,sc.wind?'udesno, niz vjetar':sc.narrow?'udesno, prema rubu kanala':'udesno, iza krme',C.green); }
@@ -111,19 +111,19 @@ const COLREG=[
         const r=46, cxy=V(A.h+90,r), cx=A.x+cxy[0], cy=A.y+cxy[1];
         const st=[A.x,A.y], en=V(A.h+90-8,1);
         g+=`<path d="M${st[0]},${st[1]} A${r},${r} 0 1 1 ${(cx-Math.sin((A.h+90-12)*Math.PI/180)*r).toFixed(1)},${(cy+Math.cos((A.h+90-12)*Math.PI/180)*r).toFixed(1)}" fill="none" stroke="${C.green}" stroke-width="2.4" marker-end="url(#ahg)"/>`;
-        g+=lab(cx,cy-r-10,'puni okret UDESNO',C.green);
+        g+=lab(cx,cy-r-10,'puni okret udesno',C.green);
       }
       if(p==='a_pass'){ g+=arrow(ax,ay,ax+tiV[0],ay+tiV[1],C.green); g+=lab(ax+tiV[0],ay+tiV[1]-10,'obilazim, ne presijecam',C.green); }
       if(p==='a_avoid'){ g+=arrow(ax,ay,ax+tiV[0],ay+tiV[1],C.green); g+=lab(ax+tiV[0],ay+tiV[1]-10,'zaobilazim usidreni brod',C.green); }
     }
     g+=`</g>`;
-    if(myView) g+=`<text x="${W-12}" y="20" text-anchor="end" font-size="11" fill="${C.acc}" font-weight="700">pogled s mog broda: pramac gore</text>`;
+    if(myView) g+=`<text x="${W-12}" y="20" text-anchor="end" font-size="11" fill="${C.acc}" font-weight="600">pogled s mog broda: pramac gore</text>`;
     stage.innerHTML=SVG(W,H,g);
   }
   function show(){
     const sc=COLREG[idx];
     draw(sc,solved);
-    el('colregInfo').innerHTML=`<h4 class="mt14">${idx+1}/${COLREG.length} · ${sc.t}</h4>`+
+    el('colregInfo').innerHTML=`<h4 class="mt14">${idx+1}/${COLREG.length}, ${sc.t}</h4>`+
       (solved?`<div class="expl"><b>Rješenje</b><br>${sc.r}<div style="margin-top:8px;font-size:13.5px;color:var(--txt2)"><b>Zvučni signal:</b> <code>${sc.signal}</code></div></div>`
        :`<p class="c-txt2">Tko ima prednost i kojim putem prolaziš? Razmisli, pa otkrij rješenje.</p>`)+
       (myView?`<div class="note"><b>Moj pramac gore</b>${(((sc.a.h%360)+360)%360)===0?'Tvoj brod (TI) ovdje već plovi prema sjeveru, pa je slika ista kao prije. Razlika se vidi u situacijama gdje TI plovi u drugom smjeru (npr. 3, 4, 5).':'Slika je zakrenuta tako da TI plovi prema gore, kao da stojiš na svom brodu i gledaš naprijed. Sad odmah vidiš je li drugi brod s tvoje <b>desne</b> ili <b>lijeve</b> strane.'}</div>`:`<p style="font-size:13.5px;color:var(--txt3)">Savjet: gumb <b>Okreni: moj pramac gore</b> zakrene sliku kao da gledaš sa svog broda, pa lakše vidiš dolazi li drugi brod zdesna ili slijeva.</p>`);
@@ -145,7 +145,7 @@ const COLREG=[
   const b=el('riskWidget'); if(!b) return;
   const W=520,H=330, RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const A0=[150,296], X=[150,96], B0=[470,160], PX=120; // 120 px = 1 M
-  const CASES={same:{n:'Ne mijenja se',k:1,end:.93,txt:'<b>Azimut ostaje isti, a udaljenost pada: sudar.</b> Oba broda stižu u istu točku u isto vrijeme. Ovo je znak da moraš djelovati po pravilima, na vrijeme.'},
+  const CASES={same:{n:'Ne mijenja se',k:1,end:.93,txt:'<b>Azimut ostaje isti, a udaljenost pada: sudar.</b> Oba broda stižu u istu točku u isto vrijeme. To je znak da moraš djelovati po pravilima, i to na vrijeme.'},
     ahead:{n:'Smanjuje se',k:1.4,end:.86,txt:'<b>Azimut se smanjuje:</b> drugi brod izmiče prema tvom pramcu i <b>prolazi ispred tebe</b>. Što se azimut brže mijenja, to je prolaz sigurniji.'},
     astern:{n:'Povećava se',k:.66,end:1.12,txt:'<b>Azimut se povećava:</b> drugi brod zaostaje prema tvojoj krmi i <b>prolazi iza tebe</b>.'}};
   let key='same', t=0, raf=0, last=0, playing=false, fk=1;
@@ -163,14 +163,14 @@ const COLREG=[
     // tri ranija mjerenja: crta azimuta i očitanje
     [0,.3,.6].forEach((u,i)=>{ if(u>t+.001) return; const p=at(u), mx=(p.a[0]+p.o[0])/2, my=(p.a[1]+p.o[1])/2;
       g+=hull(p.a,0,C.acc,.3)+hull(p.o,hB,'#e6eef5',.3)+`<line x1="${p.a[0].toFixed(1)}" y1="${p.a[1].toFixed(1)}" x2="${p.o[0].toFixed(1)}" y2="${p.o[1].toFixed(1)}" stroke="${C.red}" stroke-width="1.4" stroke-dasharray="4 4" opacity=".55"/>
-        <text x="${(mx+6).toFixed(1)}" y="${(my+16).toFixed(1)}" font-size="${(11.5*fk).toFixed(1)}" font-weight="700" fill="${C.red}" paint-order="stroke" stroke="#0b2135" stroke-width="3">${i+1}. ${f3(brg(p))}</text>`; });
+        <text x="${(mx+6).toFixed(1)}" y="${(my+16).toFixed(1)}" font-size="${(11.5*fk).toFixed(1)}" font-weight="600" fill="${C.red}" paint-order="stroke" stroke="#0b2135" stroke-width="3">${i+1}. ${f3(brg(p))}</text>`; });
     const p=at(t), hit=key==='same'&&t>=c.end-.001;
     g+=`<line x1="${p.a[0].toFixed(1)}" y1="${p.a[1].toFixed(1)}" x2="${p.o[0].toFixed(1)}" y2="${p.o[1].toFixed(1)}" stroke="${C.red}" stroke-width="2.2"/>`;
     g+=hull(p.a,0,C.acc,1)+hull(p.o,hB,'#e6eef5',1);
-    if(!hit) g+=`<text x="${(p.a[0]-16).toFixed(1)}" y="${(p.a[1]+5).toFixed(1)}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" font-weight="800" fill="${C.acc}">TI</text><text x="${(p.o[0]+14).toFixed(1)}" y="${(p.o[1]-10).toFixed(1)}" font-size="${(12*fk).toFixed(1)}" font-weight="800" fill="${C.txt2}">ON</text>`;
-    if(hit) g+=`<circle cx="${X[0]}" cy="${X[1]+10}" r="26" fill="none" stroke="${C.red}" stroke-width="3"/><text x="${X[0]+36}" y="${X[1]+14}" font-size="${(14*fk).toFixed(1)}" font-weight="800" fill="${C.red}">SUDAR</text>`;
-    g+=`</g><text x="${W-14}" y="${8+16*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">azimut <tspan font-weight="800" font-size="${(15*fk).toFixed(1)}" fill="#fff">${f3(brg(p))}</tspan></text>
-      <text x="${W-14}" y="${8+34*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">udaljenost <tspan font-weight="800" fill="#fff">${rng(p).toFixed(1).replace('.',',')} M</tspan></text>`;
+    if(!hit) g+=`<text x="${(p.a[0]-16).toFixed(1)}" y="${(p.a[1]+5).toFixed(1)}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" font-weight="600" fill="${C.acc}">TI</text><text x="${(p.o[0]+14).toFixed(1)}" y="${(p.o[1]-10).toFixed(1)}" font-size="${(12*fk).toFixed(1)}" font-weight="600" fill="${C.txt2}">ON</text>`;
+    if(hit) g+=`<circle cx="${X[0]}" cy="${X[1]+10}" r="26" fill="none" stroke="${C.red}" stroke-width="3"/><text x="${X[0]+36}" y="${X[1]+14}" font-size="${(14*fk).toFixed(1)}" font-weight="600" fill="${C.red}">Sudar</text>`;
+    g+=`</g><text x="${W-14}" y="${8+16*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">azimut <tspan font-weight="600" font-size="${(15*fk).toFixed(1)}" fill="#fff">${f3(brg(p))}</tspan></text>
+      <text x="${W-14}" y="${8+34*fk}" text-anchor="end" font-size="${(12*fk).toFixed(1)}" fill="${C.txt2}">udaljenost <tspan font-weight="600" fill="#fff">${rng(p).toFixed(1).replace('.',',')} M</tspan></text>`;
     stage.innerHTML=SVG(W,H,g); }
   function loop(ts){ if(!playing) return; if(!last) last=ts; const c=CASES[key]; t=Math.min(c.end,t+(ts-last)/1000/6); last=ts; draw();
     if(t>=c.end){ playing=false; setTimeout(()=>{ if(!playing){ t=0; start(); } },2600); return; } raf=requestAnimationFrame(loop); }
@@ -189,21 +189,21 @@ const COLREG=[
     return `<g transform="translate(${x},${y}) rotate(${rot})">
       <path d="M0,-26 L12,-4 L12,18 L-12,18 L-12,-4 Z" fill="#12354e" stroke="${c}" stroke-width="1.6"/>
       <path d="M0,-30 L0,16 L17,10 Z" fill="${c}" opacity=".55"/></g>
-      <text x="${x}" y="${y+42}" text-anchor="middle" font-size="12.5" font-weight="800" fill="${c}">${lbl}</text>
+      <text x="${x}" y="${y+42}" text-anchor="middle" font-size="12.5" font-weight="600" fill="${c}">${lbl}</text>
       <text x="${x}" y="${y+58}" text-anchor="middle" font-size="11" fill="${C.txt2}">${sub}</text>`;
   }
   let g=`<clipPath id="seaClip${W}x${H}"><rect width="${W}" height="${H}" rx="10"/></clipPath><g clip-path="url(#seaClip${W}x${H})">${seaBackground(W,H,{view:'top'})}</g>`;
   g+=`<line x1="${W/2}" y1="14" x2="${W/2}" y2="${H-14}" stroke="${C.line}" stroke-dasharray="6 5"/>`;
   // left: different tacks
-  g+=`<text x="${W/4}" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${C.txt}">RAZLIČITI BOK</text>`;
-  g+=`<g opacity=".85"><line x1="30" y1="52" x2="30" y2="108" stroke="${C.yellow}" stroke-width="2"/><polygon points="30,116 25,104 35,104" fill="${C.yellow}"/><text x="46" y="86" font-size="11" fill="${C.yellow}" font-weight="700">VJETAR</text></g>`;
-  g+=sail(110,140,40,C.red,'Vjetar u LIJEVI bok','IZBJEGAVA');
-  g+=sail(250,140,-40,C.green,'Vjetar u DESNI bok','IMA PREDNOST');
+  g+=`<text x="${W/4}" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${C.txt}">Različiti bok</text>`;
+  g+=`<g opacity=".85"><line x1="30" y1="52" x2="30" y2="108" stroke="${C.yellow}" stroke-width="2"/><polygon points="30,116 25,104 35,104" fill="${C.yellow}"/><text x="46" y="86" font-size="11" fill="${C.yellow}" font-weight="600">Vjetar</text></g>`;
+  g+=sail(110,140,40,C.red,'Vjetar u lijevi bok','Izbjegava');
+  g+=sail(250,140,-40,C.green,'Vjetar u desni bok','Ima prednost');
   // right: same tack
-  g+=`<text x="${W*3/4}" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="${C.txt}">ISTI BOK</text>`;
-  g+=`<g opacity=".85"><line x1="382" y1="52" x2="382" y2="108" stroke="${C.yellow}" stroke-width="2"/><polygon points="382,116 377,104 387,104" fill="${C.yellow}"/><text x="398" y="86" font-size="11" fill="${C.yellow}" font-weight="700">VJETAR</text></g>`;
-  g+=sail(470,112,30,C.red,'PRIVJETRINA','IZBJEGAVA');
-  g+=sail(590,192,30,C.green,'ZAVJETRINA','IMA PREDNOST');
+  g+=`<text x="${W*3/4}" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="${C.txt}">Isti bok</text>`;
+  g+=`<g opacity=".85"><line x1="382" y1="52" x2="382" y2="108" stroke="${C.yellow}" stroke-width="2"/><polygon points="382,116 377,104 387,104" fill="${C.yellow}"/><text x="398" y="86" font-size="11" fill="${C.yellow}" font-weight="600">Vjetar</text></g>`;
+  g+=sail(470,112,30,C.red,'Privjetrina','Izbjegava');
+  g+=sail(590,192,30,C.green,'Zavjetrina','Ima prednost');
   b.innerHTML=SVG(W,H,g);
 })();
 
@@ -211,16 +211,16 @@ const COLREG=[
 (function(){
   const b=el('soundWidget'); if(!b) return;
   const sigs=[
-    ['Jedan kratki','Mijenjam kurs UDESNO',[1]],
-    ['Dva kratka','Mijenjam kurs ULIJEVO',[1,1]],
-    ['Tri kratka','Vozim KRMOM',[1,1,1]],
-    ['Pet kratkih','UPOZORENJE: ne razumijem namjere',[1,1,1,1,1]],
-    ['Jedan dugi','Nailazim iza rta / u plovidbi u magli',[4]],
+    ['Jedan kratki','Mijenjam kurs udesno',[1]],
+    ['Dva kratka','Mijenjam kurs ulijevo',[1,1]],
+    ['Tri kratka','Vozim krmom',[1,1,1]],
+    ['Pet kratkih','Upozorenje: ne razumijem namjere',[1,1,1,1,1]],
+    ['Jedan dugi','Nailazim iza rta ili plovim u magli',[4]],
     ['Dva duga','Plovim, ali se ne krećem kroz vodu (magla)',[4,4]],
-    ['Dugi + dva kratka','Jedra, tegljenje, ribolov, nesposoban, ograničen (magla)',[4,1,1]],
+    ['Dugi i dva kratka','Jedra, tegljenje, ribolov, nesposoban, ograničen (magla)',[4,1,1]],
     ['Četiri kratka','Peljarski brod u službi (magla)',[1,1,1,1]],
-    ['Dva duga + kratki','Pretječem s TVOJE DESNE strane',[4,4,1]],
-    ['Dva duga + dva kratka','Pretječem s TVOJE LIJEVE strane',[4,4,1,1]],
+    ['Dva duga i kratki','Pretječem s tvoje desne strane',[4,4,1]],
+    ['Dva duga i dva kratka','Pretječem s tvoje lijeve strane',[4,4,1,1]],
     ['Dugi, kratki, dugi, kratki','Slažem se s pretjecanjem',[4,1,4,1]]
   ];
   // isti raspored kao u play(): kratki 0,28 s, dugi 1,1 s, razmak 0,22 s (skraćeno radi slušanja)
@@ -260,11 +260,11 @@ const COLREG=[
     })(performance.now());
   }
   b.innerHTML='<div class="grid g2">'+sigs.map((s,i)=>
-    `<button type="button" class="card tight sndCard" data-i="${i}">
+    `<div class="card tight sndCard" data-i="${i}">
       <span class="sndRow"><span class="sndMark" aria-hidden="true">${mark(s[2])}</span>
-        <span class="sndTxt"><span class="sr">Pusti zvuk: </span><b>${s[0]}</b><span>${s[1]}</span></span>
+        <span class="sndTxt"><button type="button" class="sndBtn"><span class="sr">Pusti zvuk: </span>${s[0]}</button><span>${s[1]}</span></span>
         <span class="sndPlay" aria-hidden="true">${UI.icon('play',20)}</span></span>
-      <span class="sgtrack"></span></button>`).join('')+'</div>'+
+      <span class="sgtrack"></span></div>`).join('')+'</div>'+
     '<p class="small muted">Reprodukcija je skraćena radi slušanja. Na moru kratki traje 1 s, a dugi 4 do 6 s.</p>';
   $$('.sndCard',b).forEach(c=>{
     const go=()=>{ const pat=sigs[+c.dataset.i][2]; play(pat); track(c,pat); };

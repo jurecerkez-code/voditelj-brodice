@@ -16,7 +16,8 @@
     return {r:r,g:g,b:b,a:a,H:H,S:S,L:L};
   }
   function rgba(hex,a){ return a<1? 'rgba('+parseInt(hex.substr(1,2),16)+','+parseInt(hex.substr(3,2),16)+','+parseInt(hex.substr(5,2),16)+','+a+')' : hex; }
-  var INK='#0b2233', INK2='#3a5266', INK3='#6b8194', NAVY='#14507f', PAPER='#f3f7fa', PAPER2='#e6eef4', WATER='#dcebf4', WATER2='#c5dcea', RULE='#a3b8c8';
+  /* iste vrijednosti kao tokeni u app.css: tinta, prigušeno, list, papir-2, crta */
+  var INK='#0f171e', INK2='#3b434b', INK3='#6a737b', NAVY='#14507f', PAPER='#e5eaef', PAPER2='#d8dee4', WATER='#d5e6f0', WATER2='#bdd6e6', RULE='#a1a9af';
   function map(val, prop, el){
     var c=parse(val); if(!c) return null;
     var isText=/^(text|tspan|textPath)$/i.test(el.tagName);
@@ -193,4 +194,23 @@
     .observe(content,{childList:true,subtree:true});
   new MutationObserver(later).observe(content,{attributes:true,subtree:true,attributeFilter:['class']});
   all();
+})();
+
+/* Ime svakog crteža za čitač zaslona. Crtež bez imena dobije ga po najbližem naslovu iznad sebe:
+   onaj s dijelovima koji primaju fokus postaje skupina, ostali slika. Ukrasni (aria-hidden) se ne diraju. */
+(function(){
+  var content=document.getElementById('content'); if(!content) return;
+  var SEL='svg:not([role]):not([aria-label]):not([aria-labelledby]):not([aria-hidden])';
+  function nameFor(svg){ var pg=svg.closest('section.page'); if(!pg) return '';
+    var hs=pg.querySelectorAll('h2,h3,h4,.osHead b,.simTitle'), t='';
+    for(var i=0;i<hs.length;i++){ if(hs[i].compareDocumentPosition(svg)&Node.DOCUMENT_POSITION_FOLLOWING) t=hs[i].textContent; else if(!hs[i].contains(svg)) break; }
+    return t.replace(/\s+/g,' ').trim(); }
+  /* svaki crtež u gradivu je shema stvarne stvari (svjetla, oznake, more, motor): tako se i zove u kodu */
+  function kind(){ content.querySelectorAll('svg:not(.ico):not([data-kind])').forEach(function(s){ s.setAttribute('data-kind','diagram'); }); }
+  function label(){ pending=0; kind(); content.querySelectorAll(SEL).forEach(function(s){
+      if(s.closest('[aria-hidden="true"],button,a,[role="img"]')){ s.setAttribute('aria-hidden','true'); return; }
+      var t=nameFor(s); if(!t){ s.setAttribute('aria-hidden','true'); return; }
+      s.setAttribute('role',s.querySelector('[tabindex]:not([tabindex="-1"]),a[href],button,[role="button"]')?'group':'img'); s.setAttribute('aria-label','Crtež: '+t); }); }
+  var pending=0; label();
+  new MutationObserver(function(){ if(!pending) pending=requestAnimationFrame(label); }).observe(content,{childList:true,subtree:true});
 })();

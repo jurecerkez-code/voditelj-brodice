@@ -1,4 +1,9 @@
-Copyright 2020-2024 The Atkinson Hyperlegible Next Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next) AtkinsonHyperlegibleNext-Italic[wght].ttf: Copyright 2020-2024 The Atkinson Hyperlegible Next Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next)
+Copyright 2021 The Hanken Grotesk Project Authors (https://github.com/marcologous/hanken-grotesk)
+Copyright 2020 The Newsreader Project Authors (https://github.com/productiontype/Newsreader)
+Copyright (c) 2017 IBM Corp. with Reserved Font Name "Plex"
+
+hanken-grotesk-hr.woff2, newsreader-hr.woff2 and newsreader-hr-italic.woff2 are subsets made for this app
+(see tools/fontovi.py). The IBMPlexMono-*.woff2 files are IBM's own unmodified web font files from @ibm/plex-mono.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

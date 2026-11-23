@@ -41,14 +41,14 @@
     // kompasna ruža
     g+=`<g transform="translate(${W-104},${M+116})"><circle r="34" fill="none" stroke="#6d4a8a" stroke-width="1"/><circle r="26" fill="none" stroke="#6d4a8a" stroke-width=".6"/>`;
     for(let a=0;a<360;a+=10){ const q=a*Math.PI/180, r1=a%90?30:26; g+=`<line x1="${(Math.sin(q)*r1).toFixed(1)}" y1="${(-Math.cos(q)*r1).toFixed(1)}" x2="${(Math.sin(q)*34).toFixed(1)}" y2="${(-Math.cos(q)*34).toFixed(1)}" stroke="#6d4a8a" stroke-width="${a%90?.6:1}"/>`; }
-    g+=`<path d="M0,-24 L4,0 L0,5 L-4,0 Z" fill="#6d4a8a"/><text y="-38" font-size="9" fill="#6d4a8a" text-anchor="middle" font-weight="700">N</text>`;
+    g+=`<path d="M0,-24 L4,0 L0,5 L-4,0 Z" fill="#6d4a8a"/><text y="-38" font-size="9" fill="#6d4a8a" text-anchor="middle" font-weight="600">N</text>`;
     // V4-C3: magnetska ruža unutra, zakrenuta za deklinaciju (vježbovni podatak), kao na pravoj karti
-    g+=`<g transform="rotate(3)"><circle r="18" fill="none" stroke="#6d4a8a" stroke-width=".5" stroke-dasharray="1.5 1.5"/><path d="M0,-18 l-3,6 h6 Z" fill="#fff" stroke="#6d4a8a" stroke-width=".9"/><text x="8" y="-12" font-size="7.5" fill="#6d4a8a" font-weight="700">M</text></g>
-      <text y="48" font-size="7.5" fill="#6d4a8a" text-anchor="middle" paint-order="stroke" stroke="#f7f8f4" stroke-width="3">N istinit · M magnetski</text><text y="57" font-size="7.5" fill="#6d4a8a" text-anchor="middle" paint-order="stroke" stroke="#f7f8f4" stroke-width="3">deklinacija 3° E (vježba)</text></g>`;
+    g+=`<g transform="rotate(3)"><circle r="18" fill="none" stroke="#6d4a8a" stroke-width=".5" stroke-dasharray="1.5 1.5"/><path d="M0,-18 l-3,6 h6 Z" fill="#fff" stroke="#6d4a8a" stroke-width=".9"/><text x="8" y="-12" font-size="7.5" fill="#6d4a8a" font-weight="600">M</text></g>
+      <text y="48" font-size="7.5" fill="#6d4a8a" text-anchor="middle" paint-order="stroke" stroke="#f7f8f4" stroke-width="3">N istinit, M magnetski</text><text y="57" font-size="7.5" fill="#6d4a8a" text-anchor="middle" paint-order="stroke" stroke="#f7f8f4" stroke-width="3">deklinacija 3° E (vježba)</text></g>`;
     // V4-C3: imena obale u hrvatskom stilu i upozorenje kao na pravim kartama
     g+=`<text x="${M+30}" y="${M+50}" font-size="10" fill="#6b5a22" font-style="italic" font-weight="600">rt Zub</text>
       <text x="${W-M-196}" y="${H-M-22}" font-size="9.5" fill="#2f5f86" font-style="italic">uvala Vela luka</text>
-      <text x="300" y="${H-M-26}" font-size="8.6" fill="#c2185b" font-style="italic" font-weight="700">OPREZ / CAUTION</text>
+      <text x="300" y="${H-M-26}" font-size="8.6" fill="#c2185b" font-style="italic" font-weight="600">Oprez / caution</text>
       <text x="300" y="${H-M-15}" font-size="8" fill="#c2185b" font-style="italic">Uz obalu plićaci i ribarski alati.</text>`;
     // mjerilo: 1 M = 1' širine
     const sx=M+14, sy=H-M-16;
@@ -64,13 +64,13 @@
     // oznake stupnjeva i minuta
     for(let i=0;i<=6;i++){
       const y=M+IH*i/6, lat=lat1-(lat1-lat0)*i/6, d=Math.floor(lat+1e-9), m=Math.round((lat-d)*60);
-      g+=`<text x="${M-bw-4}" y="${y+4}" text-anchor="end" font-size="10" fill="${C.txt2}" font-family="monospace">${d}°${String(m).padStart(2,'0')}'</text>`;
+      g+=`<text x="${M-bw-4}" y="${y+4}" text-anchor="end" font-size="10" fill="${C.txt2}" font-family="var(--mono)">${d}°${String(m).padStart(2,'0')}'</text>`;
       const x=M+IW*i/6, lon=lon0+(lon1-lon0)*i/6, dd=Math.floor(lon+1e-9), mm=Math.round((lon-dd)*60);
-      g+=`<text x="${x}" y="${H-M+bw+13}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="monospace">${dd}°${String(mm).padStart(2,'0')}'</text>`;
+      g+=`<text x="${x}" y="${H-M+bw+13}" text-anchor="middle" font-size="10" fill="${C.txt2}" font-family="var(--mono)">${dd}°${String(mm).padStart(2,'0')}'</text>`;
     }
-    g+=`<text x="${M+IW/2}" y="${M-bw-5}" text-anchor="middle" font-size="9" fill="${C.txt2}">Vježbovna karta · dubine u metrima · nije za navigaciju</text>`;
-    g+=`<text x="${-PADL+14}" y="${H/2}" font-size="10" fill="${C.acc}" text-anchor="middle" transform="rotate(-90 ${-PADL+14} ${H/2})" font-weight="700">ŠIRINA (N), ovdje mjeriš milje</text>`;
-    g+=`<text x="${W/2}" y="${H-8}" font-size="10" fill="${C.txt2}" text-anchor="middle" font-weight="700">DUŽINA (E)</text>`;
+    g+=`<text x="${M+IW/2}" y="${M-bw-5}" text-anchor="middle" font-size="9" fill="${C.txt2}">Vježbovna karta, dubine u metrima, nije za navigaciju</text>`;
+    g+=`<text x="${-PADL+14}" y="${H/2}" font-size="10" fill="${C.acc}" text-anchor="middle" transform="rotate(-90 ${-PADL+14} ${H/2})" font-weight="600">Širina (N), ovdje mjeriš milje</text>`;
+    g+=`<text x="${W/2}" y="${H-8}" font-size="10" fill="${C.txt2}" text-anchor="middle" font-weight="600">Dužina (E)</text>`;
     
     if(marker){
       g+=`<g transform="translate(${marker.x},${marker.y})">
@@ -98,8 +98,8 @@
       const c=coords(x,y);
       if(mode===0){
         draw({x,y}); bind();
-        el('chartOut').innerHTML=`<div style="color:var(--acc);font-weight:700;margin-top:8px">${c.lat}&ensp;·&ensp;${c.lon}</div>
-        <div style="font-size:12.5px;color:var(--txt2);font-family:var(--sans)">Širinu očitavaš na lijevoj/desnoj skali, dužinu na gornjoj/donjoj. Uvijek dodaj <b>N</b> i <b>E</b>.</div>`;
+        el('chartOut').innerHTML=`<div style="color:var(--acc);font-weight:600;margin-top:8px">${c.lat}, ${c.lon}</div>
+        <div style="font-size:13px;color:var(--txt2);font-family:var(--sans)">Širinu očitavaš na lijevoj/desnoj skali, dužinu na gornjoj/donjoj. Uvijek dodaj <b>N</b> i <b>E</b>.</div>`;
       } else {
         score.t++;
         const dx=Math.abs(x-target.x), dy=Math.abs(y-target.y);
@@ -108,8 +108,8 @@
         if(ok && !target.done && window.VB) VB.widgetOk('chart');
         target.done=true;
         draw({x:target.x,y:target.y}); bind();
-        el('chartOut').innerHTML=`<div style="color:${ok?'var(--green)':'var(--red)'};font-weight:700;margin-top:8px">${ok?'✓ Točno!':'✗ Promašaj'}</div>
-        <div style="font-size:13px;color:var(--txt2);font-family:var(--sans)">Tražena točka je bila <b class="c-acc">${target.c.lat}&ensp;·&ensp;${target.c.lon}</b></div>`;
+        el('chartOut').innerHTML=`<div style="color:${ok?'var(--green)':'var(--red)'};font-weight:600;margin-top:8px">${ok?'✓ Točno.':'✗ Promašaj'}</div>
+        <div style="font-size:13px;color:var(--txt2);font-family:var(--sans)">Tražena točka je bila <b class="c-acc">${target.c.lat}, ${target.c.lon}</b></div>`;
         el('chartScore').textContent=`Rezultat: ${score.c}/${score.t}`;
       }
     });
@@ -123,7 +123,7 @@
   }
   el('chartModeBtn').addEventListener('click',function(){
     mode=mode?0:1;
-    this.textContent = mode? '⏹ Izađi iz vježbe' : '▶ Način vježbe';
+    this.textContent = mode? 'Izađi iz vježbe' : 'Način vježbe';
     this.classList.toggle('p',!mode);
     el('chartNewBtn').style.display = mode?'':'none';
     if(mode) newTarget(); else { draw(null); bind(); el('chartOut').innerHTML=''; }
@@ -136,9 +136,9 @@
   const b=el('chartLegend'); if(!b) return;
   const items=[
     ['Kopno','<rect x="0" y="0" width="46" height="30" rx="4" fill="#f2dc8c" stroke="#8a7432"/>'],
-    ['&lt; 10 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#bfe0f2"/>'],
-    ['&gt; 10 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#f7f8f4"/>'],
-    ['&lt; 2 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#bfe0f2"/><circle cx="23" cy="15" r="10" fill="none" stroke="#0a2438" stroke-dasharray="2 2"/><path d="M20,12 l6,6 M26,12 l-6,6" stroke="#0a2438" stroke-width="1.4"/>'],
+    ['manje od 10 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#bfe0f2"/>'],
+    ['više od 10 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#f7f8f4"/>'],
+    ['manje od 2 m','<rect x="0" y="0" width="46" height="30" rx="4" fill="#bfe0f2"/><circle cx="23" cy="15" r="10" fill="none" stroke="#0a2438" stroke-dasharray="2 2"/><path d="M20,12 l6,6 M26,12 l-6,6" stroke="#0a2438" stroke-width="1.4"/>'],
     ['Kabel','<path d="M2,15 q9,-9 18,0 q9,9 18,0 q5,-5 8,-2" fill="none" stroke="#ef4a5a" stroke-width="2"/>'],
     ['Cjevovod','<path d="M2,15 h42" stroke="#ef4a5a" stroke-width="2" stroke-dasharray="6 4"/><path d="M2,20 h42" stroke="#11161c" stroke-width="2" stroke-dasharray="6 4"/>'],
     ['Sidrište','<g transform="translate(23,7)"><path d="M0,0 v16 M-9,10 q9,12 18,0 M-6,0 h12" stroke="#11161c" stroke-width="2" fill="none"/><circle cy="-3" r="3" fill="none" stroke="#11161c" stroke-width="2"/></g>'],
@@ -156,17 +156,17 @@
 (function(){
   const b=el('lightCharWidget'); if(!b) return;
   const rows=[
-    ['Bl (Fl)','Bljeskavo','svjetlo &lt; tama',[[0,.4]]],
+    ['Bl (Fl)','Bljeskavo','svjetlo kraće od tame',[[0,.4]]],
     ['Bl(3)','Grupno bljeskavo','3 bljeska u grupi',[[0,.18],[.28,.18],[.56,.18]]],
-    ['Izo','Izofazno','svjetlo = tama',[[0,2]]],
-    ['Pr (Oc)','Prekidno','tama &lt; svjetlo',[[0,3.2]]],
+    ['Izo','Izofazno','svjetlo i tama jednako',[[0,2]]],
+    ['Pr (Oc)','Prekidno','tama kraća od svjetla',[[0,3.2]]],
     ['Tr (Q)','Treptavo','brzo, neprekidno',[[0,.22],[1,.22],[2,.22],[3,.22]]]
   ];
   let g='';
   const W=680, x0=150, len=470, per=4;
   rows.forEach((r,i)=>{
     const y=26+i*44;
-    g+=`<text x="8" y="${y+4}" font-size="13" font-weight="700" fill="${C.acc}" font-family="monospace">${r[0]}</text>`;
+    g+=`<text x="8" y="${y+4}" font-size="13" font-weight="600" fill="${C.acc}" font-family="var(--mono)">${r[0]}</text>`;
     g+=`<text x="8" y="${y+20}" font-size="10.5" fill="${C.txt2}">${r[1]}</text>`;
     g+=`<line x1="${x0}" y1="${y+6}" x2="${x0+len}" y2="${y+6}" stroke="${C.line}" stroke-width="12"/>`;
     r[3].forEach(seg=>{
@@ -176,7 +176,7 @@
     g+=`<text x="${x0+len+6}" y="${y+10}" font-size="10" fill="${C.txt2}">${r[2]}</text>`;
   });
   g+=`<line x1="${x0}" y1="248" x2="${x0+len}" y2="248" stroke="${C.txt2}" stroke-width="1"/>`;
-  g+=`<text x="${x0+len/2}" y="264" font-size="11" fill="${C.txt2}" text-anchor="middle">← jedan PERIOD (npr. 4 s) →</text>`;
+  g+=`<text x="${x0+len/2}" y="264" font-size="11" fill="${C.txt2}" text-anchor="middle">← jedan period (npr. 4 s) →</text>`;
   b.innerHTML=SVG(820,275,g);
 })();
 
@@ -189,7 +189,7 @@
   for(let d=0;d<360;d+=5){
     const a=(d-90)*Math.PI/180, big=d%30===0, len=big?13:(d%10===0?8:5);
     g+=`<line x1="${c+Math.cos(a)*R}" y1="${c+Math.sin(a)*R}" x2="${c+Math.cos(a)*(R-len)}" y2="${c+Math.sin(a)*(R-len)}" stroke="${big?C.txt:C.txt2}" stroke-width="${big?1.6:.8}" opacity="${big?1:.6}"/>`;
-    if(d%30===0) g+=`<text x="${c+Math.cos(a)*(R-26)}" y="${c+Math.sin(a)*(R-26)+4}" font-size="11" text-anchor="middle" fill="${C.txt2}" font-family="monospace">${d}</text>`;
+    if(d%30===0) g+=`<text x="${c+Math.cos(a)*(R-26)}" y="${c+Math.sin(a)*(R-26)+4}" font-size="11" text-anchor="middle" fill="${C.txt2}" font-family="var(--mono)">${d}</text>`;
   }
   // quadrant shading
   const quad=[[0,90,'I','#39b8e8'],[90,180,'II','#25c26a'],[180,270,'III','#f5c542'],[270,360,'IV','#ef4a5a']];
@@ -197,18 +197,18 @@
     const a1=(q[0]-90)*Math.PI/180,a2=(q[1]-90)*Math.PI/180;
     g+=`<path d="M${c},${c} L${c+Math.cos(a1)*(R-40)},${c+Math.sin(a1)*(R-40)} A${R-40},${R-40} 0 0 1 ${c+Math.cos(a2)*(R-40)},${c+Math.sin(a2)*(R-40)} Z" fill="${q[3]}" opacity=".1"/>`;
     const am=((q[0]+q[1])/2-90)*Math.PI/180;
-    g+=`<text x="${c+Math.cos(am)*(R-62)}" y="${c+Math.sin(am)*(R-62)+5}" font-size="14" font-weight="800" text-anchor="middle" fill="${q[3]}" opacity=".8">${q[2]}</text>`;
+    g+=`<text x="${c+Math.cos(am)*(R-62)}" y="${c+Math.sin(am)*(R-62)+5}" font-size="14" font-weight="600" text-anchor="middle" fill="${q[3]}" opacity=".8">${q[2]}</text>`;
   });
   const card=[['N',0,C.red],['E',90,C.txt],['S',180,C.txt],['W',270,C.txt]];
   card.forEach(k=>{
     const a=(k[1]-90)*Math.PI/180;
-    g+=`<text x="${c+Math.cos(a)*(R-52)}" y="${c+Math.sin(a)*(R-52)+6}" font-size="18" font-weight="800" text-anchor="middle" fill="${k[2]}">${k[0]}</text>`; // dalje od brojeva: „270” i „W” se ne dodiruju
+    g+=`<text x="${c+Math.cos(a)*(R-52)}" y="${c+Math.sin(a)*(R-52)+6}" font-size="18" font-weight="600" text-anchor="middle" fill="${k[2]}">${k[0]}</text>`; // dalje od brojeva: „270” i „W” se ne dodiruju
   });
   // pramčanica: nepomična oznaka na kućištu, u smjeru pramca (ovdje gore); na njoj se očitava kurs
   g+=`<line x1="${c}" y1="${c-R-12}" x2="${c}" y2="${c-R+14}" stroke="${C.acc}" stroke-width="3"/><polygon points="${c},${c-R-2} ${c-7},${c-R-13} ${c+7},${c-R-13}" fill="${C.acc}"/>`;
   g+=`<polygon points="${c},${c-72} ${c-9},${c} ${c},${c+18} ${c+9},${c}" fill="${C.red}" opacity=".9"/>`;
   g+=`<polygon points="${c},${c+72} ${c-9},${c} ${c},${c-18} ${c+9},${c}" fill="#8aa" opacity=".55"/>`;
   g+=`<circle cx="${c}" cy="${c}" r="5" fill="${C.txt}"/>`;
-  g+=`<text x="${c}" y="${S-6}" font-size="11" text-anchor="middle" fill="${C.acc}" font-weight="700">Pramčanica (plava oznaka gore): ovdje očitavaš kurs</text>`;
+  g+=`<text x="${c}" y="${S-6}" font-size="11" text-anchor="middle" fill="${C.acc}" font-weight="600">Pramčanica (plava oznaka gore): ovdje očitavaš kurs</text>`;
   b.innerHTML=SVG(S,S,g);
 })();

@@ -2,6 +2,87 @@
 
 Sve što je promijenjeno u odnosu na granu `main` (commit 5607e96), po verzijama.
 
+## 5.3.0: novi izgled po Hallmarku (tema Almanac)
+
+- **Sustav.** Hladni sivoplavi papir, blijedi list za tablice, crteže i vježbe, plavocrna tinta, crte u dvije debljine,
+  kvadratni rubovi i jedna magenta, boja kojom pomorska karta tiska svjetla. Nema kartica, sjena ni zaobljenja.
+- **Pisma.** Hanken Grotesk za naslove i kontrole, Newsreader za tekst, IBM Plex Mono za brojke, mjerne oznake i
+  radijski zapis. Učitavaju se lokalno. Atkinson Hyperlegible je uklonjen.
+- **Početna** je radni ekran: lijevo što sada (gumb, datum ispita ili današnje stavke), desno ispitni program kao jedna
+  tablica s tri stola. Red sljedećeg poglavlja je u magenti. Vježba je popis na crtama. Noćni prizor je ploča sa
+  svjetlima bez zvijezda, valova i animacije.
+- **Noćni način** je izveden iz istih tokena (ista nijansa, tamni papir), više nije crvenkast.
+- **Uklonjeno što odaje generirani izgled:** nadnaslovi iznad naslova poglavlja (predmet je sada redak ispod naslova),
+  oznake velikim slovima, 268 točaka-razdjelnika, strelice uz tekst 23 gumba i poveznice, emoji i znakovi ▶ ⏸ ⏹ kao ikone,
+  krugovi s brojevima, obojene trake uz lijevi rub, `transition` na svim svojstvima i animacije širine.
+- **Tokeni.** Sve boje i pisma u CSS-u idu kroz tokene na vrhu datoteke, u OKLCH. Kontrast svakog para tokena je
+  izračunat za dan i noć.
+- **Što nije dirano:** sadržaj, pitanja, fizika, id-jevi i sve što skripte i testovi čitaju. Boje unutar crteža (SVG)
+  ostaju upisane u crtežu, jer su gradivo: svjetla, oznake, karta.
+- **Revizija nakon preoblikovanja** (svaka stranica i vježba, četiri širine, dan i noć) našla je i ispravila:
+  - podebljana riječ usred napomene prelazila je u zaseban redak (staro pravilo `.note b`);
+  - tekst manji od 13 px na 43 mjesta (napredak u gornjoj traci, oznake u vježbama, podnožje poglavlja);
+  - retke od 120 znakova u napomenama; sada su na mjeri teksta;
+  - pisma: hrvatska slova nisu bila u prednaloženoj datoteci, pa bi č, š i ž na tren bili u rezervnom pismu.
+    Sada je jedna datoteka po pismu sa svim znakovima koje aplikacija koristi (`tools/fontovi.py`): 72 kB za prvi
+    prikaz umjesto 149 kB. IBM Plex Mono su IBM-ove izvorne datoteke, jer mu licenca rezervira ime;
+  - 29 crteža bez imena za čitač zaslona: svaki sada nosi ime po naslovu iznad sebe;
+  - prsten fokusa magente na tamnim pločama (kontrast 1,7): ondje je sada bijel;
+  - oznaku iznad naslova stola u uvodu simulacije ispita, crtice kao zamjenu za prazno polje u ispitnom programu,
+    mono na riječima u pokazivačima vježbi, magentu u vrijednostima pokazivača, hover na tablicama koje ne reagiraju,
+    preskočenu razinu naslova kod znački, debljine 700 i 800 u crtežima.
+- Te provjere su sada dio `tests/smoke.mjs` (svaka stranica, oba zaslona), a kontrast tokena računa `tools/kontrast.py`.
+- **Hallmarkov `sloplint` je pokrenut** (statička provjera i provjera u pregledniku, svih 19 stranica na osam širina).
+  Prvo pokretanje: 6 FAIL, 329 REFLEX, 19 WARN. Nakon ispravaka: 0 FAIL, 0 REFLEX, 0 WARN. Ispravljeno:
+  - onemogućen gumb mijenja ispunu, tintu i pokazivač (prije samo prozirnost);
+  - razmaci su na ljestvici od 4 px (307 vrijednosti);
+  - natpisi kontrola stanu u jedan red na svim širinama; red ispitnog programa na uskom mobitelu postaje blok;
+  - tablica u sklopivom odlomku i dva bloka više ne vire preko ruba mobitela;
+  - kartice vjetrova i zvučnih signala su red s gumbom, a ne gumb visok kao kartica;
+  - mjera retka je 62ch (oko 83 znaka); prsten fokusa na prekidaču Dan/Noć ima kontrast;
+  - tokeni: noć, ispis, pa dan zadnji u izvoru, da alat čita dnevne vrijednosti.
+- **Tekst.** Crtice u rasponima su riječ „do“ (10 do 30 min), odnosi su sa spojnicom (brod-brod), navodnici su „ “,
+  lažne točke su pravi popisi, uskličnici su točke. Naslovi „Dobra vijest“, „Zlatno pravilo“ i „Spreman za učenje?“
+  sada kažu što piše ispod njih.
+
+- **Lektura.** Cijeli tekst aplikacije pročitan je i usklađen sa standardnim hrvatskim jezikom: stranica, 312 pitanja,
+  76 kartica, kontrolni popisi i tekst svih vježbi. Ispravljeno:
+  - riječi pisane velikim slovima radi isticanja sada su u običnim slovima (kratice i riječi radijskog postupka
+    ostaju: VHF, MAYDAY, OVDJE, PRIJEM);
+  - strelice, znak jednakosti, plus, kosa crta i znakovi usporedbe koji su stajali umjesto riječi u rečenici;
+  - nestandardne i razgovorne riječi (kursevi, obavezno, dozvoljeno, istovremeno, pravovremeno, koristiti, kod, skoro,
+    puno, uslijed, pored, da li, krivo, prijemnik, brojilac, nivokaz, vanbrodski, povreda, zapremnina, razmjer karte,
+    osmatranje, checklista, trik-pitanje, šalabahter, neutral, max, cca);
+  - red riječi uz zanaglasnice, zarez ispred „jer“ i „te“, „prije nego što“, „s pomoću“, „njezin“, oblici „obaju“ i
+    „dvaju“, složenice s „radio“ (radiodnevnik, radiopromet);
+  - nazivi su ujednačeni: Probni ispit (prije i Simulacija ispita), Kontrolni popis pred ispit (prije Checklista),
+    Varljiva pitanja (prije Trik-pitanja), prazni hod (prije neutral).
+  Stručni nazivi iz ispitnog programa ostaju kakvi jesu (pumpa, tank, osovina, squelch).
+- **Noćni način kroz `sloplint`.** Statička provjera i provjera u pregledniku na svih 19 stranica s noćnom temom:
+  0 FAIL, 0 WARN. Tri plohe dobile su izričitu boju teksta.
+- **Safarijev motor.** Aplikacija je prošla 106 provjera u WebKitu (WebKitGTK 2.52) u prozoru širine mobitela:
+  svih 19 stranica bez JS grešaka i bez vodoravnog pomaka, pisma, kviz, noćni način, simulator pristajanja na dodir
+  gumba, čvorovi, pohrana i rad bez interneta. `BROWSER=webkit node tests/smoke.mjs` vrti dimni test u WebKitu s
+  profilom iPhonea.
+- **Zvuk na iPhoneu.** Zvučni signali se nakon prekida (poziv, zaključan zaslon) opet čuju: zvuk se budi iz svakog
+  stanja, a ne samo iz stanja „suspended“. Uz vježbu piše da treba isključiti tihi način.
+- Dimni test sada provjerava i da svaki čvor karte uma vodi do naslova u poglavlju i da se kućice ne dodiruju.
+- Najmanja inačica: iOS i Safari 16.2 (zbog `color-mix`), ostalo radi od 15.4.
+
+## 5.2.1: pramčani konop u simulatoru
+
+- Gumb **Pramčani konop** (tipka K): kad je pramac bliže od 2 m obali i brodica ide sporije od 1 čv, konop se daje na
+  obalu. Konop ne gura, samo zateže kad je napet, i drži pramac dok motor privlači krmu.
+- Time je rješiv i slučaj koji je bio označen kao najteži: izvanbrodski motor uz jak vjetar s kopna. Vozi se krmom na
+  konop, s motorom okrenutim prema obali. Test fizike to provjerava.
+- Savjeti uz vožnju objašnjavaju što raditi s konopom za svaki pogon.
+- Čišćenje CSS-a: preglednik je za svaku od 473 oznake `!important` provjerio mijenja li njezino uklanjanje izračunati
+  stil ijednog elementa (računalo, mobitel, tablet, obje teme, stanja usred vježbi). Potrebne su 73. Uklonjeno je
+  samo 9 za koje nijedno drugo pravilo ne postavlja isto svojstvo. Ostale ostaju jer bi ih moglo nadjačati pravilo
+  koje se javlja tek u stanju koje provjera nije obuhvatila (hover, fokus, rijetka stanja vježbi).
+- Težina prvog učitavanja: 316 kB (HTML, CSS i skripte, komprimirano) i 113 kB fontova. Sljedeća otvaranja idu iz
+  predmemorije i rade bez interneta.
+
 ## 5.2: točnost prema propisima, pokrivenost programa, jedan stylesheet
 
 ### Ispravljene pogreške u gradivu

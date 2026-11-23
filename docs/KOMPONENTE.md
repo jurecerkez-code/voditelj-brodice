@@ -4,13 +4,33 @@ Izgled svake komponente definiran je jednom, u `assets/css/app.css` (dio „DIZA
 veličine ni gumbe: koristi klase i funkcije s ovog popisa. Ako nešto nedostaje, dodaje se ovdje i u `app.css`,
 a ne u pojedinu vježbu.
 
-## Boje i pismo
+## Boje, pisma i plohe
 
-Sve boje su CSS varijable (`--bg`, `--txt`, `--acc`, `--green`, `--red`, `--sea`, `--land` ...). Noćni način
-ih zamjenjuje preko `:root[data-theme="night"]`. Crvena i zelena znače lijevi i desni bok te netočno i točno;
-ne koriste se kao ukras. Glavna radnja je `--acc` (magenta s pomorske karte).
+Sustav je Almanac iz Hallmarka: hladni sivoplavi papir (`--bg`), blijedi list (`--panel`) za tablice, crteže i vježbe,
+plavocrna tinta (`--txt`), crte u dvije debljine (`--hair` 1 px u `--line`, `--bar` 2 px u `--line2`) i jedna magenta
+(`--acc` ispuna, `--acc-t` tekst i podcrta). Sve boje su tokeni u OKLCH na vrhu `app.css`; noćni način ih zamjenjuje
+preko `:root[data-theme="night"]`. Izvan bloka tokena nema upisanih boja ni naziva pisama.
+Crvena i zelena znače lijevi i desni bok te netočno i točno; ne koriste se kao ukras.
 
-Jedno pismo: Atkinson Hyperlegible Next. Brojke su tablične (`font-variant-numeric: tabular-nums`).
+Tri pisma, svako s jednom ulogom: Hanken Grotesk 600 za naslove i 500 za kontrole (`--display`), Newsreader za tekst,
+oznake i navigaciju (`--font`), IBM Plex Mono za brojke, mjerne oznake i radijski zapis (`--mono`). Debljine su 400, 500 i 600.
+Najmanji tekst je 13 px. Datoteke pisama sadrže samo znakove koje aplikacija koristi: kad u sadržaj dođe novi znak,
+pokreni `tools/fontovi.py`. Nakon promjene boja pokreni `tools/kontrast.py`.
+
+Pravila ploha: bez kartica, sjena i zaobljenja (najviše 2 px na kontroli). Blok teksta ima čvrstu crtu gore i nema ispunu.
+Napomene su udubljenje (`--bg2`) s crtom. Oznake su u rečeničnom obliku, bez velikih slova i bez razmaknutih slova.
+Nema nadnaslova iznad naslova, točaka-razdjelnika ni strelica zalijepljenih uz tekst gumba.
+Razmaci (padding, margin, gap) su višekratnici od 4 px. Mjera teksta je 62ch. Natpis kontrole stane u jedan red.
+U tekstu: rasponi s „do“, bez crtica kao stanke, navodnici „ “, bez uskličnika.
+
+Provjera izgleda Hallmarkovim alatom (github.com/Nutlope/hallmark), iz mape projekta:
+
+    node PUT/hallmark/skills/hallmark/scripts/sloplint.mjs index.html assets/css/app.css --scope app --genre editorial
+
+Za provjeru u pregledniku pokreni lokalni poslužitelj i dodaj `--url http://localhost:8000/index.html#p-nav`
+(treba `puppeteer-core`). Alat piše snimke u `.hallmark/`, koja je u `.gitignore`.
+Alat čita stranicu onakvu kakva se otvori, pa za noćni način treba kopija u kojoj je tema zadana u `index.html`,
+a noćni blok tokena dodan na kraj `app.css`.
 
 ## HTML klase
 
@@ -29,7 +49,7 @@ Jedno pismo: Atkinson Hyperlegible Next. Brojke su tablične (`font-variant-nume
 | Važno | `.danger` | propis, sigurnost |
 | Potvrda | `.ok` | važeće stanje |
 | Za pamćenje | `.mnem` | mnemonik, formula |
-| Oznaka | `.pill.g` `.pill.n` `.pill.r` `.pill.y` `.pill.b` | VAŽEĆE, STARO, TRIK |
+| Oznaka | `.pill.g` `.pill.n` `.pill.r` `.pill.y` `.pill.b` | Važeće, Staro, Zamka |
 | Mjerač | `.meter > i` | širina u postocima |
 | Kraj poglavlja | `.chFoot` | dodaje ga `app.js` |
 | Pod-navigacija | `.subnav` | vježbe |

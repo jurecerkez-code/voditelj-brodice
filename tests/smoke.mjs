@@ -1,6 +1,7 @@
 // Dimni test: otvara svaku stranicu i prolazi glavne tokove. Pada na svaku JS grešku.
 // Pokretanje:  npx playwright install chromium && node tests/smoke.mjs   (poslužitelj se diže sam)
-import { chromium } from 'playwright';
+// Safarijev motor s profilom iPhonea:  npx playwright install webkit && BROWSER=webkit node tests/smoke.mjs
+import { chromium, webkit, devices } from 'playwright';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,12 +16,13 @@ const server = http.createServer((req, res) => {
 }).listen(0);
 const URL0 = `http://localhost:${server.address().port}/index.html`;
 
-const browser = await chromium.launch(process.env.CHROME ? { executablePath: process.env.CHROME, args: ['--no-sandbox'] } : {});
+const WK = process.env.BROWSER === 'webkit';
+const browser = WK ? await webkit.launch() : await chromium.launch(process.env.CHROME ? { executablePath: process.env.CHROME, args: ['--no-sandbox'] } : {});
 const fails = []; let checks = 0;
 const ok = (cond, msg) => { checks++; if (!cond) fails.push(msg); };
 
 for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, false], ['mobitel', { width: 390, height: 844 }, true]]) {
-  const ctx = await browser.newContext({ viewport: vp, isMobile: mobile, hasTouch: mobile, serviceWorkers: 'block' });
+  const ctx = await browser.newContext(WK && mobile ? { ...devices['iPhone 14'], serviceWorkers: 'block' } : { viewport: vp, ...(WK ? {} : { isMobile: mobile }), hasTouch: mobile, serviceWorkers: 'block' });
   const page = await ctx.newPage();
   page.on('pageerror', e => fails.push(`[${name}] JS greška: ${e.message}`));
   page.on('console', m => { if (m.type() === 'error') fails.push(`[${name}] konzola: ${m.text()}`); });
@@ -34,11 +36,42 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
     await page.evaluate(i => go(i), id); await page.waitForTimeout(120);
     ok(await page.$eval('#' + id, e => e.classList.contains('active')), `[${name}] ${id} se ne otvara`);
     ok(await page.$eval('#' + id, e => e.scrollWidth <= document.documentElement.clientWidth + 1), `[${name}] ${id} izlazi iz širine zaslona`);
+    // izgled po pravilima sustava na svakoj stranici: veličina i debljina teksta, pisma, velika slova, imena crteža, razine naslova
+    const tells = await page.$eval('#' + id, pg => { const bad = []; const sig = e => e.tagName.toLowerCase() + (e.className && typeof e.className === 'string' ? '.' + e.className.split(' ')[0] : '');
+      for (const e of pg.querySelectorAll('*')) { if (e.closest('svg') || e.offsetParent === null) continue; if (![...e.childNodes].some(n => n.nodeType === 3 && n.nodeValue.trim().length > 1)) continue; const c = getComputedStyle(e), fs = parseFloat(c.fontSize);
+        if (fs < 13) bad.push('tekst ' + fs + 'px na ' + sig(e)); if (!['400', '500', '600'].includes(c.fontWeight)) bad.push('debljina ' + c.fontWeight + ' na ' + sig(e));
+        if (!/^"?(Hanken Grotesk|Newsreader|IBM Plex Mono)/.test(c.fontFamily)) bad.push('pismo ' + c.fontFamily.split(',')[0] + ' na ' + sig(e));
+        if (c.textTransform === 'uppercase') bad.push('velika slova na ' + sig(e)); }
+      for (const s of pg.querySelectorAll('svg')) if (!s.closest('[aria-hidden="true"]') && !s.getAttribute('role') && !s.getAttribute('aria-label')) bad.push('crtež bez imena u #' + (s.closest('[id]') || pg).id);
+      let prev = 1; for (const h of pg.querySelectorAll('h2,h3,h4,h5,h6')) { if (h.offsetParent === null) continue; const l = +h.tagName[1]; if (l > prev + 1) bad.push('preskočena razina naslova prije "' + h.textContent.trim().slice(0, 24) + '"'); prev = l; }
+      for (const s of pg.querySelectorAll('.osMapSvg')) { const r = [...s.querySelectorAll('.osNode rect')].map(e => ({ x: +e.getAttribute('x'), y: +e.getAttribute('y'), w: +e.getAttribute('width') })); if (r.some(A => r.some(B => B.y === A.y && B.x > A.x && B.x - (A.x + A.w) < 8))) bad.push('kućice u karti uma se dodiruju'); }
+      { const c = [...pg.querySelectorAll('h3,h4,h5,summary,b,strong')].filter(e => !e.closest('.osBox')).map(e => e.textContent.trim().toLowerCase()); for (const g of pg.querySelectorAll('.osNode')) { const w = (g.dataset.h || '').toLowerCase(); if (w && !c.some(x => x.startsWith(w) || x.includes(w))) bad.push('čvor karte uma bez cilja: ' + g.dataset.h); } }
+      return [...new Set(bad)].slice(0, 4); });
+    ok(tells.length === 0, `[${name}] ${id}: ${tells.join('; ')}`);
   }
   // 2. početna: prizor sa svjetlima ima točan odgovor i objašnjenje
   await page.evaluate(() => go('p-start'));
   await page.locator('#hmScene .hmOpts button[data-i="0"]').click();
   ok(await page.locator('#hmScene .hmWhy').count() === 1, `[${name}] prizor na početnoj ne pokazuje objašnjenje`);
+  // 2a. početna: ispitni program je jedna tablica, red sljedećeg poglavlja je označen i vodi u poglavlje
+  ok(await page.locator('#hmTables table.hmP tbody tr:not(.grp)').count() >= 12, `[${name}] ispitni program nema sva poglavlja`);
+  ok(await page.locator('#hmTables tr.cur').count() === 1, `[${name}] u ispitnom programu nije označen sljedeći red`);
+  const curTo = await page.$eval('#hmTables tr.cur button', b => b.dataset.next);
+  await page.locator('#hmTables tr.cur button').click(); await page.waitForTimeout(150);
+  ok(await page.$eval('#' + curTo, e => e.classList.contains('active')), `[${name}] red u ispitnom programu ne otvara poglavlje`);
+  await page.evaluate(() => go('p-start'));
+  // 2a'. izgled: pravila sustava vrijede u cijelom dokumentu (docs/KOMPONENTE.md, Boje, pisma i plohe)
+  const look = await page.evaluate(async () => { await document.fonts.ready; const bad = [];
+    const w = document.createTreeWalker(document.getElementById('app'), NodeFilter.SHOW_TEXT); let n;
+    while ((n = w.nextNode())) if (/\S [·•] \S/.test(n.nodeValue)) { bad.push('točka-razdjelnik: ' + n.nodeValue.trim().slice(0, 50)); break; }
+    for (const e of document.querySelectorAll('.btn,.chip,.card,.note,.warn,.danger,.ok,.qcard,table,details,select,input[type=date],.pill,.knTab,.opt')) {
+      const c = getComputedStyle(e); if (parseFloat(c.borderTopLeftRadius) > 2) { bad.push('zaobljenje ' + c.borderTopLeftRadius + ' na .' + e.className); break; }
+      if (c.boxShadow !== 'none' && !/inset/.test(c.boxShadow)) { bad.push('sjena na .' + e.className); break; } }
+    for (const e of document.querySelectorAll('h2,h3,h4,th,.pill,.lbl,.qmeta,.navgrp>span,.btn')) { const c = getComputedStyle(e);
+      if (c.textTransform === 'uppercase' || parseFloat(c.letterSpacing) > 0.3) { bad.push('velika ili razmaknuta slova na ' + e.tagName + '.' + e.className); break; } }
+    for (const f of ['600 20px "Hanken Grotesk"', '400 17px "Newsreader"', '400 14px "IBM Plex Mono"']) if (!document.fonts.check(f)) bad.push('pismo nije učitano: ' + f);
+    return bad; });
+  ok(look.length === 0, `[${name}] izgled: ${look.join('; ')}`);
   // 2b. prijenos napretka: spremanje daje datoteku s podacima aplikacije, kriva datoteka se odbija s porukom
   await page.evaluate(() => { document.querySelector('.hmSet').open = true; });
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#progSave')]);
@@ -95,7 +128,7 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   await page.evaluate(() => go('p-manevar')); await page.waitForTimeout(200);
   await page.locator('#dockWind [data-t="2"]').click(); await page.waitForTimeout(2600);
   const hud1 = await page.$eval('#dockWind .dwHud', e => e.textContent), kn = t => parseFloat((t.match(/Kroz vodu ([\d,]+)/) || [])[1]?.replace(',', '.'));
-  ok(/NAPRIJED/.test(hud1) && kn(hud1) > 0.3 && kn(hud1) < 4.2, `[${name}] simulator pristajanja: brodica ne kreće (${hud1})`);
+  ok(/Naprijed/.test(hud1) && kn(hud1) > 0.3 && kn(hud1) < 4.2, `[${name}] simulator pristajanja: brodica ne kreće (${hud1})`);
   await page.locator('#dockWind [data-t="0"]').click(); await page.waitForTimeout(600);
   ok(kn(await page.$eval('#dockWind .dwHud', e => e.textContent)) > 0.2, `[${name}] simulator pristajanja: brodica u neutralu mora klizati, ne stati odmah`);
   await page.locator('#dockWind .dwPause').click(); const h2 = await page.$eval('#dockWind .dwHud', e => e.textContent); await page.waitForTimeout(400);
@@ -125,6 +158,10 @@ for (const [name, vp, mobile] of [['desktop', { width: 1366, height: 850 }, fals
   const pIn = await bar(90), pCo = await bar(355), pEx = await bar(372);
   ok(pIn < 1 && pCo > 12 && pCo < 25 && pEx > 35 && pEx < 65, `[${name}] motor: tlak ne prati taktove (usis ${pIn}, kompresija ${pCo}, ekspanzija ${pEx})`);
   await page.click('#engFuel'); ok(await bar(355) > 35, `[${name}] motor: dizel mora imati veći tlak kompresije`); await page.click('#engFuel');
+  // 14b. pramčani konop: izdaleka se ne može dati i simulator kaže zašto
+  await page.evaluate(() => go('p-manevar')); await page.locator('#dockWind .dwReset').first().click(); await page.locator('#dockWind .dwLine').click();
+  ok(/bliže od 2 m/.test(await page.textContent('#dockWind .dwMsg')) && await page.getAttribute('#dockWind .dwLine', 'aria-pressed') === 'false', `[${name}] pramčani konop: nema objašnjenja zašto se ne može dati`);
+  await page.evaluate(() => go('p-sigurnost'));
   // 15. čvorovi: klizačem se konop provlači, zadnji korak bitve je zatezanje
   await page.evaluate(() => go('p-sigurnost')); await page.waitForTimeout(200);
   await setR('#knotWidget .knScrub input', 250);

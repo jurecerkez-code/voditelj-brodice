@@ -1,8 +1,8 @@
 "use strict";
 /* Radni stol: šestar, trokuti, put-brzina-vrijeme, pozicija iz dva azimuta. */
 /* ═══════════════ NAV LAB (šestar, trokuti, put-brzina-vrijeme, pozicija) ═══════════════ */
-/* Vježbovna Merkatorova karta: 43°20'–43°30' N, 16°20'–16°40' E.
-   1' širine = 32 px = 1 M. 1' dužine = 32·cos(43,42°) px. Kursevi i azimuti su pravi (prema sjeveru karte). */
+/* Vježbovna Merkatorova karta: 43°20' do 43°30' N, 16°20' do 16°40' E.
+   1' širine = 32 px = 1 M. 1' dužine = 32·cos(43,42°) px. Kursovi i azimuti su pravi (prema sjeveru karte). */
 (function(){
   const b=el('navLab'); if(!b) return;
   const RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -69,7 +69,7 @@
     MARKS.forEach(m=>{ const p=px(m.p[0],m.p[1]);
       if(m.id==='zvonik') g+=`<g transform="translate(${p[0]},${p[1]})"><circle r="3" fill="none" stroke="#222" stroke-width="1.1"/><path d="M0,-3 v-7 M-3,-7 h6" stroke="#222" stroke-width="1.1"/></g>`;
       else g+=`<g transform="translate(${p[0]},${p[1]})"><circle r="2.4" fill="#222"/><path d="M0,0 L-6,-16 A17,17 0 0 1 6,-16 Z" fill="#c2185b" opacity=".75"/></g>`;
-      g+=`<text x="${p[0]+(m.id==='mali'?-10:6)}" y="${p[1]+(m.id==='zvonik'?-12:m.id==='mali'?-6:14)}" font-size="9" fill="#333" text-anchor="${m.id==='mali'?'end':'start'}">${m.n}${m.s?' · '+m.s:''}</text>`; });
+      g+=`<text x="${p[0]+(m.id==='mali'?-10:6)}" y="${p[1]+(m.id==='zvonik'?-12:m.id==='mali'?-6:14)}" font-size="9" fill="#333" text-anchor="${m.id==='mali'?'end':'start'}">${m.n}${m.s?', '+m.s:''}</text>`; });
     g+=`<text x="${px(4.8,3.8)[0]}" y="${px(4.8,3.8)[1]}" font-size="11" fill="#6b5a22" font-style="italic">o. Vela</text>`;
     g+=`<text x="${px(15.5,5.4)[0]}" y="${px(15.5,5.4)[1]+2}" font-size="9" fill="#6b5a22" font-style="italic">o. Mali</text>`;
     g+=`</g>`;
@@ -87,7 +87,7 @@
     for(let m=0;m<=NLON;m+=1){ const x=px(m,0)[0]; if(m%5===0||m%1===0)
       g+=`<text x="${x}" y="${Y0+NLAT*K+bw+11}" font-size="8" fill="#222" text-anchor="middle">${m%5===0?'16°':''}${20+m}'</text>`; }
     g+=`<text x="${X0+4}" y="${Y0-bw-6}" font-size="9" fill="#555">Vježbovna karta, izmišljeno područje. Nije za navigaciju.</text>`;
-    g+=`<text x="${X0+NLON*KX}" y="${Y0-bw-6}" font-size="9" fill="#555" text-anchor="end">Merkator · dubine u metrima</text>`;
+    g+=`<text x="${X0+NLON*KX}" y="${Y0-bw-6}" font-size="9" fill="#555" text-anchor="end">Merkator, dubine u metrima</text>`;
     return g;
   }
 
@@ -110,7 +110,7 @@
   }
 
   /* ── UI ── */
-  const MODES=[['sestar','Šestar: udaljenost'],['kurs','Trokuti: kurs'],['pbv','Put · brzina · vrijeme'],['fix','Pozicija iz 2 azimuta']];
+  const MODES=[['sestar','Šestar: udaljenost'],['kurs','Trokuti: kurs'],['pbv','Put, brzina, vrijeme'],['fix','Pozicija iz 2 azimuta']];
   let mode='sestar', st={}, anim=null, score=store.get('navlab',{ok:0,n:0});
   b.innerHTML=`<div class="nlTabs">${MODES.map(m=>`<button class="knTab" data-m="${m[0]}">${m[1]}</button>`).join('')}<button class="knTab nlBig" type="button" aria-pressed="false" title="Karta preko cijele širine, zadatak ispod nje">⤢ Veća karta</button></div>
     <div class="nlWrap"><div class="nlChart"><svg viewBox="0 0 ${W.toFixed(0)} ${H}" class="nlSvg"><g class="nlBase">${chartBase()}</g><g class="nlDyn"></g><g class="nlHand"></g></svg></div>
@@ -120,7 +120,7 @@
     <div class="nlScore"></div></div></div>`;
   const svg=$('.nlSvg',b), dyn=$('.nlDyn',b);
   const sp=()=>{ $('.nlScore',b).textContent=score.n?`Točno ${score.ok} od ${score.n} zadataka na radnom stolu`:''; };
-  const mark=(p,lab,col)=>`<g><circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="none" stroke="${col||'#c62828'}" stroke-width="2"/><circle cx="${p[0]}" cy="${p[1]}" r="1.3" fill="${col||'#c62828'}"/>${lab?`<text x="${p[0]+7}" y="${p[1]-7}" font-size="12" font-weight="700" fill="${col||'#c62828'}">${lab}</text>`:''}</g>`;
+  const mark=(p,lab,col)=>`<g><circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="none" stroke="${col||'#c62828'}" stroke-width="2"/><circle cx="${p[0]}" cy="${p[1]}" r="1.3" fill="${col||'#c62828'}"/>${lab?`<text x="${p[0]+7}" y="${p[1]-7}" font-size="12" font-weight="600" fill="${col||'#c62828'}">${lab}</text>`:''}</g>`;
   function tween(dur,fn,done){ if(anim) cancelAnimationFrame(anim);
     if(RM){ fn(1); done&&done(); return; }
     const t0=performance.now(); const f=n=>{ const t=Math.min(1,(n-t0)/dur), e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; fn(e); if(t<1) anim=requestAnimationFrame(f); else { anim=null; done&&done(); } }; anim=requestAnimationFrame(f); }
@@ -137,7 +137,7 @@
   M.sestar={
     task(){ let A,B; do{ A=randWater(); B=randWater(); }while(!(distM(px(...A),px(...B))>1.6 && distM(px(...A),px(...B))<7.2 && clearPath(A,B)));
       st={A:px(...A),B:px(...B)}; st.d=distM(st.A,st.B);
-      return {t:'Izmjeri udaljenost od točke <b>A</b> do točke <b>B</b> šestarom i skalom <b>geografske širine</b>. Upiši u miljama s jednom decimalom.',
+      return {t:'Izmjeri udaljenost od točke <b>A</b> do točke <b>B</b> šestarom i skalom <b>zemljopisne širine</b>. Upiši u miljama s jednom decimalom.',
         i:`<label>Udaljenost <input class="nlI" data-k="d" inputmode="decimal" placeholder="npr. 4,6"> M</label>`}; },
     draw(){ dyn.innerHTML=`<line x1="${st.A[0]}" y1="${st.A[1]}" x2="${st.B[0]}" y2="${st.B[1]}" stroke="#c62828" stroke-width="1" stroke-dasharray="4 3"/>`+mark(st.A,'A')+mark(st.B,'B'); },
     check(v){ const d=num(v.d); if(isNaN(d)) return out('Upiši broj milja.');
@@ -153,7 +153,7 @@
       seq([
         {say:'1. Jedan krak šestara na <b>A</b>, drugi na <b>B</b>.',d:1100,f:e=>draw(lerp(closed[0],A,e),lerp(closed[1],B,e))},
         {say:'2. <b>Ne mijenjajući razmak</b>, prenesi šestar na <b>lijevu skalu širine</b>, u visini zadatka. Donji krak stavi na cijelu minutu.',d:1500,wait:500,f:e=>draw(lerp(A,T1,e),lerp(B,T2,e))},
-        {say:`3. Broji: svaka minuta širine je <b>1 milja</b>, crtica je <b>0,2 M</b> (2 kabela). Ovdje: <b>${f1(d)} M</b>.`,d:500,f:e=>draw(T1,T2,`<rect x="${X0-10}" y="${T2[1]}" width="10" height="${T1[1]-T2[1]}" fill="#ffd166" opacity="${.65*e}"/><text x="${X0+8}" y="${(T1[1]+T2[1])/2+4}" font-size="13" font-weight="800" fill="#b3261e" opacity="${e}" paint-order="stroke" stroke="#f7f8f4" stroke-width="4">${f1(d)} M</text>`)}
+        {say:`3. Broji: svaka minuta širine je <b>1 milja</b>, crtica je <b>0,2 M</b> (2 kabela). Ovdje: <b>${f1(d)} M</b>.`,d:500,f:e=>draw(T1,T2,`<rect x="${X0-10}" y="${T2[1]}" width="10" height="${T1[1]-T2[1]}" fill="#ffd166" opacity="${.65*e}"/><text x="${X0+8}" y="${(T1[1]+T2[1])/2+4}" font-size="13" font-weight="600" fill="#b3261e" opacity="${e}" paint-order="stroke" stroke="#f7f8f4" stroke-width="4">${f1(d)} M</text>`)}
       ]); }
   };
 
@@ -161,7 +161,7 @@
   M.kurs={
     task(){ let A,B; do{ A=randWater(); B=randWater(); }while(!(distM(px(...A),px(...B))>2.2 && clearPath(A,B)));
       st={A:px(...A),B:px(...B)}; st.c=brg(st.A,st.B);
-      return {t:'Odredi <b>pravi kurs</b> od <b>A</b> prema <b>B</b> pomoću dva trokuta i ruže na karti. Upiši u stupnjevima (0–359).',
+      return {t:'Odredi <b>pravi kurs</b> od <b>A</b> prema <b>B</b> s pomoću dvaju trokuta i ruže na karti. Upiši u stupnjevima (0 do 359).',
         i:`<label>Kurs <input class="nlI" data-k="c" inputmode="numeric" placeholder="npr. 047"> °</label>`}; },
     draw(){ dyn.innerHTML=`<line x1="${st.A[0]}" y1="${st.A[1]}" x2="${st.B[0]}" y2="${st.B[1]}" stroke="#c62828" stroke-width="1.4"/>`+mark(st.A,'A')+mark(st.B,'B'); },
     check(v){ const c=num(v.c); if(isNaN(c)) return out('Upiši kurs u stupnjevima.');
@@ -169,7 +169,7 @@
       result(ok,`Pravi kurs je <b>${pad3(st.c)}°</b>.${!ok&&Math.abs(e-180)<=3?' Očitao si <b>suprotni smjer</b>: s ruže čitaj od središta <b>u smjeru plovidbe</b>.':''}`); if(!ok) this.show(true); },
     show(keep){ const {A,B,c}=st, base=dyn.innerHTML.split('<g class="tool">')[0];
       const mid=[(A[0]+B[0])/2,(A[1]+B[1])/2], q=c*Math.PI/180, ux=Math.sin(q), uy=-Math.cos(q), nx=-uy, ny=ux;
-      // okomiti pomak od pravca A–B do središta ruže
+      // okomiti pomak od pravca A-B do središta ruže
       const off=(RC[0]-mid[0])*nx+(RC[1]-mid[1])*ny, flip=off<0, sz=62;
       const lerp=(p,r,t)=>[p[0]+(r[0]-p[0])*t,p[1]+(r[1]-p[1])*t];
       const P2=[mid[0]+nx*off,mid[1]+ny*off];
@@ -180,9 +180,9 @@
       const ray=e=>{ const r=ROSE.r*e; return `<line x1="${RC[0]}" y1="${RC[1]}" x2="${RC[0]+ux*r}" y2="${RC[1]+uy*r}" stroke="#c62828" stroke-width="2"/><circle cx="${RC[0]+ux*ROSE.r}" cy="${RC[1]+uy*ROSE.r}" r="${5*e}" fill="none" stroke="#c62828" stroke-width="2"/>`; };
       if(!keep) out('');
       seq([
-        {say:'1. Prvi trokut položi <b>hipotenuzom točno na liniju kursa</b> A–B.',d:700,f:e=>draw(mid,'',false)},
+        {say:'1. Prvi trokut položi <b>hipotenuzom točno na liniju kursa</b> A-B.',d:700,f:e=>draw(mid,'',false)},
         {say:'2. Drugi trokut prisloni uz prvi kao vodilicu i drži ga čvrsto. Prvi trokut <b>kliži</b> uz vodilicu: hipotenuza ostaje usporedna s kursom.',d:1900,wait:400,f:e=>draw(lerp(mid,P2,e),'',true)},
-        {say:'3. Kad hipotenuza prođe <b>središtem ruže</b>, stani. (Ako je ruža daleko, trokute naizmjence „hodaš" jedan uz drugi.)',d:800,f:e=>draw(lerp(P2,RC,e),'',true)},
+        {say:'3. Kad hipotenuza prođe <b>središtem ruže</b>, stani. (Ako je ruža daleko, trokute naizmjence „hodaš“ jedan uz drugi.)',d:800,f:e=>draw(lerp(P2,RC,e),'',true)},
         {say:`4. Očitaj na obodu ruže <b>u smjeru plovidbe</b> (od A prema B): <b>${pad3(c)}°</b>.`,d:700,f:e=>draw(RC,ray(e),false)}
       ]); }
   };
@@ -200,7 +200,7 @@
         const tMin=Math.max(6,Math.round(d/v*60/3)*3); d=Math.round(v*tMin/60*10)/10; st.v=v; st.d=d; st.t=tMin/60; }
       else if(st.type==='v'){ const tMin=rnd([15,20,24,30,36,40,45,48,54,60,75,90]); st.t=tMin/60; st.v=Math.round(d/st.t*10)/10; st.d=d; }
       else { const tMin=rnd([12,18,20,24,30,36,40,45]); st.v=v; st.t=tMin/60; st.d=Math.round(v*st.t*10)/10; }
-      // B postavi točno na izračunati put, u smjeru A–B
+      // B postavi točno na izračunati put, u smjeru A-B
       const u=[(st.B[0]-st.A[0])/Math.hypot(st.B[0]-st.A[0],st.B[1]-st.A[1]),(st.B[1]-st.A[1])/Math.hypot(st.B[0]-st.A[0],st.B[1]-st.A[1])];
       const nb=[st.A[0]+u[0]*st.d*K, st.A[1]+u[1]*st.d*K], nbl=ll(...nb);
       if(!(nbl[0]>.5&&nbl[0]<19.5&&nbl[1]>.4&&nbl[1]<9.6&&wet(...nbl,.3)&&clearPath(ll(...st.A),nbl))) return this.task();
@@ -212,7 +212,7 @@
         eta:[`Isplovio si iz A u <b>${hhmm(st.dep)}</b>. Put do B je <b>${f1(st.d)} M</b>, brzina <b>${f1(st.v)} čv</b>. U koliko sati stižeš u B?`,`<label>Dolazak <input class="nlI" data-k="eta" placeholder="hh:mm" style="width:84px"></label>`],
         v:[`Put od A do B je <b>${f1(st.d)} M</b> i prešao si ga za <b>${hmTxt(st.t)}</b>. Kolika je bila prosječna brzina?`,`<label>Brzina <input class="nlI" data-k="v" inputmode="decimal"> čv</label>`],
         s:[`Ploviš <b>${hmTxt(st.t)}</b> brzinom <b>${f1(st.v)} čv</b>. Koliki put prijeđeš?`,`<label>Put <input class="nlI" data-k="s" inputmode="decimal"> M</label>`]}[st.type];
-      return {t:T[0]+'<div class="nlTri"><svg viewBox="0 0 150 92"><path d="M75,4 L146,88 L4,88 Z" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="36" y1="50" x2="114" y2="50" stroke="currentColor" stroke-width="1.2"/><line x1="75" y1="50" x2="75" y2="88" stroke="currentColor" stroke-width="1.2"/><text x="75" y="40" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">P</text><text x="46" y="76" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">B</text><text x="104" y="76" text-anchor="middle" font-size="17" font-weight="800" fill="currentColor">V</text></svg><span>Pokrij ono što tražiš.<br>P = B × V · B = P ÷ V · V = P ÷ B<br><small>P put (M) · B brzina (čv) · V vrijeme (h)</small></span></div>',i:T[1]}; },
+      return {t:T[0]+'<div class="nlTri"><svg viewBox="0 0 150 92"><path d="M75,4 L146,88 L4,88 Z" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="36" y1="50" x2="114" y2="50" stroke="currentColor" stroke-width="1.2"/><line x1="75" y1="50" x2="75" y2="88" stroke="currentColor" stroke-width="1.2"/><text x="75" y="40" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">P</text><text x="46" y="76" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">B</text><text x="104" y="76" text-anchor="middle" font-size="17" font-weight="600" fill="currentColor">V</text></svg><span>Pokrij ono što tražiš.<br>P = B × V, B = P ÷ V, V = P ÷ B<br><small>P put (M), B brzina (čv), V vrijeme (h)</small></span></div>',i:T[1]}; },
     draw(){ dyn.innerHTML=`<line x1="${st.A[0]}" y1="${st.A[1]}" x2="${st.B[0]}" y2="${st.B[1]}" stroke="#c62828" stroke-width="1.2"/>`+mark(st.A,'A')+mark(st.B,'B'); },
     explain(){ const s=st;
       if(s.type==='t'||s.type==='eta'){ const h=s.d/s.v, {H,m}=hm(h);
@@ -231,7 +231,7 @@
       const q=brg(A,B)*Math.PI/180;
       tween(2600,e=>{ const x=A[0]+(B[0]-A[0])*e, y=A[1]+(B[1]-A[1])*e, mins=Math.round(T*60*e);
         dyn.innerHTML=base+`<g class="tool"><g transform="translate(${x},${y}) rotate(${q*180/Math.PI})"><path d="M0,-9 C4,-4 4,4 3.5,8 L-3.5,8 C-4,4 -4,-4 0,-9 Z" fill="#0b3954" stroke="#fff" stroke-width="1"/></g>
-          <rect x="${x+10}" y="${y-24}" width="${st.type==='eta'?58:48}" height="17" rx="4" fill="#0b3954"/><text x="${x+14}" y="${y-12}" font-size="11" fill="#fff" font-family="monospace">${st.type==='eta'?st.hhmm(st.dep+mins):'+'+mins+' min'}</text></g>`; }); }
+          <rect x="${x+10}" y="${y-24}" width="${st.type==='eta'?58:48}" height="17" rx="4" fill="#0b3954"/><text x="${x+14}" y="${y-12}" font-size="11" fill="#fff" font-family="var(--mono)">${st.type==='eta'?st.hhmm(st.dep+mins):'+'+mins+' min'}</text></g>`; }); }
   };
 
   /* ═ POZICIJA IZ DVA AZIMUTA ═ */
@@ -246,7 +246,7 @@
       const L=pr.map(o=>{ const m=px(...o.m.p), q=(o.b+180)*Math.PI/180; return {m,u:[Math.sin(q),-Math.cos(q)]}; });
       const [a,c]=L, det=a.u[0]*(-c.u[1])-a.u[1]*(-c.u[0]), t=((c.m[0]-a.m[0])*(-c.u[1])-(c.m[1]-a.m[1])*(-c.u[0]))/det;
       st={pr,L,fix:[a.m[0]+a.u[0]*t,a.m[1]+a.u[1]*t],click:null};
-      return {t:`Smjernim kompasom si snimio dva objekta:<br><b>${pr[0].m.n}</b>: azimut <b>${pad3(pr[0].b)}°</b><br><b>${pr[1].m.n}</b>: azimut <b>${pad3(pr[1].b)}°</b><br>Klikni na kartu gdje si. Zatim upiši koordinate.`,
+      return {t:`Smjernim si kompasom snimio dva objekta:<br><b>${pr[0].m.n}</b>: azimut <b>${pad3(pr[0].b)}°</b><br><b>${pr[1].m.n}</b>: azimut <b>${pad3(pr[1].b)}°</b><br>Klikni na karti mjesto na kojem si. Zatim upiši koordinate.`,
         i:`<label>Širina 43° <input class="nlI w64" data-k="la" inputmode="decimal">' N</label><label>Dužina 16° <input class="nlI w64" data-k="lo" inputmode="decimal">' E</label>`}; },
     draw(){ dyn.innerHTML=st.pr.map(o=>{ const p=px(...o.m.p); return `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="none" stroke="#c62828" stroke-width="1.6" stroke-dasharray="3 2"/>`; }).join('')+(st.click?mark(st.click,'?','#0b3954'):''); },
     check(v){ const la=num(v.la)-20, lo=num(v.lo)-20, F=ll(...st.fix);
@@ -260,7 +260,7 @@
       const [a,c]=st.L, [p1,p2]=st.pr;
       seq([
         {say:`1. Azimut je smjer <b>od broda prema objektu</b>. Zato kroz objekt crtaš pravac u <b>suprotnom smjeru</b>: ${pad3(p1.b)}° ± 180° = <b>${pad3((p1.b+180)%360)}°</b>.`,d:1300,f:e=>dyn.innerHTML=base+`<g class="tool">${line(a,e)}</g>`},
-        {say:`2. Isto za drugi objekt: ${pad3(p2.b)}° ± 180° = <b>${pad3((p2.b+180)%360)}°</b>. Kurs pravca prenosiš trokutima s ruže, kao kod kursa.`,d:1300,f:e=>dyn.innerHTML=base+`<g class="tool">${line(a,1)}${line(c,e)}</g>`},
+        {say:`2. Isto za drugi objekt: ${pad3(p2.b)}° ± 180° = <b>${pad3((p2.b+180)%360)}°</b>. Kurs pravca prenosiš trokutima s ruže, kao pri određivanju kursa.`,d:1300,f:e=>dyn.innerHTML=base+`<g class="tool">${line(a,1)}${line(c,e)}</g>`},
         {say:`3. Sjecište je pozicija: <b>${fmtLat(F[1])}, ${fmtLon(F[0])}</b>. Upiši je s vremenom opažanja.`,d:600,f:e=>dyn.innerHTML=base+`<g class="tool">${line(a,1)}${line(c,1)}<circle cx="${st.fix[0]}" cy="${st.fix[1]}" r="${7*e}" fill="none" stroke="#0b7a3e" stroke-width="2.2"/><path d="M${st.fix[0]-11},${st.fix[1]} h22 M${st.fix[0]},${st.fix[1]-11} v22" stroke="#0b7a3e" stroke-width="1" opacity="${e}"/></g>`}
       ]); }
   };
@@ -275,7 +275,7 @@
   const KR=()=>Math.min(22,Math.max(11,17/sc()));            // ručice dovoljno velike i za prst
   const TIPS={
     sestar:'<b>Šestar rukom.</b> ① Povuci <b>vrhove</b> (plavi krugovi) na <b>A</b> i <b>B</b>, sami se prilijepe. ② Uhvati šestar za <b>zglob ✥</b> ili za <b>krak</b> i odnesi ga na <b>skalu širine</b> (lijevo ili desno): sam se uspravi, razmak ostaje isti. ③ Očitaj: 1&#8242; = 1 M, crtica = 0,2 M.',
-    kurs:'<b>Trokut rukom.</b> Okreni trokut ručicom <b>⟳</b> (ili gumbima ispod) dok hipotenuza ne legne na liniju A–B. Zatim ga <b>vuci</b>: kut ostaje isti, kao klizanje uz vodilicu. Kad isprekidani pravac prođe <b>središtem ruže</b>, očitaj kurs na obodu u smjeru plovidbe.'};
+    kurs:'<b>Trokut rukom.</b> Okreni trokut ručicom <b>⟳</b> (ili gumbima ispod) dok hipotenuza ne legne na liniju A-B. Zatim ga <b>vuci</b>: kut ostaje isti, kao klizanje uz vodilicu. Kad isprekidani pravac prođe <b>središtem ruže</b>, očitaj kurs na obodu u smjeru plovidbe.'};
   const hinge=(t1,t2)=>{ const mx=(t1[0]+t2[0])/2, my=(t1[1]+t2[1])/2, d=Math.hypot(t2[0]-t1[0],t2[1]-t1[1]), L=Math.max(d/2+26,96);
     let nx=-(t2[1]-t1[1])/(d||1), ny=(t2[0]-t1[0])/(d||1); if(ny>0.01){nx=-nx;ny=-ny;}
     const h=Math.sqrt(Math.max(0,L*L-d*d/4)); if(mx+nx*h<12||mx+nx*h>W-12||my+ny*h<12){ nx=-nx; ny=-ny; } return [mx+nx*h,my+ny*h]; };
@@ -290,7 +290,7 @@
   function handStat(){ const s=$('.nlHandStat',b); if(!s) return; if(mode!=='sestar'){ s.innerHTML=''; return; }
     const {t1,t2}=hs, r=scaleRead(t1,t2), onAB=(near(t1,st.A)&&near(t2,st.B))||(near(t1,st.B)&&near(t2,st.A));
     s.className='nlHandStat'+(r&&r.lon?' bad':r?' good':'');
-    s.innerHTML=r&&r.lon?'✗ To je skala <b>DUŽINE</b> (gore/dolje). Milje se mjere samo na skali <b>ŠIRINE</b>, lijevo ili desno.'
+    s.innerHTML=r&&r.lon?'✗ To je skala <b>dužine</b> (gore i dolje). Milje se mjere samo na skali <b>širine</b>, lijevo ili desno.'
       :r?`Na skali širine: <b>${f1(r.d)}&#8242; = ${f1(r.d)} M</b> (${Math.round(r.d*10)} kabela). Upiši i klikni <b>Provjeri</b>.`
       :onAB?'✓ Vrhovi su na <b>A</b> i <b>B</b>. Sad uhvati šestar za <b>zglob ✥</b> i odnesi ga na <b>skalu širine</b>.'
       :'Korak 1: povuci vrhove šestara na točke <b>A</b> i <b>B</b>.'; }
@@ -301,13 +301,13 @@
     let p=[mid[0]+nx*70,mid[1]+ny*70]; if(p[0]<X0+60||p[0]>X0+NLON*KX-60||p[1]<Y0+60||p[1]>Y0+NLAT*K-60) p=[mid[0]-nx*70,mid[1]-ny*70];
     hk={p,ang:(c+(Math.random()<.5?-1:1)*(25+Math.random()*30)+360)%360}; }
   function handDraw(){ if(!hand||!(mode in TIPS)){ hl.innerHTML=''; return; }
-    const kr=KR(), knob=(x,y,k,lab,r)=>`<circle class="nlH" data-h="${k}" cx="${x}" cy="${y}" r="${r||kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2"/>${lab?`<text x="${x}" y="${y+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">${lab}</text>`:''}`;
+    const kr=KR(), knob=(x,y,k,lab,r)=>`<circle class="nlH" data-h="${k}" cx="${x}" cy="${y}" r="${r||kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2"/>${lab?`<text x="${x}" y="${y+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="600" pointer-events="none">${lab}</text>`:''}`;
     if(mode==='sestar'){ const {t1,t2}=hs, hg=hinge(t1,t2), r=scaleRead(t1,t2);
       let rd='';
       if(r&&!r.lon){ const y1=Math.min(t1[1],t2[1]), y2=Math.max(t1[1],t2[1]), L=r.side==='L';
         rd=`<rect x="${L?X0-10:XR-5}" y="${y1}" width="10" height="${y2-y1}" fill="#ffd166" opacity=".6" pointer-events="none"/>`
-          +`<text x="${L?X0+8:XR-13}" y="${(y1+y2)/2+5}" text-anchor="${L?'start':'end'}" font-size="14" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)} M</text>`; }
-      else if(r&&r.lon) rd=`<text x="${(t1[0]+t2[0])/2}" y="${t1[1]<YT+4?YT+18:YB-8}" text-anchor="middle" font-size="12" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">✗ skala dužine</text>`;
+          +`<text x="${L?X0+8:XR-13}" y="${(y1+y2)/2+5}" text-anchor="${L?'start':'end'}" font-size="14" font-weight="600" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)} M</text>`; }
+      else if(r&&r.lon) rd=`<text x="${(t1[0]+t2[0])/2}" y="${t1[1]<YT+4?YT+18:YB-8}" text-anchor="middle" font-size="12" font-weight="600" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">✗ skala dužine</text>`;
       // cijeli krak je hvatište za nošenje šestara (nevidljiva debela crta)
       const grip=t=>`<line class="nlH" data-h="hinge" x1="${hg[0]}" y1="${hg[1]}" x2="${t[0]}" y2="${t[1]}" stroke="rgba(0,0,0,0)" stroke-width="${Math.max(12,kr)}" stroke-linecap="round"/>`;
       hl.innerHTML=rd+dividers(t1,t2)+grip(t1)+grip(t2)+knob(t1[0],t1[1],'t1')+knob(t2[0],t2[1],'t2')+knob(hg[0],hg[1],'hinge','✥',Math.max(kr,12)); handStat(); }
@@ -373,7 +373,7 @@
       const a=[p[0]-ux*sz,p[1]-uy*sz], c=[p[0]+ux*sz,p[1]+uy*sz], v=[p[0]-uy*sz,p[1]+ux*sz], rk=[p[0]+ux*(sz+18),p[1]+uy*(sz+18)];
       g.innerHTML=`<g clip-path="url(#${clipId})"><line x1="${p[0]-ux*1400}" y1="${p[1]-uy*1400}" x2="${p[0]+ux*1400}" y2="${p[1]+uy*1400}" stroke="#2a6f9e" stroke-width=".9" stroke-dasharray="6 4" opacity=".75" pointer-events="none"/></g>`
         +tri(p,ang,sz,false)+`<path data-t="body" d="M${a[0]},${a[1]} L${c[0]},${c[1]} L${v[0]},${v[1]} Z" fill="rgba(0,0,0,0)" style="cursor:move"/>`
-        +`<line x1="${c[0]}" y1="${c[1]}" x2="${rk[0]}" y2="${rk[1]}" stroke="#39b8e8" stroke-width="1.2"/><circle data-t="rot" cx="${rk[0]}" cy="${rk[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/><text x="${rk[0]}" y="${rk[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">⟳</text>`; }
+        +`<line x1="${c[0]}" y1="${c[1]}" x2="${rk[0]}" y2="${rk[1]}" stroke="#39b8e8" stroke-width="1.2"/><circle data-t="rot" cx="${rk[0]}" cy="${rk[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/><text x="${rk[0]}" y="${rk[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="600" pointer-events="none">⟳</text>`; }
     svg2.style.touchAction='none';
     svg2.addEventListener('pointerdown',e=>{ const h=e.target.closest('[data-t]'); if(!h||!g.contains(h)) return;
       e.preventDefault(); dr={h:h.dataset.t,p0:pt(e),s:t.p.slice()}; try{ svg2.setPointerCapture(e.pointerId); }catch(_){} });
@@ -413,12 +413,12 @@
       if(((on(t1[1],YTs)&&on(t2[1],YTs))||(on(t1[1],YBs)&&on(t2[1],YBs)))&&Math.abs(t1[0]-t2[0])>1) return {k:'lon',top:on(t1[1],YTs),d:Math.abs(t1[0]-t2[0])/KX};
       return null; }
     function draw(){ const {t1,t2}=t, hg=hinge(t1,t2), kr=KR2(), r=read(); let rd='';
-      if(r&&opts.readout!==false){ const lab=(x,y,a)=>`<text x="${x}" y="${y}" text-anchor="${a}" font-size="14" font-weight="800" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)}&#8242;</text>`;
+      if(r&&opts.readout!==false){ const lab=(x,y,a)=>`<text x="${x}" y="${y}" text-anchor="${a}" font-size="14" font-weight="600" fill="#b3261e" paint-order="stroke" stroke="#f7f8f4" stroke-width="4" pointer-events="none">${f1(r.d)}&#8242;</text>`;
         if(r.k==='lat'){ const y1=Math.min(t1[1],t2[1]), y2=Math.max(t1[1],t2[1]), L=r.side==='L';
           rd=`<rect x="${L?X0-10:XR-5}" y="${y1}" width="10" height="${y2-y1}" fill="#ffd166" opacity=".6" pointer-events="none"/>`+lab(L?X0+8:XR-13,(y1+y2)/2+5,L?'start':'end'); }
         else { const x1=Math.min(t1[0],t2[0]), x2=Math.max(t1[0],t2[0]);
           rd=`<rect x="${x1}" y="${r.top?Y0-10:YB}" width="${x2-x1}" height="10" fill="#ffd166" opacity=".6" pointer-events="none"/>`+lab((x1+x2)/2,r.top?Y0+18:YB-8,'middle'); } }
-      const knob=(p,k,lab)=>`<circle data-d="${k}" cx="${p[0]}" cy="${p[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/>${lab?`<text x="${p[0]}" y="${p[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="800" pointer-events="none">${lab}</text>`:''}`;
+      const knob=(p,k,lab)=>`<circle data-d="${k}" cx="${p[0]}" cy="${p[1]}" r="${kr}" fill="rgba(57,184,232,.12)" stroke="#39b8e8" stroke-width="1.4" stroke-dasharray="3 2" style="cursor:grab"/>${lab?`<text x="${p[0]}" y="${p[1]+4}" font-size="11" text-anchor="middle" fill="#0b5c82" font-weight="600" pointer-events="none">${lab}</text>`:''}`;
       const grip=p=>`<line data-d="hinge" x1="${hg[0]}" y1="${hg[1]}" x2="${p[0]}" y2="${p[1]}" stroke="rgba(0,0,0,0)" stroke-width="${Math.max(12,kr)}" stroke-linecap="round" style="cursor:move"/>`;
       g.innerHTML=rd+dividers(t1,t2)+grip(t1)+grip(t2)+knob(t1,'t1')+knob(t2,'t2')+knob(hg,'hinge','✥');
       if(opts.onRead) opts.onRead(r); }
